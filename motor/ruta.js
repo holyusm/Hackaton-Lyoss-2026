@@ -7,10 +7,15 @@ function tramoBloqueado(tramo, bloqueados) {
   return false;
 }
 
+function pendienteProhibida(tramo, perfil) {
+  const pendientes = perfil.prohibido?.pendiente;
+  return Array.isArray(pendientes) && pendientes.includes(tramo.pendiente);
+}
+
 function prohibidoParaPerfil(tramo, perfil) {
   const p = perfil.prohibido || {};
   if (p.escalones && tramo.escalones > 0) return true;
-  if (Array.isArray(p.pendiente) && p.pendiente.includes(tramo.pendiente)) return true;
+  if (pendienteProhibida(tramo, perfil)) return true;
   if (Array.isArray(p.superficie) && p.superficie.includes(tramo.superficie)) return true;
   return false;
 }
@@ -119,7 +124,17 @@ export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos =
       }
     }
   }
-  if (!dist.has(hasta)) return { ok: false, motivo: 'sin ruta accesible para este perfil' };
+  if (!dist.has(hasta)) {
+    const rampaEmpinada = grafo.tramos.some((t) =>
+      t.rampa && t.pendiente === 'alta' && pendienteProhibida(t, prof) &&
+      !tramoBloqueado(t, bloqueados) &&
+      ((t.hasta === hasta && cerrados.has(t.desde)) ||
+       (!t.sentido_unico && t.desde === hasta && cerrados.has(t.hasta))));
+    const motivo = rampaEmpinada
+      ? `La rampa de acceso a ${conArticulo(nodosPorId.get(hasta))} es demasiado empinada para este perfil`
+      : 'sin ruta accesible para este perfil';
+    return { ok: false, motivo };
+  }
 
   const nodos = [hasta];
   const tramos = [];
