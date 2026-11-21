@@ -78,18 +78,22 @@ Salen de `node motor/impacto.js`, que lee `data/campus.json` y `data/perfiles.js
 | Entrada principal → Baño accesible B | 145 m · 2 min · 0 esc. | sin ruta accesible | 145 m · 2 min · 0 esc. | 145 m · 2 min · 0 esc. |
 | Entrada principal → Edificio A, piso 2 | 315 m · 5,8 min · 42 esc. | 325 m · 5,4 min · 0 esc. | 325 m · 5,4 min · 0 esc. | 325 m · 5,4 min · 0 esc. |
 | Entrada principal → Sala A-201 (bloqueo: ascensor-a) | 320 m · 5,9 min · 42 esc. | 450 m · 6,4 min · 0 esc. | 450 m · 6,4 min · 0 esc. | 320 m · 5,9 min · 42 esc. |
+| Entrada principal → Sala C231 | 540 m · 8,2 min · 20 esc. | 550 m · 8,6 min · 0 esc. | 550 m · 8,6 min · 0 esc. | 550 m · 8,6 min · 0 esc. |
+| Entrada principal → Sala C231 (bloqueo: ascensor-c) | 540 m · 8,2 min · 20 esc. | sin ruta accesible | 540 m · 8,2 min · 20 esc. | 540 m · 8,2 min · 20 esc. |
 
 ### Resumen
 
-- Pares evaluados: 6 (el último es el escenario de demo con el ascensor A bloqueado).
-- Sin ruta accesible en silla de ruedas: 2 de los 5 destinos (Entrada principal → Biblioteca y Entrada principal → Baño accesible B), porque la única alternativa sin escalones es una rampa lateral demasiado empinada (#125).
-- Ruta accesible frente a estándar en los 3 pares sin bloqueo donde ambas existen: +6,7 m y -0,3 min en promedio. En Sala A-201 y Edificio A, piso 2 la ruta accesible es 10 m más larga pero 0,4 min **más rápida** (la escalera de 42 escalones pesa más en tiempo que el rodeo por el ascensor); en el Casino es la misma ruta.
+- Pares evaluados: 8 (los de bloqueo son escenarios con un ascensor fuera de servicio: A para la Sala A-201 y C para la Sala C231). Las salas del Edificio C (piso 2) entran desde `data/levantamiento/salas.csv`; su interior es simulado (ver `data/README.md`).
+- Sin ruta accesible en silla de ruedas: 2 de los 6 destinos (Entrada principal → Biblioteca y Entrada principal → Baño accesible B), porque la única alternativa sin escalones es una rampa lateral demasiado empinada (#125).
+- Ruta accesible frente a estándar en los 4 pares sin bloqueo donde ambas existen: +7,5 m y -0,1 min en promedio. En Sala A-201 y Edificio A, piso 2 la ruta accesible es 10 m más larga pero 0,4 min **más rápida** (la escalera de 42 escalones pesa más en tiempo que el rodeo por el ascensor); en el Casino es la misma ruta; en la Sala C231 es 10 m y 0,4 min más lenta (el ascensor espera más que 20 escalones).
 - Con el ascensor A bloqueado (Entrada principal → Sala A-201): la ruta en silla de ruedas pasa a 450 m y 6,4 min, es decir +130 m y +0,5 min frente a la estándar, que sigue con 42 escalones. Baja visión mantiene la escalera en ese escenario.
+- Con el ascensor C bloqueado (Entrada principal → Sala C231): **no hay ruta en silla de ruedas** al piso 2 del Edificio C (la estándar sube 20 escalones). Esa es la barrera que el reporte en vivo hace visible.
 
 ### Frases para el pitch
 
 1. "En nuestra simulación del campus, 2 de los 6 destinos que probamos, entre ellos la Biblioteca, no tienen ninguna ruta posible en silla de ruedas desde la entrada principal."
 2. "Para llegar a la Sala A-201, la ruta accesible es solo 10 metros más larga que la escalera de 42 escalones y, según el modelo, hasta 0,4 minutos más rápida."
 3. "Cuando el ascensor A está fuera de servicio, la app recalcula la ruta en silla de ruedas: 130 metros y 0,5 minutos más que por la escalera, pero sin escalones."
+4. "En el Edificio C, si el ascensor deja de funcionar, ninguna sala del segundo piso es alcanzable en silla de ruedas: la app lo muestra al instante."
 
 > Supuesto de estas cifras y frases: grafo simulado (#12 pendiente); distancias de las coordenadas reales del plano de OpenStreetMap (#118); tiempos a 1,2 m/s más 2 s por escalón; acceso sin escalones de la entrada es un dato de ejemplo (#134). Se reemplazan al completar el levantamiento real.
