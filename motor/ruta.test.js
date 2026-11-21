@@ -37,6 +37,27 @@ test('ascensor y pasarela bloqueados: silla sin ruta, estándar sigue', () => {
   assert.equal(c.estandar.ok, true);
 });
 
+test('silla de ruedas hacia Biblioteca: la rampa de acceso tiene pendiente alta', () => {
+  const viaje = { desde: 'entrada-principal', hasta: 'biblioteca', perfil: 'silla_ruedas' };
+  const r = calcularRuta(grafo, perfiles, viaje);
+  assert.deepEqual(r, {
+    ok: false,
+    motivo: 'La rampa de acceso a la Biblioteca es demasiado empinada para este perfil',
+  });
+
+  const conRampaSuave = structuredClone(grafo);
+  conRampaSuave.tramos.find((t) => t.id === 't7').pendiente = 'media';
+  assert.equal(calcularRuta(conRampaSuave, perfiles, viaje).ok, true);
+});
+
+test('silla de ruedas hacia Biblioteca: una rampa con reporte no explica el corte por pendiente', () => {
+  const viaje = { desde: 'entrada-principal', hasta: 'biblioteca', perfil: 'silla_ruedas' };
+  const conRampaBloqueada = calcularRuta(grafo, perfiles, { ...viaje, bloqueos: ['t7'] });
+  assert.deepEqual(conRampaBloqueada, { ok: false, motivo: 'sin ruta accesible para este perfil' });
+  const conDestinoBloqueado = calcularRuta(grafo, perfiles, { ...viaje, bloqueos: ['biblioteca'] });
+  assert.deepEqual(conDestinoBloqueado, { ok: false, motivo: 'hay una barrera reportada en Biblioteca' });
+});
+
 test('bloquear un tramo por id', () => {
   const r = calcularRuta(grafo, perfiles, { ...base, perfil: 'estandar', bloqueos: ['t4'] });
   assert.deepEqual(r.tramos, ['t1', 't2', 't3', 't5']);
