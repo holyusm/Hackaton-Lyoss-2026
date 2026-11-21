@@ -7,6 +7,8 @@
 //   seleccion  clave del edificio elegido (ver edificios.js): lo resalta con plano-edificio--elegido.
 //   onElegir   (clave) => void: los edificios del campus pasan a ser clicables.
 //   capas      { senderos, escaleras, servicios, calles }: cuáles se dibujan. Por defecto como hoy: servicios apagados, el resto prendidos.
+//   onElegirSala  (feature) => void: las salas del `interior` pasan a ser clicables (#189).
+//   salaSeleccion id osm del polígono de la sala elegida: lleva la clase plano-sala--elegida (borde cobalto de 3 px).
 //   interior   lista de features sala y pasillo de un piso: se dibujan encima de los edificios. Si se pasa (aunque sea vacía),
 //              la base deja de dibujar las salas y pasillos de todos los pisos mezclados.
 import { useMemo } from 'react';
@@ -26,9 +28,11 @@ const estiloInterior = (f) => {
   return { className: `plano-${tipo}${servicio === 'toilets' ? ' plano-sala--bano' : ''}`, interactive: false };
 };
 const estiloClic = { fill: true, fillOpacity: 0, stroke: false, className: 'plano-clic' };
+const estiloSalaClic = { fill: true, fillOpacity: 0, stroke: false, className: 'plano-clic' };
+const estiloSalaElegida = () => ({ className: 'plano-sala plano-sala--elegida', interactive: false });
 const estiloElegido = () => ({ className: 'plano-edificio plano-edificio--campus plano-edificio--elegido', interactive: false });
 
-export default function CapaPlano({ letras = true, seleccion = null, onElegir = null, capas, interior }) {
+export default function CapaPlano({ letras = true, seleccion = null, onElegir = null, capas, interior, onElegirSala = null, salaSeleccion = null }) {
   const c = { ...CAPAS_INICIALES, ...capas };
   const sinInterior = Array.isArray(interior);
 
@@ -96,6 +100,16 @@ export default function CapaPlano({ letras = true, seleccion = null, onElegir = 
       {sinInterior && interior.length > 0 && (
         <Pane name="plano-interior" style={{ zIndex: 270 }}>
           <GeoJSON key={interior.map((f) => f.properties.osm).join()} data={{ type: 'FeatureCollection', features: interior }} style={estiloInterior} interactive={false} />
+        </Pane>
+      )}
+      {sinInterior && salaSeleccion && (
+        <Pane name="plano-sala-elegida" style={{ zIndex: 280 }}>
+          <GeoJSON key={salaSeleccion} data={{ type: 'FeatureCollection', features: interior.filter((f) => f.properties.osm === salaSeleccion) }} style={estiloSalaElegida} interactive={false} />
+        </Pane>
+      )}
+      {sinInterior && onElegirSala && interior.length > 0 && (
+        <Pane name="plano-salas-clics" style={{ zIndex: 310 }}>
+          <GeoJSON key={interior.map((f) => f.properties.osm).join()} data={{ type: 'FeatureCollection', features: interior.filter((f) => f.geometry.type === 'Polygon') }} style={estiloSalaClic} onEachFeature={(f, layer) => layer.on('click', () => onElegirSala(f))} />
         </Pane>
       )}
       {onElegir && (
