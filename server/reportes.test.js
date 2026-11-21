@@ -1,12 +1,16 @@
 // node --test server/*.test.js
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
+import { rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import express from 'express';
+import { leerDatos } from './datos.js';
+import { calcularRuta } from '../motor/ruta.js';
 
-process.env.REPORTES_PATH = join(tmpdir(), `reportes-test-${process.pid}.json`);
-const { rutasReportes, reportesActivos } = await import('./reportes.js');
+const archivoPrincipal = join(tmpdir(), `reportes-test-${process.pid}.json`);
+process.env.REPORTES_PATH = archivoPrincipal;
+const { rutasReportes, reportesActivos, crearReportes } = await import('./reportes.js');
 
 const app = express().set('trust proxy', 1).use(express.json()).use('/r', rutasReportes);
 const servidor = app.listen(0);
@@ -20,7 +24,22 @@ const post = (ruta, body, ip = '10.0.0.1') => fetch(base + ruta, {
 after(() => {
   servidor.closeAllConnections();
   servidor.close();
+  rmSync(archivoPrincipal, { force: true });
 });
+
+const grafoDosNodosT6 = {
+  nodos: [
+    { id: 'n1', nombre: 'Acceso A', tipo: 'entrada', lat: -33.034, lng: -71.595, edificio: 'A', piso: 0, descripcion: '' },
+    { id: 'n2', nombre: 'Edificio B', tipo: 'edificio', lat: -33.035, lng: -71.596, edificio: 'B', piso: 0, descripcion: '' },
+  ],
+  tramos: [
+    {
+      id: 't6', desde: 'n1', hasta: 'n2', metros: 30, escalones: 0, pendiente: 'nula', rampa: true,
+      ascensor_id: null, techado: false, superficie: 'lisa', minutos_medidos: 0.6, guia_tactil: true,
+      notas: '', foto: null, sentido_unico: false,
+    },
+  ],
+};
 
 test('ciclo de vida de un reporte', async () => {
   const ejemplos = (await (await fetch(base)).json()).length;
@@ -84,4 +103,74 @@ test('peticiones concurrentes no superan el tope por conexión', async () => {
   assert.equal(limitados, total - 10, 'el resto de peticiones concurrentes deben recibir 429');
   assert.equal(reportesActivos().length, antes + 10, 'solo deben persistirse 10 reportes nuevos');
   assert.equal((await post('/', { tipo: 'otro', nodo_id: 'ascensor-a', descripcion: 'después del burst' }, ip)).status, 429, 'cupo agotado tras la ráfaga');
+});
+
+test('precarga ejemplos solo cuando el grafo tiene simulado === true', async (t) => {
+  const sinArchivo = (sufijo) => join(tmpdir(), `reportes-precarga-${process.pid}-${sufijo}.json`);
+
+  const sim = crearReportes({
+    archivo: sinArchivo('simulado'),
+    leerGrafoSync: () => ({ simulado: true, ...grafoDosNodosT6 }),
+  });
+  assert.ok(sim.reportesActivos().length > 0, 'grafo simulado debe precargar ejemplos');
+  assert.ok(sim.reportesActivos().every((r) => r.ejemplo === true), 'ejemplos marcados con ejemplo: true');
+  assert.ok(sim.reportesActivos().some((r) => r.tramo_id === 't6'));
+
+  const real = crearReportes({
+    archivo: sinArchivo('real'),
+    leerGrafoSync: () => grafoDosNodosT6,
+  });
+  assert.deepEqual(real.reportesActivos(), [], 'grafo real no debe precargar ejemplos');
+
+  const perfiles = await leerDatos('perfiles.json');
+  const bloqueos = real.reportesActivos().map((r) => r.tramo_id || r.nodo_id);
+  const ruta = calcularRuta(grafoDosNodosT6, perfiles, { desde: 'n1', hasta: 'n2', perfil: 'silla_ruedas', bloqueos });
+  assert.equal(ruta.ok, true, 'ruta de silla de ruedas por t6 no queda bloqueada');
+  assert.deepEqual(ruta.tramos, ['t6']);
+
+  const sinGrafo = crearReportes({
+    archivo: sinArchivo('sin-grafo'),
+    leerGrafoSync: () => { throw new Error('ENOENT'); },
+  });
+  assert.deepEqual(sinGrafo.reportesActivos(), [], 'sin grafo arranca sin ejemplos');
+
+  const falso = crearReportes({
+    archivo: sinArchivo('falso'),
+    leerGrafoSync: () => ({ simulado: false, ...grafoDosNodosT6 }),
+  });
+  assert.deepEqual(falso.reportesActivos(), [], 'simulado: false arranca sin ejemplos');
+
+  const persistidoPath = sinArchivo('persistido');
+  const expira = new Date(Date.now() + 60 * 60_000).toISOString();
+  const creado = new Date().toISOString();
+  const persistido = [
+    {
+      id: 'r1', tipo: 'obstaculo', tramo_id: 't6', nodo_id: null,
+      descripcion: 'Andamio de ejemplo', creado, expira, resuelto: false, ejemplo: true,
+    },
+    {
+      id: 'r7', tipo: 'piso_mojado', tramo_id: 't99', nodo_id: null,
+      descripcion: 'Reporte real de usuario', creado, expira, resuelto: false,
+    },
+  ];
+  writeFileSync(persistidoPath, JSON.stringify(persistido));
+  t.after(() => rmSync(persistidoPath, { force: true }));
+
+  const conReal = crearReportes({
+    archivo: persistidoPath,
+    leerGrafoSync: () => grafoDosNodosT6,
+  });
+  assert.deepEqual(conReal.reportesActivos().map((r) => r.id), ['r7'], 'en grafo real se descartan ejemplos persistidos');
+  const rutaSinEjemplo = calcularRuta(grafoDosNodosT6, perfiles, {
+    desde: 'n1', hasta: 'n2', perfil: 'silla_ruedas',
+    bloqueos: conReal.reportesActivos().map((r) => r.tramo_id || r.nodo_id),
+  });
+  assert.equal(rutaSinEjemplo.ok, true, 'ruta de silla de ruedas por t6 no queda bloqueada por ejemplo persistido');
+  assert.deepEqual(rutaSinEjemplo.tramos, ['t6']);
+
+  const conSimulado = crearReportes({
+    archivo: persistidoPath,
+    leerGrafoSync: () => ({ simulado: true, ...grafoDosNodosT6 }),
+  });
+  assert.deepEqual(conSimulado.reportesActivos().map((r) => r.id), ['r1', 'r7'], 'en grafo simulado se conservan ambos');
 });
