@@ -55,9 +55,11 @@ const barreraEn = (ev, perfil, k) =>
   perfil === 'todos' ? EVALUADOS.some((p) => ev[p].get(k).barrera) : ev[perfil].get(k).barrera;
 
 // Minutos de más que el perfil tarda frente a Estándar en un trayecto (null si alguno no tiene ruta).
+// Nunca negativo: Estándar se elige por metros y no por minutos, así que a veces otra ruta tarda menos;
+// eso no es un "desvío" (#141).
 function extra(ev, perfil, k) {
   const r = ev[perfil].get(k), e = ev.estandar.get(k);
-  return r.ok && e.ok ? r.minutos - e.minutos : null;
+  return r.ok && e.ok ? Math.max(0, r.minutos - e.minutos) : null;
 }
 
 function resumen(ev, perfil, claves) {
