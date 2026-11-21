@@ -8,6 +8,8 @@ Hackatón de un día organizada por LYOSS (Software Libre USM). Equipos de 3 per
 
 Lugar: Salón de Honor, Edificio A, Casa Central USM.
 
+**Desafío 2026 (ya revelado): "Campus sin barreras: movilidad y orientación para todos".** Resumen y decisiones del equipo en [`docs/desafio.md`](desafio.md). PDFs oficiales en [`docs/oficial/`](oficial/).
+
 ## Horario (y lo que hacemos en cada bloque)
 
 | Hora | Oficial | Nosotros |
