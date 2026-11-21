@@ -24,7 +24,7 @@ En Chile, el 17,6 % de las personas de 18 años o más tiene alguna discapacidad
 Los estudiantes que más lo sufren son los que usan silla de ruedas, los que tienen movilidad reducida (bastón, lesión temporal, embarazo), los que tienen baja visión y los estudiantes nuevos que aún no conocen el campus.
 
 <!-- Cifras de PR #195 (juaquo15, 16:35Z). Confirmar con main cuando se mergee. -->
-Un ejemplo con los datos del prototipo: de la Entrada principal a la Sala C231, la ruta estándar mide 540 m y sube 20 escalones. En silla de ruedas, parejo encuentra una de 550 m y 0 escalones por el ascensor del edificio C: casi el mismo largo, pero hay que conocerla. Si ese ascensor se detiene, no queda ninguna ruta en silla de ruedas, y parejo lo dice en vez de mandar a la escalera. Hoy, 2 de los 6 destinos de la muestra no tienen ruta en silla de ruedas, y 20 de los 42 trayectos entre lugares del campus tienen alguna barrera para ese perfil.
+Un ejemplo con los datos simulados del prototipo: de la Entrada principal a la Sala C231, la ruta estándar mide 540 m y sube 20 escalones. En silla de ruedas, parejo encuentra una de 550 m y 0 escalones por el ascensor del edificio C: casi el mismo largo, pero hay que conocerla. Si ese ascensor se detiene, no queda ninguna ruta en silla de ruedas, y parejo lo dice en vez de mandar a la escalera. Hoy, 2 de los 6 destinos de la muestra no tienen ruta en silla de ruedas, y 20 de los 42 trayectos entre lugares del campus tienen alguna barrera para ese perfil.
 
 ## Solución y funcionalidades
 
@@ -95,7 +95,7 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 
 ## Supuestos y limitaciones
 
-- **Datos del campus:** el grafo de Casa Central (`data/campus.json`) es una muestra de lugares y tramos con coordenadas reales sobre el plano de OpenStreetMap. Escalones, pendientes, superficies y guía podotáctil son datos de ejemplo hasta cerrar el levantamiento en terreno (`docs/levantamiento.md`), y la app lo indica con la marca "Datos de ejemplo". <!-- Actualizar si el levantamiento (#12) llega a main antes de la entrega. -->
+- **Datos del campus:** el grafo de Casa Central (`data/campus.json`) es una muestra de lugares y tramos con coordenadas reales sobre el plano de OpenStreetMap. Las 28 salas y 2 baños del piso 2 del Edificio C también salen de OpenStreetMap. Todo lo demás es **simulado**: escalones, pendientes, superficies, guía podotáctil, el acceso sin escalones de la entrada principal, el interior de los edificios y el ascensor del Edificio C (no sabemos si existe). La app lo indica con la marca "Datos de ejemplo". Para agregar salas reales basta con editar `data/levantamiento/salas.csv` (ver [`data/README.md`](data/README.md)).
 - **Distancias y tiempos:** distancias en línea recta entre los puntos del plano, redondeadas a 5 m. Tiempos a 1,2 m/s más 2 s por escalón; el ascensor incluye la espera. Son aproximados.
 - **Perfiles:** los costos de cada perfil (cuánto pesa un escalón, el adoquín o la falta de guía podotáctil) son supuestos nuestros, inspirados en criterios de accesibilidad universal. No reemplazan la experiencia de cada persona.
 - **Reportes:** se guardan en el servidor y vencen solos. En la demo (Render, plan gratuito) se reinician con cada despliegue, y el servidor se duerme tras unos 15 minutos sin uso: la primera carga puede tardar.
