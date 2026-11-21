@@ -432,6 +432,11 @@
 .segmentado button:nth-child(2) { font-size: 19px; }
 .segmentado button:nth-child(3) { font-size: 22px; }
 .segmentado button[aria-pressed="true"] { background: var(--activo-fondo); color: var(--activo-texto); }
+@media (forced-colors: active) {
+  .segmentado button:focus-visible {
+    outline-offset: -3px;
+  }
+}
 
 /* Interruptor (role="switch") */
 .interruptor {

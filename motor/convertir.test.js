@@ -150,10 +150,57 @@ test('convertir acepta ascensor_id que apunta a un nodo tipo ascensor', () => {
   assert.equal(res.tramos[0].ascensor_id, 'asc-a');
 });
 
-test('convertir rechaza una columna duplicada de sentido único', () => {
-  const [cabecera, fila] = tramosCsv().split('\n');
-  const res = convertir(NODOS_CSV, `${cabecera},sentido_unico\n${fila},si`);
-  assert.match(res.errores[0], /tramos\.csv: columnas repetidas: sentido_unico/);
+test('convertir rechaza cabeceras duplicadas en tramos.csv (dos columnas escalones) y no produce tramos', () => {
+  const tramosDuplicados = [
+    'id,desde,hasta,metros,escalones,pendiente,rampa,ascensor_id,techado,superficie,minutos_medidos,guia_tactil,notas,foto,sentido_unico,escalones',
+    't1,a,b,45.5,42,nula,no,,no,lisa,1.2,no,,,no,0',
+  ].join('\n');
+  const res = convertir(NODOS_CSV, tramosDuplicados);
+  assert.equal(res.errores.length, 1);
+  assert.match(res.errores[0], /tramos\.csv/);
+  assert.match(res.errores[0], /escalones/);
+  assert.deepEqual(res.tramos, []);
+});
+
+test('convertir rechaza cabeceras duplicadas en nodos.csv tras quitar BOM y espacios', () => {
+  const nodosDuplicados = [
+    '\uFEFFid,nombre,tipo,lat,lng,edificio,piso,descripcion, id ',
+    'a,Nodo A,entrada,-33.0345,-71.5955,A,0,Origen,a2',
+    'b,Nodo B,edificio,-33.0348,-71.5952,B,0,Destino,b2',
+  ].join('\n');
+  const res = convertir(nodosDuplicados, tramosCsv());
+  assert.ok(res.errores.some((e) => e.includes('nodos.csv') && e.includes('id')));
+  assert.deepEqual(res.nodos, []);
+});
+
+test('convertir.js --escribir con dos columnas escalones falla (exit 1) sin sobrescribir campus.json', () => {
+  const baseDir = mkdtempSync(join(tmpdir(), 'convertir-cli-'));
+  try {
+    const levDir = join(baseDir, 'levantamiento');
+    mkdirSync(levDir, { recursive: true });
+    writeFileSync(join(baseDir, 'package.json'), '{"type":"module"}\n');
+    const campusOriginal = '{"sentinel":true}\n';
+    const campusPath = join(baseDir, 'campus.json');
+    writeFileSync(campusPath, campusOriginal);
+    writeFileSync(join(levDir, 'nodos.csv'), NODOS_CSV);
+    writeFileSync(
+      join(levDir, 'tramos.csv'),
+      [
+        'id,desde,hasta,metros,escalones,pendiente,rampa,ascensor_id,techado,superficie,minutos_medidos,guia_tactil,notas,foto,sentido_unico,escalones',
+        't1,a,b,45.5,42,nula,no,,no,lisa,1.2,no,,,no,0',
+      ].join('\n'),
+    );
+    const scriptOriginal = fileURLToPath(new URL('../data/levantamiento/convertir.js', import.meta.url));
+    const scriptTmp = join(levDir, 'convertir.js');
+    copyFileSync(scriptOriginal, scriptTmp);
+
+    const res = spawnSync(process.execPath, [scriptTmp, '--escribir'], { encoding: 'utf8' });
+    assert.equal(res.status, 1);
+    assert.match(res.stderr, /escalones/);
+    assert.equal(readFileSync(campusPath, 'utf8'), campusOriginal);
+  } finally {
+    rmSync(baseDir, { recursive: true, force: true });
+  }
 });
 
 test('convertir rechaza una comilla abierta y conserva las notas multilínea válidas', () => {
