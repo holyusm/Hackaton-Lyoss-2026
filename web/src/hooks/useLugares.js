@@ -22,7 +22,7 @@ export function useLugares() {
   }, []);
 
   const lugares = useMemo(
-    () => (grafo?.nodos ?? []).filter((n) => GRUPO[n.tipo]).map((n) => ({ ...n, grupo: GRUPO[n.tipo] })),
+    () => (grafo?.nodos ?? []).filter((n) => GRUPO[n.tipo] && !n.oculto).map((n) => ({ ...n, grupo: GRUPO[n.tipo] })),
     [grafo],
   );
 
