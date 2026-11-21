@@ -212,3 +212,15 @@ test('los textos generados para destino biblioteca usan "la Biblioteca" y nunca 
   ];
   for (const t of textos) assert.doesNotMatch(t, /\bel Biblioteca\b/i, t);
 });
+
+test('los extremos vacíos o ausentes dan un diagnóstico aunque estén fuera de la ruta', () => {
+  for (const campo of ['desde', 'hasta']) {
+    for (const valor of ['', undefined]) {
+      const copia = structuredClone(grafo);
+      copia.tramos[0][campo] = valor;
+      const r = calcularRuta(copia, perfiles, { desde: 'biblioteca', hasta: 'bano-b', perfil: 'silla_ruedas' });
+      assert.equal(r.ok, false);
+      assert.match(r.motivo, new RegExp(`grafo inválido.*t1.*${campo}`));
+    }
+  }
+});

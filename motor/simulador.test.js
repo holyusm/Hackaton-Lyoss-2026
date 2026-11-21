@@ -166,3 +166,13 @@ test('los minutos ahorrados por obra nunca son negativos aunque una ruta nueva s
   const r = simular(g, perfiles, [obra], { perfil: 'baja_vision' });
   assert.ok(r.obras[0].minutos_ahorrados_prom >= 0);
 });
+
+test('un grafo inválido detiene la simulación con el tramo y el campo afectados', () => {
+  for (const campo of ['desde', 'hasta']) {
+    for (const id of ['', undefined, 'retirado']) {
+      const grafo = structuredClone(GRAFO);
+      grafo.tramos[0][campo] = id;
+      assert.throws(() => simular(grafo, PERFILES, []), new RegExp(`grafo inválido.*t1.*${campo}`));
+    }
+  }
+});
