@@ -3,9 +3,9 @@
     "id": "p1",
     "nodo_id": "entrada-principal",
     "titulo": "Entrada principal",
-    "texto_voz": "Estás en la entrada principal de Casa Central. Desde aquí hay dos caminos. Uno va al patio central: 130 metros por rampa, sin escalones, con guía táctil en el piso. El otro va a la biblioteca: 115 metros por rampa, sin escalones, pero con piso irregular.",
+    "texto_voz": "Estás en la entrada principal de Casa Central. Desde aquí hay dos caminos. Uno va al patio central: 130 metros por rampa, sin escalones, con guía táctil en el piso. Ojo: el acceso sin escalones es un dato de ejemplo por verificar en terreno. El otro va a la biblioteca: 115 metros por rampa, sin escalones, pero con piso irregular.",
     "indicaciones": [
-      { "hacia": "Patio central", "texto": "Avanza 130 metros por la rampa, sin escalones. Hay guía táctil en el piso." },
+      { "hacia": "Patio central", "texto": "Avanza 130 metros por la rampa, sin escalones. Hay guía táctil en el piso. El acceso sin escalones es un dato de ejemplo por verificar." },
       { "hacia": "Biblioteca", "texto": "Avanza 115 metros por la rampa lateral, sin escalones. Es muy empinada y el piso es irregular: en silla de ruedas no es una ruta segura, ve con cuidado." }
     ]
   },
