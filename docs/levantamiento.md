@@ -62,3 +62,34 @@ sentido único: si / no   foto: ____   notas: ______________________
 - Los tiempos son de una sola persona a paso normal; no representan a todos los usuarios de cada perfil.
 - No se midió: _____ (zonas cerradas, pisos sin acceso, etc.)
 - El estado de ascensores y obras es el del día de la medición.
+
+
+## Cifras de impacto
+
+Salen de `node motor/impacto.js`, que lee `data/campus.json` y `data/perfiles.json` y llama a `compararPerfiles` (`motor/ruta.js`), el mismo cálculo de `GET /api/comparar`. Nada está calculado a mano: si cambian los datos, se vuelve a correr el script y se pega la salida aquí. Cada celda es metros · minutos · escalones, o "sin ruta accesible".
+
+**Supuesto declarado (leer junto a las cifras):** el grafo de `data/campus.json` sigue siendo simulado (`"simulado": true`); el levantamiento en terreno (#12) no está hecho. Las distancias salen de las coordenadas reales del plano de OpenStreetMap (#118); los tiempos usan 1,2 m/s más 2 s por escalón; y el acceso sin escalones de la entrada principal es un dato de ejemplo (#134). Son cifras de la simulación, no mediciones en terreno.
+
+| Origen → destino | Estándar | Silla de ruedas | Movilidad reducida | Baja visión |
+|---|---|---|---|---|
+| Entrada principal → Sala A-201 | 170 m · 3,8 min · 42 esc. | 180 m · 3,4 min · 0 esc. | 180 m · 3,4 min · 0 esc. | 180 m · 3,4 min · 0 esc. |
+| Entrada principal → Biblioteca | 115 m · 1,6 min · 0 esc. | sin ruta accesible | 210 m · 3 min · 3 esc. | 210 m · 3 min · 3 esc. |
+| Entrada principal → Casino | 185 m · 2,6 min · 0 esc. | 185 m · 2,6 min · 0 esc. | 185 m · 2,6 min · 0 esc. | 185 m · 2,6 min · 0 esc. |
+| Entrada principal → Baño accesible B | 120 m · 1,7 min · 0 esc. | sin ruta accesible | 215 m · 3,1 min · 3 esc. | 215 m · 3,1 min · 3 esc. |
+| Entrada principal → Edificio A, piso 2 | 165 m · 3,7 min · 42 esc. | 175 m · 3,3 min · 0 esc. | 175 m · 3,3 min · 0 esc. | 175 m · 3,3 min · 0 esc. |
+| Entrada principal → Sala A-201 (bloqueo: ascensor-a) | 170 m · 3,8 min · 42 esc. | 315 m · 4,5 min · 0 esc. | 315 m · 4,5 min · 0 esc. | 170 m · 3,8 min · 42 esc. |
+
+### Resumen
+
+- Pares evaluados: 6 (el último es el escenario de demo con el ascensor A bloqueado).
+- Sin ruta accesible en silla de ruedas: 2 de los 5 destinos (Entrada principal → Biblioteca y Entrada principal → Baño accesible B), porque la única alternativa sin escalones es una rampa lateral demasiado empinada (#125).
+- Ruta accesible frente a estándar en los 3 pares sin bloqueo donde ambas existen: +6,7 m y -0,3 min en promedio. En Sala A-201 y Edificio A, piso 2 la ruta accesible es 10 m más larga pero 0,4 min **más rápida** (la escalera de 42 escalones pesa más en tiempo que el rodeo por el ascensor); en el Casino es la misma ruta.
+- Con el ascensor A bloqueado (Entrada principal → Sala A-201): la ruta en silla de ruedas pasa a 315 m y 4,5 min, es decir +145 m y +0,7 min frente a la estándar, que sigue con 42 escalones. Baja visión mantiene la escalera en ese escenario.
+
+### Frases para el pitch
+
+1. "En nuestra simulación del campus, 2 de los 5 destinos que probamos, entre ellos la Biblioteca, no tienen ninguna ruta posible en silla de ruedas desde la entrada principal."
+2. "Para llegar a la Sala A-201, la ruta accesible es solo 10 metros más larga que la escalera de 42 escalones y, según el modelo, hasta 0,4 minutos más rápida."
+3. "Cuando el ascensor A está fuera de servicio, la app recalcula la ruta en silla de ruedas: 145 metros y 0,7 minutos más que por la escalera, pero sin escalones."
+
+> Supuesto de estas cifras y frases: grafo simulado (#12 pendiente); distancias de las coordenadas reales del plano de OpenStreetMap (#118); tiempos a 1,2 m/s más 2 s por escalón; acceso sin escalones de la entrada es un dato de ejemplo (#134). Se reemplazan al completar el levantamiento real.
