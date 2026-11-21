@@ -4,7 +4,7 @@ import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import { useSimulador } from '../hooks/useSimulador.js';
 import './Campus.css';
 
-// /campus (Lote 8): "¿Qué arreglar primero?". Spec: docs/diseno/prompts-lotes-8-9.md (alcance esencial del 21-11).
+// /campus (Lote 8): "¿Qué arreglar primero?". Spec: docs/diseno/prompts/prompts-lotes-8-9.md (alcance esencial del 21-11).
 // Datos: GET /api/simulador (contrato §7). Palabras: GLOSSARY.md.
 const OPCIONES = [...PERFILES, { id: 'todos', nombre: 'Todos los perfiles', Icono: UsersThree }];
 const QUE_ES_BARRERA = {
