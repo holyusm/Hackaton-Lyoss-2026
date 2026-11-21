@@ -95,7 +95,10 @@ function Vista({ coordenadas, bounds, alturaHoja, controles }) {
   );
 }
 
-export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras = [], alturaHoja = 304, controles = true, descripcion }) {
+const SIN_RUTA = { pasos: [], coordenadas: [] };
+
+// `ruta` es opcional: sin ella (estado sinRuta de /mapa) se dibujan origen, destino y barreras, sin línea.
+export default function MapaRuta({ ruta = SIN_RUTA, grafo, mapa, origen, destino, barreras = [], alturaHoja = 304, controles = true, descripcion }) {
   const { posicion, bounds } = mapa;
   const numeros = useMemo(() => ruta.pasos.slice(0, -1).flatMap((p, i) => (p.punto ? [{ n: i + 1, punto: p.punto, icono: iconoPaso(i + 1) }] : [])), [ruta.pasos]);
   const pOrigen = useMemo(() => posicion(origen), [origen, posicion]);
@@ -122,6 +125,10 @@ export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras 
   const lado = useMemo(
     () => ladoDestino(pDestino, [...marcadoresBarrera.map((m) => m.punto), ...numeros.map((m) => m.punto)]),
     [pDestino, marcadoresBarrera, numeros],
+  );
+  const encuadre = useMemo(
+    () => (ruta.coordenadas.length ? ruta.coordenadas : [pOrigen, pDestino].filter(Boolean)),
+    [ruta.coordenadas, pOrigen, pDestino],
   );
   const iconDestino = useMemo(() => iconoDestino(destino.nombre, lado), [destino.nombre, lado]);
   const sinInteraccion = { interactive: false, keyboard: false };
@@ -151,7 +158,7 @@ export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras 
         {numeros.map((m) => <Marker key={m.n} position={m.punto} icon={m.icono} zIndexOffset={400} {...sinInteraccion} />)}
         {pOrigen && <Marker position={pOrigen} icon={iconoOrigen} zIndexOffset={800} {...sinInteraccion} />}
         {pDestino && <Marker position={pDestino} icon={iconDestino} zIndexOffset={1000} {...sinInteraccion} />}
-        <Vista coordenadas={ruta.coordenadas} bounds={bounds} alturaHoja={alturaHoja} controles={controles} />
+        <Vista coordenadas={encuadre} bounds={bounds} alturaHoja={alturaHoja} controles={controles} />
       </MapContainer>
     </div>
   );
