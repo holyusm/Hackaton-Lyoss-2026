@@ -9,6 +9,10 @@ import LimiteError from '../components/LimiteError.jsx';
 import MapaRuta from '../components/MapaRuta.jsx';
 import VistaLista from '../components/VistaLista.jsx';
 import { useRuta } from '../hooks/useRuta.js';
+import { useRetraso } from '../hooks/useRetraso.js';
+import ErrorEnLinea from '../components/ErrorEnLinea.jsx';
+import { Bloque, Cargando, PlanoEsqueleto } from '../components/Esqueleto.jsx';
+import { TEXTOS, conHora } from '../lib/estados.js';
 import './Mapa.css';
 
 // Alto de la hoja en móvil, para que el mapa deje libre esa franja al encajar la ruta.
@@ -38,16 +42,49 @@ export default function Mapa() {
   const [lista, setLista] = useState(leerVista);
   const cambiarLista = (si) => { setLista(si); guardarVista(si); };
 
+  const verEsqueleto = useRetraso(r.estado === 'cargando');
   if (r.estado === 'cargando') {
-    return <section id="ruta" tabIndex={-1} className="mapa-estado" role="status"><p>Calculando tu ruta</p></section>;
-  }
-  if (r.estado === 'sinVerificar') {
+    // Lote 7: contorno punteado de los edificios y una hoja con título, 3 cifras y 3 pasos (pasados 300 ms).
+    if (!verEsqueleto) return <div className="mapa-vista" />;
     return (
-      <section id="ruta" tabIndex={-1} className="mapa-estado">
-        <h1>Ruta pendiente de verificar</h1>
-        <p role="status">{r.aviso}</p>
-        <button type="button" className="boton boton--primario" onClick={() => window.location.reload()}>Reintentar</button>
-      </section>
+      <div className="mapa-vista">
+        <div className="mapa-lienzo"><PlanoEsqueleto className="mapa-esqueleto__plano" /></div>
+        <Cargando as="section" id="ruta" tabIndex={-1} anuncio={TEXTOS.carga.ruta} className="hoja-ruta hoja-ruta--estado">
+          <span className="hoja-ruta__barra" aria-hidden="true"><span /></span>
+          <div className="mapa-esqueleto__hoja" aria-hidden="true">
+            <Bloque ancho="60%" alto={24} />
+            <Bloque ancho="40%" alto={14} suave />
+            <div className="mapa-esqueleto__cifras">{[0, 1, 2].map((i) => <span key={i}><Bloque ancho="45%" alto={10} /><Bloque ancho="65%" alto={18} /></span>)}</div>
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="mapa-esqueleto__paso">
+                <span className="mapa-esqueleto__punto" />
+                <span className="mapa-esqueleto__textos"><Bloque ancho={i === 1 ? '62%' : '70%'} alto={14} /><Bloque ancho="45%" alto={10} suave /></span>
+              </div>
+            ))}
+          </div>
+        </Cargando>
+      </div>
+    );
+  }
+  if (r.estado === 'error') {
+    const cambiar = `/?${new URLSearchParams({ desde: r.consulta.desde ?? '', hasta: r.consulta.hasta ?? '' })}`;
+    return (
+      <div className="mapa-vista">
+        <div className="mapa-lienzo">
+          {r.grafo && r.mapa && r.origen && r.destino ? (
+            <LimiteError>
+              <MapaRuta grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino} barreras={r.barreras}
+                alturaHoja={escritorio ? 0 : 200} controles={false} descripcion={`Plano de Casa Central con el origen y ${r.destino.nombre}. Sin ruta calculada.`} />
+            </LimiteError>
+          ) : <PlanoEsqueleto className="mapa-esqueleto__plano" />}
+        </div>
+        <section id="ruta" tabIndex={-1} className="hoja-ruta hoja-ruta--estado" aria-labelledby="ruta-titulo">
+          <h1 id="ruta-titulo" className="sr-only">Tu ruta</h1>
+          <span className="hoja-ruta__barra" aria-hidden="true"><span /></span>
+          <ErrorEnLinea className="mapa-error" primario titulo={TEXTOS.error.ruta.titulo} texto={TEXTOS.error.ruta.texto}
+            onReintentar={r.reintentar} accionSecundaria={{ texto: TEXTOS.error.ruta.secundaria, to: cambiar }} />
+        </section>
+      </div>
     );
   }
   if (r.estado === 'sinRuta') {
@@ -70,8 +107,9 @@ export default function Mapa() {
   }
 
   const perfil = PERFILES.find((p) => p.id === r.consulta.perfil);
-  const sinVerificar = r.barrerasSinVerificar && (
-    <AvisoBarrera variante="compacto" role="status" className="mapa-aviso">No pudimos verificar las barreras activas del campus. La ruta puede no tenerlas en cuenta.</AvisoBarrera>
+  // Lote 7: sin conexión, la última ruta conocida con un aviso amarillo y su hora.
+  const sinVerificar = r.sinConexion && (
+    <AvisoBarrera variante="compacto" role="status" className="mapa-aviso mapa-aviso--amarillo">{conHora(TEXTOS.sinConexion.ruta, r.hora)}</AvisoBarrera>
   );
   if (lista) {
     return <>{sinVerificar}<VistaLista ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} onVerMapa={() => cambiarLista(false)} /></>;
@@ -90,8 +128,8 @@ export default function Mapa() {
           <button type="button" className="boton-pastilla" aria-pressed="false" onClick={() => cambiarLista(true)}>
             <ListBullets weight="bold" aria-hidden="true" /> Ver como lista
           </button>
-          <BandaEnVivo actualizado={r.actualizado} error={r.errorBarreras} />
-          {!r.errorBarreras && sinVerificar}
+          <BandaEnVivo actualizado={r.actualizado} error={r.errorBarreras} sinConexion={r.sinConexion} texto={TEXTOS.bandaSinConexion.ruta} hora={r.hora} />
+          {sinVerificar}
         </div>
       </div>
       <HojaRuta ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} altura={altura} onAltura={setAltura} />

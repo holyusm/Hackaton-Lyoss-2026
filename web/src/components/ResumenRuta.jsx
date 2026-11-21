@@ -1,8 +1,8 @@
 import { MetricasRuta } from './PasosRuta.jsx';
 
-// Cabecera de la hoja: destino, perfil, origen y métricas. `nivel` es 'h1' en la vista lista y 'h2' en la hoja.
+// Cabecera de la hoja: destino, perfil, origen y métricas. `nivel` es 'h1' por defecto: es el título de la vista (hoja y lista).
 // El chip de perfil todavía no abre el cambio de perfil (PR C): hasta entonces es solo texto, no un botón muerto.
-export default function ResumenRuta({ ruta, origen, destino, perfil, nivel = 'h2', compactas = true }) {
+export default function ResumenRuta({ ruta, origen, destino, perfil, nivel = 'h1', compactas = true }) {
   const Titulo = nivel;
   const { Icono } = perfil;
   return (

@@ -14,3 +14,19 @@
 .mapa-estado h1 { margin: 0; font-size: 1.75rem; line-height: 1.15; font-weight: var(--peso-negro); }
 
 .mapa-sinruta__mapa { position: relative; height: min(50vh, 360px); border-radius: var(--r-md, 12px); overflow: hidden; border: 1px solid var(--borde-control); }
+
+/* Lote 7: estados de Ruta. La hoja de carga y la de error usan la misma forma que la hoja real. */
+.mapa-esqueleto__plano { position: absolute; inset: 0; }
+.hoja-ruta--estado { height: auto; padding: 0 var(--margen-movil, 16px) var(--e-5); }
+.mapa-esqueleto__hoja { display: flex; flex-direction: column; gap: var(--e-3); }
+.mapa-esqueleto__cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-2); margin: var(--e-1) 0; }
+.mapa-esqueleto__cifras > span { display: flex; flex-direction: column; gap: var(--e-2); padding: var(--e-3); border-radius: var(--r-control); background: var(--fondo); }
+.mapa-esqueleto__paso { display: flex; gap: var(--e-3); align-items: flex-start; }
+.mapa-esqueleto__punto { width: 18px; height: 18px; flex-shrink: 0; border: 3px solid var(--esq-1); border-radius: var(--r-pill); }
+.mapa-esqueleto__textos { flex: 1; display: flex; flex-direction: column; gap: var(--e-2); }
+.mapa-error { border: 0; padding: 0; background: none; }
+.mapa-error .error-linea__acciones { gap: var(--e-3) var(--e-5); }
+@media (min-width: 900px) {
+  .mapa-esqueleto__plano { position: relative; height: 100%; }
+}
+.mapa-aviso.mapa-aviso--amarillo { background-color: var(--podotactil); background-image: var(--textura-domos); }
