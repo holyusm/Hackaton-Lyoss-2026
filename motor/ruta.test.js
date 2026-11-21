@@ -129,3 +129,32 @@ test('un tramo con desde o hasta inexistente da un diagnóstico', () => {
   assert.equal(r.ok, false);
   assert.match(r.motivo, /hasta "no-existe"/);
 });
+
+test('ascensor bloqueado: se puede salir del vestíbulo (origen) por un tramo que no pasa por el ascensor', () => {
+  const r = calcularRuta(grafo, perfiles, { desde: 'ascensor-a', hasta: 'patio-central', perfil: 'silla_ruedas', bloqueos: ['ascensor-a'] });
+  assert.equal(r.ok, true);
+  assert.deepEqual(r.tramos, ['t2']);
+  assert.deepEqual(r.nodos, ['ascensor-a', 'patio-central']);
+});
+
+test('ascensor bloqueado como destino: se llega al vestíbulo por t2', () => {
+  const r = calcularRuta(grafo, perfiles, { desde: 'patio-central', hasta: 'ascensor-a', perfil: 'silla_ruedas', bloqueos: ['ascensor-a'] });
+  assert.equal(r.ok, true);
+  assert.deepEqual(r.tramos, ['t2']);
+});
+
+test('ascensor bloqueado como origen: la silla no usa t3, sale por el desvío del Edificio B', () => {
+  const r = calcularRuta(grafo, perfiles, { desde: 'ascensor-a', hasta: 'edificio-a-p2', perfil: 'silla_ruedas', bloqueos: ['ascensor-a'] });
+  assert.equal(r.ok, true);
+  assert.ok(!r.tramos.includes('t3'));
+  assert.deepEqual(r.nodos, ['ascensor-a', 'patio-central', 'edificio-b', 'rampa-b', 'pasarela-b-a', 'edificio-a-p2']);
+  assert.equal(r.escalones, 0);
+});
+
+test('un nodo bloqueado que no es ascensor sigue siendo intransitable (origen, destino y paso)', () => {
+  const pasarela = { ...base, perfil: 'silla_ruedas', bloqueos: ['pasarela-b-a'] };
+  assert.equal(calcularRuta(grafo, perfiles, { ...pasarela, desde: 'pasarela-b-a' }).ok, false);
+  assert.equal(calcularRuta(grafo, perfiles, { ...pasarela, hasta: 'pasarela-b-a' }).ok, false);
+  const sinPaso = calcularRuta(grafo, perfiles, { ...pasarela, bloqueos: ['ascensor-a', 'pasarela-b-a'] });
+  assert.equal(sinPaso.ok, false);
+});
