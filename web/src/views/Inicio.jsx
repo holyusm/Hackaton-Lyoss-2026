@@ -8,10 +8,10 @@ import { iconoLugar } from '../components/iconoLugar.js';
 import { usePreferencias } from '../hooks/usePreferencias.js';
 import { useBarreras } from '../hooks/useBarreras.js';
 import { useLugares } from '../hooks/useLugares.js';
+import { ERROR_IGUAL, validarViaje } from '../lib/validarViaje.js';
 import './Inicio.css';
 
 const FRECUENTES = ['sala-a201', 'biblioteca', 'bano-b', 'casino'];
-const ERROR_IGUAL = 'Elige un destino distinto al punto de partida.';
 
 export default function Inicio() {
   const navigate = useNavigate();
@@ -27,17 +27,18 @@ export default function Inicio() {
   useEffect(() => {
     if (PERFILES.some((p) => p.id === perfilUrl)) setPerfil(perfilUrl);
   }, [perfilUrl]); // eslint-disable-line react-hooks/exhaustive-deps
-  // El error se muestra recién cuando la persona cambia un campo, no al cargar.
+  // El error de igualdad se muestra bajo el campo recién cuando la persona edita, no al cargar.
   const [tocado, setTocado] = useState(false);
   const cambiarDesde = (id) => { setDesde(id ?? 'entrada-principal'); setTocado(true); };
   const cambiarHasta = (id) => { setHasta(id); setTocado(true); };
 
-  const error = tocado && hasta && hasta === desde ? ERROR_IGUAL : null;
-  const errorDesde = !cargando && !grafo?.nodos.some((n) => n.id === desde)
-    ? 'Elige un punto de partida del campus.'
-    : null;
-  const motivo = (cargando && 'Cargando lugares del campus…') || errorDesde
-    || (!hasta && 'Elige a dónde vas para ver tu ruta.') || error;
+  const { errorDesde, errorHasta, igual, motivo } = validarViaje({
+    desde,
+    hasta,
+    cargando,
+    ids: grafo?.nodos.map((n) => n.id),
+  });
+  const errorCampoHasta = errorHasta || (tocado && igual ? ERROR_IGUAL : null);
   const puede = !motivo;
   const textoBoton = PERFILES.find((p) => p.id === perfil)?.textoBoton;
   const verRuta = () => {
@@ -73,7 +74,7 @@ export default function Inicio() {
         <div className="inicio__hasta">
           <CampoLugar
             etiqueta="Hasta" Icono={MagnifyingGlass} lugares={lugares} valor={hasta} onCambiar={cambiarHasta}
-            onQr={() => navigate('/punto/p1')} error={error} borrable
+            onQr={() => navigate('/punto/p1')} error={errorCampoHasta} borrable
             placeholder="Busca una sala, un baño o un edificio"
           />
           {frecuentes.length > 0 && (
