@@ -25,4 +25,5 @@ test('GET /api/simulador: perfil por defecto, errores 400', async (t) => {
   assert.equal((await fetch(`${api}?perfil=todos`)).status, 200);
   assert.equal((await fetch(`${api}?perfil=nada`)).status, 400);
   assert.equal((await fetch(`${api}?obras=nada`)).status, 400);
+  assert.equal((await fetch(`${api}?obras=rampa-patio-biblioteca&obras=rampa-patio-biblioteca`)).status, 200);
 });

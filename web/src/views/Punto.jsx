@@ -32,13 +32,19 @@ export default function Punto() {
 
   const modelo = useMemo(() => (punto ? armarPunto(punto, grafo, barreras, prefs.perfil) : null), [punto, grafo, barreras, prefs.perfil]);
   const frases = useMemo(() => (modelo ? frasesPunto(modelo, estadoBarreras) : []), [modelo, estadoBarreras]);
-  const v = useVoz(JSON.stringify([id, frases]));
+  const v = useVoz(id);
   const actual = v.actual?.clave ?? null;
   const resaltar = (clave) => (actual === clave ? 'punto__leyendo' : '');
 
   if (cargando) return <div className="punto"><p>Cargando el punto…</p></div>;
   if (sinConexion && !modelo && !noEncontrado) {
-    return <div className="punto"><h1>No pudimos cargar este punto QR. Revisa tu conexión.</h1><button type="button" onClick={reintentar}>Reintentar</button></div>;
+    return (
+      <div className="punto">
+        <h1>No pudimos cargar este punto QR. Revisa tu conexión.</h1>
+        <p><button type="button" className="boton boton--primario" onClick={reintentar}>Reintentar</button></p>
+        <p><Link to="/">Ir al inicio</Link></p>
+      </div>
+    );
   }
   if (noEncontrado || !modelo) {
     return (
