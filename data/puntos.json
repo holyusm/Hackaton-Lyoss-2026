@@ -36,7 +36,7 @@
     "id": "p4",
     "nodo_id": "biblioteca",
     "titulo": "Biblioteca",
-    "texto_voz": "Estás en la biblioteca central. El baño accesible está a quince metros, sin escalones y con guía táctil en el piso. Para volver al patio central hay tres escalones; si prefieres evitarlos, vuelve por la rampa lateral hasta la entrada principal.",
+    "texto_voz": "Estás en la biblioteca central. El baño accesible está a 5 metros, sin escalones y con guía táctil en el piso. El camino al patio central tiene tres escalones. La rampa lateral hacia la entrada principal es muy empinada y tiene piso irregular. Para ir en silla de ruedas, consulta las rutas accesibles en la aplicación antes de salir.",
     "indicaciones": [
       { "hacia": "Baño accesible B", "texto": "Avanza 15 metros, sin escalones. Hay guía táctil en el piso." },
       { "hacia": "Patio central", "texto": "Avanza 50 metros por adoquín. Hay 3 escalones." },

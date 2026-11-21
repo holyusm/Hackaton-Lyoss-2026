@@ -7,7 +7,6 @@ import SegmentadoDuracion from './SegmentadoDuracion.jsx';
 import { DURACION_INICIAL, MAX_DETALLE, cuerpoReporte, validarReporte } from '../lib/reportes.js';
 
 const VACIO = { tipo: null, lugar: null, detalle: '', duracion: DURACION_INICIAL };
-const TEXTO_429 = 'Espera unos minutos y vuelve a intentar. Tu reporte sigue escrito.';
 
 // Formulario de /reportar. Estados: editando | enviando | enviado | limite.
 // `onEnviado(reporte)` avisa a la vista para que ponga la barrera nueva primera en la lista.
@@ -48,7 +47,6 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
       const r = await fetch('/api/reportes', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpoReporte(form, grafo)),
       });
-      if (r.status === 429) { setMensaje(TEXTO_429); setEstado('limite'); return; }
       if (!r.ok) {
         const cuerpo = await r.json().catch(() => ({}));
         setMensaje(`${cuerpo.error ?? 'No pudimos enviar el reporte.'} Tu reporte sigue escrito.`);
@@ -89,7 +87,7 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
   const textoLimite = estado === 'limite' && (
     <p className="reporte-limite" role="alert">
       <Prohibit weight="bold" aria-hidden="true" />
-      <span>{mensaje === TEXTO_429 ? <><strong>Enviaste muchos reportes seguidos.</strong> {mensaje}</> : mensaje}</span>
+      <span>{mensaje}</span>
     </p>
   );
 

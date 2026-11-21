@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import FormReporte from '../components/FormReporte.jsx';
 import ListaBarreras from '../components/ListaBarreras.jsx';
@@ -16,20 +16,29 @@ export default function Reportar() {
   const [params] = useSearchParams();
   const { perfil } = usePreferencias();
   const { lugares, grafo } = useLugares();
-  const { barreras, actualizado, error } = useBarreras();
+  const { barreras, actualizado, error, inicioConsulta } = useBarreras();
   const [creadas, setCreadas] = useState([]);
   const [resueltas, setResueltas] = useState(() => new Set());
 
   const lista = useMemo(() => {
     const delServidor = new Set(barreras.map((b) => b.id));
-    const locales = creadas.filter((c) => !delServidor.has(c.id));
-    const nuevasIds = new Set(creadas.map((c) => c.id));
-    const todas = [...locales, ...barreras].filter((b) => !resueltas.has(b.id));
-    // Las nuevas primero, sin cambiar el orden del resto.
-    return { barreras: [...todas.filter((b) => nuevasIds.has(b.id)), ...todas.filter((b) => !nuevasIds.has(b.id))], nuevas: nuevasIds };
-  }, [barreras, creadas, resueltas]);
+    const locales = creadas.filter((c) => !delServidor.has(c.id) && (inicioConsulta === null || c.recibido >= inicioConsulta) && Date.parse(c.expira) > Date.now());
+    return {
+      barreras: [...locales, ...barreras].filter((b) => !resueltas.has(b.id)),
+      nuevas: new Set(locales.map((c) => c.id)),
+    };
+  }, [barreras, creadas, resueltas, inicioConsulta]);
 
-  const alCrear = (reporte) => setCreadas((c) => [{ ...reporte, nivel: nivelReporte(reporte) }, ...c]);
+  useEffect(() => {
+    if (inicioConsulta === null) return;
+    // Una lectura iniciada después del POST ya refleja su estado, incluso si otro dispositivo lo resolvió.
+    setCreadas((previas) => previas.filter((c) => c.recibido >= inicioConsulta));
+  }, [inicioConsulta]);
+
+  const alCrear = (reporte) => {
+    const local = { ...reporte, nivel: nivelReporte(reporte), recibido: performance.now() };
+    setCreadas((previas) => [local, ...previas]);
+  };
 
   const resolver = async (barrera) => {
     try {
