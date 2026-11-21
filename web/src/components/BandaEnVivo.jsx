@@ -20,7 +20,7 @@ export default function BandaEnVivo({ actualizado, error, sinConexion = false, t
     const cuando = horaDatos ?? actualizado;
     const detalle = texto
       ? conHora(texto, cuando)
-      : cuando ? `Mostrando la última ruta conocida, de las ${hora(cuando)}.` : 'No pudimos verificar las barreras.';
+      : cuando ? `Mostrando las barreras conocidas a las ${hora(cuando)}.` : 'No pudimos verificar las barreras.';
     return (
       <div className={`banda-vivo banda-vivo--sin-conexion ${className}`} role="status" aria-live="polite">
         <WifiSlash weight="bold" aria-hidden="true" />

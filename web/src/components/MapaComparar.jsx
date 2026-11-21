@@ -62,7 +62,9 @@ export default function MapaComparar({ grafo, filas, seleccion, barreras, origen
     .map((f) => ({ ...f, puntos: lineaRuta(grafo, f.tramos, f.nodos[0], (n) => [n.lat, n.lng]) }));
   // La elegida se dibuja al final (encima).
   const ordenadas = seleccion === 'todas' ? rutas : [...rutas.filter((r) => r.id !== seleccion), ...rutas.filter((r) => r.id === seleccion)];
-  const estado = (id) => (seleccion === 'todas' ? 'normal' : id === seleccion ? 'elegida' : 'atenuada');
+  // Un perfil sin ruta no tiene línea que resaltar: se ven todas, sin atenuar (#191).
+  const resaltada = rutas.some((r) => r.id === seleccion);
+  const estado = (id) => (!resaltada ? 'normal' : id === seleccion ? 'elegida' : 'atenuada');
 
   // Escaleras que sube el Estándar y barreras activas, cada una con su etiqueta.
   const tramos = new Map(grafo.tramos.map((t) => [t.id, t]));
