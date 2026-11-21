@@ -25,6 +25,17 @@ const nuevoReporte = (id, { tipo, tramo_id = null, nodo_id = null, descripcion, 
   ...(ejemplo ? { ejemplo: true } : {}),
 });
 
+function esEjemplo(r) {
+  if (r.ejemplo === true) return true;
+  if (r.ejemplo !== undefined) return false;
+  return EJEMPLOS.some(
+    (e) => r.tipo === e.tipo
+      && (r.tramo_id ?? null) === (e.tramo_id ?? null)
+      && (r.nodo_id ?? null) === (e.nodo_id ?? null)
+      && r.descripcion === e.descripcion,
+  );
+}
+
 function esGrafoSimulado(leerGrafoSync) {
   try {
     return leerGrafoSync()?.simulado === true;
@@ -45,8 +56,10 @@ export function crearReportes({
   const simulado = esGrafoSimulado(leerGrafoSync);
   let reportes;
   try {
-    reportes = JSON.parse(readFileSync(archivo, 'utf8'));
-    if (!simulado) reportes = reportes.filter((r) => r.ejemplo !== true);
+    const cargados = JSON.parse(readFileSync(archivo, 'utf8'));
+    reportes = simulado
+      ? cargados.map((r) => (esEjemplo(r) && r.ejemplo !== true ? { ...r, ejemplo: true } : r))
+      : cargados.filter((r) => !esEjemplo(r));
   } catch {
     reportes = simulado ? EJEMPLOS.map((r, i) => nuevoReporte(`r${i + 1}`, { ...r, ejemplo: true })) : [];
   }

@@ -174,3 +174,43 @@ test('precarga ejemplos solo cuando el grafo tiene simulado === true', async (t)
   });
   assert.deepEqual(conSimulado.reportesActivos().map((r) => r.id), ['r1', 'r7'], 'en grafo simulado se conservan ambos');
 });
+
+test('migra archivo persistido de versión anterior sin marca ejemplo', (t) => {
+  const legacyPath = join(tmpdir(), `reportes-legacy-${process.pid}.json`);
+  const expira = new Date(Date.now() + 60 * 60_000).toISOString();
+  const creado = new Date().toISOString();
+  const persistidoAnterior = [
+    {
+      id: 'r1', tipo: 'obstaculo', tramo_id: 't6', nodo_id: null,
+      descripcion: 'Andamio sobre los escalones del atajo a la biblioteca', creado, expira, resuelto: false,
+    },
+    {
+      id: 'r2', tipo: 'piso_mojado', tramo_id: 't9', nodo_id: null,
+      descripcion: 'Piso mojado en la rampa hacia el casino', creado, expira, resuelto: false,
+    },
+    {
+      id: 'r3', tipo: 'obstaculo', tramo_id: 't6', nodo_id: null,
+      descripcion: 'Corte temporal en t6 reportado por estudiante', creado, expira, resuelto: false,
+    },
+  ];
+  writeFileSync(legacyPath, JSON.stringify(persistidoAnterior));
+  t.after(() => rmSync(legacyPath, { force: true }));
+
+  const conReal = crearReportes({
+    archivo: legacyPath,
+    leerGrafoSync: () => grafoDosNodosT6,
+  });
+  const activosReal = conReal.reportesActivos();
+  assert.deepEqual(activosReal.map((r) => r.id), ['r3'], 'grafo real descarta ejemplos sin marca y conserva el reporte real en t6');
+  assert.equal(activosReal[0].ejemplo, undefined, 'reporte real no se marca como ejemplo');
+
+  const conSimulado = crearReportes({
+    archivo: legacyPath,
+    leerGrafoSync: () => ({ simulado: true, ...grafoDosNodosT6 }),
+  });
+  const activosSim = conSimulado.reportesActivos();
+  assert.deepEqual(activosSim.map((r) => r.id), ['r1', 'r2', 'r3'], 'grafo simulado conserva los tres reportes');
+  assert.equal(activosSim.find((r) => r.id === 'r1').ejemplo, true, 'primer ejemplo queda marcado con ejemplo: true');
+  assert.equal(activosSim.find((r) => r.id === 'r2').ejemplo, true, 'segundo ejemplo queda marcado con ejemplo: true');
+  assert.equal(activosSim.find((r) => r.id === 'r3').ejemplo, undefined, 'reporte real en t6 sigue sin marca ejemplo');
+});
