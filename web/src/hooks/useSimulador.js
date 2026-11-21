@@ -12,11 +12,10 @@ export function useSimulador(perfil, ids, intento = 0) {
     if (ids.length) q.set('obras', ids.join(','));
     fetch(`/api/simulador?${q}`, { signal: controlador.signal })
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`))))
-      .then((datos) => setR({ clave, estado: 'ok', datos }))
-      .catch((e) => { if (!controlador.signal.aborted) setR((prev) => ({ ...prev, clave, estado: 'error' })); });
+      .then((datos) => { if (!controlador.signal.aborted) setR({ clave, estado: 'ok', datos }); })
+      .catch((e) => { if (!controlador.signal.aborted) setR({ clave, estado: 'error', datos: null }); });
     return () => controlador.abort();
   }, [clave]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Mientras llega la nueva respuesta se muestran los datos anteriores (sin parpadeo), marcados como "cargando".
-  return { estado: r.clave === clave ? r.estado : 'cargando', datos: r.datos };
+  return r.clave === clave ? r : { estado: 'cargando', datos: null };
 }

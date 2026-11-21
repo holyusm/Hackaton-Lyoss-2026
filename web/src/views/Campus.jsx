@@ -29,9 +29,7 @@ export default function Campus() {
   const [perfil, setPerfil] = useState('silla_ruedas');
   const [activas, setActivas] = useState([]);
   const [intento, setIntento] = useState(0);
-  const { estado, datos: ultimos } = useSimulador(perfil, activas, intento);
-  // Si la consulta nueva falla, no se muestran los datos anteriores como si fueran de esta elección (#137).
-  const datos = estado === 'error' ? null : ultimos;
+  const { estado, datos } = useSimulador(perfil, activas, intento);
   const chips = useRef([]);
 
   const alternar = (id) => setActivas((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]));
@@ -193,7 +191,7 @@ export default function Campus() {
           <li>Trayecto: ir de una entrada, edificio, sala o baño a otro. La ida y la vuelta cuentan aparte.</li>
           <li>Medimos el campus tal como está construido. Los reportes del momento (un ascensor detenido) no cuentan aquí: se ven en Reportar.</li>
           <li>El costo de cada obra es una estimación relativa del equipo, no un presupuesto.</li>
-          <li>Datos del levantamiento del equipo del 21-11-2026 y datos de ejemplo donde faltó medir.</li>
+          <li>El grafo del campus es simulado. Las distancias se estiman sobre el plano de OpenStreetMap y los tiempos se calculan con el modelo de recorrido.</li>
         </ul>
       </section>
     </div>
