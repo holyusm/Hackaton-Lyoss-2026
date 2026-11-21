@@ -141,3 +141,6 @@
   font-weight: 800;
   line-height: 1;
 }
+
+/* #189: sala elegida. El borde grueso la distingue sin depender solo del color. */
+.plano-sala--elegida { fill: var(--cobalto-tinte); fill-opacity: 1; stroke: var(--cobalto); stroke-width: 3px; }

@@ -97,3 +97,40 @@
   .plano-flotante { right: var(--e-3); }
   .plano__mapa .plano-controles { top: 140px; right: var(--e-3); }
 }
+
+/* #189: salas, "Tu ruta" y la ruta dibujada. */
+.plano-lista__titulo { margin: var(--e-3) 0 var(--e-1); font-size: var(--t-etiqueta); font-weight: var(--peso-negro); }
+.plano-salas h3 { margin: 0 0 var(--e-2); font-size: var(--t-cuerpo); font-weight: var(--peso-negro); }
+.plano-salas ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--e-1); max-height: 168px; overflow-y: auto; }
+.plano-sala-item { width: 100%; min-height: var(--toque-min); box-sizing: border-box; padding: 0 var(--e-3); border: var(--ancho-linea) solid var(--linea); border-radius: var(--r-control); background: var(--superficie); color: var(--tinta); font: inherit; text-align: left; cursor: pointer; }
+.plano-sala-item span { color: var(--tinta-2); font-size: var(--t-detalle); }
+.plano-sala-item[aria-pressed="true"] { background: var(--cobalto-tinte); border: 2px solid var(--cobalto); color: var(--sobre-tinte); }
+.plano-sala-item:focus-visible, .plano-turuta__boton:focus-visible, .plano-turuta__paso:focus-visible { outline: none; box-shadow: var(--foco); }
+.plano-sala-ficha { padding: var(--e-3); border: 2px solid var(--cobalto); border-radius: var(--r-panel); display: flex; flex-direction: column; gap: var(--e-1); }
+.plano-sala-ficha p { margin: 0; }
+.plano-sala-ficha__meta { color: var(--tinta-2); font-size: var(--t-detalle); }
+.plano-sala-ficha__acciones { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-top: var(--e-2); }
+.plano-sala-ficha__acciones .boton { flex: 1 1 auto; min-height: var(--toque-min); }
+
+.plano-turuta { display: flex; flex-direction: column; gap: var(--e-2); padding: var(--e-3); border: 2px solid var(--cobalto); border-radius: var(--r-panel); background: var(--superficie); }
+.plano-turuta__cabeza { display: flex; align-items: center; gap: var(--e-2); }
+.plano-turuta__cabeza h2 { flex: 1; margin: 0; font-size: var(--t-etiqueta); font-weight: var(--peso-negro); }
+.plano-turuta__boton { width: var(--toque-min); height: var(--toque-min); display: grid; place-items: center; border: var(--ancho-linea) solid var(--borde-control); border-radius: var(--r-pill); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+.plano-turuta__boton:disabled { opacity: 0.45; cursor: not-allowed; }
+.plano-turuta__puntos { margin: 0; display: flex; flex-direction: column; gap: var(--e-1); }
+.plano-turuta__puntos div { display: flex; gap: var(--e-2); }
+.plano-turuta__puntos dt { flex: none; width: 3.2rem; font-weight: var(--peso-negro); }
+.plano-turuta__puntos dd { margin: 0; overflow-wrap: anywhere; }
+.plano-turuta__resumen { margin: 0; color: var(--tinta-2); }
+.plano-turuta__sinruta { display: flex; gap: var(--e-2); margin: 0; padding: var(--e-3); border: 2px solid var(--alto); border-radius: var(--r-control); color: var(--tinta); }
+.plano-turuta__sinruta svg { flex: none; width: 24px; height: 24px; color: var(--alto-texto); }
+.plano-turuta__pasos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--e-1); max-height: 220px; overflow-y: auto; }
+.plano-turuta__paso { width: 100%; min-height: var(--toque-min); box-sizing: border-box; display: flex; align-items: center; gap: var(--e-2); padding: var(--e-1) var(--e-2); border: 0; border-radius: var(--r-control); background: transparent; color: var(--tinta); font: inherit; text-align: left; cursor: pointer; }
+.plano-turuta__paso[aria-current="step"] { background: var(--cobalto-tinte); color: var(--sobre-tinte); font-weight: var(--peso-negro); }
+.plano-turuta__num { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--cobalto); color: var(--sobre-cobalto); font-size: var(--t-detalle); font-weight: var(--peso-negro); }
+.plano-turuta__enlace { align-self: flex-start; }
+
+.plano-ruta-desde { display: block; width: 22px; height: 22px; box-sizing: border-box; border-radius: 50%; background: var(--superficie); border: 5px solid var(--cobalto); }
+.plano-ruta-hasta { display: block; width: 26px; height: 26px; box-sizing: border-box; border-radius: 6px; background: var(--cobalto); border: 3px solid var(--superficie); box-shadow: 0 0 0 2px var(--cobalto); }
+.plano-ruta-piso { display: inline-block; padding: 2px var(--e-2); border-radius: var(--r-pill); background: var(--activo-fondo); color: var(--activo-texto); font-family: var(--fuente); font-size: 0.75rem; font-weight: var(--peso-negro); white-space: nowrap; }
+.plano-sala-marcador { display: block; width: 90px; padding: 2px var(--e-1); box-sizing: border-box; border: 2px solid var(--cobalto); border-radius: var(--r-pill); background: var(--superficie); color: var(--tinta); font-family: var(--fuente); font-size: 0.7rem; font-weight: var(--peso-negro); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }

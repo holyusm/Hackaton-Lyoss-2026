@@ -12,6 +12,16 @@ import { geojson, LIMITES, LIMITES_VISTA, ZOOM } from '../plano/plano.js';
 import { EDIFICIOS, centroDe, filtrarEdificios, interior, nodoDestino, pisoInicial, pisosDe } from '../plano/edificios.js';
 import campusRespaldo from '../../../data/campus.json';
 import { useLugares } from '../hooks/useLugares.js';
+import { useBarreras } from '../hooks/useBarreras.js';
+import { usePreferencias } from '../hooks/usePreferencias.js';
+import { calcularRuta } from '../../../motor/ruta.js';
+import { bloqueosDe } from '../../../motor/barreras.js';
+import perfilesRespaldo from '../../../data/perfiles.json';
+import { armarRuta } from '../lib/pasos.js';
+import { buscarSalas, marcasPiso, salaDeFeature, salasDe, salasSinPoligono, textoLugar } from '../lib/rutaPlano.js';
+import CapaRuta from './plano/CapaRuta.jsx';
+import TuRuta from './plano/TuRuta.jsx';
+import '../components/MapaRuta.css';
 import 'leaflet/dist/leaflet.css';
 import './Plano.css';
 
@@ -65,6 +75,7 @@ const ROTULOS = (() => {
 const iconoCalle = (r) => L.divIcon({ className: '', html: `<span class="plano-calle-nombre" style="transform:rotate(${r.ang.toFixed(1)}deg)">${r.nombre}</span>`, iconSize: [140, 20], iconAnchor: [70, 10] });
 const iconoAqui = L.divIcon({ className: '', html: '<span class="plano-aqui"><span class="plano-aqui__punto"></span><span class="plano-aqui__texto">Estás aquí, Acceso</span></span>', iconSize: [150, 24], iconAnchor: [12, 12] });
 const iconoBano = L.divIcon({ className: '', html: `<span class="plano-bano" aria-hidden="true">${renderToStaticMarkup(<Toilet weight="bold" />)}</span>`, iconSize: [24, 24], iconAnchor: [12, 12] });
+const iconoMarcador = (nombre) => L.divIcon({ className: '', html: `<span class="plano-sala-marcador">${String(nombre).replace(/[&<>"]/g, '')}</span>`, iconSize: [90, 22], iconAnchor: [45, 11] });
 const iconoSala = (ref) => L.divIcon({ className: '', html: `<span class="plano-sala-ref">${ref}</span>`, iconSize: [40, 14], iconAnchor: [20, 7] });
 
 const PADDING_ARRIBA_PLANO = 40;
@@ -119,7 +130,7 @@ function Escala() {
   return null;
 }
 
-function Etiquetas({ edificio, piso, calles }) {
+function Etiquetas({ edificio, piso, calles, datos, onSala }) {
   const mapa = useMap();
   const [zoom, setZoom] = useState(mapa.getZoom());
   useMapEvents({ zoomend: () => setZoom(mapa.getZoom()) });
@@ -129,8 +140,13 @@ function Etiquetas({ edificio, piso, calles }) {
       id: f.properties.osm, bano: f.properties.servicio === 'toilets', ref: f.properties.ref || f.properties.nombre || '', centro: centroDe(f.geometry),
     }));
   }, [edificio, piso]);
+  // Salas agregadas a mano sin polígono en el plano: un marcador en su lat/lng, solo en el piso elegido.
+  const sinPoligono = useMemo(() => (edificio ? salasSinPoligono(datos, edificio.letra, piso, interior(edificio.letra, piso)) : []), [datos, edificio, piso]);
   return (
     <>
+      {sinPoligono.map((n) => (
+        <Marker key={n.id} position={[n.lat, n.lng]} icon={iconoMarcador(n.nombre)} keyboard={false} eventHandlers={{ click: () => onSala(n.id) }} />
+      ))}
       {calles && ROTULOS.map((r) => <Marker key={r.nombre} position={r.latlng} icon={iconoCalle(r)} interactive={false} keyboard={false} />)}
       {zoom >= 19 && salas.map((s) => (s.bano
         ? <Marker key={s.id} position={s.centro} icon={iconoBano} interactive={false} keyboard={false} />
@@ -145,7 +161,7 @@ const notaDe = (e, piso, hayInterior) => {
   return 'Número de pisos y plano interior por confirmar en terreno.';
 };
 
-function Ficha({ edificio, piso, onPiso, onCerrar, grafo, movil }) {
+function Ficha({ edificio, piso, onPiso, onCerrar, grafo, movil, sala, salas, onSala, onDesde, onHasta }) {
   const pisos = pisosDe(edificio);
   const hayInterior = interior(edificio.letra, piso).length > 0;
   const destino = nodoDestino(grafo, edificio.letra);
@@ -172,12 +188,42 @@ function Ficha({ edificio, piso, onPiso, onCerrar, grafo, movil }) {
         </div>
       </div>
       <p className="plano-ficha__nota">{notaDe(edificio, piso, hayInterior)}</p>
+      {salas.length > 0 && (
+        <div className="plano-salas">
+          <h3 id="plano-salas-titulo">Salas del piso {piso < 0 ? `−${-piso}` : piso}</h3>
+          <ul aria-labelledby="plano-salas-titulo">
+            {salas.map((n) => (
+              <li key={n.id}>
+                <button type="button" className="plano-sala-item" aria-pressed={sala?.id === n.id} onClick={() => onSala(n.id)}>
+                  {n.nombre}{n.departamento && <span> · {n.departamento}</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {sala && (
+        <div className="plano-sala-ficha" role="group" aria-label={`Sala elegida: ${sala.nombre}`}>
+          <p className="plano-sala-ficha__titulo"><strong>{sala.nombre}</strong></p>
+          <p className="plano-sala-ficha__meta">{`Edificio ${sala.edificio}, piso ${sala.piso}`}{sala.departamento ? `. ${sala.departamento}` : ''}</p>
+          <div className="plano-sala-ficha__acciones">
+            <button type="button" className="boton boton--secundario boton--chico" onClick={() => onDesde(sala.id)}>Salir desde aquí</button>
+            <button type="button" className="boton boton--primario boton--chico" onClick={() => onHasta(sala.id)}>Ir aquí</button>
+          </div>
+        </div>
+      )}
+      {!sala && destino && (
+        <div className="plano-sala-ficha__acciones">
+          <button type="button" className="boton boton--secundario boton--chico" onClick={() => onDesde(destino)}>Salir desde aquí</button>
+          <button type="button" className="boton boton--primario boton--chico" onClick={() => onHasta(destino)}>Ir aquí</button>
+        </div>
+      )}
       <ul className="plano-acceso">
         {['Entrada sin escalones', 'Ascensor', 'Baño accesible'].map((t) => (
           <li key={t}><span>{t}</span><span className="plano-acceso__valor"><Question weight="bold" aria-hidden="true" /> Por levantar</span></li>
         ))}
       </ul>
-      <Link className="boton boton--primario boton--ancho" to={destino ? `/?hasta=${destino}` : '/'}>Cómo llegar sin barreras</Link>
+      <Link className="boton boton--secundario boton--ancho" to={destino ? `/?hasta=${destino}` : '/'}>Cómo llegar sin barreras</Link>
     </section>
   );
 }
@@ -196,6 +242,26 @@ export default function Plano() {
   const abrio = useRef(null);
   const enfocarTrasExpandir = useRef(null);
 
+  // #189: inicio y llegada (ids de nodo), sala elegida y paso activo de la ruta.
+  const { perfil } = usePreferencias();
+  const { barreras } = useBarreras();
+  const [desdeId, setDesdeId] = useState('entrada-principal');
+  const [hastaId, setHastaId] = useState(null);
+  const [salaId, setSalaId] = useState(null);
+  const [paso, setPaso] = useState(null);
+  const [anuncio, setAnuncio] = useState('');
+  const nodos = useMemo(() => new Map(datos.nodos.map((n) => [n.id, n])), [datos]);
+  const perfilId = perfilesRespaldo.some((p) => p.id === perfil) ? perfil : 'estandar';
+  const claveBloqueos = JSON.stringify([...new Set(bloqueosDe(barreras))].sort());
+  const resultado = useMemo(
+    () => (desdeId && hastaId && desdeId === hastaId ? { ok: false, motivo: 'El inicio y la llegada son el mismo lugar.' } : desdeId && hastaId ? calcularRuta(datos, perfilesRespaldo, { desde: desdeId, hasta: hastaId, perfil: perfilId, bloqueos: JSON.parse(claveBloqueos) }) : null),
+    [datos, desdeId, hastaId, perfilId, claveBloqueos],
+  );
+  const ruta = useMemo(() => (resultado?.ok ? armarRuta(datos, resultado, { posicion: (n) => [n.lat, n.lng] }) : { pasos: [], coordenadas: [] }), [datos, resultado]);
+  const marcas = useMemo(() => marcasPiso(datos, resultado), [datos, resultado]);
+  useEffect(() => { setPaso(null); }, [resultado]);
+  const pasoActivo = paso ?? ruta.pasos.length - 1;
+
   // En móvil las calles empiezan apagadas.
   useEffect(() => { if (!escritorio) setCapas((c) => ({ ...c, calles: false })); }, [escritorio]);
 
@@ -205,6 +271,43 @@ export default function Plano() {
   const hayMas = !escritorio && hayConsulta && !verTodos && visibles.length > LIMITE_MOVIL;
   const lista = hayMas ? visibles.slice(0, LIMITE_MOVIL) : visibles;
   const interiorPiso = useMemo(() => (edificio ? interior(edificio.letra, piso) : []), [edificio, piso]);
+  const salasPiso = useMemo(() => (edificio ? salasDe(datos, edificio.letra, piso) : []), [datos, edificio, piso]);
+  const sala = salaId ? nodos.get(salaId) ?? null : null;
+  const salaOsm = useMemo(
+    () => (sala && edificio ? interiorPiso.find((f) => salaDeFeature(datos, edificio.letra, piso, f)?.id === sala.id)?.properties.osm ?? null : null),
+    [datos, sala, edificio, piso, interiorPiso],
+  );
+
+  // Elegir una sala (desde la lista, el buscador o el plano): abre su edificio y su piso.
+  const elegirSala = useCallback((id) => {
+    const n = nodos.get(id);
+    if (!n) return;
+    const e = EDIFICIOS.find((x) => x.clave === n.edificio);
+    if (e) { abrio.current = null; setClave(e.clave); setPiso(n.piso); }
+    setSalaId(id);
+  }, [nodos]);
+  const fijarDesde = useCallback((id) => { setDesdeId(id); setAnuncio(`Salida fijada: ${textoLugar(nodos.get(id))}`); }, [nodos]);
+  const fijarHasta = useCallback((id) => { setHastaId(id); setAnuncio(`Llegada fijada: ${textoLugar(nodos.get(id))}`); }, [nodos]);
+  const alElegirSalaMapa = useRef(null);
+  alElegirSalaMapa.current = (f) => { const n = edificio && salaDeFeature(datos, edificio.letra, piso, f); if (n) elegirSala(n.id); };
+  const alElegirSala = useCallback((f) => alElegirSalaMapa.current(f), []);
+  const irAPaso = (i) => {
+    setPaso(i);
+    const n = nodos.get(resultado.nodos[i + 1]);
+    const e = n && EDIFICIOS.find((x) => x.clave === n.edificio);
+    if (e) { setClave(e.clave); setPiso(n.piso); }
+  };
+  const intercambiar = () => { const d = desdeId; setDesdeId(hastaId); setHastaId(d); setAnuncio('Salida y llegada intercambiadas'); };
+  const limpiar = () => { setHastaId(null); setAnuncio('Ruta borrada'); };
+  const enlaceMapa = `/mapa?${new URLSearchParams({ desde: desdeId ?? '', hasta: hastaId ?? '', perfil: perfilId })}`;
+  const panelRuta = (
+    <TuRuta
+      desde={desdeId ? nodos.get(desdeId) : null} hasta={hastaId ? nodos.get(hastaId) : null}
+      resultado={resultado} pasos={ruta.pasos} paso={pasoActivo} onPaso={irAPaso}
+      onIntercambiar={intercambiar} onLimpiar={limpiar} anuncio={anuncio} enlaceMapa={enlaceMapa}
+    />
+  );
+  const fichaProps = { sala, salas: salasPiso, onSala: elegirSala, onDesde: fijarDesde, onHasta: fijarHasta };
 
   const alBuscar = (ev) => {
     setQ(ev.target.value);
@@ -272,7 +375,9 @@ export default function Plano() {
     </fieldset>
   );
 
+  const salasBuscadas = useMemo(() => buscarSalas(datos, q), [datos, q]);
   const items = (
+    <>
     <ul className="plano-lista">
       {lista.map((e) => (
         <li key={e.clave}>
@@ -283,6 +388,22 @@ export default function Plano() {
         </li>
       ))}
     </ul>
+    {salasBuscadas.length > 0 && (
+      <>
+        <h3 className="plano-lista__titulo" id="plano-lista-salas">Salas</h3>
+        <ul className="plano-lista" aria-labelledby="plano-lista-salas">
+          {salasBuscadas.map((n) => (
+            <li key={n.id}>
+              <button type="button" className="plano-item" aria-pressed={n.id === salaId} onClick={() => elegirSala(n.id)}>
+                <span className="plano-insignia" aria-hidden="true">{n.edificio}</span>
+                <span className="plano-item__texto"><strong>{n.nombre}</strong><span>{`Edificio ${n.edificio}, piso ${n.piso}`}{n.departamento ? `. ${n.departamento}` : ''}</span></span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+    </>
   );
 
   return (
@@ -299,13 +420,14 @@ export default function Plano() {
       {!escritorio && <h1 className="sr-only">Plano de Casa Central</h1>}
 
       <div className="plano__cuerpo">
-        {escritorio && <aside className="plano__lista" aria-label="Edificios del campus">{buscar}{items}</aside>}
+        {escritorio && <aside className="plano__lista" aria-label="Edificios del campus">{panelRuta}{buscar}{items}</aside>}
 
         <div className="plano__mapa" role="region" aria-label={etiquetaMapa}>
           <LimiteError>
             <MapContainer bounds={LIMITES} maxBounds={LIMITES_VISTA} minZoom={ZOOM.min} maxZoom={ZOOM.max + 0.5} zoomSnap={0.25} zoomDelta={0.5} zoomControl={false} keyboard className="mapa-plano plano__leaflet">
-              <CapaPlano seleccion={clave} onElegir={alElegirEnMapa} capas={{ senderos: capas.senderos, escaleras: capas.escaleras, servicios: capas.servicios, calles: true }} interior={interiorPiso} />
-              <Etiquetas edificio={edificio} piso={piso} calles={capas.calles} />
+              <CapaPlano seleccion={clave} onElegir={alElegirEnMapa} capas={{ senderos: capas.senderos, escaleras: capas.escaleras, servicios: capas.servicios, calles: true }} interior={interiorPiso} onElegirSala={alElegirSala} salaSeleccion={salaOsm} />
+              <Etiquetas edificio={edificio} piso={piso} calles={capas.calles} datos={datos} onSala={elegirSala} />
+              <CapaRuta coordenadas={ruta.coordenadas} desde={desdeId && nodos.get(desdeId) ? [nodos.get(desdeId).lat, nodos.get(desdeId).lng] : null} hasta={hastaId && nodos.get(hastaId) ? [nodos.get(hastaId).lat, nodos.get(hastaId).lng] : null} marcas={marcas} />
               <Marker position={AQUI} icon={iconoAqui} interactive={false} keyboard={false} />
               <Encuadre edificio={edificio} padAbajo={padAbajo} />
               <Controles padAbajo={padAbajo} />
@@ -314,7 +436,7 @@ export default function Plano() {
           </LimiteError>
 
           {escritorio && capasUI}
-          {escritorio && edificio && <Ficha edificio={edificio} piso={piso} onPiso={setPiso} onCerrar={cerrar} grafo={datos} />}
+          {escritorio && edificio && <Ficha edificio={edificio} piso={piso} onPiso={setPiso} onCerrar={cerrar} grafo={datos} {...fichaProps} />}
           {escritorio && <p className="plano__nota-datos">{NOTA_DATOS}</p>}
         </div>
 
@@ -335,8 +457,9 @@ export default function Plano() {
             </div>
             <div className="plano-hoja">
               <span className="plano-hoja__asa" aria-hidden="true" />
+              {(hastaId || resultado) && panelRuta}
               {edificio ? (
-                <Ficha edificio={edificio} piso={piso} onPiso={setPiso} onCerrar={cerrar} grafo={datos} movil />
+                <Ficha edificio={edificio} piso={piso} onPiso={setPiso} onCerrar={cerrar} grafo={datos} movil {...fichaProps} />
               ) : (
                 <div className="plano-hoja__vacia">
                   <p><strong>Toca un edificio o búscalo</strong></p>
