@@ -79,6 +79,7 @@ export default function Mapa() {
             <ListBullets weight="bold" aria-hidden="true" /> Ver como lista
           </button>
           <BandaEnVivo actualizado={r.actualizado} error={r.errorBarreras} />
+          {!r.errorBarreras && sinVerificar}
         </div>
       </div>
       <HojaRuta ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} altura={altura} onAltura={setAltura} />
