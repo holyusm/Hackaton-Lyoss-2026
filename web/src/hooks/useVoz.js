@@ -12,7 +12,7 @@ const sintesis = () => (typeof window !== 'undefined' ? window.speechSynthesis :
 // Lectura en voz alta por bloques (Lote 5). Una utterance por frase: así se sabe qué bloque se está leyendo.
 // Nunca arranca sola: solo con leer(). Cada corrida lleva un token, porque cancel() dispara el onend de la
 // frase en curso y, sin token, ese onend lanzaría la siguiente y se saltaría un bloque.
-export function useVoz() {
+export function useVoz(claveLectura) {
   const [voz, setVoz] = useState(null);
   const [estado, setEstado] = useState('reposo'); // reposo | leyendo | pausa
   const [indice, setIndice] = useState(-1);
@@ -35,6 +35,14 @@ export function useVoz() {
   }, []);
 
   const detener = useCallback(() => { token.current += 1; sintesis()?.cancel(); }, []);
+
+  useEffect(() => {
+    setEstado('reposo');
+    setIndice(-1);
+    indiceRef.current = -1;
+    frasesRef.current = [];
+    return detener;
+  }, [claveLectura, detener]);
 
   const leerDesde = useCallback((frases, desde = 0, rate) => {
     const s = sintesis();

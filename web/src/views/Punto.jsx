@@ -17,19 +17,27 @@ import './Punto.css';
 export default function Punto() {
   const { id } = useParams();
   const prefs = usePreferencias();
-  useLayoutEffect(() => { prefs.aplicarPorDefecto({ tema: 'contraste', texto: 'grande' }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const { setEnPunto } = prefs;
+  useLayoutEffect(() => {
+    setEnPunto(true);
+    return () => setEnPunto(false);
+  }, [setEnPunto]);
 
-  const { punto, cargando, noEncontrado, sinConexion } = usePunto(id);
+  const { punto, cargando, noEncontrado, sinConexion, reintentar } = usePunto(id);
   const { grafo } = useLugares();
   const { barreras } = useBarreras();
-  const v = useVoz();
+
 
   const modelo = useMemo(() => (punto ? armarPunto(punto, grafo, barreras, prefs.perfil) : null), [punto, grafo, barreras, prefs.perfil]);
   const frases = useMemo(() => (modelo ? frasesPunto(modelo) : []), [modelo]);
+  const v = useVoz(JSON.stringify([id, frases]));
   const actual = v.estado !== 'reposo' ? frases[v.indice]?.clave : null;
   const resaltar = (clave) => (actual === clave ? 'punto__leyendo' : '');
 
   if (cargando) return <div className="punto"><p>Cargando el punto…</p></div>;
+  if (sinConexion && !modelo && !noEncontrado) {
+    return <div className="punto"><h1>No pudimos cargar este punto QR.</h1><button type="button" onClick={reintentar}>Reintentar</button></div>;
+  }
   if (noEncontrado || !modelo) {
     return (
       <div className="punto">
