@@ -1,6 +1,6 @@
 <!--
   BORRADOR (12:20). Revisar a las 15:45, después del [CONGELAR]:
-  - Funcionalidades: confirmar en la URL pública que las cinco funcionan (/, /mapa, /reportar, /comparar, /punto/:id, /campus).
+  - Funcionalidades: confirmar en la URL pública que todas funcionan (/, /mapa, /reportar, /comparar, /punto/:id, /campus).
   - Impacto: completar con las cifras de #14 (salen del grafo con los metros recalculados en #118).
   - Equipo: nombres de @Gxppe y @juaquo15.
   - Instalación y Ejecución: las prueba @Gxppe en limpio (#10).
