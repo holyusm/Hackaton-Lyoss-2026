@@ -150,6 +150,6 @@
 /* Lote 7: estados de Reportar. */
 .reporte-form__banda { align-self: stretch; border-radius: var(--r-control); }
 .reporte-form__motivo { margin: 0 0 var(--e-2); }
-.reporte-form__accion .boton[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+.reporte-form__accion .boton[aria-disabled="true"] { cursor: not-allowed; }
 .reporte-lista__hora { font-size: var(--t-detalle); font-weight: 400; color: var(--tinta-2); }
 .reporte-esqueleto { gap: var(--e-3); }

@@ -48,5 +48,5 @@
 
 /* Lote 7: esqueleto del punto (título, descripción, Escuchar deshabilitado y 3 destinos). */
 .punto--cargando .punto__lugar, .punto--cargando .punto__destinos { display: flex; flex-direction: column; gap: var(--e-3); }
-.punto--cargando .boton[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+.punto--cargando .boton[aria-disabled="true"] { cursor: not-allowed; }
 .punto__sin-conexion.banda-vivo { border-radius: var(--r-control); }
