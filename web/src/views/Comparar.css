@@ -1,0 +1,62 @@
+/* /comparar (Lote 3). Móvil primero; a ≥900 px tabla en vez de tarjetas y todo un paso más grande. */
+.comparar { display: flex; flex-direction: column; gap: var(--e-5); padding: var(--e-6) var(--margen-movil) 0; }
+.comparar__cabeza { display: flex; flex-direction: column; gap: var(--e-3); }
+.comparar__cabeza h1 { font-size: var(--t-titulo); font-weight: var(--peso-negro); letter-spacing: -0.02em; }
+
+.comparar__trayecto { display: flex; flex-wrap: wrap; gap: var(--e-2); }
+.comparar__lugar {
+  min-height: var(--toque-min); padding: var(--e-2) var(--e-4); box-sizing: border-box;
+  display: inline-flex; align-items: center; gap: var(--e-2);
+  border: 2px solid var(--tinta); border-radius: var(--r-control);
+  background: var(--superficie); color: var(--tinta); font-size: var(--t-detalle); text-align: left; cursor: pointer;
+}
+.comparar__lugar svg { width: 22px; height: 22px; flex-shrink: 0; }
+.comparar__lugar:hover { background: var(--cobalto-tinte); color: var(--sobre-tinte); }
+.comparar__lugar--escritorio { display: none; }
+.comparar__lugar--movil { width: 100%; }
+.comparar__lugar--movil > span:first-of-type { flex: 1; }
+.comparar__cambiar { color: var(--enlace); font-weight: var(--peso-negro); text-decoration: underline; text-underline-offset: 5px; }
+.comparar__editar { display: grid; gap: var(--e-4); }
+
+.comparar__frase {
+  font-size: 1.444rem; font-weight: var(--peso-negro); line-height: 1.15; letter-spacing: -0.02em;
+  max-width: 26ch; text-wrap: balance;
+}
+
+.comparar__tabla { display: none; }
+.comparar__tarjetas { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--e-3); }
+.comparar__pie { font-size: var(--t-detalle); color: var(--tinta-2); }
+
+/* Tarjeta móvil */
+.fila-perfil { border: 2px solid var(--borde-control); border-radius: var(--r-panel); background: var(--superficie); overflow: hidden; }
+.fila-perfil:has([aria-expanded="true"]) { border-color: var(--tinta); }
+.fila-perfil__boton {
+  width: 100%; padding: var(--e-4); border: 0; background: none; color: var(--tinta); text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; gap: var(--e-3);
+}
+.fila-perfil__cabeza { display: flex; align-items: center; gap: var(--e-3); }
+.fila-perfil__nombre { flex: 1; font-size: var(--t-etiqueta); font-weight: var(--peso-negro); }
+.fila-perfil__caret { width: 24px; height: 24px; transition: transform var(--t-media); }
+[aria-expanded="true"] .fila-perfil__caret { transform: rotate(180deg); }
+.fila-perfil__cifras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); font-size: var(--t-detalle); color: var(--tinta-2); }
+.fila-perfil__cifras > span { display: flex; flex-direction: column; padding: 0 var(--e-3); }
+.fila-perfil__cifras > span:first-child { padding-left: 0; }
+.fila-perfil__cifras > span + span { border-left: var(--ancho-linea) solid var(--linea); }
+.fila-perfil__cifras strong { font-size: 1.556rem; font-weight: var(--peso-negro); color: var(--tinta); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.fila-perfil__cifras strong.metrica--buena { color: var(--paso-texto); }
+.fila-perfil__sin-ruta { display: flex; align-items: center; gap: var(--e-2); font-weight: var(--peso-negro); color: var(--alto-texto); }
+.fila-perfil__sin-ruta svg { width: 22px; height: 22px; }
+.fila-perfil__panel { margin: 0 var(--e-4); padding: var(--e-3) 0 var(--e-4); border-top: var(--ancho-linea) solid var(--linea); display: flex; flex-direction: column; gap: var(--e-1); }
+.fila-perfil__titulo { font-weight: var(--peso-negro); font-size: var(--t-detalle); color: var(--tinta-2); margin-top: var(--e-2); }
+.fila-perfil__nota { font-size: var(--t-detalle); color: var(--tinta-2); margin-top: var(--e-2); }
+
+@media (min-width: 900px) {
+  .comparar { padding: var(--e-6) 40px 0; font-size: 1.111rem; }
+  .comparar__cabeza { flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+  .comparar__lugar--escritorio { display: inline-flex; }
+  .comparar__lugar--movil { display: none; }
+  .comparar__editar { grid-template-columns: 1fr 1fr; }
+  .comparar__frase { font-size: 2.111rem; }
+  .comparar__tabla { display: block; }
+  .comparar__tarjetas { display: none; }
+}
