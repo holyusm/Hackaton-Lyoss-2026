@@ -25,18 +25,20 @@ export default function Punto() {
 
   const { punto, cargando, noEncontrado, sinConexion, reintentar } = usePunto(id);
   const { grafo } = useLugares();
-  const { barreras } = useBarreras();
-
+  const { barreras, error, actualizado } = useBarreras();
+  const estadoBarreras = error || sinConexion
+    ? 'No pudimos verificar las barreras actuales. Las indicaciones pueden estar desactualizadas.'
+    : !actualizado ? 'Estamos verificando las barreras actuales.' : null;
 
   const modelo = useMemo(() => (punto ? armarPunto(punto, grafo, barreras, prefs.perfil) : null), [punto, grafo, barreras, prefs.perfil]);
-  const frases = useMemo(() => (modelo ? frasesPunto(modelo) : []), [modelo]);
+  const frases = useMemo(() => (modelo ? frasesPunto(modelo, estadoBarreras) : []), [modelo, estadoBarreras]);
   const v = useVoz(JSON.stringify([id, frases]));
-  const actual = v.estado !== 'reposo' ? frases[v.indice]?.clave : null;
+  const actual = v.actual?.clave ?? null;
   const resaltar = (clave) => (actual === clave ? 'punto__leyendo' : '');
 
   if (cargando) return <div className="punto"><p>Cargando el punto…</p></div>;
   if (sinConexion && !modelo && !noEncontrado) {
-    return <div className="punto"><h1>No pudimos cargar este punto QR.</h1><button type="button" onClick={reintentar}>Reintentar</button></div>;
+    return <div className="punto"><h1>No pudimos cargar este punto QR. Revisa tu conexión.</h1><button type="button" onClick={reintentar}>Reintentar</button></div>;
   }
   if (noEncontrado || !modelo) {
     return (
@@ -53,6 +55,12 @@ export default function Punto() {
         <p className="banda-vivo banda-vivo--sin-conexion punto__sin-conexion" role="status">
           <WifiSlash weight="bold" aria-hidden="true" /> Sin conexión. Puedes seguir escuchando lo que ya cargó.
         </p>
+      )}
+
+      {estadoBarreras && (
+        <div className={resaltar('estado-barreras')}>
+          <AvisoBarrera titulo={estadoBarreras} />
+        </div>
       )}
 
       {modelo.barrera && (

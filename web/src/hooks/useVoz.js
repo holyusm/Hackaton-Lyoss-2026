@@ -34,7 +34,8 @@ export function useVoz(claveLectura) {
     return () => s.removeEventListener?.('voiceschanged', elegir);
   }, []);
 
-  const detener = useCallback(() => { token.current += 1; sintesis()?.cancel(); }, []);
+  // En Chrome y Android, cancel() estando en pausa no la saca de la pausa y el speak() siguiente queda mudo.
+  const detener = useCallback(() => { token.current += 1; const s = sintesis(); s?.resume(); s?.cancel(); }, []);
 
   useEffect(() => {
     setEstado('reposo');
@@ -86,5 +87,8 @@ export function useVoz(claveLectura) {
     return () => { window.removeEventListener('pagehide', salir); salir(); };
   }, [detener]);
 
-  return { disponible: Boolean(sintesis() && voz), estado, indice, velocidad, leer: leerDesde, pausar, seguir, repetir, setVelocidad };
+  // El bloque actual sale de las frases de ESTA lectura: si la vista recalcula sus frases a mitad
+  // (aparece una barrera), el resaltado sigue a lo que se está oyendo.
+  const actual = estado !== 'reposo' ? frasesRef.current[indice] ?? null : null;
+  return { disponible: Boolean(sintesis() && voz), estado, indice, actual, velocidad, leer: leerDesde, pausar, seguir, repetir, setVelocidad };
 }

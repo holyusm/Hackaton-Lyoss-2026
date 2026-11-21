@@ -50,8 +50,9 @@ export function armarPunto(punto, grafo, barreras = [], perfil = null) {
 }
 
 // Bloques en el orden de lectura: aviso, dónde estás y cada destino. La clave sirve para resaltar el bloque.
-export function frasesPunto(m) {
+export function frasesPunto(m, estadoBarreras) {
   const frases = [];
+  if (estadoBarreras) frases.push({ clave: 'estado-barreras', nombre: 'el estado de las barreras', texto: estadoBarreras });
   if (m.barrera) {
     frases.push({ clave: 'aviso', nombre: 'el aviso', texto: `${m.barrera.titulo} El aviso vence a las ${horaHablada(m.barrera.vence)}.` });
   }
