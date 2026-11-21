@@ -28,6 +28,20 @@
 .tarjeta-destino__ir { min-height: 56px; margin-top: var(--e-2); }
 .tarjeta-destino__ir svg { width: 24px; height: 24px; }
 
+.punto__mapa {
+  height: 220px;
+  width: 100%;
+  border-radius: var(--r-panel);
+  overflow: hidden;
+  border: var(--ancho-linea) solid var(--linea);
+  position: relative;
+  background: var(--superficie);
+}
+.punto__leaflet {
+  height: 100%;
+  width: 100%;
+}
+
 .punto__pie { display: flex; flex-direction: column; gap: var(--e-3); padding-top: var(--e-4); border-top: var(--ancho-linea) solid var(--tinta); }
 .punto__perfil { min-height: 48px; display: inline-flex; align-items: center; gap: var(--e-2); align-self: flex-start; font-weight: var(--peso-negro); }
 .punto__perfil svg { width: 22px; height: 22px; }
