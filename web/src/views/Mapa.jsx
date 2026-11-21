@@ -5,6 +5,7 @@ import AvisoBarrera from '../components/AvisoBarrera.jsx';
 import BandaEnVivo from '../components/BandaEnVivo.jsx';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import HojaRuta from '../components/HojaRuta.jsx';
+import LimiteError from '../components/LimiteError.jsx';
 import MapaRuta from '../components/MapaRuta.jsx';
 import VistaLista from '../components/VistaLista.jsx';
 import { useRuta } from '../hooks/useRuta.js';
@@ -69,11 +70,13 @@ export default function Mapa() {
   return (
     <div className="mapa-vista">
       <div className="mapa-lienzo">
-        <MapaRuta
-          ruta={r.ruta} grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino}
-          barreras={r.barreras} alturaHoja={escritorio ? 0 : ALTO_HOJA[altura]} controles={escritorio || altura === 'resumen'}
-          descripcion={describir(r.ruta)}
-        />
+        <LimiteError onVerLista={() => cambiarLista(true)}>
+          <MapaRuta
+            ruta={r.ruta} grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino}
+            barreras={r.barreras} alturaHoja={escritorio ? 0 : ALTO_HOJA[altura]} controles={escritorio || altura === 'resumen'}
+            descripcion={describir(r.ruta)}
+          />
+        </LimiteError>
         <div className="mapa-flotantes">
           <button type="button" className="boton-pastilla" aria-pressed="false" onClick={() => cambiarLista(true)}>
             <ListBullets weight="bold" aria-hidden="true" /> Ver como lista

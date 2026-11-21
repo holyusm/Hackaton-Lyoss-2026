@@ -5,6 +5,7 @@ import { MapContainer, Marker, Polyline, useMap } from 'react-leaflet';
 import { Crosshair, MapPin, Minus, Plus, Prohibit, Warning } from '@phosphor-icons/react';
 import CapaPlano from '../plano/CapaPlano.jsx';
 import { LIMITES_VISTA, ZOOM } from '../plano/plano.js';
+import { paddingAjustado } from '../lib/paddingMapa.js';
 import 'leaflet/dist/leaflet.css';
 import './MapaRuta.css';
 
@@ -44,8 +45,11 @@ function Vista({ coordenadas, bounds, alturaHoja, controles }) {
 
   const centrar = useMemo(() => () => {
     mapa.invalidateSize();
+    const { x: ancho, y: alto } = mapa.getSize();
+    if (!(ancho > 0 && alto > 0)) return; // contenedor oculto o sin medir: Leaflet daría NaN
     const caja = coordenadas.length ? L.latLngBounds(coordenadas) : L.latLngBounds(bounds);
-    mapa.fitBounds(caja, { paddingTopLeft: [40, 96], paddingBottomRight: [40, alturaHoja + 40], maxZoom: ZOOM.max, animate: false });
+    const { arriba, abajo, lado } = paddingAjustado(alto, alturaHoja, ancho);
+    mapa.fitBounds(caja, { paddingTopLeft: [lado, arriba], paddingBottomRight: [lado, abajo], maxZoom: ZOOM.max, animate: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapa, clave, bounds, alturaHoja]);
 
