@@ -31,6 +31,7 @@ export function armarFilas(grafo, resultados) {
       pasaPor: enumerar(r.nodos.slice(1, -1).map((n) => nombre.get(n))),
       advertencias: r.advertencias ?? [],
       nodos: r.nodos,
+      tramos: r.tramos ?? [],
     };
   });
 }
