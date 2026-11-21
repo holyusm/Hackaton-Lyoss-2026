@@ -27,14 +27,16 @@ export default function ListaBarreras({ barreras, grafo, nuevas, actualizado, er
     return ok;
   };
 
+  const verificada = Boolean(actualizado) && !errorConsulta;
+  const estadoVacio = errorConsulta ? 'No pudimos verificar las barreras activas.' : 'Consultando barreras activas…';
   return (
     <section id="activas" className="reporte-lista" aria-labelledby="activas-titulo">
-      <h2 id="activas-titulo" tabIndex={-1} ref={refTitulo}>Barreras activas ({barreras.length})</h2>
+      <h2 id="activas-titulo" tabIndex={-1} ref={refTitulo}>Barreras activas{verificada ? ` (${barreras.length})` : ''}</h2>
       <div className="reporte-lista__vivo"><BandaEnVivo actualizado={actualizado} error={errorConsulta} /></div>
 
       {barreras.length === 0 ? (
         <div className="reporte-vacio">
-          <p><strong>No hay barreras reportadas ahora.</strong> Si ves una, avísanos: ayudas a todo el campus.</p>
+          {verificada ? <p><strong>No hay barreras reportadas ahora.</strong> Si ves una, avísanos: ayudas a todo el campus.</p> : <p role="status">{estadoVacio}</p>}
         </div>
       ) : (
         <ul className="reporte-filas">
@@ -52,10 +54,11 @@ export default function ListaBarreras({ barreras, grafo, nuevas, actualizado, er
                 <div className="reporte-fila__cuerpo">
                   <p className="reporte-fila__titulo">{titulo}{nuevas.has(b.id) && <span className="reporte-fila__nuevo">Nuevo</span>}</p>
                   <p className="reporte-fila__lugar">{lugar}</p>
+                  {b.descripcion && b.descripcion !== titulo && <p id={`detalle-${b.id}`}>{b.descripcion}</p>}
                   <p className="reporte-fila__meta">{metaReporte(b, ahora)}</p>
                 </div>
                 <button
-                  type="button" className="boton boton--secundario boton--chico" aria-label={`Ya está resuelto: ${titulo}`}
+                  type="button" className="boton boton--secundario boton--chico" aria-label={`Ya está resuelto: ${titulo}, ${lugar}`} aria-describedby={b.descripcion && b.descripcion !== titulo ? `detalle-${b.id}` : undefined}
                   onClick={(e) => { setError(''); setAbierta({ barrera: b, boton: e.currentTarget }); }}
                 >
                   Ya está resuelto
