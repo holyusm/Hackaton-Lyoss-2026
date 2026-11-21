@@ -1,1 +1,5 @@
 .board/
+.board/
+.env
+node_modules/
+web/dist/
