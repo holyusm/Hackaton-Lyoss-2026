@@ -31,6 +31,7 @@ test('ciclo de vida de un reporte', async () => {
   assert.equal((await post('/', { tipo: 'otro', nodo_id: 'ascensor-a', tramo_id: 't1', descripcion: 'dos ids' })).status, 400);
   assert.equal((await post('/', { tipo: 'otro', nodo_id: 'ascensor-a', descripcion: 'x', duracion_min: 0 })).status, 400);
   assert.equal((await post('/', { tipo: 'otro', nodo_id: 'no-existe', descripcion: 'x' })).status, 400);
+  assert.equal((await post('/', { tipo: 'otro', tramo_id: 't10', nodo_id: '', descripcion: 'id vacío' })).status, 400);
 
   const r = await post('/', { tipo: 'piso_mojado', nodo_id: 'ascensor-a', descripcion: ' Charco ', duracion_min: 30 });
   assert.equal(r.status, 201);
