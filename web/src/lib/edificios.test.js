@@ -24,11 +24,9 @@ test('títulos, subtítulos, pisos y servicios coinciden con datos-ejemplo', () 
     const e = por(ej.clave);
     assert.equal(e.titulo, ej.titulo, `${ej.clave}: título`);
     assert.equal(e.sub, ej.subtitulo ?? '', `${ej.clave}: subtítulo`);
-    if (ej.clave !== 'P') { // el P tiene pisos 0 a 3 del levantamiento (más que datos-ejemplo)
-      assert.equal(textoPisos(e), ej.pisosTexto, `${ej.clave}: texto de pisos`);
-      assert.equal(pisoInicial(e), ej.pisoInicial, `${ej.clave}: piso inicial`);
-      assert.deepEqual(pisosDe(e), ej.pisos ?? [], `${ej.clave}: pisos`);
-    }
+    assert.equal(textoPisos(e), ej.pisosTexto, `${ej.clave}: texto de pisos`);
+    assert.equal(pisoInicial(e), ej.pisoInicial, `${ej.clave}: piso inicial`);
+    assert.deepEqual(pisosDe(e), ej.pisos ?? [], `${ej.clave}: pisos`);
     assert.deepEqual(e.servicios, ej.servicios, `${ej.clave}: servicios`);
   }
 });
@@ -88,7 +86,6 @@ test('pisosDe: el C da -1, 1 y 2; con pisos conocidos 1..n (máximo 8); si no, n
   assert.deepEqual(pisosDe({ letra: null, pisos: 20 }), [1, 2, 3, 4, 5, 6, 7, 8]);
   assert.deepEqual(pisosDe(por('A')), []);
   assert.deepEqual(pisosDe(por('P')), [0, 1, 2, 3]);
-  assert.equal(textoPisos(por('P')), 'Pisos 0 a 3');
   assert.equal(pisoInicial(por('C')), 2);
   assert.equal(pisoInicial(por('T')), 1);
   assert.equal(pisoInicial(por('A')), null);
