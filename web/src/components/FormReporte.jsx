@@ -4,6 +4,7 @@ import { Check, Flag, MapPin, Prohibit, Warning } from '@phosphor-icons/react';
 import CampoLugar from './CampoLugar.jsx';
 import OpcionesTipo from './OpcionesTipo.jsx';
 import SegmentadoDuracion from './SegmentadoDuracion.jsx';
+import PlanoMarcar from './PlanoMarcar.jsx';
 import { DURACION_INICIAL, MAX_DETALLE, cuerpoReporte, validarReporte } from '../lib/reportes.js';
 
 const VACIO = { tipo: null, lugar: null, detalle: '', duracion: DURACION_INICIAL };
@@ -114,8 +115,9 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
         <CampoLugar
           etiqueta="¿Dónde?" Icono={MapPin} lugares={lugares} valor={form.lugar}
           onCambiar={(v) => cambiar('lugar', v)} error={errores.lugar} placeholder="Busca un lugar del campus"
-          extra={<span className="campo__ayuda">Elige de la lista.</span>}
+          extra={<span className="campo__ayuda">Elige de la lista o toca el punto en el plano.</span>}
         />
+        <PlanoMarcar lugares={lugares} valor={form.lugar} onElegir={(v) => cambiar('lugar', v)} />
       </div>
 
       <div className="campo">
