@@ -22,13 +22,19 @@ export function haversine(a, b) {
 const redondear5 = (m) => Math.max(5, Math.round(m / 5) * 5);
 const redondear1 = (x) => Math.round(x * 10) / 10;
 
+// Largo de la línea desde -> trazado -> hasta (el trazado sigue los senderos y no cruza edificios).
+export function largoTramo(tramo, origen, destino) {
+  const puntos = [origen, ...(tramo.trazado ?? []).map(([lat, lng]) => ({ lat, lng })), destino];
+  return puntos.slice(1).reduce((s, p, i) => s + haversine(puntos[i], p), 0);
+}
+
 export function recalcularTramo(tramo, nodosPorId) {
   const origen = nodosPorId.get(tramo.desde);
   const destino = nodosPorId.get(tramo.hasta);
   if (!origen) throw new Error(`tramo ${tramo.id}: origen "${tramo.desde}" no existe`);
   if (!destino) throw new Error(`tramo ${tramo.id}: destino "${tramo.hasta}" no existe`);
 
-  const dist = haversine(origen, destino);
+  const dist = largoTramo(tramo, origen, destino);
   const esAscensor = Boolean(tramo.ascensor_id);
   const esVerticalCorto = origen.piso !== destino.piso && dist < 5;
 
