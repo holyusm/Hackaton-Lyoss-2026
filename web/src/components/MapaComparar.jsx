@@ -5,6 +5,7 @@ import { MapContainer, Marker, Polyline, useMap } from 'react-leaflet';
 import { MapPin, Prohibit, Stairs } from '@phosphor-icons/react';
 import CapaPlano from '../plano/CapaPlano.jsx';
 import { LIMITES_VISTA, ZOOM } from '../plano/plano.js';
+import { lineaRuta } from '../lib/lineaRuta.js';
 import 'leaflet/dist/leaflet.css';
 import './MapaRuta.css';
 import './MapaComparar.css';
@@ -52,7 +53,7 @@ export default function MapaComparar({ grafo, filas, seleccion, barreras, origen
   const rutas = ORDEN_DIBUJO
     .map((id) => filas.find((f) => f.id === id))
     .filter((f) => f?.ok && f.nodos.length > 1)
-    .map((f) => ({ ...f, puntos: f.nodos.map(pos).filter(Boolean) }));
+    .map((f) => ({ ...f, puntos: lineaRuta(grafo, f.tramos, f.nodos[0], (n) => [n.lat, n.lng]) }));
   // La elegida se dibuja al final (encima).
   const ordenadas = seleccion === 'todas' ? rutas : [...rutas.filter((r) => r.id !== seleccion), ...rutas.filter((r) => r.id === seleccion)];
   const estado = (id) => (seleccion === 'todas' ? 'normal' : id === seleccion ? 'elegida' : 'atenuada');

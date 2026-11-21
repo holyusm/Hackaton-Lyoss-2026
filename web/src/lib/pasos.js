@@ -3,6 +3,7 @@
 //
 // Los textos no llevan flechas, puntos medios ni guiones largos: se leen tal cual en pantalla y en voz alta.
 import { conArticulo } from '../../../motor/ruta.js';
+import { lineaDeTramo, lineaRuta } from './lineaRuta.js';
 
 const redondear = (m) => Math.round(m);
 const mayuscula = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -79,16 +80,10 @@ export function armarRuta(grafo, resultado, { aLatLng, posicion: posicionDe } = 
   const tramos = new Map(grafo.tramos.map((t) => [t.id, t]));
   const pos = posicionDe
     || ((n) => (aLatLng && Number.isFinite(n.x) && Number.isFinite(n.y) ? aLatLng(n.x, n.y) : null));
-  const valido = (p) => Array.isArray(p) && p.every(Number.isFinite);
 
-  // Línea de un tramo en el sentido del recorrido: desde el nodo `de`, por el trazado (si lo tiene) hasta `a`.
-  const lineaDe = (tramo, de, a) => {
-    // Sin posición de los nodos (modo aLatLng sin x,y) tampoco hay línea.
-    if (!valido(pos(de)) || !valido(pos(a))) return [];
-    const medio = (tramo.trazado ?? []).filter(valido);
-    const orden = tramo.desde === de.id ? medio : [...medio].reverse();
-    return [pos(de), ...orden, pos(a)].filter(valido);
-  };
+  // Línea de un tramo en el sentido del recorrido (ver lineaRuta.js, compartido con /comparar).
+  // Sin posición de los nodos (modo aLatLng sin x,y) tampoco hay línea.
+  const lineaDe = (tramo, de, a) => lineaDeTramo(tramo, de, a, pos);
   // Punto a la mitad del largo de la línea (ahí va el número del paso).
   const puntoMedio = (linea) => {
     if (linea.length < 2) return null;
@@ -104,7 +99,6 @@ export function armarRuta(grafo, resultado, { aLatLng, posicion: posicionDe } = 
     return null;
   };
 
-  const coordenadas = [];
   const pasos = resultado.tramos.map((id, i) => {
     const de = nodos.get(resultado.nodos[i]);
     const a = nodos.get(resultado.nodos[i + 1]);
@@ -112,9 +106,9 @@ export function armarRuta(grafo, resultado, { aLatLng, posicion: posicionDe } = 
     const paso = pasoDe(tramo, de, a, nodos, i === resultado.tramos.length - 1);
     const linea = lineaDe(tramo, de, a);
     paso.punto = puntoMedio(linea);
-    coordenadas.push(...(i === 0 ? linea : linea.slice(1)));
     return paso;
   });
+  const coordenadas = lineaRuta(grafo, resultado.tramos, resultado.nodos[0], pos);
 
   return { id: resultado.tramos.join('-'), pasos, coordenadas };
 }
