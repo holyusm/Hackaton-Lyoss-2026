@@ -5,7 +5,7 @@ import './GrupoPerfiles.css';
 // Perfiles del contrato (data/perfiles.json) con los textos del diseño (lote-1-inicio/PLAN.md, B1).
 export const PERFILES = [
   { id: 'estandar', nombre: 'Estándar', corta: 'El camino más corto', Icono: Person, textoBoton: '' },
-  { id: 'silla_ruedas', nombre: 'Silla de ruedas', corta: 'Sin escalones ni adoquín', Icono: Wheelchair, textoBoton: 'en silla de ruedas' },
+  { id: 'silla_ruedas', nombre: 'Silla de ruedas', corta: 'Sin escalones, evita adoquín', Icono: Wheelchair, textoBoton: 'en silla de ruedas' },
   { id: 'movilidad_reducida', nombre: 'Movilidad reducida', corta: 'Lesión o bastón: pocos escalones', Icono: PersonSimpleWalk, textoBoton: 'con pocos escalones' },
   { id: 'baja_vision', nombre: 'Baja visión', corta: 'Guía podotáctil y piso liso', Icono: Eye, textoBoton: 'para baja visión' },
 ];
