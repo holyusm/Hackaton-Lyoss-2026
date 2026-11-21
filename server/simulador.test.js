@@ -2,6 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -10,7 +11,7 @@ test('GET /api/simulador: perfil por defecto, errores 400', async (t) => {
   const srv = spawn('node', ['server/index.js'], {
     env: { ...process.env, PORT: puerto, REPORTES_PATH: join(tmpdir(), `simulador-test-${process.pid}.json`) },
   });
-  t.after(() => srv.kill());
+  t.after(() => { srv.kill(); rmSync(join(tmpdir(), `simulador-test-${process.pid}.json`), { force: true }); });
   await new Promise((ok) => srv.stdout.once('data', ok));
   const api = `http://localhost:${puerto}/api/simulador`;
 

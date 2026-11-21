@@ -1,6 +1,7 @@
 // node --test server/*.test.js
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
+import { rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import express from 'express';
@@ -20,6 +21,7 @@ const post = (ruta, body, ip = '10.0.0.1') => fetch(base + ruta, {
 after(() => {
   servidor.closeAllConnections();
   servidor.close();
+  rmSync(process.env.REPORTES_PATH, { force: true });
 });
 
 test('ciclo de vida de un reporte', async () => {
@@ -31,6 +33,7 @@ test('ciclo de vida de un reporte', async () => {
   assert.equal((await post('/', { tipo: 'otro', nodo_id: 'ascensor-a', tramo_id: 't1', descripcion: 'dos ids' })).status, 400);
   assert.equal((await post('/', { tipo: 'otro', nodo_id: 'ascensor-a', descripcion: 'x', duracion_min: 0 })).status, 400);
   assert.equal((await post('/', { tipo: 'otro', nodo_id: 'no-existe', descripcion: 'x' })).status, 400);
+  assert.equal((await post('/', { tipo: 'otro', tramo_id: 't10', nodo_id: '', descripcion: 'id vacío' })).status, 400);
 
   const r = await post('/', { tipo: 'piso_mojado', nodo_id: 'ascensor-a', descripcion: ' Charco ', duracion_min: 30 });
   assert.equal(r.status, 201);
