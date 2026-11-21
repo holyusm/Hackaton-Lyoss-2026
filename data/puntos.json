@@ -26,10 +26,10 @@
     "id": "p3",
     "nodo_id": "ascensor-a",
     "titulo": "Ascensor A",
-    "texto_voz": "Estás en el ascensor del edificio A. Sube al piso dos, en un recorrido de diez metros sin escalones. Si el ascensor está fuera de servicio, la única alternativa es una escalera de cuarenta y dos escalones, que no sirve para silla de ruedas. Avisa el problema desde la aplicación.",
+    "texto_voz": "Estás en el ascensor del Edificio A. Sube al piso 2 en un recorrido de 10 metros sin escalones. Si el ascensor no funciona, hay un desvío sin escalones de 100 metros: vuelve 25 metros al patio central y sigue 75 metros por la rampa del Edificio B y la pasarela techada. Antes de avanzar, consulta las barreras activas en la aplicación.",
     "indicaciones": [
-      { "hacia": "Edificio A, piso 2", "texto": "Sube en el ascensor. Son 10 metros, sin escalones." },
-      { "hacia": "Patio central", "texto": "Avanza 25 metros, bajo techo y sin escalones." }
+      { "hacia": "Edificio A, piso 2", "texto": "Sube en el ascensor. Son 10 metros, sin escalones. Si el ascensor no funciona, hay un desvío sin escalones de 100 metros volviendo al patio central y subiendo por la rampa del Edificio B y la pasarela techada. Consulta las barreras activas en la aplicación." },
+      { "hacia": "Patio central", "texto": "Avanza 25 metros, bajo techo y sin escalones. Desde el patio central sale el desvío sin escalones de 75 metros al Edificio A, piso 2, por la rampa del Edificio B y la pasarela techada." }
     ]
   },
   {
