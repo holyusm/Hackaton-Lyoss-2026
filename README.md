@@ -120,7 +120,7 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 |---|---|---|
 | José | [@holyusm](https://github.com/holyusm) | Líder, diseño de las vistas, accesibilidad, contratos y pitch |
 | <nombre> | [@Gxppe](https://github.com/Gxppe) | Servidor, API, integración de vistas, QR y deploy |
-| <nombre> | [@juaquo15](https://github.com/juaquo15) | Levantamiento del campus, perfiles, motor de rutas y contenido de los QR |
+| <nombre> | [@juaquo15](https://github.com/juaquo15) | Datos del campus, perfiles de accesibilidad y motor de rutas |
 
 ## Recursos externos
 
