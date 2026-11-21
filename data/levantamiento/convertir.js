@@ -33,12 +33,22 @@ function csv(texto) {
 }
 
 const errores = [];
+const avisos = [];
 const err = (m) => errores.push(m);
 const num = (v, campo, ctx, { entero = false, min = 0 } = {}) => {
   const n = Number(String(v).replace(',', '.'));
   if (v === '' || Number.isNaN(n)) { err(`${ctx}: ${campo} vacío o no numérico ("${v}")`); return 0; }
   if (entero && !Number.isInteger(n)) err(`${ctx}: ${campo} debe ser entero`);
   if (n < min) err(`${ctx}: ${campo} no puede ser menor que ${min}`);
+  return n;
+};
+// Coordenada: número finito dentro de ±max, y aviso si cae lejos de Valparaíso.
+const coord = (v, campo, ctx, max) => {
+  const n = Number(String(v).replace(',', '.'));
+  if (v === '' || !Number.isFinite(n)) { err(`${ctx}: ${campo} vacío o no numérico ("${v}")`); return 0; }
+  if (n < -max || n > max) { err(`${ctx}: ${campo} fuera de rango (${n}); debe estar entre -${max} y ${max}`); return 0; }
+  const [lo, hi] = campo === 'lat' ? [-33.2, -32.9] : [-71.8, -71.5];
+  if (n < lo || n > hi) avisos.push(`${ctx}: ${campo} ${n} está lejos de Valparaíso (esperado entre ${lo} y ${hi}); revisa el signo y los decimales`);
   return n;
 };
 const bool = (v, campo, ctx) => {
@@ -58,7 +68,7 @@ const nodos = csv(readFileSync(aqui('nodos.csv'), 'utf8')).map((r) => {
   if (!r.id) err(`${ctx}: falta id`);
   return {
     id: r.id, nombre: r.nombre, tipo: enumv(r.tipo, 'tipo', ctx, TIPOS),
-    lat: num(r.lat, 'lat', ctx, { min: -90 }), lng: num(r.lng, 'lng', ctx, { min: -180 }),
+    lat: coord(r.lat, 'lat', ctx, 90), lng: coord(r.lng, 'lng', ctx, 180),
     edificio: r.edificio, piso: num(r.piso, 'piso', ctx, { entero: true, min: -5 }), descripcion: r.descripcion,
   };
 });
@@ -99,6 +109,7 @@ const aislados = nodos.filter((n) => !vistos.has(n.id)).map((n) => n.id);
 
 console.log(`${nodos.length} nodos, ${tramos.length} tramos`);
 if (aislados.length) console.log(`AVISO: nodos sin conexión con el resto: ${aislados.join(', ')}`);
+for (const a of avisos) console.log(`AVISO: ${a}`);
 if (errores.length) {
   console.error(`\n${errores.length} error(es):\n- ${errores.join('\n- ')}`);
   process.exit(1);
