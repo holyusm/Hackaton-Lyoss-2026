@@ -1,11 +1,12 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import L from 'leaflet';
-import { MapContainer, Marker, Polyline, useMap } from 'react-leaflet';
+import { MapContainer, Marker, Polyline, useMap, useMapEvents } from 'react-leaflet';
 import { Crosshair, MapPin, Minus, Plus, Prohibit, Warning } from '@phosphor-icons/react';
 import CapaPlano from '../plano/CapaPlano.jsx';
 import { LIMITES_VISTA, ZOOM } from '../plano/plano.js';
 import { paddingAjustado } from '../lib/paddingMapa.js';
+import { elegirLado } from '../lib/ladoRotulo.js';
 import 'leaflet/dist/leaflet.css';
 import './MapaRuta.css';
 
@@ -20,8 +21,8 @@ const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<':
 
 const iconoPaso = (n) => L.divIcon({ className: 'mapa-paso', html: `<span>${n}</span>`, iconSize: [32, 32], iconAnchor: [16, 16] });
 const iconoOrigen = L.divIcon({ className: 'mapa-origen', html: '<span></span>', iconSize: [28, 28], iconAnchor: [14, 14] });
-const iconoDestino = (nombre) => L.divIcon({
-  className: 'mapa-destino',
+const iconoDestino = (nombre, lado = 'arriba') => L.divIcon({
+  className: `mapa-destino mapa-destino--${lado}`,
   html: `<span class="marcador-destino__etiqueta">${escapar(nombre)}</span>${svg(<MapPin weight="fill" aria-hidden="true" />)}`,
   iconSize: [48, 48],
   iconAnchor: [24, 46],
@@ -71,6 +72,40 @@ function Vista({ coordenadas, bounds, alturaHoja, controles }) {
   );
 }
 
+// Marcador del destino: su rótulo se pone arriba, a la derecha, a la izquierda o abajo según no tape las etiquetas de
+// barrera ni los números de los pasos (se recalcula al mover o acercar el mapa).
+function MarcadorDestino({ punto, nombre, barreras, pasos }) {
+  const mapa = useMap();
+  const [lado, setLado] = useState('arriba');
+  const calcular = useMemo(() => () => {
+    const { x: ancho, y: alto } = mapa.getSize();
+    if (!(ancho > 0 && alto > 0)) return;
+    const p = mapa.latLngToContainerPoint(punto);
+    // Los controles y los botones flotantes también cuentan: el rótulo no debe quedar debajo de ellos.
+    const base = mapa.getContainer().getBoundingClientRect();
+    const flotantes = [...(mapa.getContainer().closest('.mapa-ruta')?.parentElement?.querySelectorAll('.mapa-controles, .mapa-flotantes') ?? []),
+      ...mapa.getContainer().querySelectorAll('.mapa-controles')].map((e) => {
+      const r = e.getBoundingClientRect();
+      return { x1: r.left - base.left, x2: r.right - base.left, y1: r.top - base.top, y2: r.bottom - base.top };
+    });
+    const obstaculos = [
+      ...flotantes,
+      ...pasos.map(({ punto: q }) => { const c = mapa.latLngToContainerPoint(q); return { x1: c.x - 16, x2: c.x + 16, y1: c.y - 16, y2: c.y + 16 }; }),
+      ...barreras.flatMap(({ punto: q, etiqueta }) => {
+        const c = mapa.latLngToContainerPoint(q);
+        const caja = [{ x1: c.x - 22, x2: c.x + 22, y1: c.y - 22, y2: c.y + 22 }];
+        if (etiqueta) { const w = Math.min(140, 8 * etiqueta.length + 20); caja.push({ x1: c.x - w / 2, x2: c.x + w / 2, y1: c.y + 28, y2: c.y + 56 }); }
+        return caja;
+      }),
+    ];
+    setLado(elegirLado({ x: p.x, y: p.y }, Math.min(260, 8 * nombre.length + 32), obstaculos, { ancho, alto }));
+  }, [mapa, punto, nombre, barreras, pasos]);
+  useEffect(() => { calcular(); }, [calcular]);
+  useMapEvents({ zoomend: calcular, moveend: calcular, resize: calcular });
+  const icono = useMemo(() => iconoDestino(nombre, lado), [nombre, lado]);
+  return <Marker position={punto} icon={icono} zIndexOffset={1000} interactive={false} keyboard={false} />;
+}
+
 export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras = [], alturaHoja = 304, controles = true, descripcion }) {
   const { posicion, bounds } = mapa;
   const marcadoresBarrera = useMemo(() => barreras.flatMap((b) => {
@@ -84,13 +119,13 @@ export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras 
     }
     if (!punto || punto.some((v) => !Number.isFinite(v))) return [];
     const aria = `${b.nivel === 'bloqueo' ? 'Bloqueado' : 'Barrera activa'}: ${b.descripcion}`;
-    return [{ id: b.id, punto, icono: iconoBarrera(b.nivel, b.descripcion, aria) }];
+    return [{ id: b.id, punto, etiqueta: b.nivel === 'bloqueo' ? b.descripcion : '', icono: iconoBarrera(b.nivel, b.descripcion, aria) }];
   }), [barreras, grafo, posicion]);
 
   const numeros = useMemo(() => ruta.pasos.slice(0, -1).flatMap((p, i) => (p.punto ? [{ n: i + 1, punto: p.punto, icono: iconoPaso(i + 1) }] : [])), [ruta.pasos]);
   const pOrigen = useMemo(() => posicion(origen), [origen, posicion]);
   const pDestino = useMemo(() => posicion(destino), [destino, posicion]);
-  const iconDestino = useMemo(() => iconoDestino(destino.nombre), [destino.nombre]);
+  const barrerasRotulo = useMemo(() => marcadoresBarrera.map((m) => ({ punto: m.punto, etiqueta: m.etiqueta })), [marcadoresBarrera]);
   const sinInteraccion = { interactive: false, keyboard: false };
 
   return (
@@ -117,7 +152,7 @@ export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras 
         {marcadoresBarrera.map((m) => <Marker key={m.id} position={m.punto} icon={m.icono} zIndexOffset={0} {...sinInteraccion} />)}
         {numeros.map((m) => <Marker key={m.n} position={m.punto} icon={m.icono} zIndexOffset={400} {...sinInteraccion} />)}
         {pOrigen && <Marker position={pOrigen} icon={iconoOrigen} zIndexOffset={800} {...sinInteraccion} />}
-        {pDestino && <Marker position={pDestino} icon={iconDestino} zIndexOffset={1000} {...sinInteraccion} />}
+        {pDestino && <MarcadorDestino punto={pDestino} nombre={destino.nombre} barreras={barrerasRotulo} pasos={numeros} />}
         <Vista coordenadas={ruta.coordenadas} bounds={bounds} alturaHoja={alturaHoja} controles={controles} />
       </MapContainer>
     </div>

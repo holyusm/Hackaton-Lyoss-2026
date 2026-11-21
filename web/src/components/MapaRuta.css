@@ -19,6 +19,9 @@
 .mapa-destino { color: var(--cobalto); }
 .mapa-destino svg { width: 48px; height: 48px; display: block; }
 .mapa-destino .marcador-destino__etiqueta { position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); }
+.mapa-destino--derecha .marcador-destino__etiqueta { left: calc(100% + 6px); bottom: 50%; transform: translateY(50%); }
+.mapa-destino--izquierda .marcador-destino__etiqueta { left: auto; right: calc(100% + 6px); bottom: 50%; transform: translateY(50%); }
+.mapa-destino--abajo .marcador-destino__etiqueta { bottom: auto; top: calc(100% + 6px); }
 .mapa-marcador { position: relative; }
 .mapa-marcador .marcador { position: absolute; inset: 0; }
 .mapa-marcador__etiqueta--bajo { position: absolute; left: 50%; top: 100%; transform: translate(-50%, 6px); max-width: 140px; overflow: hidden; text-overflow: ellipsis; background: var(--alto); color: var(--sobre-alto); border-color: var(--alto); }
