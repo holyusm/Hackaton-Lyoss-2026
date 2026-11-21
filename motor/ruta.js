@@ -24,7 +24,7 @@ function costoTramo(tramo, perfil) {
 }
 
 const ARTICULO = { edificio: 'el', ascensor: 'el', bano: 'el', sala: 'la', entrada: 'la' };
-const conArticulo = (nodo) => (ARTICULO[nodo.tipo] ? `${ARTICULO[nodo.tipo]} ${nodo.nombre}` : nodo.nombre);
+export const conArticulo = (nodo) => (ARTICULO[nodo.tipo] ? `${ARTICULO[nodo.tipo]} ${nodo.nombre}` : nodo.nombre);
 
 // `de` y `a` son los nodos en el orden en que se recorre el tramo (no el orden desde/hasta del dato).
 // Sin flechas ni signos: el texto se lee tal cual en pantalla y en voz alta.
