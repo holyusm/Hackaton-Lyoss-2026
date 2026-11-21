@@ -18,7 +18,7 @@ El prototipo permite determinar rutas alternativas en caso de que un ascensor es
 
 ## Solución y funcionalidades
 
-parejo modela el campus como un grafo de lugares y tramos. El motor usa escalones, pendiente, superficie, techo, guía podotáctil y ascensores para calcular una ruta con los costos y restricciones de cada perfil.
+parejo modela el campus como un grafo de lugares y tramos. El motor usa escalones, pendiente, superficie, techo y ascensores para calcular una ruta con los costos y restricciones de cada perfil.
 
 - **Ruta por perfil** (`/` y `/mapa`): eliges desde dónde, hacia dónde y cómo te mueves. parejo dibuja la ruta en el plano real del campus (OpenStreetMap) y la cuenta paso a paso, con advertencias como "escalones" o "piso irregular". *ODS 10 y 4.a: el estudiante llega solo, sin depender de que alguien le muestre el camino.*
 - **Barreras en vivo que recalculan la ruta** (`/reportar`): cualquier estudiante reporta un ascensor detenido, un obstáculo o una rampa bloqueada. El reporte vence solo, y mientras está activo, las rutas lo evitan. Si ya no hay camino posible, parejo lo dice en vez de mandar al estudiante a una escalera. *ODS 11.7: información de accesibilidad actualizada por la comunidad.*
