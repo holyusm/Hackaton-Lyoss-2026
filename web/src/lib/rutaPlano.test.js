@@ -19,7 +19,7 @@ test('salasDe devuelve las 31 salas y baños del C, piso 2, ordenadas', () => {
 });
 
 test('ninguna sala con número en OSM queda sin piso (C224 no trae level: se infiere el 2)', () => {
-  const conNumero = geo.features.filter((f) => f.properties.tipo === 'sala' && /^Cd{3}/.test(f.properties.ref ?? f.properties.nombre ?? ''));
+  const conNumero = geo.features.filter((f) => f.properties.tipo === 'sala' && /^C\d{3}/.test(f.properties.ref ?? f.properties.nombre ?? ''));
   assert.deepEqual(conNumero.filter((f) => !f.properties.nivel).map((f) => f.properties.ref), []);
   const c224 = geo.features.find((f) => f.properties.ref === 'C224');
   assert.equal(c224.properties.nivel, '2');
