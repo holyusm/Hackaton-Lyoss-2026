@@ -1,0 +1,189 @@
+[
+  {
+    "id": "rampa-patio-biblioteca",
+    "tipo": "rampa",
+    "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+    "lugar": "Patio central",
+    "costo_relativo": "medio",
+    "perfiles_beneficiados": [
+      "movilidad_reducida",
+      "baja_vision",
+      "silla_ruedas"
+    ],
+    "cambios": [
+      {
+        "tramo_id": "t6",
+        "valores": {
+          "escalones": 0,
+          "rampa": true,
+          "pendiente": "baja",
+          "superficie": "lisa",
+          "guia_tactil": true
+        }
+      }
+    ],
+    "tramos_nuevos": [],
+    "nodos_nuevos": []
+  },
+  {
+    "id": "piso-liso-camino-biblioteca",
+    "tipo": "superficie",
+    "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+    "lugar": "Biblioteca",
+    "costo_relativo": "medio",
+    "perfiles_beneficiados": [
+      "baja_vision"
+    ],
+    "cambios": [
+      {
+        "tramo_id": "t7",
+        "valores": {
+          "superficie": "lisa",
+          "guia_tactil": true
+        }
+      }
+    ],
+    "tramos_nuevos": [],
+    "nodos_nuevos": []
+  },
+  {
+    "id": "guia-tactil-entrada-casino",
+    "tipo": "guia_tactil",
+    "titulo": "Guía táctil entre la entrada principal y el Casino",
+    "lugar": "Casino",
+    "costo_relativo": "bajo",
+    "perfiles_beneficiados": [
+      "baja_vision"
+    ],
+    "cambios": [
+      {
+        "tramo_id": "t10",
+        "valores": {
+          "guia_tactil": true
+        }
+      }
+    ],
+    "tramos_nuevos": [],
+    "nodos_nuevos": []
+  },
+  {
+    "id": "guia-tactil-edificio-b-a",
+    "tipo": "guia_tactil",
+    "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+    "lugar": "Edificio B",
+    "costo_relativo": "medio",
+    "perfiles_beneficiados": [
+      "baja_vision"
+    ],
+    "cambios": [
+      {
+        "tramo_id": "t11",
+        "valores": {
+          "guia_tactil": true
+        }
+      },
+      {
+        "tramo_id": "t12",
+        "valores": {
+          "guia_tactil": true
+        }
+      },
+      {
+        "tramo_id": "t13",
+        "valores": {
+          "guia_tactil": true
+        }
+      },
+      {
+        "tramo_id": "t14",
+        "valores": {
+          "guia_tactil": true
+        }
+      }
+    ],
+    "tramos_nuevos": [],
+    "nodos_nuevos": []
+  },
+  {
+    "id": "ascensor-edificio-b",
+    "tipo": "ascensor",
+    "titulo": "Ascensor nuevo en el Edificio B hacia el piso 2 del Edificio A",
+    "lugar": "Edificio B",
+    "costo_relativo": "alto",
+    "perfiles_beneficiados": [
+      "baja_vision",
+      "silla_ruedas"
+    ],
+    "cambios": [],
+    "nodos_nuevos": [
+      {
+        "id": "ascensor-b",
+        "nombre": "Ascensor B",
+        "tipo": "ascensor",
+        "lat": -33.03559,
+        "lng": -71.59523,
+        "edificio": "B",
+        "piso": 0,
+        "descripcion": "Ascensor nuevo del Edificio B, conecta el piso 0 con el piso 2 del Edificio A"
+      }
+    ],
+    "tramos_nuevos": [
+      {
+        "id": "obra-t1",
+        "desde": "edificio-b",
+        "hasta": "ascensor-b",
+        "metros": 8,
+        "escalones": 0,
+        "pendiente": "nula",
+        "rampa": false,
+        "ascensor_id": null,
+        "techado": true,
+        "superficie": "lisa",
+        "minutos_medidos": 0.2,
+        "guia_tactil": true,
+        "notas": "Obra propuesta",
+        "foto": null,
+        "sentido_unico": false
+      },
+      {
+        "id": "obra-t2",
+        "desde": "ascensor-b",
+        "hasta": "edificio-a-p2",
+        "metros": 12,
+        "escalones": 0,
+        "pendiente": "nula",
+        "rampa": false,
+        "ascensor_id": "ascensor-b",
+        "techado": true,
+        "superficie": "lisa",
+        "minutos_medidos": 0.8,
+        "guia_tactil": true,
+        "notas": "Obra propuesta",
+        "foto": null,
+        "sentido_unico": false
+      }
+    ]
+  },
+  {
+    "id": "techo-patio-casino",
+    "tipo": "techado",
+    "titulo": "Techo en el camino del patio central al Casino",
+    "lugar": "Casino",
+    "costo_relativo": "bajo",
+    "perfiles_beneficiados": [
+      "silla_ruedas",
+      "movilidad_reducida",
+      "baja_vision"
+    ],
+    "cambios": [
+      {
+        "tramo_id": "t9",
+        "valores": {
+          "techado": true
+        }
+      }
+    ],
+    "tramos_nuevos": [],
+    "nodos_nuevos": []
+  }
+]
