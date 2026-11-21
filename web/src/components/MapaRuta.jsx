@@ -49,7 +49,12 @@ function Vista({ coordenadas, bounds, alturaHoja, controles }) {
     if (!(ancho > 0 && alto > 0)) return; // contenedor oculto o sin medir: Leaflet daría NaN
     const caja = coordenadas.length ? L.latLngBounds(coordenadas) : L.latLngBounds(bounds);
     const { arriba, abajo, lado } = paddingAjustado(alto, alturaHoja, ancho);
-    mapa.fitBounds(caja, { paddingTopLeft: [lado, arriba], paddingBottomRight: [lado, abajo], maxZoom: ZOOM.max, animate: false });
+    // Red de seguridad: un fitBounds que lance (p. ej. NaN con un padding imposible) no debe desmontar la app.
+    try {
+      mapa.fitBounds(caja, { paddingTopLeft: [lado, arriba], paddingBottomRight: [lado, abajo], maxZoom: ZOOM.max, animate: false });
+    } catch {
+      try { mapa.fitBounds(caja, { maxZoom: ZOOM.max, animate: false }); } catch { /* el mapa queda como estaba */ }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapa, clave, bounds, alturaHoja]);
 
