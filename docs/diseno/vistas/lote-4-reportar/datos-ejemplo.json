@@ -1,0 +1,67 @@
+{
+  "$descripcion": "Datos de ejemplo de /reportar (Lote 4). Son simulados. Las barreras activas coinciden con las de los Lotes 1 y 2, para que la demo cuente una sola historia.",
+  "tiposDeReporte": [
+    { "id": "ascensor", "nombre": "Ascensor fuera de servicio", "icono": "Elevator", "nivel": "bloqueo" },
+    { "id": "obstaculo", "nombre": "Obstáculo", "icono": "TrafficCone", "nivel": "alerta" },
+    { "id": "rampa", "nombre": "Rampa bloqueada", "icono": "TrendUp con X (o Prohibit)", "nivel": "bloqueo" },
+    { "id": "mojado", "nombre": "Piso mojado", "icono": "Drop", "nivel": "alerta" },
+    { "id": "otro", "nombre": "Otro", "icono": "DotsThree", "nivel": "alerta" }
+  ],
+  "duraciones": [
+    { "id": "30m", "etiqueta": "30 min", "minutos": 30 },
+    { "id": "1h", "etiqueta": "1 h", "minutos": 60 },
+    { "id": "2h", "etiqueta": "2 h", "minutos": 120, "porDefecto": true },
+    { "id": "4h", "etiqueta": "4 h", "minutos": 240, "$nota": "máximo permitido por el servidor" }
+  ],
+  "detalle": { "maximo": 140, "placeholder": "Por ejemplo: la puerta no abre en el piso 1" },
+  "formularioEjemplo": { "tipo": "ascensor", "lugar": "Ascensor A, Edificio A", "lugarId": "ascensor-a", "detalle": "No abre la puerta en el piso 1.", "duracion": "2h" },
+  "envioSugerido": {
+    "$nota": "Forma sugerida para POST /api/reportes. Ajustar a docs/contratos.md si ya existe.",
+    "peticion": { "tipo": "ascensor", "lugarId": "ascensor-a", "punto": "[lat, lng] opcional si se marcó en el plano", "detalle": "texto de hasta 140 caracteres", "minutos": 120 },
+    "respuesta201": { "id": "r-003", "titulo": "Ascensor A detenido", "lugar": "Edificio A, pisos 1 y 2", "vence": "13:42", "rutasRecalculadas": 3, "lugarCorto": "Ascensor A" },
+    "respuesta429": { "error": "limite", "reintentarEnSegundos": 300, "$nota": "10 reportes por persona cada 10 minutos" },
+    "resolverSugerido": "PATCH /api/reportes/:id { estado: 'resuelto' } o DELETE /api/reportes/:id"
+  },
+  "barrerasActivas": [
+    { "id": "r-001", "titulo": "Piso mojado", "lugar": "Frente al Casino", "nivel": "alerta", "icono": "Drop", "reportadoHace": "12 min", "vence": "12:35" },
+    { "id": "r-002", "titulo": "Rampa lateral bloqueada", "lugar": "Rampa lateral de la Biblioteca", "nivel": "bloqueo", "icono": "Prohibit", "reportadoHace": "25 min", "vence": "13:05" }
+  ],
+  "barreraNuevaTrasEnviar": { "id": "r-003", "titulo": "Ascensor A detenido", "lugar": "Edificio A, pisos 1 y 2", "nivel": "bloqueo", "icono": "Elevator", "reportadoHace": "1 min", "vence": "13:42", "marcaNuevo": true },
+  "reglasTituloNuevo": {
+    "$nota": "Cómo se arma el título de la barrera nueva a partir del formulario (así lo hace el prototipo):",
+    "ascensorConLugarAscensor": "{nombre del lugar antes de la coma} detenido. Ejemplo: Ascensor A detenido",
+    "resto": "nombre del tipo. Ejemplo: Piso mojado",
+    "vence": "hora actual + duración elegida"
+  },
+  "textos": {
+    "titulo": "Reportar una barrera",
+    "bajada": "Tu aviso cambia las rutas de todos en segundos.",
+    "resumenErrores": "Faltan {n} datos para enviar el reporte:",
+    "errorTipo": "Elige qué pasa.",
+    "errorLugar": "Elige dónde está la barrera.",
+    "enlacesResumen": ["Elige qué pasa", "Elige dónde está la barrera"],
+    "ayudaDonde": "Elige de la lista o toca el punto en el plano.",
+    "ayudaDondeEscritorio": "Elige de la lista o haz clic en el plano.",
+    "pistaPlano": "Toca para mover el punto",
+    "contador": "{n} de 140",
+    "ayudaDuracion": "Después de ese tiempo el aviso se borra solo. Máximo 4 horas.",
+    "boton": "Enviar reporte",
+    "notaLimiteEscritorio": "Puedes enviar hasta 10 reportes cada 10 minutos.",
+    "error429": "Enviaste muchos reportes seguidos. Espera unos minutos y vuelve a intentar. Tu reporte sigue escrito.",
+    "enviadoTitulo": "Reporte enviado.",
+    "enviadoTexto": "Las rutas que pasaban por {lugarCorto} ya se recalcularon.",
+    "enviadoEnlace": "Ver en el mapa",
+    "otraVez": "Reportar otra barrera",
+    "listaTitulo": "Barreras activas ({n})",
+    "filaMeta": "Reportado hace {hace}. Vence a las {hora}.",
+    "filaAccion": "Ya está resuelto",
+    "marcaNuevo": "Nuevo",
+    "dialogoTitulo": "¿Ya se resolvió esta barrera?",
+    "dialogoNombre": "{titulo}, {lugar con minúscula inicial}",
+    "dialogoTexto": "Si la marcas como resuelta, el aviso deja de aparecer y las rutas vuelven a pasar por ahí.",
+    "dialogoConfirmar": "Marcar como resuelto",
+    "dialogoCancelar": "Cancelar",
+    "vacioTitulo": "No hay barreras reportadas ahora.",
+    "vacioTexto": "Si ves una, avísanos: ayudas a todo el campus."
+  }
+}
