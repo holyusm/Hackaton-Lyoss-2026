@@ -81,7 +81,7 @@ El horario oficial, la rúbrica y los entregables están en `docs/hackaton.md`; 
    - Mantener siempre 1 o 2 issues extra asignados a cada persona, para que al terminar uno sigan con el próximo sin esperarte.
 3. **Resumen periódico:** más o menos cada 60 minutos, o tras un cambio grande, publica un `[ESTADO]` corto: quién hace qué, qué está listo y qué está bloqueado. Así los trabajadores no necesitan leer todo el tablero.
 4. **Cierre:** que `main` siempre tenga una demo que funcione.
-   - **15:45:** publica `[CONGELAR]` (solo arreglos de errores, nada de funciones nuevas). Asigna issues de README, LICENSE y pitch.
+   - **Sin congelamiento** (decisión de José, 21-11-2026): se trabaja en funciones hasta las 17:00. Asigna con tiempo los issues de README, LICENSE y pitch, y pide PR chicos con `npm test` y build en verde, para que el último deploy alcance antes de las 17:00.
    - **16:30:** recorre la checklist de entregables de `docs/hackaton.md`: README con todas las secciones exigidas (incluidas herramientas de IA y componentes preexistentes declarados), LICENSE, sin secretos, demo funcionando. Recuérdale a José que el repo tiene que ser **público** antes de las 17:00; hacerlo público es decisión de él.
    - Pitch de **máximo 3:00** (pasarse cuesta puntos y a los 3:30 se corta): que solo prometa lo que la demo muestra.
    - **17:00:** último push. Después no hay cambios sustanciales.
@@ -102,7 +102,6 @@ Las decisiones grandes de producto (qué construir, qué recortar) se las consul
 | `[ASIGNACIÓN]` | orquestador | Quién toma qué área o tarea. |
 | `[DECISIÓN]` | orquestador | La opción elegida ante un fallo o bloqueo, o un cambio de contrato. |
 | `[ESTADO]` | orquestador | Resumen periódico del equipo. |
-| `[CONGELAR]` | orquestador | Fin de funciones nuevas antes de la entrega. |
 
 Si un trabajador cambia de tema, manda el `[INICIO]` del nuevo y en una línea cómo dejó el anterior. Si no hay nada nuevo que decir, no publiques.
 
