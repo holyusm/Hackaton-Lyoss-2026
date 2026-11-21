@@ -114,3 +114,18 @@ test('la alternativa por B también se puede bloquear por id de tramo', () => {
   const r = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas', bloqueos: ['ascensor-a', 't14'] });
   assert.equal(r.ok, false);
 });
+
+test('un grafo editado con un ascensor_id inexistente no lanza y da un diagnóstico', () => {
+  const roto = { ...grafo, tramos: grafo.tramos.map((t) => (t.ascensor_id ? { ...t, ascensor_id: 'ascensor-fantasma' } : t)) };
+  let r;
+  assert.doesNotThrow(() => { r = calcularRuta(roto, perfiles, { ...base, perfil: 'silla_ruedas' }); });
+  assert.equal(r.ok, false);
+  assert.match(r.motivo, /grafo inválido.*ascensor_id "ascensor-fantasma"/);
+});
+
+test('un tramo con desde o hasta inexistente da un diagnóstico', () => {
+  const roto = { ...grafo, tramos: [{ ...grafo.tramos[0], hasta: 'no-existe' }, ...grafo.tramos.slice(1)] };
+  const r = calcularRuta(roto, perfiles, { ...base, perfil: 'estandar' });
+  assert.equal(r.ok, false);
+  assert.match(r.motivo, /hasta "no-existe"/);
+});
