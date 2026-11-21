@@ -35,6 +35,8 @@ Todo módulo del servidor/motor es ESM (`"type": "module"`).
 - `tramos[].pendiente`: `nula | baja | media | alta`. `superficie`: `lisa | irregular | adoquin`.
 - Los tramos son bidireccionales salvo `sentido_unico: true` (solo `desde` → `hasta`).
 - `ascensor_id`: id de un nodo de tipo `ascensor` por el que pasa el tramo; si ese nodo está bloqueado, el tramo se bloquea.
+- `nodos[].x`, `nodos[].y` (opcionales, Lote 2): posición en el plano de Casa Central, en unidades del `viewBox` de `web/src/plano/casa-central.svg`, con el origen arriba a la izquierda. El mapa de `/mapa` usa estas, no `lat`/`lng` (que quedan para un GPS futuro). Conversión: `aLatLng` de `web/src/plano/plano.js`.
+- `tramos[].nombre` (opcional, Lote 2): cómo se nombra el tramo en los pasos, en minúscula y con artículo ("la rampa del Edificio B"). Sin `nombre`, los pasos usan un texto genérico.
 
 ## 2. Perfiles `data/perfiles.json`
 
@@ -86,6 +88,8 @@ compararPerfiles(grafo, perfiles, { desde, hasta, bloqueos = [] })
 ```
 
 Errores: `{ "error": "mensaje" }` con 400 o 404.
+
+`GET /ruta` no trae textos de pasos ni coordenadas: el frontend los deriva del grafo con `armarRuta(grafo, resultado)` (`web/src/lib/pasos.js`). El id de una ruta es `tramos.join('-')`; si cambia entre dos consultas, la ruta se recalculó.
 
 ## 5. Rutas del frontend (José)
 

@@ -368,7 +368,7 @@
   .cabecera { min-height: var(--alto-cabecera-escritorio); padding: var(--e-3) var(--e-6); }
 }
 .wordmark {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 48px;
   color: var(--tinta); text-decoration: none;
 }
 .wordmark span {
