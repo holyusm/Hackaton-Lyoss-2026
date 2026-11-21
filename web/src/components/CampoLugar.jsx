@@ -46,7 +46,12 @@ export default function CampoLugar({
   const alTeclear = (e) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
-      if (!abierto) { setAbierto(true); setActivo(0); return; }
+      if (!abierto) {
+        setAbierto(true);
+        setActivo(opciones.length ? 0 : -1);
+        return;
+      }
+      if (!opciones.length) return;
       const paso = e.key === 'ArrowDown' ? 1 : -1;
       setActivo((a) => (a + paso + opciones.length) % opciones.length);
     } else if (e.key === 'Enter' && abierto && opciones[activo]) {
@@ -85,7 +90,7 @@ export default function CampoLugar({
           aria-expanded={abierto}
           aria-controls={idLista}
           aria-autocomplete="list"
-          aria-activedescendant={abierto && activo >= 0 ? idOpcion(activo) : undefined}
+          aria-activedescendant={abierto && opciones[activo] ? idOpcion(activo) : undefined}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? idError : undefined}
           onChange={(e) => { setTexto(e.target.value); setAbierto(true); setActivo(-1); }}
