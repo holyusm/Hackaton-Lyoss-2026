@@ -38,20 +38,35 @@ function csv(texto = '') {
   if (fila.some((x) => x.trim() !== '')) filas.push(fila);
   if (!filas.length) return { cabeceras: [], filas: [] };
   const [cab, ...resto] = filas;
-  const cabeceras = cab.map((k, i) => (i === 0 ? k.replace(/^\uFEFF/, '') : k).trim());
+  const cabeceras = cab.map((k) => k.replace(/^\uFEFF/, '').trim());
   const registros = resto.map((f) => Object.fromEntries(cabeceras.map((k, i) => [k, (f[i] ?? '').trim()])));
   return { cabeceras, filas: registros };
 }
 
 function validarCabeceras(cabeceras, esperadas, archivo, err) {
   if (!cabeceras.length) return false;
-  const presentes = new Set(cabeceras);
+  const normalizadas = cabeceras.map((c) => c.replace(/^\uFEFF/, '').trim());
+  const presentes = new Set();
+  const duplicadas = [];
+  for (const c of normalizadas) {
+    // Columnas sin nombre (comas de sobra al exportar desde una hoja de cálculo) no cuentan como duplicadas.
+    if (c && presentes.has(c)) {
+      if (!duplicadas.includes(c)) duplicadas.push(c);
+    } else {
+      presentes.add(c);
+    }
+  }
+  let ok = true;
+  if (duplicadas.length) {
+    err(`${archivo}: columna${duplicadas.length > 1 ? 's duplicadas' : ' duplicada'}: ${duplicadas.join(', ')}`);
+    ok = false;
+  }
   const faltantes = esperadas.filter((c) => !presentes.has(c));
   if (faltantes.length) {
     err(`${archivo}: falta${faltantes.length > 1 ? 'n columnas obligatorias' : ' la columna obligatoria'}: ${faltantes.join(', ')}`);
-    return false;
+    ok = false;
   }
-  return true;
+  return ok;
 }
 
 export function num(v, campo, ctx, { entero = false, min = 0, err = () => {} } = {}) {
