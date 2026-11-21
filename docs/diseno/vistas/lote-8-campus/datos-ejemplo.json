@@ -1,0 +1,1397 @@
+{
+  "$descripcion": "Datos de ejemplo de /campus (Lote 8). Las cifras de hoy (20, 16 y 40 de 42; desvío 0,0 en Silla de ruedas; 0 con barrera y 0,6 min con rampa y plataforma) son las del motor. El reparto por lugar, los minutos por lugar y los minutos ahorrados por obra son de ejemplo: en la app todo sale de GET /api/simulador.",
+  "$nota_lat_lng": "zonas no trae lat/lng aquí: en la app vienen del servidor. x, y de lugares es solo la posición en el plano esquemático de las referencias.",
+  "textos": {
+    "titulo": "¿Qué arreglar primero?",
+    "nav": "Mejorar el campus",
+    "marca_datos": "Datos de ejemplo",
+    "bajada": "Simulamos obras sobre el mapa accesible de Casa Central y medimos cuántos trayectos dejan de tener barrera para cada perfil.",
+    "etiqueta_selector": "Medir para",
+    "definicion_barrera": {
+      "silla_ruedas": "Un trayecto tiene barrera cuando no hay ruta sin escalones.",
+      "movilidad_reducida": "Un trayecto tiene barrera cuando su ruta obliga a subir escalones.",
+      "baja_vision": "Un trayecto tiene barrera cuando su ruta pasa por adoquín, piso irregular o sin guía podotáctil.",
+      "todos": "Un trayecto tiene barrera cuando la tiene para al menos uno de los tres perfiles."
+    },
+    "etiqueta_zona_con_barrera": {
+      "silla_ruedas": "Sin ruta",
+      "movilidad_reducida": "Con escalones",
+      "baja_vision": "Sin guía",
+      "todos": "Con barrera"
+    },
+    "cifras": {
+      "con_barrera": "trayectos con barrera",
+      "desvio": "de desvío promedio en los trayectos con ruta",
+      "traslados": "traslados entre salas no alcanzan en 10 min de recreo"
+    },
+    "zonas": {
+      "titulo": "Cómo se llega a cada lugar",
+      "ver_lista": "Ver como lista",
+      "columnas_lista": [
+        "Lugar",
+        "Trayectos con barrera que llegan",
+        "Desvío promedio",
+        "Estado"
+      ],
+      "leyenda": [
+        "Accesible",
+        "Con desvío, en minutos",
+        "{etiqueta}, con trayectos",
+        "Obra que se puede simular"
+      ],
+      "atribucion": "© colaboradores de OpenStreetMap"
+    },
+    "obras": {
+      "titulo": "Obras que más ayudan",
+      "bajada": {
+        "trayectos": "Ordenadas por trayectos que dejan de tener barrera.",
+        "minutos": "Ordenadas por minutos ahorrados en promedio.",
+        "costo": "Ordenadas por costo relativo, del más bajo al más alto."
+      },
+      "ordenar_por": [
+        "Trayectos sin barrera",
+        "Minutos ahorrados",
+        "Costo"
+      ],
+      "impacto": "{n} trayectos sin barrera",
+      "ahorro": "{min} min menos en promedio",
+      "sin_cambio_minutos": "sin cambio en minutos",
+      "no_ayuda": "No quita barreras para {perfil}.",
+      "separador_no_ayuda": "No quitan barreras para {perfil}",
+      "costo": {
+        "bajo": "Costo bajo",
+        "medio": "Costo medio",
+        "alto": "Costo alto"
+      },
+      "switch_visible": {
+        "apagado": "Simular",
+        "encendido": "Simulada"
+      },
+      "switch_aria": "Simular {titulo en minúscula}",
+      "switch_motivo_sin_conexion": "Sin conexión: la simulación necesita al servidor."
+    },
+    "simulacion": {
+      "titulo": "Con las obras simuladas",
+      "hoy": "Hoy",
+      "con_obras": "Con {n} obra(s)",
+      "con_barrera": "con barrera",
+      "por_perfil": "Por perfil, con {n} obra(s)",
+      "quitar": "Quitar todas",
+      "informe": "Armar informe",
+      "por_perfil_frases": {
+        "silla_ruedas": "{n} trayectos más con ruta",
+        "movilidad_reducida": "{n} trayectos más sin escalones",
+        "baja_vision": "{n} trayectos más sin barrera"
+      },
+      "movil_compacta": "Con {n} obra: {con} con barrera (hoy {hoy})"
+    },
+    "estados": {
+      "cargando_aria": "Midiendo los trayectos del campus.",
+      "estandar": "Para el perfil Estándar ningún trayecto tiene barrera. Elige otro perfil para ver dónde está.",
+      "ninguna": "Ninguna de las obras de la lista quita barreras para este perfil.",
+      "error_titulo": "No pudimos medir el campus.",
+      "error_texto": "El servidor no respondió. El perfil que elegiste se mantiene.",
+      "reintentar": "Reintentar"
+    },
+    "supuestos": [
+      "Trayecto: ir de una entrada, edificio, sala o baño a otro. La ida y la vuelta cuentan aparte.",
+      "Medimos el campus tal como está construido. Los reportes del momento (un ascensor detenido) no cuentan aquí: se ven en Reportar.",
+      "El costo de cada obra es una estimación relativa del equipo, no un presupuesto.",
+      "Recreo de 10 minutos entre clases: supuesto, la USM puede tener otro.",
+      "Datos del levantamiento del equipo del 21 de noviembre de 2026 y datos de ejemplo donde faltó medir."
+    ],
+    "pie": "Prototipo estudiantil. No es un servicio oficial de la USM.",
+    "panel_mas": {
+      "titulo": "Más",
+      "items": [
+        "Mejorar el campus",
+        "¿Llegas a tu próxima clase?",
+        "Plano",
+        "Acerca"
+      ],
+      "actual": "Estás aquí",
+      "nav_movil": [
+        "Ruta",
+        "Comparar",
+        "Reportar",
+        "Más"
+      ],
+      "nav_escritorio": [
+        "Ruta",
+        "Plano",
+        "Comparar",
+        "Reportar",
+        "Mejorar el campus",
+        "Acerca"
+      ]
+    },
+    "informe": {
+      "titulo": "Propuesta de obras para un campus parejo",
+      "fecha": "21 de noviembre de 2026"
+    }
+  },
+  "lugares": [
+    {
+      "nodo_id": "entrada-principal",
+      "nombre": "Entrada principal",
+      "nombre_corto_mapa_movil": "Entrada",
+      "x": 226,
+      "y": 446
+    },
+    {
+      "nodo_id": "edificio-a-piso-2",
+      "nombre": "Edificio A piso 2",
+      "nombre_corto_mapa_movil": "Edificio A",
+      "x": 52,
+      "y": 128
+    },
+    {
+      "nodo_id": "sala-a-201",
+      "nombre": "Sala A-201",
+      "nombre_corto_mapa_movil": "Sala A-201",
+      "x": 92,
+      "y": 262
+    },
+    {
+      "nodo_id": "biblioteca",
+      "nombre": "Biblioteca",
+      "nombre_corto_mapa_movil": "Biblioteca",
+      "x": 52,
+      "y": 336
+    },
+    {
+      "nodo_id": "bano-accesible-b",
+      "nombre": "Baño accesible B",
+      "nombre_corto_mapa_movil": "Baño B",
+      "x": 334,
+      "y": 214
+    },
+    {
+      "nodo_id": "casino",
+      "nombre": "Casino",
+      "nombre_corto_mapa_movil": "Casino",
+      "x": 334,
+      "y": 368
+    },
+    {
+      "nodo_id": "edificio-b",
+      "nombre": "Edificio B",
+      "nombre_corto_mapa_movil": "Edificio B",
+      "x": 334,
+      "y": 128
+    }
+  ],
+  "pictogramas_obra": {
+    "rampa": "TrendUp o SVG propio (línea diagonal sobre una base)",
+    "ascensor": "Elevator",
+    "superficie": "SquaresFour",
+    "guia_tactil": "SVG propio de tres barras (o Rows)",
+    "techado": "Umbrella"
+  },
+  "ejemplos": {
+    "silla_sin_obras": {
+      "respuesta": {
+        "perfil": "silla_ruedas",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 20,
+          "minutos_extra_prom": 0
+        },
+        "con_obras": null,
+        "obras": [
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0.4
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 2,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 2,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 2,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 2,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 2,
+            "minutos_extra": 0
+          }
+        ]
+      },
+      "textos": {
+        "frase": "Hoy, 1 de cada 2 trayectos de Casa Central no se puede hacer en silla de ruedas.",
+        "anuncio_aria_live": null,
+        "aun_quedan": null
+      }
+    },
+    "silla_rampa": {
+      "respuesta": {
+        "perfil": "silla_ruedas",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 20,
+          "minutos_extra_prom": 0
+        },
+        "con_obras": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 0,
+          "minutos_extra_prom": 0.6,
+          "trayectos_sin_barrera_por_perfil": {
+            "silla_ruedas": 20,
+            "movilidad_reducida": 16,
+            "baja_vision": 0
+          }
+        },
+        "obras": [
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0.4
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.2
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "desvio",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 2.1
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.3
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "desvio",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.9
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.2
+          }
+        ]
+      },
+      "textos": {
+        "frase": "Hoy, 1 de cada 2 trayectos de Casa Central no se puede hacer en silla de ruedas.",
+        "anuncio_aria_live": "Con la rampa del patio central, 20 trayectos más tienen ruta en silla de ruedas.",
+        "aun_quedan": null
+      }
+    },
+    "silla_tres_obras": {
+      "respuesta": {
+        "perfil": "silla_ruedas",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 20,
+          "minutos_extra_prom": 0
+        },
+        "con_obras": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 0,
+          "minutos_extra_prom": 0.6,
+          "trayectos_sin_barrera_por_perfil": {
+            "silla_ruedas": 20,
+            "movilidad_reducida": 16,
+            "baja_vision": 5
+          }
+        },
+        "obras": [
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0.4
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.2
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "desvio",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 2.1
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.3
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "desvio",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.9
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.2
+          }
+        ]
+      },
+      "textos": {
+        "frase": "Hoy, 1 de cada 2 trayectos de Casa Central no se puede hacer en silla de ruedas.",
+        "anuncio_aria_live": "Con 3 obras, 20 trayectos más tienen ruta en silla de ruedas.",
+        "aun_quedan": null
+      }
+    },
+    "silla_rampa_y_plataforma": {
+      "respuesta": {
+        "perfil": "silla_ruedas",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 20,
+          "minutos_extra_prom": 0
+        },
+        "con_obras": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 0,
+          "minutos_extra_prom": 0.6,
+          "trayectos_sin_barrera_por_perfil": {
+            "silla_ruedas": 20,
+            "movilidad_reducida": 16,
+            "baja_vision": 0
+          }
+        },
+        "obras": [
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0.4
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 20,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.2
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "desvio",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 2.1
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.3
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "desvio",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.9
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.2
+          }
+        ]
+      },
+      "textos": {
+        "frase": "Hoy, 1 de cada 2 trayectos de Casa Central no se puede hacer en silla de ruedas.",
+        "anuncio_aria_live": "Con 2 obras, 20 trayectos más tienen ruta en silla de ruedas.",
+        "aun_quedan": null
+      }
+    },
+    "movilidad_sin_obras": {
+      "respuesta": {
+        "perfil": "movilidad_reducida",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 16,
+          "minutos_extra_prom": 0.5
+        },
+        "con_obras": null,
+        "obras": [
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 16,
+            "minutos_ahorrados_prom": 1.2
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 16,
+            "minutos_ahorrados_prom": 0.6
+          },
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 2,
+            "minutos_ahorrados_prom": 0.3
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.3
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 3,
+            "minutos_extra": 0.9
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 3,
+            "minutos_extra": 0.9
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "desvio",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 1.4
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": 0
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "accesible",
+            "trayectos_con_barrera": 0,
+            "minutos_extra": 0.2
+          }
+        ]
+      },
+      "textos": {
+        "frase": "En movilidad reducida, 1 de cada 3 trayectos obliga a subir escalones.",
+        "anuncio_aria_live": null,
+        "aun_quedan": null
+      }
+    },
+    "vision_sin_obras": {
+      "respuesta": {
+        "perfil": "baja_vision",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 40,
+          "minutos_extra_prom": 0.4
+        },
+        "con_obras": null,
+        "obras": [
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 4,
+            "minutos_ahorrados_prom": 0.5
+          },
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 4,
+            "minutos_ahorrados_prom": 0.2
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 1,
+            "minutos_ahorrados_prom": 0.1
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": 0.4
+          }
+        ]
+      },
+      "textos": {
+        "frase": "En baja visión, casi todos los trayectos (40 de 42) pasan por adoquín, piso irregular o sin guía podotáctil.",
+        "anuncio_aria_live": null,
+        "aun_quedan": null
+      }
+    },
+    "vision_todas_las_obras": {
+      "respuesta": {
+        "perfil": "baja_vision",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 40,
+          "minutos_extra_prom": 0.4
+        },
+        "con_obras": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 31,
+          "minutos_extra_prom": 0.4,
+          "trayectos_sin_barrera_por_perfil": {
+            "silla_ruedas": 20,
+            "movilidad_reducida": 16,
+            "baja_vision": 9
+          }
+        },
+        "obras": [
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 4,
+            "minutos_ahorrados_prom": 0.5
+          },
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 4,
+            "minutos_ahorrados_prom": 0.2
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 1,
+            "minutos_ahorrados_prom": 0.1
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": 0
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 4,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 4,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 2,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 4,
+            "minutos_extra": 0.4
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": 0.4
+          }
+        ]
+      },
+      "textos": {
+        "frase": "En baja visión, casi todos los trayectos (40 de 42) pasan por adoquín, piso irregular o sin guía podotáctil.",
+        "anuncio_aria_live": "Con 6 obras, 9 trayectos más quedan sin barrera en baja visión.",
+        "aun_quedan": "Aún quedan 31 trayectos con barrera: necesitan obras que no están en la lista."
+      }
+    },
+    "todos_sin_obras": {
+      "respuesta": {
+        "perfil": "todos",
+        "hoy": {
+          "trayectos_evaluados": 42,
+          "trayectos_con_barrera": 40,
+          "minutos_extra_prom": null
+        },
+        "con_obras": null,
+        "obras": [
+          {
+            "id": "guia-tactil-edificio-b-a",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil desde el Edificio B hasta la pasarela al Edificio A",
+            "lugar": "Edificio B",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 4,
+            "minutos_ahorrados_prom": null
+          },
+          {
+            "id": "piso-liso-camino-biblioteca",
+            "tipo": "superficie",
+            "titulo": "Piso liso y guía táctil en el camino lateral a la Biblioteca",
+            "lugar": "Biblioteca",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 1,
+            "minutos_ahorrados_prom": null
+          },
+          {
+            "id": "guia-tactil-entrada-casino",
+            "tipo": "guia_tactil",
+            "titulo": "Guía táctil entre la entrada principal y el Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": null
+          },
+          {
+            "id": "techo-patio-casino",
+            "tipo": "techado",
+            "titulo": "Techo en el camino del patio central al Casino",
+            "lugar": "Casino",
+            "costo_relativo": "bajo",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida",
+              "baja_vision"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": null
+          },
+          {
+            "id": "rampa-patio-biblioteca",
+            "tipo": "rampa",
+            "titulo": "Rampa en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "medio",
+            "perfiles_beneficiados": [
+              "movilidad_reducida",
+              "baja_vision",
+              "silla_ruedas"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": null
+          },
+          {
+            "id": "plataforma-patio-biblioteca",
+            "tipo": "ascensor",
+            "titulo": "Plataforma elevadora en la escalera del patio central hacia la Biblioteca",
+            "lugar": "Patio central",
+            "costo_relativo": "alto",
+            "perfiles_beneficiados": [
+              "silla_ruedas",
+              "movilidad_reducida"
+            ],
+            "trayectos_sin_barrera": 0,
+            "minutos_ahorrados_prom": null
+          }
+        ],
+        "zonas": [
+          {
+            "nodo_id": "entrada-principal",
+            "nombre": "Entrada principal",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": null
+          },
+          {
+            "nodo_id": "edificio-a-piso-2",
+            "nombre": "Edificio A piso 2",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": null
+          },
+          {
+            "nodo_id": "sala-a-201",
+            "nombre": "Sala A-201",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": null
+          },
+          {
+            "nodo_id": "biblioteca",
+            "nombre": "Biblioteca",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": null
+          },
+          {
+            "nodo_id": "bano-accesible-b",
+            "nombre": "Baño accesible B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 6,
+            "minutos_extra": null
+          },
+          {
+            "nodo_id": "casino",
+            "nombre": "Casino",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": null
+          },
+          {
+            "nodo_id": "edificio-b",
+            "nombre": "Edificio B",
+            "estado": "con_barrera",
+            "trayectos_con_barrera": 5,
+            "minutos_extra": null
+          }
+        ]
+      },
+      "textos": {
+        "frase": "Hoy, 40 de 42 trayectos tienen barrera para al menos uno de los tres perfiles.",
+        "anuncio_aria_live": null,
+        "aun_quedan": null
+      }
+    }
+  }
+}
