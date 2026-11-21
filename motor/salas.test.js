@@ -25,11 +25,18 @@ test('el generador es idempotente: volver a correrlo no duplica nada', () => {
   assert.equal(new Set(dos.nodos.map((n) => n.id)).size, dos.nodos.length);
 });
 
-test('las 28 salas y los 2 baños del C, piso 2, están en el grafo con su departamento opcional', () => {
+test('las 29 salas y los 2 baños del C, piso 2, están en el grafo con su departamento opcional', () => {
   const del = campus.nodos.filter((n) => n.edificio === 'C' && n.piso === 2 && ['sala', 'bano'].includes(n.tipo));
-  assert.equal(del.filter((n) => n.tipo === 'sala').length, 28);
+  assert.equal(del.filter((n) => n.tipo === 'sala').length, 29);
   assert.equal(del.filter((n) => n.tipo === 'bano').length, 2);
   assert.ok(campus.nodos.find((n) => n.id === 'sala-c231'));
+});
+
+test('C224 (sin level en OSM, piso 2 inferido de sus vecinas) es ruteable en silla de ruedas por el ascensor C', () => {
+  const r = ruta(campus, 'entrada-principal', 'sala-c224', 'silla_ruedas');
+  assert.equal(r.ok, true);
+  assert.ok(r.nodos.includes('ascensor-c'));
+  assert.equal(r.escalones, 0);
 });
 
 test('en silla de ruedas, de la entrada principal a la sala C231 se pasa por el ascensor C', () => {
