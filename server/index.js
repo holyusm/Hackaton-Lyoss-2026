@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 import { raiz, leerDatos, asincrono } from './datos.js';
 import { rutasReportes, reportesActivos } from './reportes.js';
 import { calcularRuta, compararPerfiles } from '../motor/ruta.js';
+import { bloqueosDe } from '../motor/barreras.js';
 
 const dist = raiz + 'web/dist';
 const app = express();
@@ -27,7 +28,7 @@ const conMotor = (requeridos, calcular) => async (req, res) => {
   if (falta) return res.status(400).json({ error: `falta el parámetro ${falta}` });
   try {
     const [grafo, perfiles] = await Promise.all([leerDatos('campus.json'), leerDatos('perfiles.json')]);
-    const bloqueos = reportesActivos().map((r) => r.tramo_id || r.nodo_id);
+    const bloqueos = bloqueosDe(reportesActivos());
     res.json(calcular(grafo, perfiles, { ...req.query, bloqueos }));
   } catch (e) {
     res.status(500).json({ error: `no se pudo calcular la ruta: ${e.message}` });
