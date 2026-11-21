@@ -1,7 +1,7 @@
 # Lote 8: Mejorar el campus
 
 - **Ruta:** /campus
-- **Prompt:** el Lote 8 en [../../prompts-lotes-8-9.md](../../prompts-lotes-8-9.md)
+- **Prompt:** el Lote 8 en [../../prompts/prompts-lotes-8-9.md](../../prompts/prompts-lotes-8-9.md)
 - **Implementa:** @Gxppe (#89)
 - **Estado:** diseño pendiente
 

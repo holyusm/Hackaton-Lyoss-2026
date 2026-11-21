@@ -1,0 +1,198 @@
+{
+  "hero": {
+    "titulo": "El camino accesible cambia durante el día.",
+    "bajada": "Parejo te muestra el que sí puedes recorrer en Casa Central, y lo actualiza en vivo.",
+    "botones": [
+      {
+        "texto": "Ver mi ruta",
+        "destino": "/mapa",
+        "tipo": "primario"
+      },
+      {
+        "texto": "Comparar perfiles",
+        "destino": "/comparar",
+        "tipo": "secundario"
+      }
+    ],
+    "etiquetaIlustracion": "Piso parejo"
+  },
+  "loQueCambia": {
+    "titulo": "Lo que cambia sin aviso",
+    "tarjetas": [
+      {
+        "nombre": "Ascensor detenido",
+        "fondo": "#C4122F",
+        "textura": "none",
+        "texto": "#FFFFFF",
+        "circulo": "#FFFFFF",
+        "icono": "#C4122F"
+      },
+      {
+        "nombre": "Piso mojado",
+        "fondo": "#FFC72C",
+        "textura": "radial-gradient(circle, #EDB415 4px, transparent 4.6px)",
+        "texto": "#0D2B3E",
+        "circulo": "#0D2B3E",
+        "icono": "#FFC72C"
+      },
+      {
+        "nombre": "Escalones sin rampa",
+        "fondo": "#0D2B3E",
+        "textura": "none",
+        "texto": "#FFFFFF",
+        "circulo": "#F4B6C2",
+        "icono": "#0D2B3E"
+      }
+    ],
+    "foto": "Foto propia del levantamiento, 1600×1000 (pendiente)",
+    "nota": "Un mapa general no sabe nada de esto. Según un diagnóstico publicado por la USM, solo cuatro edificios de Casa Central tienen ascensor y en ninguno era accesible (memoria \"Propuestas para lograr una USM accesible, Casa Central\"). Estudiantes con discapacidad en el campus: cifra con fuente pendiente.",
+    "fuente": "repositorio.usm.cl, memoria \"Propuestas para lograr una USM accesible, Casa Central\""
+  },
+  "perfiles": {
+    "titulo": "Una ruta para cada forma de moverse",
+    "desde": "Entrada principal",
+    "hasta": "Sala A-201",
+    "resumen": "En silla de ruedas este trayecto es 35 m más largo y evita 12 escalones.",
+    "lista": [
+      {
+        "id": "estandar",
+        "nombre": "Estándar",
+        "metros": 40,
+        "minutos": "0,9",
+        "escalones": 12,
+        "diferencia": "Base",
+        "pasaPor": "la escalera del patio y el Ascensor A",
+        "plano": "231,430 231,350 196,300 152,258 96,210"
+      },
+      {
+        "id": "silla",
+        "nombre": "Silla de ruedas",
+        "metros": 75,
+        "minutos": "2,3",
+        "escalones": 0,
+        "diferencia": "+35 m",
+        "pasaPor": "la rampa, el Patio central y el Ascensor A",
+        "plano": "225,430 271,412 271,358 160,260 150,256 96,210"
+      },
+      {
+        "id": "movilidad",
+        "nombre": "Movilidad reducida",
+        "metros": 65,
+        "minutos": "2,0",
+        "escalones": 0,
+        "diferencia": "+25 m",
+        "pasaPor": "la rampa, el borde del patio y el Ascensor A",
+        "plano": "225,430 263,415 263,358 205,320 150,262 100,216"
+      },
+      {
+        "id": "vision",
+        "nombre": "Baja visión",
+        "metros": 55,
+        "minutos": "1,5",
+        "escalones": 12,
+        "diferencia": "+15 m",
+        "pasaPor": "la guía podotáctil, la escalera con pasamanos y el Ascensor A",
+        "plano": "219,430 219,350 160,346 160,262 150,256 96,210"
+      }
+    ],
+    "$nota": "Mismos datos y trazos que el Lote 3 (estilosDeRuta). plano usa las coordenadas del plano esquemático 390×704; en la tarjeta se recorta con viewBox \"56 186 248 262\"."
+  },
+  "comoFunciona": {
+    "titulo": "Cómo funciona",
+    "pasos": [
+      {
+        "num": "1",
+        "titulo": "Elige cómo te mueves",
+        "texto2": "Silla de ruedas, movilidad reducida, baja visión o estándar.",
+        "fondo": "#E3E8FB",
+        "texto": "#0D2B3E",
+        "circulo": "#2443D0",
+        "icono": "#FFFFFF"
+      },
+      {
+        "num": "2",
+        "titulo": "Sigue tu ruta",
+        "texto2": "En el mapa, como lista o en voz alta. También desde un código QR pegado en el campus.",
+        "fondo": "#2443D0",
+        "texto": "#FFFFFF",
+        "circulo": "#FFFFFF",
+        "icono": "#2443D0"
+      },
+      {
+        "num": "3",
+        "titulo": "Reporta lo que ves",
+        "texto2": "Un ascensor detenido cambia la ruta de todos en segundos.",
+        "fondo": "#FFC72C",
+        "texto": "#0D2B3E",
+        "circulo": "#0D2B3E",
+        "icono": "#FFC72C"
+      }
+    ]
+  },
+  "letraChica": {
+    "titulo": "La letra chica",
+    "lista": [
+      {
+        "tema": "Datos.",
+        "texto": "Levantados por el equipo el 21 de noviembre de 2026; lo que no medimos es simulado y la app lo dice."
+      },
+      {
+        "tema": "Ubicación.",
+        "texto": "No hay GPS dentro de los edificios: partes desde un lugar que eliges o desde un QR."
+      },
+      {
+        "tema": "Reportes.",
+        "texto": "Abiertos y sin moderación. Cada aviso vence solo en 4 horas o menos."
+      },
+      {
+        "tema": "Voz.",
+        "texto": "La del sistema de tu teléfono o computador."
+      },
+      {
+        "tema": "Carácter.",
+        "texto": "Prototipo estudiantil. No es un servicio oficial de la USM."
+      }
+    ]
+  },
+  "ods": {
+    "titulo": "Objetivos de Desarrollo Sostenible",
+    "lista": [
+      {
+        "num": "10",
+        "nombre": "Reducción de las desigualdades",
+        "frase": "Una ruta para cada forma de moverse.",
+        "color": "#DD1367",
+        "texto": "#FFFFFF"
+      },
+      {
+        "num": "11",
+        "nombre": "Ciudades y comunidades sostenibles",
+        "frase": "Un campus que se cuida entre todos.",
+        "color": "#FD9D24",
+        "texto": "#0D2B3E"
+      },
+      {
+        "num": "4",
+        "nombre": "Educación de calidad",
+        "frase": "Llegar a clases sin depender de nadie.",
+        "color": "#C5192D",
+        "texto": "#FFFFFF"
+      }
+    ]
+  },
+  "pie": {
+    "texto": "Prototipo estudiantil para la Hackathon USM 2026. No es un servicio oficial de la USM.",
+    "firmaUSM": "Universidad Técnica Federico Santa María, Casa Central, Valparaíso",
+    "logotipoUSM": "Espacio reservado: usar solo el archivo oficial con aprobación de la Dirección General de Comunicaciones"
+  },
+  "iconosPhosphor": {
+    "Ascensor detenido": "Elevator",
+    "Piso mojado": "Drop",
+    "Escalones sin rampa": "Stairs",
+    "Foto": "Camera",
+    "Estándar": "PersonSimpleWalk",
+    "Silla de ruedas": "Wheelchair",
+    "Movilidad reducida": "PersonSimpleCane (o Person)",
+    "Baja visión": "Eye"
+  }
+}

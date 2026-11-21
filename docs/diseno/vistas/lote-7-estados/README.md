@@ -1,7 +1,7 @@
 # Lote 7: Estados y pulido
 
 - **Ruta:** (todas las vistas)
-- **Prompt:** el lote correspondiente en [../../prompts-claude-design.md](../../prompts-claude-design.md)
+- **Prompt:** el lote correspondiente en [../../prompts/prompts-lotes-faltantes.md](../../prompts/prompts-lotes-faltantes.md)
 - **Implementa:** por asignar
 - **Estado:** diseño pendiente
 

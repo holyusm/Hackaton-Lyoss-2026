@@ -1,7 +1,7 @@
 # Lote 9: ¿Llegas a tu próxima clase?
 
 - **Ruta:** /horario
-- **Prompt:** el Lote 9 en [../../prompts-lotes-8-9.md](../../prompts-lotes-8-9.md)
+- **Prompt:** el Lote 9 en [../../prompts/prompts-lotes-8-9.md](../../prompts/prompts-lotes-8-9.md)
 - **Implementa:** por asignar (solo "Un cambio de sala", si sobra tiempo)
 - **Estado:** diseño pendiente
 
