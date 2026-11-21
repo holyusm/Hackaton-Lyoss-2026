@@ -1,0 +1,55 @@
+[
+  {
+    "id": "p1",
+    "nodo_id": "entrada-principal",
+    "titulo": "Entrada principal",
+    "texto_voz": "Estás en la entrada principal de Casa Central. Desde aquí hay dos caminos. El más corto va al patio central: cuarenta metros por rampa, sin escalones, con guía táctil en el piso. El otro va a la biblioteca: noventa metros por rampa, sin escalones, pero con piso irregular.",
+    "indicaciones": [
+      { "hacia": "Patio central", "texto": "Avanza 40 metros por la rampa, sin escalones. Hay guía táctil en el piso." },
+      { "hacia": "Biblioteca", "texto": "Avanza 90 metros por la rampa lateral, sin escalones. El piso es irregular: ve con cuidado." }
+    ]
+  },
+  {
+    "id": "p2",
+    "nodo_id": "patio-central",
+    "titulo": "Patio central",
+    "texto_voz": "Estás en el patio central, punto de encuentro del campus. Desde aquí llegas al ascensor del edificio A en veinticinco metros, sin escalones y bajo techo. Si necesitas evitar escalones, no uses la escalera al piso dos: tiene cuarenta y dos.",
+    "indicaciones": [
+      { "hacia": "Ascensor A", "texto": "Avanza 25 metros, bajo techo y sin escalones." },
+      { "hacia": "Edificio A, piso 2", "texto": "Por la escalera son 30 metros con 42 escalones y pendiente alta. Mejor usa el ascensor." },
+      { "hacia": "Biblioteca", "texto": "Avanza 50 metros por adoquín. Hay 3 escalones a la entrada." },
+      { "hacia": "Casino", "texto": "Avanza 45 metros por rampa con pendiente media, sin escalones." },
+      { "hacia": "Entrada principal", "texto": "Avanza 40 metros por la rampa, sin escalones. Hay guía táctil." }
+    ]
+  },
+  {
+    "id": "p3",
+    "nodo_id": "ascensor-a",
+    "titulo": "Ascensor A",
+    "texto_voz": "Estás en el ascensor del edificio A. Sube al piso dos, en un recorrido de diez metros sin escalones. Si el ascensor está fuera de servicio, la única alternativa es una escalera de cuarenta y dos escalones, que no sirve para silla de ruedas. Avisa el problema desde la aplicación.",
+    "indicaciones": [
+      { "hacia": "Edificio A, piso 2", "texto": "Sube en el ascensor. Son 10 metros, sin escalones." },
+      { "hacia": "Patio central", "texto": "Avanza 25 metros, bajo techo y sin escalones." }
+    ]
+  },
+  {
+    "id": "p4",
+    "nodo_id": "biblioteca",
+    "titulo": "Biblioteca",
+    "texto_voz": "Estás en la biblioteca central. El baño accesible está a quince metros, sin escalones y con guía táctil en el piso. Para volver al patio central hay tres escalones; si prefieres evitarlos, vuelve por la rampa lateral hasta la entrada principal.",
+    "indicaciones": [
+      { "hacia": "Baño accesible B", "texto": "Avanza 15 metros, sin escalones. Hay guía táctil en el piso." },
+      { "hacia": "Patio central", "texto": "Avanza 50 metros por adoquín. Hay 3 escalones." },
+      { "hacia": "Entrada principal", "texto": "Avanza 90 metros por la rampa lateral, sin escalones. El piso es irregular." }
+    ]
+  },
+  {
+    "id": "p5",
+    "nodo_id": "bano-b",
+    "titulo": "Baño accesible B",
+    "texto_voz": "Estás en el baño accesible junto a la biblioteca. Para volver a la biblioteca avanza quince metros, sin escalones y siguiendo la guía táctil del piso.",
+    "indicaciones": [
+      { "hacia": "Biblioteca", "texto": "Avanza 15 metros, sin escalones. Sigue la guía táctil del piso." }
+    ]
+  }
+]
