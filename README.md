@@ -1,6 +1,6 @@
 <!--
   BORRADOR (12:20). Revisar a las 15:45, después del [CONGELAR]:
-  - Funcionalidades: confirmar en la URL pública que todas funcionan (/, /mapa, /reportar, /comparar, /punto/:id, /campus).
+  - Funcionalidades: confirmar en la URL pública que todas funcionan (/, /mapa, /plano, /reportar, /comparar, /punto/:id, /campus, /acerca).
   - Impacto: cifras de PR #195; confirmar con main cuando se mergee.
   - Equipo: nombres de @Gxppe y @juaquo15.
 -->
@@ -32,6 +32,7 @@ parejo modela el campus como un grafo de lugares y tramos, con lo que importa pa
 
 - **Ruta por perfil** (`/` y `/mapa`): eliges desde dónde, hacia dónde y cómo te mueves. parejo dibuja la ruta en el plano real del campus (OpenStreetMap) y la cuenta paso a paso, con advertencias como "escalones" o "piso irregular". *ODS 10 y 4.a: el estudiante llega solo, sin depender de que alguien le muestre el camino.*
 - **Barreras en vivo que recalculan la ruta** (`/reportar`): cualquier estudiante reporta un ascensor detenido, un obstáculo o una rampa bloqueada. El reporte vence solo, y mientras está activo, las rutas lo evitan. Si ya no hay camino posible, parejo lo dice en vez de mandar al estudiante a una escalera. *ODS 11.7: información de accesibilidad actualizada por la comunidad.*
+- **Plano interactivo** (`/plano`): el plano de Casa Central con sus edificios, que se recorre con el dedo, el mouse o el teclado. Al elegir un edificio se ve su ficha. <!-- Si #203 (#189 P2) entra: agregar que una sala se puede usar como inicio o llegada y la ruta se dibuja sobre el plano. -->
 - **Comparar perfiles** (`/comparar`): el mismo trayecto para los cuatro perfiles, lado a lado, con metros, minutos y escalones. Muestra en cinco segundos que el campus no es igual para todos.
 - **Puntos QR con voz** (`/punto/:id`): carteles QR en puntos clave que, al escanearlos, leen en voz alta dónde estás y cómo seguir. Pensados para estudiantes con baja visión. Los QR para imprimir están en [`docs/qr/`](docs/qr/).
 - **¿Qué arreglar primero?** (`/campus`): para la universidad. Cuenta cuántos trayectos tienen barrera para cada perfil, ordena obras posibles (rampas, ascensores, piso liso, guía podotáctil) según cuántas barreras quitan, y simula el campus con las obras elegidas.
