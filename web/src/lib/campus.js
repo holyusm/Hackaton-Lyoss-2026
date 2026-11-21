@@ -141,3 +141,42 @@ export function etiquetaZona(z, perfil) {
   if (estado === 'desvio') return `Con desvío de ${Math.round(z.minutos_extra)} min`;
   return 'Accesible';
 }
+
+// "Nuevo" solo para lugares que MEJORAN (el estado sube de con_barrera a desvío o accesible): si se quita una obra y un lugar
+// empeora, no es "nuevo". Compara dos respuestas del mismo perfil.
+const NIVEL_ESTADO = { con_barrera: 0, desvio: 1, accesible: 2 };
+export function zonasMejoradas(antes, ahora) {
+  const mejoradas = new Set();
+  if (!antes || !ahora) return mejoradas;
+  const previo = new Map(antes.map((z) => [z.nodo_id, z.estado ?? estadoZona(z)]));
+  for (const z of ahora) {
+    const e = previo.get(z.nodo_id);
+    if (e !== undefined && NIVEL_ESTADO[z.estado ?? estadoZona(z)] > NIVEL_ESTADO[e]) mejoradas.add(z.nodo_id);
+  }
+  return mejoradas;
+}
+
+// Dónde se dibuja cada obra en el plano. El servidor no entrega coordenadas de las obras (solo el "lugar"): estas posiciones son
+// APROXIMADAS, cerca del lugar al que sirven, y se declaran como tal en la leyenda del plano. Una obra sin entrada aquí no se dibuja.
+export const UBICACION_OBRA = {
+  'rampa-patio-biblioteca': [-33.03447, -71.59512],
+  'plataforma-patio-biblioteca': [-33.03447, -71.59494],
+  'piso-liso-camino-biblioteca': [-33.0348, -71.59522],
+  'guia-tactil-entrada-casino': [-33.03467, -71.59556],
+  'guia-tactil-edificio-b-a': [-33.03536, -71.59526],
+  'techo-patio-casino': [-33.03505, -71.59527],
+};
+export const ubicacionObra = (obra) => UBICACION_OBRA[obra.id] ?? null;
+
+// Resumen del plano para lectores de pantalla (el plano es role="img"; la misma información está en la tabla).
+export function resumenPlano(zonas, perfil) {
+  if (!zonas?.length) return 'Plano de Casa Central sin lugares medidos.';
+  const con = zonas.filter((z) => (z.estado ?? estadoZona(z)) === 'con_barrera').length;
+  const des = zonas.filter((z) => (z.estado ?? estadoZona(z)) === 'desvio').length;
+  const acc = zonas.length - con - des;
+  const partes = [];
+  if (con) partes.push(`${con} con barrera`);
+  if (des) partes.push(`${des} con desvío`);
+  if (acc) partes.push(`${acc} ${acc === 1 ? 'accesible' : 'accesibles'}`);
+  return `Plano de Casa Central con ${zonas.length} lugares para ${NOMBRE_PERFIL[perfil] ?? perfil}: ${partes.join(', ')}. Todo lo del plano está también en la lista de lugares.`;
+}

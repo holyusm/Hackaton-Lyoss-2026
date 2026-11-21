@@ -137,6 +137,25 @@
 .campus__simular[aria-disabled="true"] { cursor: not-allowed; color: var(--deshabilitado-texto); }
 .campus__simular[aria-disabled="true"] .interruptor__riel { border-style: dashed; }
 
+/* Zonas: plano o tabla (el plano y la leyenda están en campus/MapaZonas.css) */
+.campus__zonas { display: flex; flex-direction: column; gap: var(--e-3); min-width: 0; }
+.campus__zonas-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--e-3); }
+.campus__zonas-cab h2 { margin: 0; }
+.campus__ver-lista { min-height: 44px; }
+.campus__tabla-caja { border: var(--ancho-linea) solid var(--borde-control); border-radius: var(--r-panel); background: var(--superficie); padding: var(--e-4) var(--e-5); overflow-x: auto; }
+.campus__tabla { width: 100%; border-collapse: collapse; font-size: var(--t-detalle); }
+.campus__tabla caption { text-align: left; color: var(--tinta-2); padding-bottom: var(--e-3); }
+.campus__tabla th, .campus__tabla td { text-align: left; vertical-align: middle; padding: var(--e-3) var(--e-2); }
+.campus__tabla thead th { font-weight: 700; border-bottom: 2px solid var(--tinta); vertical-align: bottom; }
+.campus__tabla tbody tr + tr > * { border-top: var(--ancho-linea) solid var(--linea); }
+.campus__tabla tbody th { font-weight: 800; }
+.campus__tabla .campus__tabla-num { text-align: right; }
+.campus__tabla td.cifras { font-weight: 800; font-size: var(--t-cuerpo); }
+.campus__estado { display: inline-flex; align-items: center; gap: var(--e-2); font-weight: 700; }
+.campus__estado--accesible { color: var(--paso-texto); }
+.campus__estado--desvio { color: var(--cobalto); }
+.campus__estado--con_barrera { color: var(--alto-texto); }
+
 /* Supuestos */
 .campus__supuestos { font-size: var(--t-detalle); color: var(--tinta-2); }
 .campus__supuestos h2 { font-size: var(--t-cuerpo); color: var(--tinta); margin-bottom: var(--e-2); }
@@ -168,6 +187,7 @@
     display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--e-8); row-gap: var(--e-7);
     grid-template-areas: "zonas obras" "supuestos obras"; grid-template-rows: auto 1fr;
   }
+  .campus__zonas { grid-area: zonas; }
   .campus__obras-bloque { grid-area: obras; }
   .campus__supuestos { grid-area: supuestos; align-self: start; }
 }

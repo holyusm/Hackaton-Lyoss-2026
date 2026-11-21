@@ -1,0 +1,77 @@
+/* Plano de zonas de /campus (Lote 8). Colores solo desde tokens: los atributos SVG no resuelven var(), por eso van por clase. */
+
+/* ---- Forma de un lugar (plano, leyenda y tabla) ---- */
+.forma-zona { display: block; flex-shrink: 0; overflow: visible; }
+.forma-zona__fondo { stroke: var(--tinta); stroke-width: 2.5; }
+.forma-zona--accesible .forma-zona__fondo { fill: var(--paso); }
+.forma-zona--desvio .forma-zona__fondo { fill: var(--cobalto); }
+.forma-zona--con_barrera .forma-zona__fondo { fill: var(--alto); }
+.forma-zona--accesible .forma-zona__glifo { fill: var(--superficie); }
+.forma-zona--con_barrera .forma-zona__glifo { fill: var(--sobre-alto, #fff); }
+.forma-zona__mas { fill: var(--sobre-cobalto); font: 800 15px var(--fuente); }
+
+/* ---- Caja del plano + leyenda ---- */
+.campus__plano-caja { border: var(--ancho-linea) solid var(--borde-control); border-radius: var(--r-panel); overflow: hidden; background: var(--superficie); }
+.campus__mapa { height: 460px; }
+.campus__mapa .leaflet-container { width: 100%; height: 100%; background: var(--mapa-fondo); font-family: var(--fuente); outline: none; }
+@media (min-width: 1000px) { .campus__mapa { height: 700px; } }
+
+.campus__leyenda {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--e-2) var(--e-5);
+  padding: var(--e-3) var(--e-4); border-top: var(--ancho-linea) solid var(--linea); background: var(--superficie);
+  font-size: var(--t-detalle); color: var(--tinta);
+}
+.campus__leyenda ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--e-2) var(--e-5); }
+.campus__leyenda li { display: flex; align-items: center; gap: var(--e-2); }
+.campus__leyenda p { margin: 0; color: var(--tinta-2); }
+.campus__leyenda a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.campus__leyenda-obra { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: var(--marca-pacifico); color: #fff; border: 2px solid #fff; box-sizing: border-box; flex-shrink: 0; }
+.campus__leyenda-obra svg { width: 14px; height: 14px; }
+
+/* ---- Marcador de lugar: forma de 44 px + etiqueta en píldora de dos líneas ---- */
+.zona { overflow: visible; }
+.zona .forma-zona { width: 44px; height: 44px; filter: drop-shadow(0 1px 2px rgba(13, 43, 62, 0.3)); }
+.zona__etiqueta {
+  position: absolute; top: 50%; left: calc(100% + 4px); transform: translateY(-50%); white-space: nowrap;
+  display: flex; flex-direction: column; gap: 1px; padding: 4px 10px; border-radius: 12px; border: 2px solid transparent;
+  background: var(--superficie); color: var(--tinta); box-shadow: 0 1px 3px rgba(13, 43, 62, 0.25); line-height: 1.15;
+}
+.zona--izq .zona__etiqueta { left: auto; right: calc(100% + 4px); align-items: flex-end; text-align: right; }
+.zona__etiqueta strong { font-size: 0.9375rem; font-weight: 800; }
+.zona__etiqueta span { font-size: 0.8125rem; font-weight: 700; }
+.zona__etiqueta--accesible span { color: var(--paso-texto); }
+.zona__etiqueta--desvio span { color: var(--cobalto); }
+.zona__etiqueta--con_barrera span { color: var(--alto-texto); }
+
+/* "Nuevo": un lugar que mejoró con las obras simuladas. Píldora Paso sobre el marcador y borde Paso en la etiqueta (4 s, los quita Campus.jsx). */
+.zona--nuevo .zona__etiqueta { border-color: var(--paso); }
+.zona__nuevo {
+  position: absolute; bottom: calc(100% - 4px); left: 50%; transform: translateX(-50%); z-index: 2;
+  padding: 1px 8px; border-radius: var(--r-pill); background: var(--paso); color: var(--superficie);
+  font-size: 0.75rem; font-weight: 800; line-height: 1.3; white-space: nowrap; box-shadow: 0 1px 2px rgba(13, 43, 62, 0.3);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .zona--nuevo .zona__nuevo, .zona--nuevo .zona__etiqueta { animation: zona-nuevo 0.3s ease-out; }
+}
+@keyframes zona-nuevo { from { opacity: 0; transform: translateX(-50%) scale(0.85); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+@media (prefers-reduced-motion: no-preference) { .zona--nuevo .zona__etiqueta { animation-name: zona-nuevo-etiqueta; } }
+@keyframes zona-nuevo-etiqueta { from { opacity: 0; transform: translateY(-50%) scale(0.9); } to { opacity: 1; transform: translateY(-50%) scale(1); } }
+
+/* ---- Marcador de obra: cuadrado Pacífico de 36 px con el pictograma ---- */
+.obra-marca__cuadro {
+  position: relative; display: grid; place-items: center; width: 36px; height: 36px; box-sizing: border-box;
+  border-radius: 10px; border: 3px solid #fff; background: var(--marca-pacifico); color: #fff; box-shadow: 0 1px 4px rgba(13, 43, 62, 0.45);
+}
+.obra-marca__cuadro > svg { width: 18px; height: 18px; }
+.obra-marca__ok {
+  position: absolute; top: -10px; right: -10px; display: grid; place-items: center; width: 20px; height: 20px; box-sizing: border-box;
+  border-radius: 50%; border: 2px solid #fff; background: var(--paso); color: var(--superficie);
+}
+.obra-marca__ok svg { width: 11px; height: 11px; }
+.obra-marca { cursor: pointer; }
+.obra-marca--seleccionada .obra-marca__cuadro { box-shadow: 0 0 0 3px var(--cobalto), 0 2px 6px rgba(13, 43, 62, 0.45); }
+.obra-marca__etiqueta {
+  position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); white-space: nowrap;
+  padding: 2px 10px; border-radius: var(--r-pill); background: var(--cobalto); color: var(--sobre-cobalto);
+  font-size: 0.8125rem; font-weight: 700; line-height: 1.3;
+}

@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { anuncioSimulacion, estadosNuevos, estadoZona, etiquetaZona, frasePitch, ordenarObras } from './campus.js';
+import {
+  anuncioSimulacion, estadosNuevos, estadoZona, etiquetaZona, frasePitch, ordenarObras, resumenPlano, ubicacionObra, zonasMejoradas,
+} from './campus.js';
 import { simular } from '../../../motor/simulador.js';
 
 const leer = (ruta) => JSON.parse(readFileSync(new URL(ruta, import.meta.url), 'utf8'));
@@ -82,4 +84,24 @@ test('con el motor real: frase de silla de ruedas y lugares "Nuevo" al simular l
   assert.ok(con.con_obras.trayectos_con_barrera < hoy.hoy.trayectos_con_barrera);
   assert.ok(estadosNuevos(hoy.zonas, con.zonas).size > 0);
   for (const z of con.zonas) assert.equal(estadoZona(z), z.estado, z.nodo_id);
+});
+
+test('zonasMejoradas: solo marca los lugares que suben de estado', () => {
+  const antes = [
+    { nodo_id: 'a', estado: 'con_barrera' }, { nodo_id: 'b', estado: 'con_barrera' },
+    { nodo_id: 'c', estado: 'accesible' }, { nodo_id: 'd', estado: 'desvio' },
+  ];
+  const ahora = [
+    { nodo_id: 'a', estado: 'accesible' }, { nodo_id: 'b', estado: 'desvio' },
+    { nodo_id: 'c', estado: 'con_barrera' }, { nodo_id: 'd', estado: 'desvio' },
+  ];
+  assert.deepEqual([...zonasMejoradas(antes, ahora)].sort(), ['a', 'b']);
+  assert.equal(zonasMejoradas(null, ahora).size, 0);
+});
+
+test('ubicacionObra y resumenPlano', () => {
+  assert.equal(ubicacionObra({ id: 'no-existe' }), null);
+  assert.equal(ubicacionObra({ id: 'rampa-patio-biblioteca' }).length, 2);
+  const zonas = [{ nodo_id: 'a', estado: 'con_barrera' }, { nodo_id: 'b', estado: 'accesible' }, { nodo_id: 'c', estado: 'accesible' }];
+  assert.match(resumenPlano(zonas, 'silla_ruedas'), /3 lugares.*1 con barrera, 2 accesibles/);
 });

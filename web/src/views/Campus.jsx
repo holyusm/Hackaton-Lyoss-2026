@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Prohibit, UsersThree } from '@phosphor-icons/react';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import { useSimulador } from '../hooks/useSimulador.js';
 import {
-  anuncioSimulacion, BAJADA_ORDEN, DEFINICION_BARRERA, frasePitch, minutos, NOMBRE_PERFIL, ordenarObras, SUPUESTOS,
+  anuncioSimulacion, BAJADA_ORDEN, DEFINICION_BARRERA, frasePitch, minutos, NOMBRE_PERFIL, ordenarObras, SUPUESTOS, zonasMejoradas,
 } from '../lib/campus.js';
 import FilaObra from './campus/FilaObra.jsx';
 import FranjaComparativa from './campus/FranjaComparativa.jsx';
 import GrupoRadio from './campus/GrupoRadio.jsx';
+import SeccionZonas from './campus/SeccionZonas.jsx';
 import './Campus.css';
 
 // /campus (Lote 8): "¿Qué arreglar primero?" (nav: "Mejorar el campus"). Diseño: docs/diseno/vistas/lote-8-campus/README.md.
@@ -32,6 +33,26 @@ function useEnLinea() {
   return enLinea;
 }
 
+// Lugares que mejoraron con las obras simuladas, respecto de la respuesta anterior DEL MISMO perfil. `nuevos` dura hasta el próximo
+// cambio (lo usa la tabla, con el texto "(nuevo)"); `recientes` se apaga a los 4 s (píldora y borde del plano).
+function useZonasNuevas(datos, estado, perfil) {
+  const previo = useRef({ perfil: null, zonas: null });
+  const [nuevos, setNuevos] = useState(() => new Set());
+  const [recientes, setRecientes] = useState(() => new Set());
+  useEffect(() => {
+    if (estado !== 'ok' || !datos?.zonas || datos.perfil !== perfil) return undefined;
+    const antes = previo.current.perfil === perfil ? previo.current.zonas : null;
+    previo.current = { perfil, zonas: datos.zonas };
+    const mejoradas = zonasMejoradas(antes, datos.zonas);
+    setNuevos(mejoradas);
+    setRecientes(mejoradas);
+    if (mejoradas.size === 0) return undefined;
+    const t = setTimeout(() => setRecientes(new Set()), 4000);
+    return () => clearTimeout(t);
+  }, [datos, estado, perfil]);
+  return { nuevos, recientes };
+}
+
 export default function Campus() {
   const [params, setParams] = useSearchParams();
   const perfil = VALIDOS.includes(params.get('perfil')) ? params.get('perfil') : 'silla_ruedas';
@@ -40,11 +61,13 @@ export default function Campus() {
   const [activas, setActivas] = useState([]);
   const [orden, setOrden] = useState('trayectos');
   const [intento, setIntento] = useState(0);
+  const [seleccionada, setSeleccionada] = useState(null);
   const enLinea = useEnLinea();
   const { estado, datos: ultimos } = useSimulador(perfil, activas, intento);
   // Si la consulta nueva falla, no se muestran los datos anteriores como si fueran de esta elección (#137).
   const datos = estado === 'error' ? null : ultimos;
   const ocupada = estado === 'cargando';
+  const { nuevos, recientes } = useZonasNuevas(ultimos, estado, perfil);
 
   const alternar = (id) => setActivas((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]));
 
@@ -61,6 +84,7 @@ export default function Campus() {
     <FilaObra
       key={o.id} obra={o} posicion={posicion} perfil={perfil} activa={activas.includes(o.id)}
       onAlternar={alternar} motivo={motivo} motivoId="campus-sin-conexion"
+      seleccionada={seleccionada === o.id} onElegir={setSeleccionada}
     />
   );
 
@@ -142,6 +166,12 @@ export default function Campus() {
 
       {hoy && !estandar && (
         <div className="campus__cuerpo">
+          {datos.zonas?.length > 0 && (
+            <SeccionZonas
+              zonas={datos.zonas} obras={obras} activas={activas} perfil={perfil} nuevos={nuevos} recientes={recientes}
+              seleccionada={seleccionada} onElegirObra={setSeleccionada} ocupada={ocupada}
+            />
+          )}
           {obras.length > 0 && (
             <section className="campus__obras-bloque" aria-labelledby="campus-obras" aria-busy={ocupada || undefined}>
               <h2 id="campus-obras">Obras que más ayudan</h2>

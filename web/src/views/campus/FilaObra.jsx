@@ -14,6 +14,7 @@ export default function FilaObra({ obra, posicion, perfil, activa, onAlternar, s
     <li
       className={['campus__obra', activa && 'campus__obra--simulada', seleccionada && 'campus__obra--seleccionada', !ayuda && 'campus__obra--sin-efecto'].filter(Boolean).join(' ')}
       onMouseEnter={onElegir ? () => onElegir(obra.id) : undefined}
+      onFocus={onElegir ? () => onElegir(obra.id) : undefined}
     >
       <span className="campus__posicion cifras" aria-hidden="true">{posicion}</span>
       <div className="campus__obra-texto">
