@@ -95,3 +95,13 @@ test('perfil u obra desconocidos lanzan error', () => {
   assert.throws(() => simular(GRAFO, PERFILES, OBRAS, { perfil: 'nada' }), /perfil desconocido/);
   assert.throws(() => simular(GRAFO, PERFILES, OBRAS, { ids: ['no-existe'] }), /obra desconocida/);
 });
+
+test('un grafo inválido detiene la simulación con el tramo y el campo afectados', () => {
+  for (const campo of ['desde', 'hasta']) {
+    for (const id of ['', undefined, 'retirado']) {
+      const grafo = structuredClone(GRAFO);
+      grafo.tramos[0][campo] = id;
+      assert.throws(() => simular(grafo, PERFILES, []), new RegExp(`grafo inválido.*t1.*${campo}`));
+    }
+  }
+});

@@ -45,16 +45,24 @@ function advertenciasDe(tramo, de, a, nodos) {
   return w;
 }
 
+export function validarReferencias(grafo, nodosPorId = new Set(grafo.nodos.map((n) => n.id))) {
+  for (const t of grafo.tramos) {
+    for (const campo of ['desde', 'hasta', 'ascensor_id']) {
+      const id = t[campo];
+      if (campo === 'ascensor_id' && id == null) continue;
+      if (!id || !nodosPorId.has(id)) return `grafo inválido: el tramo ${t.id} tiene ${campo} "${id ?? ''}" que no existe`;
+    }
+  }
+  return null;
+}
+
 export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos = [] }) {
   const nodosPorId = new Map(grafo.nodos.map((n) => [n.id, n]));
   const nombres = new Map(grafo.nodos.map((n) => [n.id, n.nombre]));
   if (!nombres.has(desde)) return { ok: false, motivo: `origen desconocido: ${desde}` };
   if (!nombres.has(hasta)) return { ok: false, motivo: `destino desconocido: ${hasta}` };
-  for (const t of grafo.tramos) {
-    for (const [campo, id] of [['desde', t.desde], ['hasta', t.hasta], ['ascensor_id', t.ascensor_id]]) {
-      if (id && !nodosPorId.has(id)) return { ok: false, motivo: `grafo inválido: el tramo ${t.id} tiene ${campo} "${id}" que no existe` };
-    }
-  }
+  const errorGrafo = validarReferencias(grafo, nodosPorId);
+  if (errorGrafo) return { ok: false, motivo: errorGrafo };
   const prof = perfiles.find((p) => p.id === perfil);
   if (!prof) return { ok: false, motivo: `perfil desconocido: ${perfil}` };
 

@@ -4,7 +4,7 @@ import { raiz, leerDatos, asincrono } from './datos.js';
 import { rutasReportes, reportesActivos } from './reportes.js';
 import { calcularRuta, compararPerfiles } from '../motor/ruta.js';
 import { bloqueosDe } from '../motor/barreras.js';
-import { simular } from '../motor/simulador.js';
+import { simular, GrafoInvalido } from '../motor/simulador.js';
 
 const dist = raiz + 'web/dist';
 const app = express();
@@ -71,6 +71,7 @@ app.use((req, res) => {
 
 // JSON mal formado u otro error: siempre { error } en vez de HTML.
 app.use((err, req, res, next) => {
+  if (err instanceof GrafoInvalido) return res.status(500).json({ error: err.message });
   if (!err.status) console.error(err);
   res.status(err.status || 500).json({ error: err.status ? err.message : 'error interno' });
 });
