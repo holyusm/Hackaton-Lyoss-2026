@@ -6,7 +6,7 @@ import { aceptarRespuesta } from '../lib/ordenRespuestas.js';
 // Si una consulta falla, marca error y conserva el último valor bueno.
 // Descarta respuestas fuera de orden y cancela peticiones en curso al desmontar.
 export function useBarreras(intervalo = 5000) {
-  const [estado, setEstado] = useState({ barreras: [], error: false, actualizado: null });
+  const [estado, setEstado] = useState({ barreras: [], error: false, actualizado: null, inicioConsulta: null });
 
   useEffect(() => {
     const controlador = new AbortController();
@@ -21,12 +21,13 @@ export function useBarreras(intervalo = 5000) {
 
     const consultar = async () => {
       const consulta = ++iniciadas;
+      const inicioConsulta = performance.now();
       try {
         const r = await fetch('/api/reportes', { signal: controlador.signal });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const lista = await r.json();
         const barreras = lista.map((b) => ({ ...b, nivel: nivelReporte(b) }));
-        if (aceptar(consulta)) setEstado({ barreras, error: false, actualizado: new Date() });
+        if (aceptar(consulta)) setEstado({ barreras, error: false, actualizado: new Date(), inicioConsulta });
       } catch (err) {
         if (err?.name === 'AbortError') return;
         if (aceptar(consulta)) setEstado((e) => ({ ...e, error: true }));
