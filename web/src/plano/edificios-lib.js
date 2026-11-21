@@ -3,13 +3,13 @@
 
 // Edificios sin nombre en OSM que el equipo identificó.
 export const EXTRA = {
-  'relation/17542343': { letra: 'B', sub: 'Edificio central · nombre por confirmar' },
+  'relation/17542343': { letra: 'B', sub: 'Edificio central, nombre por confirmar' },
 };
 
 export function limpiar(nombre) {
   return (nombre || '')
     .replace('Comerdores', 'Comedores')
-    .replace('Federación de Estudiantes de la Universidad Técnica Federico Santa María', 'FEUTFSM · Federación de Estudiantes');
+    .replace('Federación de Estudiantes de la Universidad Técnica Federico Santa María', 'FEUTFSM, Federación de Estudiantes');
 }
 
 // Anillos exteriores [lng, lat] de un Polygon o MultiPolygon.

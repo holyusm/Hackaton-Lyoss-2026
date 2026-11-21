@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import L from 'leaflet';
 import { MapContainer, Marker, useMap, useMapEvents } from 'react-leaflet';
@@ -59,7 +59,7 @@ const ROTULOS = (() => {
   return [...mejor.values()];
 })();
 const iconoCalle = (r) => L.divIcon({ className: '', html: `<span class="plano-calle-nombre" style="transform:rotate(${r.ang.toFixed(1)}deg)">${r.nombre}</span>`, iconSize: [140, 20], iconAnchor: [70, 10] });
-const iconoAqui = L.divIcon({ className: '', html: '<span class="plano-aqui"><span class="plano-aqui__punto"></span><span class="plano-aqui__texto">Estás aquí · Acceso</span></span>', iconSize: [150, 24], iconAnchor: [12, 12] });
+const iconoAqui = L.divIcon({ className: '', html: '<span class="plano-aqui"><span class="plano-aqui__punto"></span><span class="plano-aqui__texto">Estás aquí, Acceso</span></span>', iconSize: [150, 24], iconAnchor: [12, 12] });
 const iconoBano = L.divIcon({ className: '', html: `<span class="plano-bano" aria-hidden="true">${renderToStaticMarkup(<Toilet weight="bold" />)}</span>`, iconSize: [24, 24], iconAnchor: [12, 12] });
 const iconoSala = (ref) => L.divIcon({ className: '', html: `<span class="plano-sala-ref">${ref}</span>`, iconSize: [40, 14], iconAnchor: [20, 7] });
 
@@ -135,7 +135,7 @@ function Ficha({ edificio, piso, onPiso, onCerrar, grafo, movil }) {
         <span className="plano-insignia plano-insignia--grande" aria-hidden="true">{edificio.letra ?? edificio.titulo.charAt(0)}</span>
         <div>
           <h2 id="plano-ficha-titulo">{edificio.titulo}</h2>
-          <p className="plano-ficha__sub">{[edificio.sub, aSub].filter(Boolean).join(' · ')}</p>
+          <p className="plano-ficha__sub">{[edificio.sub, aSub].filter(Boolean).join('. ')}</p>
         </div>
         <button type="button" className="plano-ficha__cerrar" aria-label="Cerrar ficha" onClick={onCerrar}><X weight="bold" aria-hidden="true" /></button>
       </div>
@@ -189,7 +189,14 @@ export default function Plano() {
     setClave(null);
     queueMicrotask(() => (volver ?? buscador.current)?.focus());
   };
-  const alElegirEnMapa = (k) => { const e = EDIFICIOS.find((x) => x.clave === k); if (e) elegir(e); };
+  // Estable: CapaPlano recrea la capa clicable si cambia la función.
+  const alElegirEnMapa = useCallback((k) => {
+    const e = EDIFICIOS.find((x) => x.clave === k);
+    if (!e) return;
+    abrio.current = null;
+    setClave(e.clave);
+    setPiso(pisoInicial(e));
+  }, []);
   const alTeclear = (ev) => { if (ev.key === 'Escape' && edificio) { ev.stopPropagation(); cerrar(); } };
 
   const etiquetaMapa = edificio ? `Plano de Casa Central. ${edificio.titulo} elegido, piso ${piso < 0 ? `menos ${-piso}` : piso}.` : 'Plano de Casa Central.';
