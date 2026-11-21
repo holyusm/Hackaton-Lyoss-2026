@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { calcularRuta, compararPerfiles } from './ruta.js';
+import { calcularRuta, compararPerfiles, conArticulo } from './ruta.js';
+import { armarRuta } from '../web/src/lib/pasos.js';
+import { armarFilas, fraseResumen } from '../web/src/lib/comparar.js';
 
 const leer = (f) => JSON.parse(readFileSync(new URL(`../data/${f}`, import.meta.url), 'utf8'));
 const grafo = leer('campus.json');
@@ -157,4 +159,56 @@ test('un nodo bloqueado que no es ascensor sigue siendo intransitable (origen, d
   assert.equal(calcularRuta(grafo, perfiles, { ...pasarela, hasta: 'pasarela-b-a' }).ok, false);
   const sinPaso = calcularRuta(grafo, perfiles, { ...pasarela, bloqueos: ['ascensor-a', 'pasarela-b-a'] });
   assert.equal(sinPaso.ok, false);
+});
+
+test('conArticulo usa "la" para Biblioteca y nombres femeninos, sin cambiar los textos existentes', () => {
+  const nodo = (id) => grafo.nodos.find((n) => n.id === id);
+  assert.equal(conArticulo(nodo('biblioteca')), 'la Biblioteca');
+  assert.equal(conArticulo({ id: 'bib-sur', nombre: 'Biblioteca Sur', tipo: 'edificio' }), 'la Biblioteca Sur');
+  assert.equal(conArticulo(nodo('sala-a201')), 'la Sala A-201');
+  assert.equal(conArticulo(nodo('entrada-principal')), 'la Entrada principal');
+  assert.equal(conArticulo(nodo('rampa-b')), 'la Rampa del Edificio B, piso 2');
+  assert.equal(conArticulo(nodo('pasarela-b-a')), 'la Pasarela entre los edificios B y A');
+  // Textos existentes no cambian
+  assert.equal(conArticulo(nodo('ascensor-a')), 'el Ascensor A');
+  assert.equal(conArticulo(nodo('edificio-a-p2')), 'el Edificio A, piso 2');
+  assert.equal(conArticulo(nodo('edificio-b')), 'el Edificio B');
+  assert.equal(conArticulo(nodo('casino')), 'el Casino');
+  assert.equal(conArticulo(nodo('bano-b')), 'el Baño accesible B');
+  assert.equal(conArticulo(nodo('patio-central')), 'Patio central');
+});
+
+test('los textos generados para destino biblioteca usan "la Biblioteca" y nunca "el Biblioteca"', () => {
+  const biblioteca = grafo.nodos.find((n) => n.id === 'biblioteca');
+
+  // Pasos en /mapa: entrada-principal -> biblioteca y patio-central -> biblioteca
+  const directa = armarRuta(grafo, calcularRuta(grafo, perfiles, { desde: 'entrada-principal', hasta: 'biblioteca', perfil: 'estandar' }));
+  assert.equal(directa.pasos.at(-1).instruccion, 'La Biblioteca está a 140 m.');
+  const desdePatio = armarRuta(grafo, calcularRuta(grafo, perfiles, { desde: 'patio-central', hasta: 'biblioteca', perfil: 'estandar' }));
+  assert.ok(desdePatio.pasos.some((p) => /la Biblioteca/i.test(p.instruccion)));
+
+  // Frase resumen en /comparar cuando silla de ruedas no tiene ruta hacia biblioteca
+  const comp = compararPerfiles(grafo, perfiles, { desde: 'entrada-principal', hasta: 'biblioteca' });
+  const frase = fraseResumen(armarFilas(grafo, comp), biblioteca);
+  assert.match(frase, /En silla de ruedas hoy no hay ruta hacia la Biblioteca\./);
+
+  // Advertencia del motor cuando un tramo con ascensor_id llega a biblioteca
+  const obra = leer('obras.json').find((o) => o.id === 'plataforma-patio-biblioteca');
+  const grafoConObra = {
+    ...grafo,
+    nodos: [...grafo.nodos, ...obra.nodos_nuevos],
+    tramos: [...grafo.tramos, ...obra.tramos_nuevos],
+  };
+  const conPlataforma = calcularRuta(grafoConObra, perfiles, { desde: 'patio-central', hasta: 'biblioteca', perfil: 'silla_ruedas' });
+  assert.equal(conPlataforma.ok, true);
+  assert.ok(conPlataforma.advertencias.includes('Usa la Plataforma elevadora del patio hasta la Biblioteca'));
+
+  // Ningún texto generado para destino biblioteca contiene "el Biblioteca"
+  const textos = [
+    ...directa.pasos.map((p) => p.instruccion),
+    ...desdePatio.pasos.map((p) => p.instruccion),
+    frase,
+    ...conPlataforma.advertencias,
+  ];
+  for (const t of textos) assert.doesNotMatch(t, /\bel Biblioteca\b/i, t);
 });
