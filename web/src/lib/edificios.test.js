@@ -1,13 +1,50 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { crearEdificios, pisosDe, pisoInicial, interior, nodoDestino, filtrarEdificios, limpiar } from '../plano/edificios-lib.js';
+import {
+  crearEdificios, pisosDe, pisoInicial, interior, nodoDestino, filtrarEdificios, limpiar, textoPisos, norm, FALTAN_EN_OSM, VECINOS,
+} from '../plano/edificios-lib.js';
 
 const leer = (r) => JSON.parse(readFileSync(new URL(r, import.meta.url), 'utf8'));
 const geo = leer('../plano/casa-central.geo.json');
 const grafo = leer('../../../data/campus.json');
 const lista = crearEdificios(geo);
 const por = (clave) => lista.find((e) => e.clave === clave);
+const ejemplos = leer('../../../docs/diseno/vistas/lote-10-plano/datos-ejemplo.json');
+
+test('la lista tiene los 25 edificios de datos-ejemplo, en su orden, sin el vecino Costa Santa María', () => {
+  assert.equal(lista.length, 25);
+  assert.deepEqual(lista.map((e) => e.clave), ejemplos.edificios.map((e) => e.clave));
+  assert.deepEqual(VECINOS, ['way/1082210883']);
+  assert.ok(lista.every((e) => e.osm !== 'way/1082210883'));
+});
+
+test('títulos, subtítulos, pisos y servicios coinciden con datos-ejemplo', () => {
+  for (const ej of ejemplos.edificios) {
+    const e = por(ej.clave);
+    assert.equal(e.titulo, ej.titulo, `${ej.clave}: título`);
+    assert.equal(e.sub, ej.subtitulo ?? '', `${ej.clave}: subtítulo`);
+    assert.equal(textoPisos(e), ej.pisosTexto, `${ej.clave}: texto de pisos`);
+    assert.equal(pisoInicial(e), ej.pisoInicial, `${ej.clave}: piso inicial`);
+    assert.deepEqual(pisosDe(e), ej.pisos ?? [], `${ej.clave}: pisos`);
+    assert.deepEqual(e.servicios, ej.servicios, `${ej.clave}: servicios`);
+  }
+});
+
+test('FEUTFSM se parte en título y subtítulo; sin subtítulo no hay relleno', () => {
+  const f = por('FEUTFSM, Federación de Estudiantes');
+  assert.equal(f.titulo, 'FEUTFSM');
+  assert.equal(f.sub, 'Federación de Estudiantes');
+  assert.equal(por('Kiosko').sub, '');
+  assert.ok(lista.every((e) => e.sub !== 'Edificio del campus'));
+});
+
+test('textoPisos: C con signo menos, plural, singular y por confirmar', () => {
+  assert.equal(textoPisos(por('C')), 'Pisos −1, 1 y 2');
+  assert.equal(textoPisos(por('T')), '4 pisos');
+  assert.equal(textoPisos(por('Kiosko')), '1 piso');
+  assert.equal(textoPisos(por('A')), 'Pisos por confirmar');
+});
 
 test('agrupa por letra y luego por nombre, con las letras primero y en orden numérico', () => {
   const claves = lista.map((e) => e.clave);
@@ -43,13 +80,14 @@ test('cada edificio trae bounds válidos y un centro dentro de ellos', () => {
   }
 });
 
-test('pisosDe: el C da -1, 1 y 2; con pisos conocidos 1..n (máximo 8); si no, solo el 1', () => {
+test('pisosDe: el C da -1, 1 y 2; con pisos conocidos 1..n (máximo 8); si no, ninguno', () => {
   assert.deepEqual(pisosDe(por('C')), [-1, 1, 2]);
   assert.deepEqual(pisosDe(por('T')), [1, 2, 3, 4]);
   assert.deepEqual(pisosDe({ letra: null, pisos: 20 }), [1, 2, 3, 4, 5, 6, 7, 8]);
-  assert.deepEqual(pisosDe(por('A')), [1]);
+  assert.deepEqual(pisosDe(por('A')), []);
   assert.equal(pisoInicial(por('C')), 2);
-  assert.equal(pisoInicial(por('A')), 1);
+  assert.equal(pisoInicial(por('T')), 1);
+  assert.equal(pisoInicial(por('A')), null);
 });
 
 test('interior: el C tiene salas en el piso 2 (con baños) y pasillos en el -1; el 1 y otros edificios no tienen', () => {
@@ -69,46 +107,42 @@ test('nodoDestino devuelve el nodo edificio de campus.json o null', () => {
   assert.equal(nodoDestino(grafo, null), null);
 });
 
-test('filtrarEdificios busca por letra, título, subtítulo y alias sin mayúsculas ni tildes', () => {
+test('filtrarEdificios busca por título, subtítulo y servicios sin mayúsculas ni tildes', () => {
   assert.equal(filtrarEdificios(lista, '').length, lista.length);
-  assert.ok(filtrarEdificios(lista, 'biblioteca').some((e) => e.letra === 'U'));
+  assert.deepEqual(filtrarEdificios(lista, 'biblioteca').map((e) => e.clave), ['U']);
   assert.ok(filtrarEdificios(lista, 'cafeteria').some((e) => e.letra === 'Q'));
-  assert.ok(filtrarEdificios(lista, 'Casino').some((e) => e.clave === 'Edificio Comedores'));
-  assert.ok(filtrarEdificios(lista, 'casino').some((e) => e.clave === 'Edificio Comedores'));
-  assert.ok(filtrarEdificios(lista, 'kiosco').some((e) => e.clave === 'Kiosko'));
-  assert.ok(filtrarEdificios(lista, 'rrhh').some((e) => e.clave === 'Dirección de Recursos Humanos'));
-  assert.ok(filtrarEdificios(lista, 'enfermeria').some((e) => e.clave === 'Sansamed'));
+  assert.ok(filtrarEdificios(lista, 'kiosko').some((e) => e.clave === 'Kiosko'));
+  assert.ok(filtrarEdificios(lista, 'recursos humanos').some((e) => e.clave === 'Dirección de Recursos Humanos'));
   assert.deepEqual(filtrarEdificios(lista, 'xyzxyz'), []);
+  assert.equal(norm('  Cafetería '), 'cafeteria');
 });
 
-test('filtrarEdificios prioriza coincidencia exacta de letra, luego prefijo de nombre o alias, luego el resto', () => {
-  const resC = filtrarEdificios(lista, 'C');
-  assert.equal(resC[0].letra, 'C', 'C devuelve primero el Edificio C');
-  assert.equal(filtrarEdificios(lista, '  c  ')[0].letra, 'C');
+test('filtrarEdificios: "casino" llega a Comedores por su servicio, con motivo', () => {
+  const res = filtrarEdificios(lista, 'Casino');
+  assert.equal(res.length, 1);
+  assert.equal(res[0].clave, 'Edificio Comedores');
+  assert.equal(res[0].motivo, 'Servicio: Casino');
+  assert.equal(por('Edificio Comedores').motivo, undefined, 'no muta el edificio original');
+});
 
-  const idxCasa = resC.findIndex((e) => e.clave === 'Casa Escuela de Graduados');
-  const idxComedores = resC.findIndex((e) => e.clave === 'Edificio Comedores');
-  const idxA = resC.findIndex((e) => e.letra === 'A');
-  assert.ok(idxCasa > 0 && idxCasa < idxA, 'nombre que empieza con c va antes que coincidencia interna');
-  assert.ok(idxComedores > 0 && idxComedores < idxA, 'alias que empieza con c (Casino) va antes que coincidencia interna');
+test('filtrarEdificios: un código busca solo la letra exacta', () => {
+  assert.deepEqual(filtrarEdificios(lista, 'c').map((e) => e.letra), ['C']);
+  assert.deepEqual(filtrarEdificios(lista, '  C  ').map((e) => e.letra), ['C']);
+  assert.deepEqual(filtrarEdificios(lista, 'm2').map((e) => e.letra), ['M2']);
+  assert.deepEqual(filtrarEdificios(lista, 'Edificio U').map((e) => e.letra), ['U']);
+  for (const e of lista.filter((x) => x.letra)) assert.deepEqual(filtrarEdificios(lista, e.letra).map((x) => x.letra), [e.letra]);
+  assert.deepEqual(filtrarEdificios(lista, 'Edificio H'), []);
+  assert.ok(FALTAN_EN_OSM.includes('H'));
+  assert.deepEqual(FALTAN_EN_OSM, ['H', 'O', 'J', 'I', 'N', 'F2', 'P2']);
+});
 
-  for (const e of lista.filter((x) => x.letra)) {
-    const res = filtrarEdificios(lista, e.letra);
-    assert.equal(res[0].letra, e.letra, `buscar "${e.letra}" devuelve primero Edificio ${e.letra}`);
+test('filtrarEdificios devuelve los resultados en el orden de la lista (ejemplos de datos-ejemplo)', () => {
+  const nombre = (e) => (e.motivo ? `${e.titulo} (servicio: ${e.motivo.replace('Servicio: ', '')})` : e.titulo);
+  for (const ej of ejemplos.ejemplosBusqueda) {
+    assert.deepEqual(filtrarEdificios(lista, ej.q).map(nombre), ej.resultados, `búsqueda «${ej.q}»`);
   }
-
-  const resM = filtrarEdificios(lista, 'M');
-  assert.equal(resM[0].letra, 'M');
-  assert.equal(resM[1].letra, 'M2');
-
-  const muestra = [
-    { clave: 'interno', letra: null, titulo: 'Edificio Alfa', sub: '', alias: [] },
-    { clave: 'alias', letra: null, titulo: 'Almuerzo', sub: '', alias: ['Casino'] },
-    { clave: 'prefijo', letra: null, titulo: 'Casa Central', sub: '', alias: [] },
-    { clave: 'C', letra: 'C', titulo: 'Edificio C', sub: '', alias: [] },
-  ];
-  const copia = [...muestra];
-  const ordenado = filtrarEdificios(muestra, 'c');
-  assert.deepEqual(ordenado.map((e) => e.clave), ['C', 'alias', 'prefijo', 'interno']);
-  assert.deepEqual(muestra, copia, 'no muta la lista recibida');
+  assert.equal(filtrarEdificios(lista, 'ca').length, 5);
+  const copia = [...lista];
+  filtrarEdificios(lista, 'ca');
+  assert.deepEqual(lista, copia, 'no muta la lista recibida');
 });
