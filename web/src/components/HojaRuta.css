@@ -71,3 +71,11 @@
 .mapa-lista__acciones { display: flex; justify-content: flex-end; }
 .mapa-lista .ruta-resumen__titulo { font-size: 2.25rem; }
 .mapa-lista .metrica dd { font-size: 3.5rem; }
+
+/* Con A+/A++ en un teléfono las tres cifras no caben: que cada una pueda encoger y partir su etiqueta
+   ("escalones") en vez de salirse por el borde derecho (#214). */
+.hoja-ruta .metrica, .mapa-lista .metrica { min-width: 0; }
+.hoja-ruta .metrica dt, .mapa-lista .metrica dt { hyphens: auto; overflow-wrap: anywhere; }
+[data-texto="grande"] .hoja-ruta .metrica, [data-texto="muy-grande"] .hoja-ruta .metrica { padding: 0 var(--e-2); }
+[data-texto="grande"] .hoja-ruta .metrica dd, [data-texto="muy-grande"] .hoja-ruta .metrica dd { font-size: min(var(--t-cifra), 12vw); }
+[data-texto="grande"] .hoja-ruta .metrica:first-child, [data-texto="muy-grande"] .hoja-ruta .metrica:first-child { padding-left: 0; }
