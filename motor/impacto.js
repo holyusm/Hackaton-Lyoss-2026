@@ -7,7 +7,7 @@ import { compararPerfiles } from './ruta.js';
 
 const leer = (f) => JSON.parse(readFileSync(new URL(`../data/${f}`, import.meta.url), 'utf8'));
 
-// Pares con ids reales del grafo. El último es el escenario de demo con el ascensor bloqueado.
+// Pares con ids reales del grafo. Los que llevan `bloqueos` son escenarios con un ascensor fuera de servicio.
 export const PARES = [
   { desde: 'entrada-principal', hasta: 'sala-a201' },
   { desde: 'entrada-principal', hasta: 'biblioteca' },
@@ -15,6 +15,8 @@ export const PARES = [
   { desde: 'entrada-principal', hasta: 'bano-b' },
   { desde: 'entrada-principal', hasta: 'edificio-a-p2' },
   { desde: 'entrada-principal', hasta: 'sala-a201', bloqueos: ['ascensor-a'] },
+  { desde: 'entrada-principal', hasta: 'sala-c231' },
+  { desde: 'entrada-principal', hasta: 'sala-c231', bloqueos: ['ascensor-c'] },
 ];
 
 // Una fila por par: { desde, hasta, bloqueos, nombreDesde, nombreHasta, resultados }.
@@ -72,7 +74,7 @@ export function resumenMarkdown(rows, perfiles = leer('perfiles.json')) {
   const nombreSilla = perfiles.find((p) => p.id === 'silla_ruedas').nombre.toLowerCase();
   const s = resumen(rows, 'silla_ruedas');
   const l = [];
-  l.push(`- Pares evaluados: ${s.total} (el último es el escenario con el ascensor A bloqueado).`);
+  l.push(`- Pares evaluados: ${s.total} (los de bloqueo son escenarios con un ascensor fuera de servicio).`);
   l.push(`- Pares sin ruta accesible en ${nombreSilla}: ${s.imposibles.length} de los ${s.destinos} destinos${s.imposibles.length ? ` (${s.imposibles.map(etiqueta).join('; ')})` : ''}.`);
   l.push(`- Pares con ruta en ${nombreSilla} y en estándar: ${s.comparables.length}. Diferencia de la ruta accesible frente a la estándar (metros, minutos):`);
   for (const d of s.difs) {
