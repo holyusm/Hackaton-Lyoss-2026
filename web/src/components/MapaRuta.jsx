@@ -69,11 +69,6 @@ function Vista({ coordenadas, bounds, alturaHoja, controles }) {
 
 export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras = [], alturaHoja = 304, controles = true, descripcion }) {
   const { posicion, bounds } = mapa;
-  const base = useMemo(() => grafo.tramos.map((t) => [
-    posicion(grafo.nodos.find((n) => n.id === t.desde)),
-    posicion(grafo.nodos.find((n) => n.id === t.hasta)),
-  ]), [grafo, posicion]);
-
   const marcadoresBarrera = useMemo(() => barreras.flatMap((b) => {
     let punto = null;
     if (b.nodo_id) punto = posicion(grafo.nodos.find((n) => n.id === b.nodo_id) ?? {});
@@ -109,17 +104,16 @@ export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras 
         keyboard={false}
       >
         <CapaPlano />
-        {base.map((par, i) => <Polyline key={i} positions={par} className="mapa-camino" weight={3} interactive={false} />)}
         {ruta.coordenadas.length > 1 && (
           <>
             <Polyline positions={ruta.coordenadas} className="ruta-borde" weight={12} lineCap="round" lineJoin="round" interactive={false} />
             <Polyline positions={ruta.coordenadas} className="ruta-linea" weight={6} lineCap="round" lineJoin="round" interactive={false} />
           </>
         )}
-        {marcadoresBarrera.map((m) => <Marker key={m.id} position={m.punto} icon={m.icono} {...sinInteraccion} />)}
-        {numeros.map((m) => <Marker key={m.n} position={m.punto} icon={m.icono} {...sinInteraccion} />)}
-        {pOrigen && <Marker position={pOrigen} icon={iconoOrigen} {...sinInteraccion} />}
-        {pDestino && <Marker position={pDestino} icon={iconDestino} {...sinInteraccion} />}
+        {marcadoresBarrera.map((m) => <Marker key={m.id} position={m.punto} icon={m.icono} zIndexOffset={0} {...sinInteraccion} />)}
+        {numeros.map((m) => <Marker key={m.n} position={m.punto} icon={m.icono} zIndexOffset={400} {...sinInteraccion} />)}
+        {pOrigen && <Marker position={pOrigen} icon={iconoOrigen} zIndexOffset={800} {...sinInteraccion} />}
+        {pDestino && <Marker position={pDestino} icon={iconDestino} zIndexOffset={1000} {...sinInteraccion} />}
         <Vista coordenadas={ruta.coordenadas} bounds={bounds} alturaHoja={alturaHoja} controles={controles} />
       </MapContainer>
     </div>
