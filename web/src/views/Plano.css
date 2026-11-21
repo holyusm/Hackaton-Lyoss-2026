@@ -86,3 +86,13 @@
   .plano__mapa .plano-controles { top: var(--e-4); }
   .plano__nota-datos { display: block; }
 }
+
+/* Zoom al 200 % (≈195 px): la cabecera de la ficha pasa a columna y el título no se parte letra por letra. */
+.plano-capa input { flex: none; }
+@media (max-width: 320px) {
+  .plano-ficha__cabeza { flex-wrap: wrap; }
+  .plano-ficha__cabeza > div { flex-basis: 100%; order: 3; }
+  .plano-ficha__cerrar { margin-left: auto; }
+  .plano-flotante { right: var(--e-3); }
+  .plano__mapa .plano-controles { top: 140px; right: var(--e-3); }
+}
