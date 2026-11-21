@@ -2,6 +2,7 @@ import express from 'express';
 import { existsSync } from 'node:fs';
 import { raiz, leerDatos } from './datos.js';
 import { rutasReportes, reportesActivos } from './reportes.js';
+import { obtenerPunto } from './puntos.js';
 import { calcularRuta, compararPerfiles } from '../motor/ruta.js';
 
 const dist = raiz + 'web/dist';
@@ -37,12 +38,7 @@ app.get('/api/ruta', conMotor(['desde', 'hasta', 'perfil'], calcularRuta));
 app.get('/api/comparar', conMotor(['desde', 'hasta'], compararPerfiles));
 
 // Punto QR: data/puntos.json es una lista de Punto (contrato §4).
-app.get('/api/puntos/:id', async (req, res) => {
-  const puntos = await leerDatos('puntos.json').catch(() => []);
-  const punto = puntos.find((p) => p.id === req.params.id);
-  if (punto) res.json(punto);
-  else res.status(404).json({ error: `punto "${req.params.id}" no encontrado` });
-});
+app.get('/api/puntos/:id', obtenerPunto());
 app.use('/api', (req, res) => res.status(404).json({ error: 'ruta no encontrada' }));
 
 // Frontend: archivos de web/dist y, para rutas del SPA (/mapa, /punto/:id...), index.html.
