@@ -1,0 +1,474 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Referencia: componentes</title><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet"/><style>
+body{margin:0}
+.pc-btn:focus-visible,.pc-fila:focus-visible,.pc-chip:focus-visible,.pc-check:focus-visible{outline:none;box-shadow:var(--foco)!important}
+.pc-fila[aria-pressed="false"]:hover{background:var(--hover)!important}
+</style></head><body>
+
+<div style="--foco: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C; --hover: #E9EEEE; box-sizing: border-box; width: 1440px; min-height: 100%; padding: 56px 64px 72px; background: #EFF2F1; color: #0D2B3E; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif; font-size: 18px; line-height: 1.5; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 900px">
+<h1 style="margin: 0; font-weight: 800; font-size: 44px; line-height: 1.1; letter-spacing: -0.03em">Componentes nuevos del plano</h1>
+<p style="margin: 0; font-size: 19px; color: #3E5566">Lote 10, /plano. Se arman con las piezas del Lote 0 (tokens, botón, chip, campo, foco doble) y no cambian ningún componente existente.</p>
+</div>
+<section aria-labelledby="c-fila" style="display: flex; flex-direction: column; gap: 20px">
+<div><h2 id="c-fila" style="margin: 0; font-weight: 800; font-size: 28px">Fila de edificio</h2><p style="margin: 4px 0 0; font-size: 17px; color: #3E5566; max-width: 80ch">Botón de 56 px como mínimo con aria-pressed. Insignia de 40 px, título y subtítulo. Lo elegido se invierte a Pacífico con check, igual que todo lo elegido en el sistema.</p></div>
+<div style="display: grid; grid-template-columns: repeat(3, 380px); gap: 24px 32px">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Normal</span>
+<ul style="margin: 0; padding: 12px; list-style: none; background: #FCFDFD; border: 1px solid #C9D3D6; border-radius: 20px">
+
+<li><button type="button" id="pc-fila-k" class="pc-fila" aria-pressed="false" style="width: 100%; min-height: 56px; box-sizing: border-box; padding: 8px 12px 8px 8px; border: 0; border-radius: 12px; background: transparent; color: #0D2B3E; box-shadow: none; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; font-family: inherit">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #E3E8FB; color: #182F9E; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1">K</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 800; font-size: 18px; line-height: 1.25">Edificio K</span><span style="font-size: 15px; line-height: 1.3; color: #3E5566">CIAC</span></span>
+
+</button></li>
+
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Hover</span>
+<ul style="margin: 0; padding: 12px; list-style: none; background: #FCFDFD; border: 1px solid #C9D3D6; border-radius: 20px">
+
+<li><button type="button" id="pc-fila-k" class="pc-fila" aria-pressed="false" style="width: 100%; min-height: 56px; box-sizing: border-box; padding: 8px 12px 8px 8px; border: 0; border-radius: 12px; background: #E9EEEE; color: #0D2B3E; box-shadow: none; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; font-family: inherit">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #E3E8FB; color: #182F9E; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1">K</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 800; font-size: 18px; line-height: 1.25">Edificio K</span><span style="font-size: 15px; line-height: 1.3; color: #3E5566">CIAC</span></span>
+
+</button></li>
+
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Foco</span>
+<ul style="margin: 0; padding: 12px; list-style: none; background: #FCFDFD; border: 1px solid #C9D3D6; border-radius: 20px">
+
+<li><button type="button" id="pc-fila-k" class="pc-fila" aria-pressed="false" style="width: 100%; min-height: 56px; box-sizing: border-box; padding: 8px 12px 8px 8px; border: 0; border-radius: 12px; background: transparent; color: #0D2B3E; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; font-family: inherit">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #E3E8FB; color: #182F9E; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1">K</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 800; font-size: 18px; line-height: 1.25">Edificio K</span><span style="font-size: 15px; line-height: 1.3; color: #3E5566">CIAC</span></span>
+
+</button></li>
+
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Elegida</span>
+<ul style="margin: 0; padding: 12px; list-style: none; background: #FCFDFD; border: 1px solid #C9D3D6; border-radius: 20px">
+
+<li><button type="button" id="pc-fila-c" class="pc-fila" aria-pressed="true" style="width: 100%; min-height: 56px; box-sizing: border-box; padding: 8px 12px 8px 8px; border: 0; border-radius: 12px; background: #0D2B3E; color: #EFF2F1; box-shadow: none; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; font-family: inherit">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #EFF2F1; color: #0D2B3E; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1">C</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 800; font-size: 18px; line-height: 1.25">Edificio C</span><span style="font-size: 15px; line-height: 1.3; color: #C9D6DD">Pisos −1, 1 y 2</span></span>
+<svg aria-hidden="true" viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><path d="M48 136l48 48 112-112"></path></svg>
+</button></li>
+
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Sin letra</span>
+<ul style="margin: 0; padding: 12px; list-style: none; background: #FCFDFD; border: 1px solid #C9D3D6; border-radius: 20px">
+
+<li><button type="button" id="pc-fila-feutfsm-federacion-de-estudiantes" class="pc-fila" aria-pressed="false" style="width: 100%; min-height: 56px; box-sizing: border-box; padding: 8px 12px 8px 8px; border: 0; border-radius: 12px; background: transparent; color: #0D2B3E; box-shadow: none; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; font-family: inherit">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #EFF2F1; color: #3E5566; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"><path d="M24 216h208M136 216V40H40v176M216 216V96h-80M72 80h32M72 120h32M72 160h32M168 136h16M168 176h16"></path></svg></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 800; font-size: 18px; line-height: 1.25">FEUTFSM</span><span style="font-size: 15px; line-height: 1.3; color: #3E5566">Federación de Estudiantes</span></span>
+
+</button></li>
+
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Encontrada por un servicio</span>
+<ul style="margin: 0; padding: 12px; list-style: none; background: #FCFDFD; border: 1px solid #C9D3D6; border-radius: 20px">
+
+<li><button type="button" id="pc-fila-edificio-comedores" class="pc-fila" aria-pressed="false" style="width: 100%; min-height: 56px; box-sizing: border-box; padding: 8px 12px 8px 8px; border: 0; border-radius: 12px; background: transparent; color: #0D2B3E; box-shadow: none; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; font-family: inherit">
+<span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #EFF2F1; color: #3E5566; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"><path d="M24 216h208M136 216V40H40v176M216 216V96h-80M72 80h32M72 120h32M72 160h32M168 136h16M168 176h16"></path></svg></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-weight: 800; font-size: 18px; line-height: 1.25">Edificio Comedores</span><span style="font-size: 15px; line-height: 1.3; color: #3E5566">Servicio: Casino</span></span>
+
+</button></li>
+
+</ul>
+</div>
+
+</div>
+</section>
+<section aria-labelledby="c-insignia" style="display: flex; flex-direction: column; gap: 20px">
+<div><h2 id="c-insignia" style="margin: 0; font-weight: 800; font-size: 28px">Insignia de letra</h2><p style="margin: 4px 0 0; font-size: 17px; color: #3E5566; max-width: 80ch">Radio 12. Chica de 40 px en la lista, grande de 56 px en la ficha. Sin letra va el ícono Buildings. Siempre va con aria-hidden: el nombre lo da el texto que la acompaña.</p></div>
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+<div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+<span aria-hidden="true" style="width: 40px; height: 40px; box-sizing: border-box; border-radius: 12px; border: 0; background: #E3E8FB; color: #182F9E; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; line-height: 1">C</span>
+<span style="font-size: 15px; line-height: 1.3; color: #3E5566; max-width: 130px">Chica, con letra</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+<span aria-hidden="true" style="width: 40px; height: 40px; box-sizing: border-box; border-radius: 12px; border: 0; background: #E3E8FB; color: #182F9E; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 17px; letter-spacing: -0.03em; line-height: 1">M2</span>
+<span style="font-size: 15px; line-height: 1.3; color: #3E5566; max-width: 130px">Chica, dos caracteres</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+<span aria-hidden="true" style="width: 40px; height: 40px; box-sizing: border-box; border-radius: 12px; border: 1px solid #C9D3D6; background: #EFF2F1; color: #3E5566; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; line-height: 1"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"><path d="M24 216h208M136 216V40H40v176M216 216V96h-80M72 80h32M72 120h32M72 160h32M168 136h16M168 176h16"></path></svg></span>
+<span style="font-size: 15px; line-height: 1.3; color: #3E5566; max-width: 130px">Chica, sin letra</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+<span aria-hidden="true" style="width: 56px; height: 56px; box-sizing: border-box; border-radius: 12px; border: 0; background: #2443D0; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 30px; letter-spacing: -0.03em; line-height: 1">T</span>
+<span style="font-size: 15px; line-height: 1.3; color: #3E5566; max-width: 130px">Grande, con letra</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+<span aria-hidden="true" style="width: 56px; height: 56px; box-sizing: border-box; border-radius: 12px; border: 1px solid #C9D3D6; background: #EFF2F1; color: #3E5566; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 30px; letter-spacing: -0.03em; line-height: 1"><svg viewbox="0 0 256 256" width="30" height="30" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"><path d="M24 216h208M136 216V40H40v176M216 216V96h-80M72 80h32M72 120h32M72 160h32M168 136h16M168 176h16"></path></svg></span>
+<span style="font-size: 15px; line-height: 1.3; color: #3E5566; max-width: 130px">Grande, sin letra</span>
+</div>
+
+</div>
+</section>
+<section aria-labelledby="c-ficha" style="display: flex; flex-direction: column; gap: 20px">
+<div><h2 id="c-ficha" style="margin: 0; font-weight: 800; font-size: 28px">Ficha del edificio</h2><p style="margin: 4px 0 0; font-size: 17px; color: #3E5566; max-width: 80ch">Panel flotante de 360 px, abajo a la derecha del plano. Solo aparece con un edificio elegido. Se anuncia con aria-live polite, solo con su título. Cerrar deselecciona y devuelve el foco a la fila de la lista.</p></div>
+<div style="display: flex; gap: 32px; align-items: flex-start">
+
+<div style="width: 360px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Con interior: Edificio C, piso 2</span>
+<section aria-labelledby="c-ficha-c-titulo" style="width: 100%; box-sizing: border-box; padding: 16px 20px 20px; border-radius: 20px; background: #FCFDFD; color: #0D2B3E; border: 1px solid #C9D3D6; box-shadow: 0 1px 0 rgba(13,43,62,0.06), 0 12px 32px rgba(13,43,62,0.12); display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: flex-start; gap: 14px">
+<span aria-hidden="true" style="width: 56px; height: 56px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #2443D0; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 30px; letter-spacing: -0.03em; line-height: 1">C</span>
+<div style="flex: 1; min-width: 0; padding-top: 2px">
+<h2 id="c-ficha-c-titulo" style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Edificio C</h2>
+
+<p style="margin: 2px 0 0; font-size: 17px; line-height: 1.3; color: #3E5566">Pisos −1, 1 y 2</p>
+</div>
+<button type="button" class="pc-btn" aria-label="Cerrar ficha" style="width: 48px; height: 48px; flex-shrink: 0; margin: -6px -8px 0 0; border: 0; border-radius: 999px; background: #EFF2F1; color: #0D2B3E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"></path></svg></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span id="c-ficha-c-piso" style="font-weight: 800; font-size: 16px">Piso</span>
+<div role="radiogroup" aria-labelledby="c-ficha-c-piso" style="display: flex; flex-wrap: wrap; gap: 8px">
+
+<button type="button" role="radio" class="pc-chip" aria-checked="false" tabindex="-1" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer">−1</button>
+
+<button type="button" role="radio" class="pc-chip" aria-checked="false" tabindex="-1" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer">1</button>
+
+<button type="button" role="radio" class="pc-chip" aria-checked="true" tabindex="0" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #0D2B3E; background: #0D2B3E; color: #EFF2F1; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer">2<svg viewbox="0 0 256 256" width="18" height="18" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg></button>
+
+</div>
+</div>
+
+<p style="margin: 0; display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.45; color: #3E5566"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><path d="M48 136l48 48 112-112"></path></svg><span>Plano interior del piso 2 según OpenStreetMap. Las salas marcadas con el ícono de baño son baños.</span></p>
+<div>
+<h3 style="margin: 0 0 2px; font-weight: 800; font-size: 17px">Accesibilidad</h3>
+<dl style="margin: 0">
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Entrada sin escalones</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Ascensor</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Baño accesible</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+</dl>
+</div>
+<a href="#inicio?destino=c" class="pc-btn" style="min-height: 60px; box-sizing: border-box; padding: 0 20px; border-radius: 12px; background: #2443D0; color: #FFFFFF; border-bottom: 4px solid #182F9E; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 48l168 64-80 24-24 80Z"></path></svg>Cómo llegar sin barreras</a>
+</section>
+</div>
+
+<div style="width: 360px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Sin interior: Edificio T, 4 pisos</span>
+<section aria-labelledby="c-ficha-t-titulo" style="width: 100%; box-sizing: border-box; padding: 16px 20px 20px; border-radius: 20px; background: #FCFDFD; color: #0D2B3E; border: 1px solid #C9D3D6; box-shadow: 0 1px 0 rgba(13,43,62,0.06), 0 12px 32px rgba(13,43,62,0.12); display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: flex-start; gap: 14px">
+<span aria-hidden="true" style="width: 56px; height: 56px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #2443D0; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 30px; letter-spacing: -0.03em; line-height: 1">T</span>
+<div style="flex: 1; min-width: 0; padding-top: 2px">
+<h2 id="c-ficha-t-titulo" style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Edificio T</h2>
+
+<p style="margin: 2px 0 0; font-size: 17px; line-height: 1.3; color: #3E5566">4 pisos</p>
+</div>
+<button type="button" class="pc-btn" aria-label="Cerrar ficha" style="width: 48px; height: 48px; flex-shrink: 0; margin: -6px -8px 0 0; border: 0; border-radius: 999px; background: #EFF2F1; color: #0D2B3E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"></path></svg></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span id="c-ficha-t-piso" style="font-weight: 800; font-size: 16px">Piso</span>
+<div role="radiogroup" aria-labelledby="c-ficha-t-piso" style="display: flex; flex-wrap: wrap; gap: 8px">
+
+<button type="button" role="radio" class="pc-chip" aria-checked="true" tabindex="0" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #0D2B3E; background: #0D2B3E; color: #EFF2F1; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer">1<svg viewbox="0 0 256 256" width="18" height="18" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg></button>
+
+<button type="button" role="radio" class="pc-chip" aria-checked="false" tabindex="-1" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer">2</button>
+
+<button type="button" role="radio" class="pc-chip" aria-checked="false" tabindex="-1" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer">3</button>
+
+<button type="button" role="radio" class="pc-chip" aria-checked="false" tabindex="-1" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer">4</button>
+
+</div>
+</div>
+
+<p style="margin: 0; display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.45; color: #3E5566"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M128 120v56M128 84h.01"></path></svg><span>Plano interior pendiente: se agrega con el levantamiento en terreno.</span></p>
+<div>
+<h3 style="margin: 0 0 2px; font-weight: 800; font-size: 17px">Accesibilidad</h3>
+<dl style="margin: 0">
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Entrada sin escalones</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Ascensor</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Baño accesible</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+</dl>
+</div>
+<a href="#inicio?destino=t" class="pc-btn" style="min-height: 60px; box-sizing: border-box; padding: 0 20px; border-radius: 12px; background: #2443D0; color: #FFFFFF; border-bottom: 4px solid #182F9E; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 48l168 64-80 24-24 80Z"></path></svg>Cómo llegar sin barreras</a>
+</section>
+</div>
+
+<div style="width: 360px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Sin pisos conocidos: Edificio A</span>
+<section aria-labelledby="c-ficha-a-titulo" style="width: 100%; box-sizing: border-box; padding: 16px 20px 20px; border-radius: 20px; background: #FCFDFD; color: #0D2B3E; border: 1px solid #C9D3D6; box-shadow: 0 1px 0 rgba(13,43,62,0.06), 0 12px 32px rgba(13,43,62,0.12); display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: flex-start; gap: 14px">
+<span aria-hidden="true" style="width: 56px; height: 56px; flex-shrink: 0; box-sizing: border-box; border-radius: 12px; border: 0; background: #2443D0; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 30px; letter-spacing: -0.03em; line-height: 1">A</span>
+<div style="flex: 1; min-width: 0; padding-top: 2px">
+<h2 id="c-ficha-a-titulo" style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Edificio A</h2>
+
+<p style="margin: 2px 0 0; font-size: 17px; line-height: 1.3; color: #3E5566">Pisos por confirmar</p>
+</div>
+<button type="button" class="pc-btn" aria-label="Cerrar ficha" style="width: 48px; height: 48px; flex-shrink: 0; margin: -6px -8px 0 0; border: 0; border-radius: 999px; background: #EFF2F1; color: #0D2B3E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"></path></svg></button>
+</div>
+
+<p style="margin: 0; display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.45; color: #3E5566"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M128 120v56M128 84h.01"></path></svg><span>Número de pisos y plano interior por confirmar en terreno.</span></p>
+<div>
+<h3 style="margin: 0 0 2px; font-weight: 800; font-size: 17px">Accesibilidad</h3>
+<dl style="margin: 0">
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Entrada sin escalones</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Ascensor</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+<div style="min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #C9D3D6">
+<dt style="font-size: 16px">Baño accesible</dt>
+<dd style="margin: 0; display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #3E5566; white-space: nowrap"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M100 104a28 28 0 1 1 40 25c-7 3-12 9-12 17v6M128 188v0"></path></svg>Por levantar</dd>
+</div>
+
+</dl>
+</div>
+<a href="#inicio?destino=a" class="pc-btn" style="min-height: 60px; box-sizing: border-box; padding: 0 20px; border-radius: 12px; background: #2443D0; color: #FFFFFF; border-bottom: 4px solid #182F9E; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 48l168 64-80 24-24 80Z"></path></svg>Cómo llegar sin barreras</a>
+</section>
+</div>
+
+</div>
+</section>
+<section aria-labelledby="c-chips" style="display: flex; flex-direction: column; gap: 20px">
+<div><h2 id="c-chips" style="margin: 0; font-weight: 800; font-size: 28px">Chips de piso</h2><p style="margin: 4px 0 0; font-size: 17px; color: #3E5566; max-width: 80ch">role="radiogroup" con la etiqueta "Piso". Píldoras de 48 px; solo la elegida entra al Tab y las flechas izquierda y derecha mueven la elección. El piso bajo cero se escribe "−1" (signo menos, no guion).</p></div>
+<div style="display: flex; gap: 40px; align-items: flex-end">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Normal</span>
+<span style="display: flex; gap: 8px"><span class="pc-chip" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 6px">1</span></span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Elegido</span>
+<span style="display: flex; gap: 8px"><span class="pc-chip" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #0D2B3E; background: #0D2B3E; color: #EFF2F1; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 6px">2<svg viewbox="0 0 256 256" width="18" height="18" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg></span></span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Foco</span>
+<span style="display: flex; gap: 8px"><span class="pc-chip" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 6px">−1</span></span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Grupo del Edificio C</span>
+<span style="display: flex; gap: 8px"><span class="pc-chip" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 6px">−1</span><span class="pc-chip" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #3E5566; background: #FCFDFD; color: #0D2B3E; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 6px">1</span><span class="pc-chip" style="min-width: 56px; height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #0D2B3E; background: #0D2B3E; color: #EFF2F1; box-shadow: none; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 6px">2<svg viewbox="0 0 256 256" width="18" height="18" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg></span></span>
+</div>
+
+</div>
+</section>
+<section aria-labelledby="c-capas" style="display: flex; flex-direction: column; gap: 20px">
+<div><h2 id="c-capas" style="margin: 0; font-weight: 800; font-size: 28px">Panel de capas con la leyenda de servicios</h2><p style="margin: 4px 0 0; font-size: 17px; color: #3E5566; max-width: 80ch">Arriba a la izquierda del plano. Casillas reales (input checkbox) dentro de un fieldset, todas marcadas al inicio; en móvil, Nombres de calles parte apagada. El título es un botón con aria-expanded: al elegir un edificio el panel se pliega para dejar ver el plano, y se vuelve a abrir con un toque.</p></div>
+<div style="display: flex; gap: 40px; align-items: flex-start">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Abierto, al cargar la vista</span>
+<div style="width: 288px; box-sizing: border-box; background: #FCFDFD; color: #0D2B3E; border: 1px solid #C9D3D6; border-radius: 20px; box-shadow: 0 1px 0 rgba(13,43,62,0.06), 0 12px 32px rgba(13,43,62,0.12)">
+<button type="button" class="pc-btn" aria-expanded="true" aria-controls="c-capas-1" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 20px; background: transparent; color: #0D2B3E; display: flex; align-items: center; gap: 10px; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 176l96 56 96-56M32 128l96 56 96-56M128 24L32 80l96 56 96-56Z"></path></svg><span style="flex: 1; text-align: left">Capas</span><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 160l64-64 64 64"></path></svg></button>
+
+<div id="c-capas-1" style="padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px">
+<fieldset style="margin: 0; padding: 0; border: 0; min-width: 0">
+<legend style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Capas del plano</legend>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" checked="true" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: none"><span style="flex: 1">Senderos</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M2 6H30" fill="none" stroke="#5F7680" stroke-width="2" stroke-dasharray="4 3"></path></svg></label>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" checked="true" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: none"><span style="flex: 1">Escaleras</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M2 6H30" fill="none" stroke="#0D2B3E" stroke-width="6" stroke-dasharray="1.6 2"></path></svg></label>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" checked="true" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: none"><span style="flex: 1">Servicios</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M10 6a6 6 0 1 0 12 0a6 6 0 1 0-12 0" fill="#FFFFFF" stroke="#0D2B3E" stroke-width="2" stroke-dasharray="none"></path></svg></label>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" checked="true" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: none"><span style="flex: 1">Nombres de calles</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M2 6H30" fill="none" stroke="#C2CDD0" stroke-width="7" stroke-dasharray="none"></path></svg></label>
+
+</fieldset>
+<div style="border-top: 1px solid #C9D3D6; padding-top: 10px">
+<h3 style="margin: 0 0 8px; font-weight: 800; font-size: 15px">Servicios</h3>
+<ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 8px">
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">P</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">P: </span>Estacionamiento</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">C</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">C: </span>Casino</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">B</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">B: </span>Bicicletas</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">S</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">S: </span>Centro estudiantil</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">R</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">R: </span>Estudio</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">$</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">$: </span>Cajero</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">I</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">I: </span>Investigación</span></li>
+
+</ul>
+<p style="margin: 10px 0 0; display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.25"><svg aria-hidden="true" width="24" height="24" viewbox="0 0 24 24" style="flex-shrink: 0"><circle cx="12" cy="12" r="11" fill="rgba(36,67,208,0.18)"></circle><circle cx="12" cy="12" r="5.5" fill="#2443D0" stroke="#FFFFFF" stroke-width="2"></circle></svg>Estás aquí, punto simulado</p>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Una capa apagada, con foco</span>
+<div style="width: 288px; box-sizing: border-box; background: #FCFDFD; color: #0D2B3E; border: 1px solid #C9D3D6; border-radius: 20px; box-shadow: 0 1px 0 rgba(13,43,62,0.06), 0 12px 32px rgba(13,43,62,0.12)">
+<button type="button" class="pc-btn" aria-expanded="true" aria-controls="c-capas-2" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 20px; background: transparent; color: #0D2B3E; display: flex; align-items: center; gap: 10px; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 176l96 56 96-56M32 128l96 56 96-56M128 24L32 80l96 56 96-56Z"></path></svg><span style="flex: 1; text-align: left">Capas</span><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 160l64-64 64 64"></path></svg></button>
+
+<div id="c-capas-2" style="padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px">
+<fieldset style="margin: 0; padding: 0; border: 0; min-width: 0">
+<legend style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Capas del plano</legend>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" checked="true" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: none"><span style="flex: 1">Senderos</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M2 6H30" fill="none" stroke="#5F7680" stroke-width="2" stroke-dasharray="4 3"></path></svg></label>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" checked="true" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: none"><span style="flex: 1">Escaleras</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M2 6H30" fill="none" stroke="#0D2B3E" stroke-width="6" stroke-dasharray="1.6 2"></path></svg></label>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" checked="true" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: none"><span style="flex: 1">Servicios</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M10 6a6 6 0 1 0 12 0a6 6 0 1 0-12 0" fill="#FFFFFF" stroke="#0D2B3E" stroke-width="2" stroke-dasharray="none"></path></svg></label>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.25; cursor: pointer"><input type="checkbox" class="pc-check" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2443D0; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C"><span style="flex: 1">Nombres de calles</span><svg aria-hidden="true" width="32" height="12" viewbox="0 0 32 12" style="flex-shrink: 0"><path d="M2 6H30" fill="none" stroke="#C2CDD0" stroke-width="7" stroke-dasharray="none"></path></svg></label>
+
+</fieldset>
+<div style="border-top: 1px solid #C9D3D6; padding-top: 10px">
+<h3 style="margin: 0 0 8px; font-weight: 800; font-size: 15px">Servicios</h3>
+<ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 8px">
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">P</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">P: </span>Estacionamiento</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">C</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">C: </span>Casino</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">B</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">B: </span>Bicicletas</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">S</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">S: </span>Centro estudiantil</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">R</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">R: </span>Estudio</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">$</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">$: </span>Cajero</span></li>
+
+<li style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.2"><span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center">I</span><span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">I: </span>Investigación</span></li>
+
+</ul>
+<p style="margin: 10px 0 0; display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.25"><svg aria-hidden="true" width="24" height="24" viewbox="0 0 24 24" style="flex-shrink: 0"><circle cx="12" cy="12" r="11" fill="rgba(36,67,208,0.18)"></circle><circle cx="12" cy="12" r="5.5" fill="#2443D0" stroke="#FFFFFF" stroke-width="2"></circle></svg>Estás aquí, punto simulado</p>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Plegado, con un edificio elegido</span>
+<div style="width: auto; box-sizing: border-box; background: #FCFDFD; color: #0D2B3E; border: 1px solid #C9D3D6; border-radius: 20px; box-shadow: 0 1px 0 rgba(13,43,62,0.06), 0 12px 32px rgba(13,43,62,0.12)">
+<button type="button" class="pc-btn" aria-expanded="false" aria-controls="c-capas-3" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 20px; background: transparent; color: #0D2B3E; display: flex; align-items: center; gap: 10px; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 176l96 56 96-56M32 128l96 56 96-56M128 24L32 80l96 56 96-56Z"></path></svg><span style="flex: 1; text-align: left">Capas</span><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 96l64 64 64-64"></path></svg></button>
+
+</div>
+</div>
+
+</div>
+</section>
+<section aria-labelledby="c-marcas" style="display: flex; flex-direction: column; gap: 20px">
+<div><h2 id="c-marcas" style="margin: 0; font-weight: 800; font-size: 28px">Marcadores del plano</h2><p style="margin: 4px 0 0; font-size: 17px; color: #3E5566; max-width: 80ch">Tamaño fijo en pantalla, no crecen con el zoom. Cada uno se distingue por forma y texto, no solo por color. Los servicios llevan su nombre en title o aria-label y no entran al Tab.</p></div>
+<div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Estás aquí</span>
+<svg width="300" height="80" viewbox="-210 -40 300 80" role="img" aria-label="Estás aquí, Acceso Av. España. Punto simulado." style="font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; background: #EEF2F1; border-radius: 12px"><circle r="22" fill="rgba(36,67,208,0.18)"></circle><circle r="9" fill="#2443D0" stroke="#FFFFFF" stroke-width="3"></circle><g transform="translate(-194 -15)"><rect width="168" height="30" rx="15" fill="#0D2B3E"></rect><text x="84" y="16" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="800" fill="#FCFDFD">Estás aquí, Acceso</text></g></svg>
+<span style="font-size: 15px; color: #3E5566; max-width: 300px">Punto Cobalto con halo. Es simulado y se declara en la leyenda de Capas.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Servicio, 28 px</span>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding: 14px 16px; border-radius: 12px; background: #EEF2F1">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span aria-hidden="true" style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center">P</span><span style="font-size: 13px; color: #3E5566">Estacionamiento</span></span><span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span aria-hidden="true" style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center">C</span><span style="font-size: 13px; color: #3E5566">Casino</span></span><span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span aria-hidden="true" style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center">B</span><span style="font-size: 13px; color: #3E5566">Bicicletas</span></span><span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span aria-hidden="true" style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center">S</span><span style="font-size: 13px; color: #3E5566">Centro estudiantil</span></span><span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span aria-hidden="true" style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center">R</span><span style="font-size: 13px; color: #3E5566">Estudio</span></span><span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span aria-hidden="true" style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center">$</span><span style="font-size: 13px; color: #3E5566">Cajero</span></span><span style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span aria-hidden="true" style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid #0D2B3E; background: #FFFFFF; color: #0D2B3E; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center">I</span><span style="font-size: 13px; color: #3E5566">Investigación</span></span>
+</div>
+<span style="font-size: 15px; color: #3E5566; max-width: 420px">Círculo blanco con borde Pacífico, como MarcadorMapa del Lote 0. Si dos chocan, el segundo se corre al lado.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Edificio elegido</span>
+<svg width="200" height="120" viewbox="0 0 200 120" role="img" aria-label="Edificio elegido: relleno Cobalto tinte, borde Cobalto de 3 px y la letra en una placa" style="font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; background: #EEF2F1; border-radius: 12px"><path d="M30 64L110 28L150 46L70 84Z" fill="#E3E8FB" stroke="#2443D0" stroke-width="3" stroke-linejoin="round"></path><rect x="74" y="41" width="32" height="30" rx="8" fill="#2443D0" stroke="#FCFDFD" stroke-width="2"></rect><text x="90" y="57" text-anchor="middle" dominant-baseline="central" font-size="18" font-weight="800" fill="#FFFFFF">T</text></svg>
+<span style="font-size: 15px; color: #3E5566; max-width: 220px">Borde de 3 px y placa con la letra, además del color.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 800; font-size: 16px">Sala y baño del interior</span>
+<svg width="240" height="120" viewbox="0 0 240 120" role="img" aria-label="Sala con su número y baño con el ícono Toilet" style="font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; background: #EEF2F1; border-radius: 12px"><rect x="16" y="20" width="110" height="80" fill="#FCFDFD" stroke="#3E5566" stroke-width="0.75"></rect><text x="71" y="60" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="700" fill="#0D2B3E">C219</text><rect x="126" y="20" width="98" height="80" fill="#D3EEE2" stroke="#0E7A57" stroke-width="1.5"></rect><circle cx="175" cy="60" r="11" fill="#0E7A57" stroke="#FCFDFD" stroke-width="2"></circle><svg x="168" y="53" width="14" height="14" viewbox="0 0 256 256" fill="none" stroke="#FFFFFF" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"><path d="M64 32h128v80H64ZM40 112h176a88 88 0 0 1-176 0ZM100 192l-12 32h80l-12-32"></path></svg></svg>
+<span style="font-size: 15px; color: #3E5566; max-width: 260px">Número en 11 px, solo si cabe en la sala. El baño va en Paso con el ícono Toilet.</span>
+</div>
+</div>
+</section>
+<section aria-labelledby="c-busca" style="display: flex; flex-direction: column; gap: 20px">
+<div><h2 id="c-busca" style="margin: 0; font-weight: 800; font-size: 28px">Búsqueda y estados de la lista</h2><p style="margin: 4px 0 0; font-size: 17px; color: #3E5566; max-width: 80ch">Campo type="search" con etiqueta visible. Busca por letra, nombre, subtítulo y servicios, sin importar mayúsculas ni tildes. El conteo vive en un aria-live polite. En móvil la etiqueta va pequeña dentro del campo flotante de 52 px.</p></div>
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+<div style="width: 340px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Vacío</span>
+<div style="box-sizing: border-box; padding: 18px 20px; border-radius: 20px; background: #FCFDFD; border: 1px solid #C9D3D6; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 17px">Buscar edificio o servicio</span>
+<span style="height: 60px; box-sizing: border-box; border-radius: 12px; border: 2px solid #3E5566; box-shadow: none; display: flex; align-items: center; gap: 10px; padding: 0 14px"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="#3E5566" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 112a72 72 0 1 0 144 0a72 72 0 1 0-144 0M164 164l52 52"></path></svg><span style="flex: 1; font-size: 18px; font-weight: 400; color: #3E5566">Ej.: Biblioteca, C, Casino</span></span>
+<span style="font-size: 16px; font-weight: 700; color: #3E5566">25 edificios</span>
+</div>
+</div>
+
+<div style="width: 340px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Con texto y foco</span>
+<div style="box-sizing: border-box; padding: 18px 20px; border-radius: 20px; background: #FCFDFD; border: 1px solid #C9D3D6; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 17px">Buscar edificio o servicio</span>
+<span style="height: 60px; box-sizing: border-box; border-radius: 12px; border: 2px solid #0D2B3E; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C; display: flex; align-items: center; gap: 10px; padding: 0 14px"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="#3E5566" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 112a72 72 0 1 0 144 0a72 72 0 1 0-144 0M164 164l52 52"></path></svg><span style="flex: 1; font-size: 18px; font-weight: 800; color: #0D2B3E">casino</span><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"></path></svg></span>
+<span style="font-size: 16px; font-weight: 700; color: #3E5566">1 edificio</span>
+</div>
+</div>
+
+<div style="width: 340px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Sin resultados</span>
+<div style="box-sizing: border-box; padding: 18px 20px; border-radius: 20px; background: #FCFDFD; border: 1px solid #C9D3D6; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 17px">Buscar edificio o servicio</span>
+<span style="height: 60px; box-sizing: border-box; border-radius: 12px; border: 2px solid #0D2B3E; box-shadow: none; display: flex; align-items: center; gap: 10px; padding: 0 14px"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="#3E5566" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 112a72 72 0 1 0 144 0a72 72 0 1 0-144 0M164 164l52 52"></path></svg><span style="flex: 1; font-size: 18px; font-weight: 800; color: #0D2B3E">xyz</span><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" aria-hidden="true"><path d="M64 64l128 128M192 64L64 192"></path></svg></span>
+<span style="font-size: 16px; font-weight: 700; color: #3E5566">Sin resultados para «xyz»</span>
+</div>
+</div>
+
+<div style="width: 340px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 800; font-size: 16px">Carga: esqueletos</span>
+<div aria-hidden="true" style="box-sizing: border-box; padding: 12px; border-radius: 20px; background: #FCFDFD; border: 1px solid #C9D3D6; display: flex; flex-direction: column; gap: 4px">
+<span style="min-height: 56px; box-sizing: border-box; padding: 8px; display: flex; align-items: center; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #DCE3E5"></span><span style="flex: 1; display: flex; flex-direction: column; gap: 8px"><span style="display: block; width: 70%; height: 14px; border-radius: 7px; background: #DCE3E5"></span><span style="display: block; width: 40%; height: 10px; border-radius: 5px; background: #E5EAEC"></span></span></span><span style="min-height: 56px; box-sizing: border-box; padding: 8px; display: flex; align-items: center; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #DCE3E5"></span><span style="flex: 1; display: flex; flex-direction: column; gap: 8px"><span style="display: block; width: 52%; height: 14px; border-radius: 7px; background: #DCE3E5"></span><span style="display: block; width: 30%; height: 10px; border-radius: 5px; background: #E5EAEC"></span></span></span><span style="min-height: 56px; box-sizing: border-box; padding: 8px; display: flex; align-items: center; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #DCE3E5"></span><span style="flex: 1; display: flex; flex-direction: column; gap: 8px"><span style="display: block; width: 64%; height: 14px; border-radius: 7px; background: #DCE3E5"></span><span style="display: block; width: 36%; height: 10px; border-radius: 5px; background: #E5EAEC"></span></span></span>
+</div>
+</div>
+</div>
+</section>
+<p style="margin: 0; font-size: 15px; color: #3E5566">© colaboradores de OpenStreetMap. Prototipo estudiantil. No es un servicio oficial de la USM.</p>
+</div>
+<script>(function(){var l=document.getElementById('pc-lista'),f=l&&l.querySelector('[aria-pressed="true"]');if(f){var li=f.parentNode;l.scrollTop=Math.max(0,li.offsetTop-l.clientHeight/2+li.offsetHeight/2);}})();</script></body></html>

@@ -1,0 +1,1161 @@
+{
+  "_nota": "Textos y datos de la vista /plano (Lote 10). La geometría completa está en web/src/plano/casa-central.geo.json; aquí van los datos que la vista muestra como texto. Todo sale de OpenStreetMap salvo lo marcado como supuesto.",
+  "textos": {
+    "titulo": "Plano de Casa Central",
+    "direccion": "Av. España 1680, Valparaíso",
+    "botonRuta": "Planificar una ruta accesible",
+    "buscarEtiqueta": "Buscar edificio o servicio",
+    "buscarEjemplo": "Ej.: Biblioteca, C, Casino",
+    "borrarBusqueda": "Borrar búsqueda",
+    "conteo": "{n} edificios",
+    "conteoUno": "1 edificio",
+    "sinResultados": "Sin resultados para «{q}»",
+    "sinResultadosAyuda": "Prueba con la letra del edificio o un servicio, como Casino.",
+    "sinResultadosFalta": "El Edificio {letra} todavía no está en OpenStreetMap, por eso no aparece en el plano.",
+    "verTodos": "Ver todos los edificios",
+    "cargandoLista": "Cargando edificios",
+    "cargandoPlano": "Dibujando el plano de Casa Central",
+    "capas": "Capas",
+    "capasLeyenda": "Capas del plano",
+    "capasItems": [
+      "Senderos",
+      "Escaleras",
+      "Servicios",
+      "Nombres de calles"
+    ],
+    "capasServicios": "Servicios",
+    "aquiLeyenda": "Estás aquí, punto simulado",
+    "zoom": {
+      "grupo": "Zoom del plano",
+      "acercar": "Acercar",
+      "alejar": "Alejar",
+      "todo": "Ver todo el campus"
+    },
+    "escala": "Escala: {m} m",
+    "atribucion": "© colaboradores de OpenStreetMap",
+    "aqui": "Estás aquí, Acceso",
+    "aquiNombre": "Estás aquí, Acceso Av. España. Punto simulado.",
+    "regionBase": "Plano de Casa Central.",
+    "regionElegido": "Plano de Casa Central. {titulo} elegido, piso {piso}.",
+    "regionAyuda": "Las flechas mueven el plano y las teclas más y menos lo acercan y alejan. Todos los edificios también están en la lista.",
+    "ficha": {
+      "piso": "Piso",
+      "accesibilidad": "Accesibilidad",
+      "filas": [
+        "Entrada sin escalones",
+        "Ascensor",
+        "Baño accesible"
+      ],
+      "valor": "Por levantar",
+      "boton": "Cómo llegar sin barreras",
+      "cerrar": "Cerrar ficha",
+      "notaInterior2": "Plano interior del piso 2 según OpenStreetMap. Las salas marcadas con el ícono de baño son baños.",
+      "notaInteriorMenos1": "Plano interior del piso −1 según OpenStreetMap: sus 3 pasillos.",
+      "notaSinInterior": "Plano interior pendiente: se agrega con el levantamiento en terreno.",
+      "notaSinPisos": "Número de pisos y plano interior por confirmar en terreno."
+    },
+    "servicioEnFila": "Servicio: {nombre}",
+    "pasillos": "Pasillos del piso −1",
+    "patio": "Patio Central",
+    "movil": {
+      "hojaVacia": "Toca un edificio o búscalo",
+      "rapidos": [
+        "C",
+        "A",
+        "U (Biblioteca)",
+        "M"
+      ],
+      "accesibilidad": "Accesibilidad: por levantar",
+      "otro": "Otro edificio",
+      "comoLlegar": "Cómo llegar",
+      "limite": "Se ven 6 de {n}. Sigue escribiendo para acotar.",
+      "masActual": "Más, estás en Plano"
+    },
+    "saltar": "Saltar a la lista de edificios"
+  },
+  "edificios": [
+    {
+      "id": "way-128370180",
+      "clave": "A",
+      "slug": "a",
+      "letra": "A",
+      "titulo": "Edificio A",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [
+        "Radio USM"
+      ],
+      "centro": [
+        260.8,
+        175.3
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "relation-17542343",
+      "clave": "B",
+      "slug": "b",
+      "letra": "B",
+      "titulo": "Edificio B",
+      "subtitulo": "Edificio central, nombre por confirmar",
+      "subtituloLista": "Edificio central, nombre por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [
+        "Sala de Estar y Ocio"
+      ],
+      "centro": [
+        293.6,
+        255.6
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343193",
+      "clave": "C",
+      "slug": "c",
+      "letra": "C",
+      "titulo": "Edificio C",
+      "subtitulo": null,
+      "subtituloLista": "Pisos −1, 1 y 2",
+      "pisos": [
+        -1,
+        1,
+        2
+      ],
+      "pisosTexto": "Pisos −1, 1 y 2",
+      "pisoInicial": 2,
+      "interior": [
+        -1,
+        2
+      ],
+      "servicios": [
+        "Banco Santander"
+      ],
+      "centro": [
+        348.3,
+        302.8
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343048",
+      "clave": "D",
+      "slug": "d",
+      "letra": "D",
+      "titulo": "Edificio D",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        207.5,
+        224.9
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-154421339",
+      "clave": "E",
+      "slug": "e",
+      "letra": "E",
+      "titulo": "Edificio E",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        182,
+        212.1
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343112",
+      "clave": "F",
+      "slug": "f",
+      "letra": "F",
+      "titulo": "Edificio F",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        154.4,
+        170.1
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-336761854",
+      "clave": "K",
+      "slug": "k",
+      "letra": "K",
+      "titulo": "Edificio K",
+      "subtitulo": "CIAC",
+      "subtituloLista": "CIAC",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        248.3,
+        324.6
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343141",
+      "clave": "L",
+      "slug": "l",
+      "letra": "L",
+      "titulo": "Edificio L",
+      "subtitulo": "Tribuna",
+      "subtituloLista": "Tribuna",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        367.8,
+        189.1
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-173079185",
+      "clave": "M",
+      "slug": "m",
+      "letra": "M",
+      "titulo": "Edificio M",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        496.6,
+        183.5
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343096",
+      "clave": "M2",
+      "slug": "m2",
+      "letra": "M2",
+      "titulo": "Edificio M2",
+      "subtitulo": "Gimnasio 2",
+      "subtituloLista": "Gimnasio 2",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        468.5,
+        178.3
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-687247034",
+      "clave": "P",
+      "slug": "p",
+      "letra": "P",
+      "titulo": "Edificio P",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        378.7,
+        389.7
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343091",
+      "clave": "Q",
+      "slug": "q",
+      "letra": "Q",
+      "titulo": "Edificio Q",
+      "subtitulo": "Cafetería Vivendum",
+      "subtituloLista": "Cafetería Vivendum",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        218.7,
+        280.6
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343117",
+      "clave": "R",
+      "slug": "r",
+      "letra": "R",
+      "titulo": "Edificio R",
+      "subtitulo": null,
+      "subtituloLista": "2 pisos",
+      "pisos": [
+        1,
+        2
+      ],
+      "pisosTexto": "2 pisos",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        494,
+        269
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-313489304",
+      "clave": "T",
+      "slug": "t",
+      "letra": "T",
+      "titulo": "Edificio T",
+      "subtitulo": null,
+      "subtituloLista": "4 pisos",
+      "pisos": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "pisosTexto": "4 pisos",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        67.4,
+        211
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343033",
+      "clave": "U",
+      "slug": "u",
+      "letra": "U",
+      "titulo": "Edificio U",
+      "subtitulo": "Biblioteca",
+      "subtituloLista": "Biblioteca",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        306.5,
+        185.4
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-577285628",
+      "clave": "Casa Escuela de Graduados",
+      "slug": "casa-escuela-de-graduados",
+      "letra": null,
+      "titulo": "Casa Escuela de Graduados",
+      "subtitulo": null,
+      "subtituloLista": "2 pisos",
+      "pisos": [
+        1,
+        2
+      ],
+      "pisosTexto": "2 pisos",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        549.2,
+        99.8
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-517804317",
+      "clave": "Dirección de Recursos Humanos",
+      "slug": "direccion-de-recursos-humanos",
+      "letra": null,
+      "titulo": "Dirección de Recursos Humanos",
+      "subtitulo": null,
+      "subtituloLista": "1 piso",
+      "pisos": [
+        1
+      ],
+      "pisosTexto": "1 piso",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        573.3,
+        224
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343071",
+      "clave": "Edificio Comedores",
+      "slug": "edificio-comedores",
+      "letra": null,
+      "titulo": "Edificio Comedores",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [
+        "Casino"
+      ],
+      "centro": [
+        211.2,
+        244.3
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-298986393",
+      "clave": "Edificio de Innovación Tecnológica",
+      "slug": "edificio-de-innovacion-tecnologica",
+      "letra": null,
+      "titulo": "Edificio de Innovación Tecnológica",
+      "subtitulo": null,
+      "subtituloLista": "4 pisos",
+      "pisos": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "pisosTexto": "4 pisos",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        561.3,
+        83.1
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-577285640",
+      "clave": "FEUTFSM, Federación de Estudiantes",
+      "slug": "feutfsm-federacion-de-estudiantes",
+      "letra": null,
+      "titulo": "FEUTFSM",
+      "subtitulo": "Federación de Estudiantes",
+      "subtituloLista": "Federación de Estudiantes",
+      "pisos": [
+        1
+      ],
+      "pisosTexto": "1 piso",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        526.5,
+        186.3
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343121",
+      "clave": "Gimnasio 1",
+      "slug": "gimnasio-1",
+      "letra": null,
+      "titulo": "Gimnasio 1",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        278.3,
+        215.9
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-1278343153",
+      "clave": "Kiosko",
+      "slug": "kiosko",
+      "letra": null,
+      "titulo": "Kiosko",
+      "subtitulo": null,
+      "subtituloLista": "1 piso",
+      "pisos": [
+        1
+      ],
+      "pisosTexto": "1 piso",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        258.3,
+        232
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-173080079",
+      "clave": "Museo Institucional UTFSM",
+      "slug": "museo-institucional-utfsm",
+      "letra": null,
+      "titulo": "Museo Institucional UTFSM",
+      "subtitulo": null,
+      "subtituloLista": "3 pisos",
+      "pisos": [
+        1,
+        2,
+        3
+      ],
+      "pisosTexto": "3 pisos",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        342.6,
+        119.7
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-298985047",
+      "clave": "Sansamed",
+      "slug": "sansamed",
+      "letra": null,
+      "titulo": "Sansamed",
+      "subtitulo": null,
+      "subtituloLista": "2 pisos",
+      "pisos": [
+        1,
+        2
+      ],
+      "pisosTexto": "2 pisos",
+      "pisoInicial": 1,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        461.7,
+        287.5
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    },
+    {
+      "id": "way-298986389",
+      "clave": "Sansanito",
+      "slug": "sansanito",
+      "letra": null,
+      "titulo": "Sansanito",
+      "subtitulo": null,
+      "subtituloLista": "Pisos por confirmar",
+      "pisos": null,
+      "pisosTexto": "Pisos por confirmar",
+      "pisoInicial": null,
+      "interior": [],
+      "servicios": [],
+      "centro": [
+        470.8,
+        266
+      ],
+      "accesibilidad": {
+        "entradaSinEscalones": "por levantar",
+        "ascensor": "por levantar",
+        "banoAccesible": "por levantar"
+      }
+    }
+  ],
+  "interiorEdificioC": {
+    "piso2": {
+      "salas": [
+        "C201",
+        "C202",
+        "C203",
+        "C204",
+        "C206",
+        "C207",
+        "C208",
+        "C219",
+        "C221",
+        "C222",
+        "C223",
+        "C224",
+        "C225",
+        "C226",
+        "C227S",
+        "C228",
+        "C229",
+        "C230",
+        "C231",
+        "C232",
+        "C233",
+        "C234",
+        "C235",
+        "C236",
+        "C237",
+        "C238",
+        "C239",
+        "C240",
+        "C242",
+        "C244",
+        "C245",
+        "C246",
+        "C247"
+      ],
+      "banos": 2,
+      "sinNumero": 5
+    },
+    "pisoMenos1": {
+      "pasillos": 3
+    },
+    "piso1": "sin interior en OSM"
+  },
+  "servicios": [
+    {
+      "letra": "P",
+      "tipo": "parking",
+      "nombreTipo": "Estacionamiento",
+      "nombreOSM": "Universidad Técnica Federico Santa María",
+      "punto": [
+        235,
+        112.9
+      ]
+    },
+    {
+      "letra": "C",
+      "tipo": "restaurant",
+      "nombreTipo": "Casino",
+      "nombreOSM": "Casino",
+      "punto": [
+        234.3,
+        239.1
+      ]
+    },
+    {
+      "letra": "B",
+      "tipo": "bicycle_parking",
+      "nombreTipo": "Bicicletas",
+      "nombreOSM": "Estacionamiento de bicicletas",
+      "punto": [
+        224.4,
+        120.3
+      ]
+    },
+    {
+      "letra": "B",
+      "tipo": "bicycle_parking",
+      "nombreTipo": "Bicicletas",
+      "nombreOSM": "Estacionamiento de bicicletas",
+      "punto": [
+        509.9,
+        199
+      ]
+    },
+    {
+      "letra": "B",
+      "tipo": "bicycle_parking",
+      "nombreTipo": "Bicicletas",
+      "nombreOSM": "Estacionamiento de bicicletas",
+      "punto": [
+        297.7,
+        361.2
+      ]
+    },
+    {
+      "letra": "S",
+      "tipo": "community_centre",
+      "nombreTipo": "Centro estudiantil",
+      "nombreOSM": "Sala de Estar y Ocio",
+      "punto": [
+        266.4,
+        240.5
+      ]
+    },
+    {
+      "letra": "R",
+      "tipo": "studio",
+      "nombreTipo": "Estudio",
+      "nombreOSM": "Radio USM",
+      "punto": [
+        228.3,
+        192
+      ]
+    },
+    {
+      "letra": "$",
+      "tipo": "atm",
+      "nombreTipo": "Cajero",
+      "nombreOSM": "Banco Santander",
+      "punto": [
+        342.7,
+        327.8
+      ]
+    },
+    {
+      "letra": "B",
+      "tipo": "bicycle_parking",
+      "nombreTipo": "Bicicletas",
+      "nombreOSM": "Estacionamiento de Bicicletas",
+      "punto": [
+        248.1,
+        306.8
+      ]
+    },
+    {
+      "letra": "I",
+      "tipo": "research_institute",
+      "nombreTipo": "Investigación",
+      "nombreOSM": "AC3E",
+      "punto": [
+        595.1,
+        63
+      ]
+    }
+  ],
+  "leyendaServicios": [
+    {
+      "l": "P",
+      "n": "Estacionamiento"
+    },
+    {
+      "l": "C",
+      "n": "Casino"
+    },
+    {
+      "l": "B",
+      "n": "Bicicletas"
+    },
+    {
+      "l": "S",
+      "n": "Centro estudiantil"
+    },
+    {
+      "l": "R",
+      "n": "Estudio"
+    },
+    {
+      "l": "$",
+      "n": "Cajero"
+    },
+    {
+      "l": "I",
+      "n": "Investigación"
+    }
+  ],
+  "nombresDeCalles": [
+    {
+      "nombre": "Av. España",
+      "punto": [
+        367,
+        47
+      ],
+      "giro": -21
+    },
+    {
+      "nombre": "San Luis",
+      "punto": [
+        302,
+        430
+      ],
+      "giro": 67
+    },
+    {
+      "nombre": "General Bari",
+      "punto": [
+        526,
+        120
+      ],
+      "giro": -16
+    },
+    {
+      "nombre": "Valdés",
+      "punto": [
+        532,
+        229
+      ],
+      "giro": 69
+    },
+    {
+      "nombre": "Av. Los Placeres",
+      "punto": [
+        365,
+        348
+      ],
+      "giro": -23
+    },
+    {
+      "nombre": "Av. Matta",
+      "punto": [
+        536,
+        337
+      ],
+      "giro": 67
+    }
+  ],
+  "estasAqui": {
+    "punto": [
+      289,
+      68
+    ],
+    "latlon": [
+      -33.033897,
+      -71.59523
+    ],
+    "lugar": "Acceso Av. España",
+    "simulado": true
+  },
+  "supuestos": [
+    "relation/17542343 es el Edificio B, con el subtítulo \"Edificio central, nombre por confirmar\". En OSM no tiene nombre.",
+    "H, O, J, I, N, F2 y P2 no están en OSM: no se dibujan ni aparecen en la lista. Si alguien los busca, la vista lo dice.",
+    "Edificio Costa Santa María (way/1082210883) es un edificio residencial vecino: se dibuja como vecino y no entra a la lista.",
+    "\"Comerdores\" se muestra como \"Comedores\". El nombre largo de la Federación se muestra como \"FEUTFSM, Federación de Estudiantes\".",
+    "La accesibilidad de cada edificio es \"Por levantar\" hasta el levantamiento en terreno.",
+    "Estás aquí es un punto simulado en el Acceso Av. España.",
+    "La escala del tablero supone que una unidad del plano mide cerca de 1 m; en la app la calcula el control de escala de Leaflet."
+  ],
+  "ejemplosBusqueda": [
+    {
+      "q": "",
+      "conteo": "25 edificios",
+      "resultados": [
+        "Edificio A",
+        "Edificio B",
+        "Edificio C",
+        "Edificio D",
+        "Edificio E",
+        "Edificio F",
+        "Edificio K",
+        "Edificio L",
+        "Edificio M",
+        "Edificio M2",
+        "Edificio P",
+        "Edificio Q",
+        "Edificio R",
+        "Edificio T",
+        "Edificio U",
+        "Casa Escuela de Graduados",
+        "Dirección de Recursos Humanos",
+        "Edificio Comedores",
+        "Edificio de Innovación Tecnológica",
+        "FEUTFSM",
+        "Gimnasio 1",
+        "Kiosko",
+        "Museo Institucional UTFSM",
+        "Sansamed",
+        "Sansanito"
+      ],
+      "faltaEnOSM": null
+    },
+    {
+      "q": "biblioteca",
+      "conteo": "1 edificio",
+      "resultados": [
+        "Edificio U"
+      ],
+      "faltaEnOSM": null
+    },
+    {
+      "q": "casino",
+      "conteo": "1 edificio",
+      "resultados": [
+        "Edificio Comedores (servicio: Casino)"
+      ],
+      "faltaEnOSM": null
+    },
+    {
+      "q": "c",
+      "conteo": "1 edificio",
+      "resultados": [
+        "Edificio C"
+      ],
+      "faltaEnOSM": null
+    },
+    {
+      "q": "m2",
+      "conteo": "1 edificio",
+      "resultados": [
+        "Edificio M2"
+      ],
+      "faltaEnOSM": null
+    },
+    {
+      "q": "ca",
+      "conteo": "5 edificios",
+      "resultados": [
+        "Edificio Q",
+        "Edificio U",
+        "Casa Escuela de Graduados",
+        "Edificio Comedores (servicio: Casino)",
+        "Edificio de Innovación Tecnológica"
+      ],
+      "faltaEnOSM": null
+    },
+    {
+      "q": "Edificio H",
+      "conteo": "Sin resultados para «Edificio H»",
+      "resultados": [],
+      "faltaEnOSM": "H"
+    },
+    {
+      "q": "xyz",
+      "conteo": "Sin resultados para «xyz»",
+      "resultados": [],
+      "faltaEnOSM": null
+    }
+  ],
+  "tokensDelPlano": {
+    "claro": {
+      "fondo": "#E2E8E7",
+      "vecino": "#D3DBDD",
+      "campus": "#EEF2F1",
+      "campusBorde": "#9FB0B5",
+      "calle": "#FCFDFD",
+      "calleBorde": "#C2CDD0",
+      "patio": "#F6F8F7",
+      "edif": "#FCFDFD",
+      "edifBorde": "#3E5566",
+      "edifSuave": "#E3E9EA",
+      "edifSuaveBorde": "#9FB0B5",
+      "hover": "#EEF1FB",
+      "sel": "#E3E8FB",
+      "selBorde": "#2443D0",
+      "sendero": "#5F7680",
+      "escalera": "#0D2B3E",
+      "sala": "#FCFDFD",
+      "salaBorde": "#3E5566",
+      "pasillo": "#E9EEED",
+      "bano": "#D3EEE2",
+      "banoBorde": "#0E7A57",
+      "banoIcono": "#0E7A57",
+      "sobreBano": "#FFFFFF",
+      "rotulo": "#3E5566",
+      "letra": "#0D2B3E",
+      "halo": "#FCFDFD",
+      "servFondo": "#FFFFFF",
+      "servBorde": "#0D2B3E",
+      "servTx": "#0D2B3E",
+      "aqui": "#2443D0",
+      "aquiHalo": "rgba(36,67,208,0.18)",
+      "aquiBorde": "#FFFFFF",
+      "etiquetaFondo": "#0D2B3E",
+      "etiquetaTx": "#FCFDFD",
+      "bwEdif": 1.25,
+      "bwSel": 3
+    },
+    "oscuro": {
+      "fondo": "#0B1F2D",
+      "vecino": "#14293A",
+      "campus": "#132D3F",
+      "campusBorde": "#3A5A6E",
+      "calle": "#1C3A4F",
+      "calleBorde": "#2A4A5E",
+      "patio": "#17364B",
+      "edif": "#22435A",
+      "edifBorde": "#A9BBC5",
+      "edifSuave": "#1A3446",
+      "edifSuaveBorde": "#3A5A6E",
+      "hover": "#2C4F78",
+      "sel": "#1E3366",
+      "selBorde": "#8FA5FF",
+      "sendero": "#8EA5B2",
+      "escalera": "#E8EFF1",
+      "sala": "#1A3446",
+      "salaBorde": "#A9BBC5",
+      "pasillo": "#132D3F",
+      "bano": "#164A3A",
+      "banoBorde": "#4FD1A1",
+      "banoIcono": "#4FD1A1",
+      "sobreBano": "#0A1C29",
+      "rotulo": "#A9BBC5",
+      "letra": "#E8EFF1",
+      "halo": "#0B1F2D",
+      "servFondo": "#11293A",
+      "servBorde": "#E8EFF1",
+      "servTx": "#E8EFF1",
+      "aqui": "#8FA5FF",
+      "aquiHalo": "rgba(143,165,255,0.25)",
+      "aquiBorde": "#0A1C29",
+      "etiquetaFondo": "#E8EFF1",
+      "etiquetaTx": "#0A1C29",
+      "bwEdif": 1.25,
+      "bwSel": 3
+    },
+    "contraste": {
+      "fondo": "#FFFFFF",
+      "vecino": "#E6E6E6",
+      "campus": "#FFFFFF",
+      "campusBorde": "#000000",
+      "calle": "#FFFFFF",
+      "calleBorde": "#000000",
+      "patio": "#FFFFFF",
+      "edif": "#FFFFFF",
+      "edifBorde": "#000000",
+      "edifSuave": "#F0F0F0",
+      "edifSuaveBorde": "#000000",
+      "hover": "#E3E8FB",
+      "sel": "#E3E8FB",
+      "selBorde": "#1A2FA0",
+      "sendero": "#000000",
+      "escalera": "#000000",
+      "sala": "#FFFFFF",
+      "salaBorde": "#000000",
+      "pasillo": "#F0F0F0",
+      "bano": "#FFFFFF",
+      "banoBorde": "#00593F",
+      "banoIcono": "#00593F",
+      "sobreBano": "#FFFFFF",
+      "rotulo": "#000000",
+      "letra": "#000000",
+      "halo": "#FFFFFF",
+      "servFondo": "#FFFFFF",
+      "servBorde": "#000000",
+      "servTx": "#000000",
+      "aqui": "#1A2FA0",
+      "aquiHalo": "rgba(26,47,160,0.16)",
+      "aquiBorde": "#FFFFFF",
+      "etiquetaFondo": "#000000",
+      "etiquetaTx": "#FFFFFF",
+      "bwEdif": 2,
+      "bwSel": 4
+    },
+    "foco": {
+      "claro": "0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C",
+      "oscuro": "0 0 0 3px #E8EFF1, 0 0 0 6px #FFC72C",
+      "contraste": "0 0 0 3px #000000, 0 0 0 6px #FFC72C"
+    },
+    "hoverFila": {
+      "claro": "#E9EEEE",
+      "oscuro": "#1A3446",
+      "contraste": "#E3E8FB"
+    }
+  }
+}

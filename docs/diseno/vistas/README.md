@@ -13,7 +13,7 @@ José diseña cada vista en Claude Design y deja aquí lo exportado. Quien imple
 | [lote-6-acerca](lote-6-acerca/) | `/acerca` | listo | @holyusm |
 | [lote-7-estados](lote-7-estados/) | todas | listo | @holyusm |
 | [lote-8-campus](lote-8-campus/) | `/campus` | pendiente | @Gxppe |
-| [lote-10-plano](lote-10-plano/) | `/plano` | listo | @juaquo15 |
+| [lote-10-plano](lote-10-plano/) | `/plano` | listo (v2) | @holyusm |
 
 > El Lote 9 (`/horario`, ¿llegas a tu próxima clase?) se descartó: no se diseña ni se implementa. Los prompts antiguos que lo nombran quedan solo como historial.
 
