@@ -59,7 +59,7 @@ export default function Mapa() {
             <MapaRuta
               grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino} barreras={r.barreras}
               alturaHoja={0} controles={false}
-              descripcion={`Plano de Casa Central con el origen, ${r.destino.nombre} y las barreras que cortan el paso. No hay ruta accesible.`}
+              descripcion={`Plano de Casa Central con el origen y ${r.destino.nombre}${r.barreras.length ? ' y las barreras que cortan el paso' : ''}. No hay ruta accesible.`}
             />
           </LimiteError>
         </div>
