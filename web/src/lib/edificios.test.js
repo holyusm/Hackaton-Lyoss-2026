@@ -69,9 +69,46 @@ test('nodoDestino devuelve el nodo edificio de campus.json o null', () => {
   assert.equal(nodoDestino(grafo, null), null);
 });
 
-test('filtrarEdificios busca por letra, título y subtítulo sin mayúsculas ni tildes', () => {
+test('filtrarEdificios busca por letra, título, subtítulo y alias sin mayúsculas ni tildes', () => {
   assert.equal(filtrarEdificios(lista, '').length, lista.length);
   assert.ok(filtrarEdificios(lista, 'biblioteca').some((e) => e.letra === 'U'));
   assert.ok(filtrarEdificios(lista, 'cafeteria').some((e) => e.letra === 'Q'));
+  assert.ok(filtrarEdificios(lista, 'Casino').some((e) => e.clave === 'Edificio Comedores'));
+  assert.ok(filtrarEdificios(lista, 'casino').some((e) => e.clave === 'Edificio Comedores'));
+  assert.ok(filtrarEdificios(lista, 'kiosco').some((e) => e.clave === 'Kiosko'));
+  assert.ok(filtrarEdificios(lista, 'rrhh').some((e) => e.clave === 'Dirección de Recursos Humanos'));
+  assert.ok(filtrarEdificios(lista, 'enfermeria').some((e) => e.clave === 'Sansamed'));
   assert.deepEqual(filtrarEdificios(lista, 'xyzxyz'), []);
+});
+
+test('filtrarEdificios prioriza coincidencia exacta de letra, luego prefijo de nombre o alias, luego el resto', () => {
+  const resC = filtrarEdificios(lista, 'C');
+  assert.equal(resC[0].letra, 'C', 'C devuelve primero el Edificio C');
+  assert.equal(filtrarEdificios(lista, '  c  ')[0].letra, 'C');
+
+  const idxCasa = resC.findIndex((e) => e.clave === 'Casa Escuela de Graduados');
+  const idxComedores = resC.findIndex((e) => e.clave === 'Edificio Comedores');
+  const idxA = resC.findIndex((e) => e.letra === 'A');
+  assert.ok(idxCasa > 0 && idxCasa < idxA, 'nombre que empieza con c va antes que coincidencia interna');
+  assert.ok(idxComedores > 0 && idxComedores < idxA, 'alias que empieza con c (Casino) va antes que coincidencia interna');
+
+  for (const e of lista.filter((x) => x.letra)) {
+    const res = filtrarEdificios(lista, e.letra);
+    assert.equal(res[0].letra, e.letra, `buscar "${e.letra}" devuelve primero Edificio ${e.letra}`);
+  }
+
+  const resM = filtrarEdificios(lista, 'M');
+  assert.equal(resM[0].letra, 'M');
+  assert.equal(resM[1].letra, 'M2');
+
+  const muestra = [
+    { clave: 'interno', letra: null, titulo: 'Edificio Alfa', sub: '', alias: [] },
+    { clave: 'alias', letra: null, titulo: 'Almuerzo', sub: '', alias: ['Casino'] },
+    { clave: 'prefijo', letra: null, titulo: 'Casa Central', sub: '', alias: [] },
+    { clave: 'C', letra: 'C', titulo: 'Edificio C', sub: '', alias: [] },
+  ];
+  const copia = [...muestra];
+  const ordenado = filtrarEdificios(muestra, 'c');
+  assert.deepEqual(ordenado.map((e) => e.clave), ['C', 'alias', 'prefijo', 'interno']);
+  assert.deepEqual(muestra, copia, 'no muta la lista recibida');
 });
