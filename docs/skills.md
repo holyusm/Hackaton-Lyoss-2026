@@ -14,8 +14,8 @@ Una **skill** es un instructivo que Claude Code carga cuando la tarea lo amerita
 | `grilling` / `grill-me` | Antes de construir algo. Te bombardea a preguntas, en rondas y con su respuesta recomendada, hasta que el plan no tiene huecos. **Uso clave: a las 09:20, para afilar la idea contra el ODS y la rúbrica** | `/grilling nuestra idea es X para el ODS Y` |
 | `prototype` | Cuando no sabes cómo debería verse o funcionar algo. Hace versiones desechables para comparar | `/prototype 3 variantes de la pantalla principal` |
 | `design-taste-frontend` (carpeta `taste-skill`) | Al construir la interfaz o la landing. Evita el look "hecho por IA" (degradados morados, tres tarjetas iguales) | `construye la landing con la skill de taste` |
-| `redesign-existing-projects` (carpeta `redesign-skill`) | Pulido final (14:00–15:45): sube el nivel visual sin romper nada | `/redesign-existing-projects aplica a la app` |
-| `web-design-guidelines` | Revisión rápida de UI y accesibilidad antes del congelamiento | `revisa mi UI en src/app` |
+| `redesign-existing-projects` (carpeta `redesign-skill`) | Pulido final (14:00–17:00): sube el nivel visual sin romper nada | `/redesign-existing-projects aplica a la app` |
+| `web-design-guidelines` | Revisión rápida de UI y accesibilidad antes de la entrega (17:00) | `revisa mi UI en src/app` |
 | `diagnosing-bugs` | Algo se rompe y no es obvio por qué. Primero arma una prueba que reproduzca el error, después lo arregla | `diagnostica: el botón guardar no hace nada` |
 | `research` | Buscar datos con fuentes para el pitch (cifras del ODS, documentación de una API). Trabaja en segundo plano | `/research cifras de desperdicio de agua en Chile con fuentes` |
 

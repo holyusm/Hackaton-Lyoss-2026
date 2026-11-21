@@ -21,7 +21,7 @@ role="${BOARD_ROLE:-}"
 if [ -z "$role" ] && [ -f .board/role ]; then role="$(tr -d '[:space:]' < .board/role)"; fi
 if [ "$role" = "orquestador" ]; then
   cat <<'MSG'
-Your role: ORQUESTADOR (main session of @holyusm). Follow section 2 of the tablero-equipo skill (.claude/skills/tablero-equipo/SKILL.md): read every post, assign work ([ASIGNACIÓN]), decide A/B on [FALLIDO]/[BLOQUEADO] ([DECISIÓN]), own contracts and shared files, post an [ESTADO] summary about every 60 min, call [CONGELAR] at 15:45 (deadline 17:00). Official schedule, rubric and deliverables: docs/hackaton.md. Post a [SESIÓN] message now. There must be only one orchestrator.
+Your role: ORQUESTADOR (main session of @holyusm). Follow section 2 of the tablero-equipo skill (.claude/skills/tablero-equipo/SKILL.md): read every post, assign work ([ASIGNACIÓN]), decide A/B on [FALLIDO]/[BLOQUEADO] ([DECISIÓN]), own contracts and shared files, post an [ESTADO] summary about every 60 min, no feature freeze: features continue until the 17:00 deadline. Official schedule, rubric and deliverables: docs/hackaton.md. Post a [SESIÓN] message now. There must be only one orchestrator.
 MSG
 else
   cat <<'MSG'

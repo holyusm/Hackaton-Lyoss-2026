@@ -20,8 +20,7 @@ Lugar: Salón de Honor, Edificio A, Casa Central USM.
 | ~10:30 | | **Deploy del esqueleto** (URL pública que funciona) |
 | 10:30–13:00 | | Construcción en paralelo. [ESTADO] cada ~60 min |
 | 13:00–14:00 | Almuerzo | Las sesiones pueden seguir trabajando en issues ya asignados |
-| 14:00–15:45 | | Terminar funcionalidad principal. Pulido visual (`design-taste-frontend` / `redesign-existing-projects`) |
-| **15:45** | | **[CONGELAR]: no más features.** Solo bugs, README, pitch |
+| 14:00–17:00 | | Terminar funcionalidad y pulido visual (`design-taste-frontend` / `redesign-existing-projects`). **No hay congelamiento:** se sigue con funciones hasta la entrega |
 | 16:30 | | Checklist de entrega completo (abajo). Ensayo del pitch cronometrado |
 | **17:00** | **Cierre del desarrollo y entrega.** Después no se permiten cambios sustanciales | Repo público, último push hecho |
 | 17:00–17:45 | Evaluación (pitch + demo) | Pitch de 3:00 |
@@ -62,4 +61,4 @@ Desempate: Impacto, luego Ejecución, luego Innovación.
 
 - **Repo público y el tablero.** Al hacerlo público, cualquiera puede comentar en el issue #1 y los agentes leerían esos comentarios. `tools/board` muestra el autor de cada post: los agentes solo obedecen a `@holyusm`, `@Gxppe` y `@juaquo15`. Si aparece spam, se bloquea el issue (`gh issue lock 1`) y se coordina por chat.
 - **Demo en vivo que falla.** Tener un video corto de respaldo y datos de ejemplo precargados.
-- **Promesas de más.** Lo que no esté funcionando a las 15:45 no se menciona en el pitch.
+- **Promesas de más.** Lo que no esté funcionando en la demo a las 17:00 no se menciona en el pitch.
