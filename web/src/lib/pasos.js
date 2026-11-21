@@ -56,8 +56,8 @@ function pasoDe(tramo, de, a, nodos, esUltimo) {
     instruccion = `Avanza ${m} m por ${tramo.nombre || 'el camino'} hasta ${destino}.`;
   }
 
-  // El último tramo se dice desde el destino, salvo que sea un ascensor (ahí lo importante es subir o bajar).
-  if (esUltimo && !tramo.ascensor_id && tramo.escalones === 0) {
+  // El último tramo se dice desde el destino, salvo que sea un ascensor o cambie de piso (ahí lo importante es subir o bajar).
+  if (esUltimo && !tramo.ascensor_id && tramo.escalones === 0 && !cambioDePiso) {
     instruccion = `${mayuscula(destino)} está a ${m} m.`;
     tipo = 'destino';
     icono = a.tipo === 'sala' ? 'Door' : 'PersonSimpleWalk';

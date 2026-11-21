@@ -77,3 +77,12 @@ test('sin ruta devuelve una ruta vacía', () => {
   const r = armarRuta(grafo, { ok: false, motivo: 'x' });
   assert.deepEqual(r, { id: '', pasos: [], coordenadas: [] });
 });
+
+test('el último tramo por rampa que cambia de piso conserva subir o bajar', () => {
+  const sube = armarRuta(grafo, calcularRuta(grafo, perfiles, { desde: 'edificio-b', hasta: 'rampa-b', perfil: 'silla_ruedas' }));
+  assert.equal(sube.pasos.at(-1).instruccion, 'Sube por la rampa del Edificio B al piso 2.');
+  assert.equal(sube.pasos.at(-1).tramo, 'rampa');
+  const baja = armarRuta(grafo, calcularRuta(grafo, perfiles, { desde: 'rampa-b', hasta: 'edificio-b', perfil: 'silla_ruedas' }));
+  assert.equal(baja.pasos.at(-1).instruccion, 'Baja por la rampa del Edificio B al piso 0.');
+  assert.equal(baja.pasos.at(-1).tramo, 'rampa');
+});
