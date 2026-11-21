@@ -7,7 +7,7 @@ export const fmtMinutos = (n) => n.toLocaleString('es-CL', { minimumFractionDigi
 
 // Tabla de escritorio (Lote 3, A3). La fila elegida se marca con aria-pressed en su botón;
 // el CSS pinta la fila entera con :has(), sin clases de estado.
-export default function TablaComparar({ filas, seleccion, onElegir, motivo }) {
+export default function TablaComparar({ filas, seleccion, onElegir }) {
   return (
     <div className="tabla-comparar__caja">
       <table className="tabla-comparar">
@@ -44,7 +44,7 @@ export default function TablaComparar({ filas, seleccion, onElegir, motivo }) {
                 ) : (
                   <td colSpan={5} className="tabla-comparar__sin-ruta">
                     <p className="tabla-comparar__sin-ruta-titulo"><Prohibit weight="bold" aria-hidden="true" /> Sin ruta accesible</p>
-                    <p>{motivo}</p>
+                    <p>{f.motivo}</p>
                   </td>
                 )}
               </tr>

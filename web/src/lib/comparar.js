@@ -1,5 +1,6 @@
 // Comparación de perfiles para /comparar (Lote 3). Funciones puras: sin React ni red.
-import { conArticulo } from '../../../motor/ruta.js';
+import { bloqueosDe } from '../../../motor/barreras.js';
+import { calcularRuta, conArticulo } from '../../../motor/ruta.js';
 
 export const ORDEN = ['estandar', 'silla_ruedas', 'movilidad_reducida', 'baja_vision'];
 
@@ -46,8 +47,8 @@ export function fraseResumen(filas, destino) {
     const otros = filas.filter((f) => f.id !== 'silla_ruedas' && f.ok);
     const minimo = Math.min(...otros.map((f) => f.escalones));
     const resto = !otros.length ? '' : minimo === 0
-      ? ' El resto tiene ruta sin escalones.'
-      : ` El resto debe subir al menos ${minimo} escalones.`;
+      ? ' Hay perfiles con ruta sin escalones.'
+      : ` Las rutas disponibles tienen al menos ${minimo} escalones.`;
     return `En silla de ruedas hoy no hay ruta hacia ${hacia}.${resto}`;
   }
   const dm = Math.round(silla.metros - base.metros);
@@ -66,22 +67,26 @@ const ESTADO = {
   piso_mojado: 'tiene el piso mojado',
   otro: 'tiene un problema',
 };
-const CORTAN = new Set(['ascensor_fuera_servicio', 'rampa_bloqueada']);
 const hora = (iso) => new Date(iso).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'America/Santiago' });
 
 // Por qué un perfil no tiene ruta, en palabras: las barreras activas o, sin ellas, el motivo del motor.
-export function motivoSinRuta(barreras, grafo, resultado) {
+export function motivoSinRuta(barreras, grafo, resultado, consulta, perfiles) {
   const nodos = new Map(grafo.nodos.map((n) => [n.id, n]));
   const tramos = new Map(grafo.tramos.map((t) => [t.id, t]));
-  // Si hay cortes de accesibilidad (ascensor, rampa), el motivo nombra solo esos; un obstáculo lejano confunde.
-  const cortes = barreras.filter((b) => CORTAN.has(b.tipo));
-  const partes = (cortes.length ? cortes : barreras).map((b) => {
+  const general = resultado?.motivo ? mayuscula(resultado.motivo) + '.' : '';
+  const bloqueos = [...new Set(bloqueosDe(barreras))];
+  if (!bloqueos.length || calcularRuta(grafo, perfiles, { ...consulta, bloqueos }).ok) return general;
+  // Un bloqueo explica el corte si retirarlo por sí solo restablece la ruta de este perfil.
+  const causantes = new Set(bloqueos.filter((id) => calcularRuta(grafo, perfiles, {
+    ...consulta, bloqueos: bloqueos.filter((otro) => otro !== id),
+  }).ok));
+  const partes = barreras.filter((b) => causantes.has(b.tramo_id || b.nodo_id)).map((b) => {
     const t = tramos.get(b.tramo_id);
     const sujeto = b.nodo_id && nodos.has(b.nodo_id) ? conArticulo(nodos.get(b.nodo_id))
       : t ? (t.nombre ?? `el tramo entre ${nodos.get(t.desde)?.nombre} y ${nodos.get(t.hasta)?.nombre}`)
         : null;
     return sujeto && `${sujeto} ${ESTADO[b.tipo] ?? ESTADO.otro} desde las ${hora(b.creado)}`;
   }).filter(Boolean);
-  if (!partes.length) return resultado?.motivo ? mayuscula(resultado.motivo) + '.' : '';
+  if (!partes.length) return general;
   return `${mayuscula(enumerar(partes))}.`;
 }
