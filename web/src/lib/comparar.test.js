@@ -34,17 +34,18 @@ test('ascensor y pasarela bloqueados: silla sin ruta y frase sinRuta', () => {
   assert.equal(silla.ok, false);
   const minimo = Math.min(...filas.filter((f) => f.ok && f.id !== 'silla_ruedas').map((f) => f.escalones));
   assert.equal(fraseResumen(filas, sala),
-    `En silla de ruedas hoy no hay ruta hacia la Sala A-201. El resto debe subir al menos ${minimo} escalones.`);
+    `En silla de ruedas hoy no hay ruta hacia la Sala A-201. Las rutas disponibles tienen al menos ${minimo} escalones.`);
 
+  const consulta = { desde: "entrada-principal", hasta: "sala-a201", perfil: "silla_ruedas" };
   const barreras = [
     { tipo: 'ascensor_fuera_servicio', nodo_id: 'ascensor-a', tramo_id: null, creado: '2026-11-21T14:05:00Z' },
     { tipo: 'rampa_bloqueada', nodo_id: null, tramo_id: 't14', creado: '2026-11-21T14:10:00Z' },
   ];
-  assert.equal(motivoSinRuta(barreras, grafo, resultados.silla_ruedas),
+  assert.equal(motivoSinRuta(barreras, grafo, resultados.silla_ruedas, consulta, perfiles),
     'El Ascensor A está fuera de servicio desde las 11:05 y la pasarela techada está bloqueada desde las 11:10.');
-  assert.equal(motivoSinRuta([], grafo, resultados.silla_ruedas), 'Sin ruta accesible para este perfil.');
+  assert.equal(motivoSinRuta([], grafo, resultados.silla_ruedas, consulta, perfiles), 'Sin ruta accesible para este perfil.');
   const conObstaculo = [{ tipo: 'obstaculo', tramo_id: 't10', nodo_id: null, creado: '2026-11-21T14:00:00Z' }, ...barreras];
-  assert.equal(motivoSinRuta(conObstaculo, grafo, resultados.silla_ruedas), motivoSinRuta(barreras, grafo, resultados.silla_ruedas));
+  assert.equal(motivoSinRuta(conObstaculo, grafo, resultados.silla_ruedas, consulta, perfiles), motivoSinRuta(barreras, grafo, resultados.silla_ruedas, consulta, perfiles));
 });
 
 test('sin diferencias, la frase dice igual', () => {
@@ -53,4 +54,23 @@ test('sin diferencias, la frase dice igual', () => {
   const filas = armarFilas(g, { estandar: r, silla_ruedas: r });
   assert.equal(filas[1].difMetros, 'igual');
   assert.equal(fraseResumen(filas, null), 'Para silla de ruedas el trayecto es igual al Estándar.');
+});
+
+test('el corte de t8 se explica aunque haya un ascensor averiado en otro trayecto', () => {
+  const consulta = { desde: 'biblioteca', hasta: 'bano-b', perfil: 'silla_ruedas' };
+  const barreras = [
+    { tramo_id: 't8', tipo: 'obstaculo', creado: '2026-11-21T12:00Z' },
+    { nodo_id: 'ascensor-a', tipo: 'ascensor_fuera_servicio', creado: '2026-11-21T12:00Z' },
+  ];
+  const r = compararPerfiles(grafo, perfiles, { ...consulta, bloqueos: ['t8', 'ascensor-a'] });
+  const motivo = motivoSinRuta(barreras, grafo, r.silla_ruedas, consulta, perfiles);
+  assert.match(motivo, /obstáculo/);
+  assert.doesNotMatch(motivo, /ascensor/i);
+});
+
+test('una bajada al patio se anuncia sin indicar que hay que subir', () => {
+  const r = compararPerfiles(grafo, perfiles, { desde: 'edificio-a-p2', hasta: 'patio-central', bloqueos: ['ascensor-a', 't14'] });
+  const frase = fraseResumen(armarFilas(grafo, r), grafo.nodos.find(n => n.id === 'patio-central'));
+  assert.match(frase, /42 escalones/);
+  assert.doesNotMatch(frase, /subir/);
 });
