@@ -44,3 +44,16 @@ dialog.hoja::backdrop { background: var(--velo); }
 .cabecera .wordmark span { font-size: 26px; }
 .boton-accesibilidad, .boton-pastilla { font-size: 16px; }
 @media (min-width: 900px) { .cabecera .wordmark span { font-size: 30px; } }
+
+/* /mapa: alto fijo de pantalla para que el mapa llene de la cabecera a la nav (Lote 2). */
+.app--mapa { height: 100dvh; min-height: 0; }
+.app--mapa > main { min-height: 0; position: relative; }
+.cabecera__volver {
+  width: var(--toque-min); height: var(--toque-min); margin-left: calc(var(--e-2) * -1);
+  display: grid; place-items: center; border-radius: var(--r-pill); color: var(--tinta);
+}
+.app--mapa .cabecera { justify-content: flex-start; }
+.app--mapa .cabecera .wordmark { margin-right: auto; }
+.cabecera__volver svg { width: 24px; height: 24px; }
+.cabecera__volver:hover { background: var(--cobalto-tinte); color: var(--sobre-tinte); }
+@media (min-width: 900px) { .cabecera__volver { display: none; } }

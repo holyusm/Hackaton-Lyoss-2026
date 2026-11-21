@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { MagnifyingGlass, MapPin, QrCode } from '@phosphor-icons/react';
 import GrupoPerfiles, { PERFILES } from '../components/GrupoPerfiles.jsx';
@@ -21,7 +21,12 @@ export default function Inicio() {
   const { barreras } = useBarreras();
 
   const [desde, setDesde] = useState(() => params.get('desde') ?? 'entrada-principal');
-  const [hasta, setHasta] = useState(null);
+  // Al volver desde /mapa la URL trae la elección anterior (?desde&hasta&perfil).
+  const [hasta, setHasta] = useState(() => params.get('hasta') || null);
+  const perfilUrl = params.get('perfil');
+  useEffect(() => {
+    if (PERFILES.some((p) => p.id === perfilUrl)) setPerfil(perfilUrl);
+  }, [perfilUrl]); // eslint-disable-line react-hooks/exhaustive-deps
   // El error se muestra recién cuando la persona cambia un campo, no al cargar.
   const [tocado, setTocado] = useState(false);
   const cambiarDesde = (id) => { setDesde(id ?? 'entrada-principal'); setTocado(true); };
