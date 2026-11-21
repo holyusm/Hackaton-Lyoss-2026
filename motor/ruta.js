@@ -24,7 +24,20 @@ function costoTramo(tramo, perfil) {
 }
 
 const ARTICULO = { edificio: 'el', ascensor: 'el', bano: 'el', sala: 'la', entrada: 'la' };
-export const conArticulo = (nodo) => (ARTICULO[nodo.tipo] ? `${ARTICULO[nodo.tipo]} ${nodo.nombre}` : nodo.nombre);
+const ARTICULO_POR_ID = { biblioteca: 'la' };
+const NOMBRE_FEMENINO = /^(biblioteca|sala|rampa|pasarela|entrada|plataforma)\b/i;
+
+function articuloDe(nodo) {
+  if (!nodo) return '';
+  if (nodo.id && Object.hasOwn(ARTICULO_POR_ID, nodo.id)) return ARTICULO_POR_ID[nodo.id];
+  if (nodo.nombre && NOMBRE_FEMENINO.test(nodo.nombre)) return 'la';
+  return (nodo.tipo && Object.hasOwn(ARTICULO, nodo.tipo)) ? ARTICULO[nodo.tipo] : '';
+}
+
+export const conArticulo = (nodo) => {
+  const art = articuloDe(nodo);
+  return art ? `${art} ${nodo.nombre}` : nodo.nombre;
+};
 
 // `de` y `a` son los nodos en el orden en que se recorre el tramo (no el orden desde/hasta del dato).
 // Sin flechas ni signos: el texto se lee tal cual en pantalla y en voz alta.
