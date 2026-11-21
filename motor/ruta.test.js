@@ -28,8 +28,8 @@ test('movilidad reducida evita la escalera aunque no esté prohibida', () => {
   assert.deepEqual(r.tramos, ['t1', 't2', 't3', 't5']);
 });
 
-test('ascensor bloqueado: silla sin ruta, estándar sigue', () => {
-  const c = compararPerfiles(grafo, perfiles, { ...base, bloqueos: ['ascensor-a'] });
+test('ascensor y pasarela bloqueados: silla sin ruta, estándar sigue', () => {
+  const c = compararPerfiles(grafo, perfiles, { ...base, bloqueos: ['ascensor-a', 'pasarela-b-a'] });
   assert.equal(c.silla_ruedas.ok, false);
   assert.match(c.silla_ruedas.motivo, /sin ruta accesible/);
   assert.equal(c.estandar.ok, true);
@@ -65,14 +65,52 @@ test('origen igual a destino: ruta vacía', () => {
 
 test('advertencias siguen el sentido real del recorrido (ida y vuelta)', () => {
   const ida = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas' });
-  assert.ok(ida.advertencias.includes('Usa ascensor (Ascensor A → Edificio A, piso 2)'));
+  assert.ok(ida.advertencias.includes('Usa el Ascensor A hasta el Edificio A, piso 2'));
   const vuelta = calcularRuta(grafo, perfiles, { desde: 'sala-a201', hasta: 'entrada-principal', perfil: 'silla_ruedas' });
   assert.equal(vuelta.ok, true);
-  assert.ok(vuelta.advertencias.includes('Usa ascensor (Edificio A, piso 2 → Ascensor A)'));
-  assert.equal(vuelta.advertencias.some((a) => a.includes('Ascensor A → Edificio A, piso 2')), false);
+  assert.ok(vuelta.advertencias.includes('Usa el Ascensor A desde el Edificio A, piso 2'));
+  assert.equal(vuelta.advertencias.some((a) => a.includes('hasta el Edificio A, piso 2')), false);
 });
 
 test('escalera de bajada: la advertencia nombra origen y destino en orden real', () => {
   const r = calcularRuta(grafo, perfiles, { desde: 'sala-a201', hasta: 'entrada-principal', perfil: 'estandar' });
-  assert.ok(r.advertencias.includes('42 escalones (Edificio A, piso 2 → Patio central)'));
+  assert.ok(r.advertencias.includes('Hay 42 escalones entre Edificio A, piso 2 y Patio central'));
+});
+
+test('las advertencias no llevan flechas ni puntos medios', () => {
+  for (const perfil of ['estandar', 'silla_ruedas']) {
+    for (const [desde, hasta] of [[base.desde, base.hasta], [base.hasta, base.desde]]) {
+      const r = calcularRuta(grafo, perfiles, { desde, hasta, perfil });
+      for (const a of r.advertencias) assert.doesNotMatch(a, /[→·]|--|—/, a);
+    }
+  }
+});
+
+test('recálculo de la demo: ascensor bloqueado sale por la rampa del Edificio B, con unos 40 m y 1 min más', () => {
+  const normal = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas' });
+  const sinAscensor = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas', bloqueos: ['ascensor-a'] });
+  assert.equal(normal.ok, true);
+  assert.equal(sinAscensor.ok, true);
+  assert.deepEqual(sinAscensor.nodos, ['entrada-principal', 'patio-central', 'edificio-b', 'rampa-b', 'pasarela-b-a', 'edificio-a-p2', 'sala-a201']);
+  assert.equal(sinAscensor.escalones, 0);
+  assert.equal(sinAscensor.metros - normal.metros, 40);
+  assert.equal(Math.round((sinAscensor.minutos - normal.minutos) * 10) / 10, 1);
+  assert.notDeepEqual(sinAscensor.tramos, normal.tramos);
+});
+
+test('con el ascensor y la pasarela bloqueados, la silla de ruedas no tiene ruta', () => {
+  const r = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas', bloqueos: ['ascensor-a', 'pasarela-b-a'] });
+  assert.equal(r.ok, false);
+  assert.match(r.motivo, /sin ruta accesible/);
+});
+
+test('bloquear solo la pasarela no afecta a la ruta por el ascensor', () => {
+  const normal = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas' });
+  const r = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas', bloqueos: ['pasarela-b-a'] });
+  assert.deepEqual(r.tramos, normal.tramos);
+});
+
+test('la alternativa por B también se puede bloquear por id de tramo', () => {
+  const r = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas', bloqueos: ['ascensor-a', 't14'] });
+  assert.equal(r.ok, false);
 });
