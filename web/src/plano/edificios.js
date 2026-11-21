@@ -3,7 +3,9 @@ import { geojson } from './plano.js';
 import { crearEdificios, interior as interiorDe } from './edificios-lib.js';
 import edificioP from './interiores/edificio-p.geo.json';
 
-export { EXTRA, limpiar, pisosDe, pisoInicial, nodoDestino, filtrarEdificios, perteneceA, centroDe } from './edificios-lib.js';
+export {
+  EXTRA, VECINOS, FALTAN_EN_OSM, limpiar, norm, pisosDe, pisoInicial, textoPisos, nodoDestino, filtrarEdificios, perteneceA, centroDe,
+} from './edificios-lib.js';
 
 export const EDIFICIOS = crearEdificios(geojson);
 // Interiores dibujados por el equipo (boceto a escala aproximada) se suman a los de OSM.

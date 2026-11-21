@@ -144,3 +144,256 @@
 
 /* #189: sala elegida. El borde grueso la distingue sin depender solo del color. */
 .plano-sala--elegida { fill: var(--cobalto-tinte); fill-opacity: 1; stroke: var(--cobalto); stroke-width: 3px; }
+
+/* ==== #220 fase 4: dibujo de /plano v2 (CapaPlano variante="plano") ====
+   Las variables --plano-* se declaran a nivel de tema (no solo bajo .plano-v2) porque Plano.css usa
+   --plano-hover-fila y --plano-niebla. Valores de datos-ejemplo.json → tokensDelPlano; donde hay token, se usa el token.
+   Los estilos de dibujo van todos bajo .plano-v2: /mapa, /comparar e Inicio no cambian. */
+:root {
+  --plano-fondo: #E2E8E7;
+  --plano-vecino: #D3DBDD;
+  --plano-campus: #EEF2F1;
+  --plano-campus-borde: #9FB0B5;
+  --plano-calle: #FCFDFD;
+  --plano-calle-borde: #C2CDD0;
+  --plano-patio: #F6F8F7;
+  --plano-edif: #FCFDFD;
+  --plano-edif-borde: var(--tinta-2);
+  --plano-edif-suave: #E3E9EA;
+  --plano-edif-suave-borde: #9FB0B5;
+  --plano-hover: #EEF1FB;
+  --plano-sel: var(--cobalto-tinte);
+  --plano-sel-borde: var(--cobalto);
+  --plano-sendero: #5F7680;
+  --plano-escalera: #0D2B3E;
+  --plano-sala: #FCFDFD;
+  --plano-sala-borde: var(--tinta-2);
+  --plano-pasillo: #E9EEED;
+  --plano-bano: #D3EEE2;
+  --plano-bano-borde: var(--paso);
+  --plano-sobre-bano: #FFFFFF;
+  --plano-rotulo: var(--tinta-2);
+  --plano-letra: #0D2B3E;
+  --plano-halo: #FCFDFD;
+  --plano-serv-fondo: #FFFFFF;
+  --plano-serv-borde: #0D2B3E;
+  --plano-serv-tx: #0D2B3E;
+  --plano-aqui: var(--cobalto);
+  --plano-aqui-halo: rgba(36, 67, 208, 0.18);
+  --plano-aqui-borde: #FFFFFF;
+  --plano-etiqueta-fondo: #0D2B3E;
+  --plano-etiqueta-tx: #FCFDFD;
+  --plano-hover-fila: #E9EEEE;
+  --plano-niebla: #E3E9EA;
+  --plano-bw-edif: 1.25px;
+  --plano-bw-sel: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema]) {
+    --plano-fondo: #0B1F2D;
+    --plano-vecino: #14293A;
+    --plano-campus: #132D3F;
+    --plano-campus-borde: #3A5A6E;
+    --plano-calle: #1C3A4F;
+    --plano-calle-borde: #2A4A5E;
+    --plano-patio: #17364B;
+    --plano-edif: #22435A;
+    --plano-edif-suave: #1A3446;
+    --plano-edif-suave-borde: #3A5A6E;
+    --plano-hover: #2C4F78;
+    --plano-sendero: #8EA5B2;
+    --plano-escalera: #E8EFF1;
+    --plano-sala: #1A3446;
+    --plano-pasillo: #132D3F;
+    --plano-bano: #164A3A;
+    --plano-sobre-bano: #0A1C29;
+    --plano-letra: #E8EFF1;
+    --plano-halo: #0B1F2D;
+    --plano-serv-fondo: #11293A;
+    --plano-serv-borde: #E8EFF1;
+    --plano-serv-tx: #E8EFF1;
+    --plano-aqui-halo: rgba(143, 165, 255, 0.25);
+    --plano-aqui-borde: #0A1C29;
+    --plano-etiqueta-fondo: #E8EFF1;
+    --plano-etiqueta-tx: #0A1C29;
+    --plano-hover-fila: #1A3446;
+    --plano-niebla: #1A3446;
+  }
+}
+
+:root[data-tema="oscuro"] {
+  --plano-fondo: #0B1F2D;
+  --plano-vecino: #14293A;
+  --plano-campus: #132D3F;
+  --plano-campus-borde: #3A5A6E;
+  --plano-calle: #1C3A4F;
+  --plano-calle-borde: #2A4A5E;
+  --plano-patio: #17364B;
+  --plano-edif: #22435A;
+  --plano-edif-suave: #1A3446;
+  --plano-edif-suave-borde: #3A5A6E;
+  --plano-hover: #2C4F78;
+  --plano-sendero: #8EA5B2;
+  --plano-escalera: #E8EFF1;
+  --plano-sala: #1A3446;
+  --plano-pasillo: #132D3F;
+  --plano-bano: #164A3A;
+  --plano-sobre-bano: #0A1C29;
+  --plano-letra: #E8EFF1;
+  --plano-halo: #0B1F2D;
+  --plano-serv-fondo: #11293A;
+  --plano-serv-borde: #E8EFF1;
+  --plano-serv-tx: #E8EFF1;
+  --plano-aqui-halo: rgba(143, 165, 255, 0.25);
+  --plano-aqui-borde: #0A1C29;
+  --plano-etiqueta-fondo: #E8EFF1;
+  --plano-etiqueta-tx: #0A1C29;
+  --plano-hover-fila: #1A3446;
+  --plano-niebla: #1A3446;
+}
+
+:root[data-tema="contraste"] {
+  --plano-fondo: #FFFFFF;
+  --plano-vecino: #E6E6E6;
+  --plano-campus: #FFFFFF;
+  --plano-campus-borde: #000000;
+  --plano-calle: #FFFFFF;
+  --plano-calle-borde: #000000;
+  --plano-patio: #FFFFFF;
+  --plano-edif: #FFFFFF;
+  --plano-edif-suave: #F0F0F0;
+  --plano-edif-suave-borde: #000000;
+  --plano-hover: #E3E8FB;
+  --plano-sendero: #000000;
+  --plano-escalera: #000000;
+  --plano-sala: #FFFFFF;
+  --plano-pasillo: #F0F0F0;
+  --plano-bano: #FFFFFF;
+  --plano-sobre-bano: #FFFFFF;
+  --plano-letra: #000000;
+  --plano-halo: #FFFFFF;
+  --plano-serv-fondo: #FFFFFF;
+  --plano-serv-borde: #000000;
+  --plano-serv-tx: #000000;
+  --plano-aqui-halo: rgba(26, 47, 160, 0.16);
+  --plano-aqui-borde: #FFFFFF;
+  --plano-etiqueta-fondo: #000000;
+  --plano-etiqueta-tx: #FFFFFF;
+  --plano-hover-fila: #E3E8FB;
+  --plano-niebla: #F0F0F0;
+  --plano-bw-edif: 2px;
+  --plano-bw-sel: 4px;
+}
+
+/* Fondo del contenedor solo cuando lleva el dibujo v2. */
+.mapa-plano.leaflet-container:has(.plano-v2) { background: var(--plano-fondo); }
+
+/* Orden de las filas: el de la tabla "El dibujo del plano" del README. */
+.plano-edificio.plano-v2 { fill: var(--plano-vecino); fill-opacity: 1; stroke: var(--plano-edif-suave-borde); stroke-width: 0.5px; stroke-opacity: 1; }
+.plano-campus.plano-v2 { fill: var(--plano-campus); stroke: var(--plano-campus-borde); }
+.plano-patio.plano-v2 { fill: var(--plano-patio); stroke: var(--plano-patio); }
+
+.plano-edificio.plano-edificio--campus.plano-v2 {
+  fill: var(--plano-edif);
+  stroke: var(--plano-edif-borde);
+  stroke-width: var(--plano-bw-edif);
+}
+/* Sin nombre: suave y de borde fino, se ve que no es del mismo tipo (y no se puede tocar). */
+.plano-edificio.plano-edificio--campus.plano-edificio--sin-nombre.plano-v2 {
+  fill: var(--plano-edif-suave);
+  stroke: var(--plano-edif-suave-borde);
+  stroke-width: 0.75px;
+}
+.plano-edificio.plano-edificio--elegido.plano-v2 {
+  fill: var(--plano-sel);
+  stroke: var(--plano-sel-borde);
+  stroke-width: var(--plano-bw-sel);
+}
+.plano-clic.plano-v2:not(.plano-clic--elegido):hover {
+  fill: var(--plano-hover);
+  fill-opacity: 1;
+  stroke: var(--plano-edif-borde);
+  stroke-width: var(--plano-bw-edif);
+}
+
+/* Letras de los edificios: 15 px (14 en móvil), 800, halo de 4 px. */
+.plano-letra.plano-v2 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--plano-letra);
+  text-shadow:
+    0 0 1px var(--plano-halo), 0 0 2px var(--plano-halo), 0 0 3px var(--plano-halo), 0 0 4px var(--plano-halo),
+    1px 1px 0 var(--plano-halo), -1px -1px 0 var(--plano-halo), 1px -1px 0 var(--plano-halo), -1px 1px 0 var(--plano-halo);
+}
+@media (max-width: 899.98px) {
+  .plano-letra.plano-v2 { font-size: 14px; }
+}
+
+/* Placa Cobalto con la letra del elegido (sin interior a la vista). */
+.plano-placa.plano-v2 {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 2px solid var(--plano-halo);
+  background: var(--cobalto);
+  color: var(--sobre-cobalto);
+  font-family: var(--fuente);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Senderos 1,6 px a trazos 4 3; escaleras 5 px a peldaños 1,4 1,8. */
+.plano-sendero.plano-v2 { stroke: var(--plano-sendero); stroke-width: 1.6px; stroke-dasharray: 4 3; stroke-linecap: butt; }
+.plano-escalera.plano-v2 { stroke: var(--plano-escalera); stroke-width: 5px; stroke-dasharray: 1.4 1.8; stroke-linecap: butt; }
+
+/* Calles en dos capas: borde (panel de abajo) y relleno. */
+.plano-calle-borde.plano-v2 { fill: none; stroke: var(--plano-calle-borde); stroke-width: 9px; stroke-linecap: round; stroke-linejoin: round; }
+.plano-calle.plano-v2 { stroke: var(--plano-calle); stroke-width: 6px; }
+
+/* Interior: salas con relleno, baños, pasillos gruesos. */
+.plano-sala.plano-v2 { fill: var(--plano-sala); fill-opacity: 1; stroke: var(--plano-sala-borde); stroke-width: 0.75px; }
+.plano-sala.plano-sala--bano.plano-v2 { fill: var(--plano-bano); fill-opacity: 1; stroke: var(--plano-bano-borde); stroke-width: 1.5px; }
+.plano-sala.plano-sala--elegida.plano-v2 { fill: var(--plano-sel); stroke: var(--plano-sel-borde); stroke-width: var(--plano-bw-sel); }
+.plano-pasillo-borde.plano-v2 { fill: none; stroke: var(--plano-sala-borde); stroke-width: 12px; stroke-linecap: round; stroke-linejoin: round; }
+.plano-pasillo.plano-v2 { fill: none; stroke: var(--plano-pasillo); stroke-width: 9px; stroke-dasharray: none; stroke-linecap: round; stroke-linejoin: round; }
+
+.plano-bano-icono.plano-v2 {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--plano-halo);
+  background: var(--plano-bano-borde);
+  color: var(--plano-sobre-bano);
+}
+
+/* Textos: números de sala (11 px) y rótulos (13 px), con halo. */
+.plano-sala-num.plano-v2,
+.plano-rotulo.plano-v2 {
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--fuente);
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--plano-rotulo);
+  pointer-events: none;
+  text-shadow:
+    0 0 2px var(--plano-halo), 0 0 3px var(--plano-halo),
+    1px 1px 0 var(--plano-halo), -1px -1px 0 var(--plano-halo), 1px -1px 0 var(--plano-halo), -1px 1px 0 var(--plano-halo);
+}
+.plano-sala-num.plano-v2 { font-size: 11px; }
+.plano-rotulo.plano-v2 { font-size: 13px; }
+
+/* Servicios: círculo de 28 px, borde de 2 px, letra 800; el <title> dice "Tipo: nombre". */
+.plano-servicio.plano-v2 { display: block; overflow: visible; }
+.plano-servicio.plano-v2 circle { fill: var(--plano-serv-fondo); stroke: var(--plano-serv-borde); stroke-width: 2px; }
+.plano-servicio.plano-v2 text { fill: var(--plano-serv-tx); font-family: var(--fuente); font-size: 13px; font-weight: 800; }

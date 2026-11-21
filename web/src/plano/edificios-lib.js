@@ -1,25 +1,29 @@
 // Lógica pura de la lista de edificios de /plano (Lote 10). Sin React ni imports de JSON: se prueba con node:test.
 // `edificios.js` la aplica al GeoJSON del plano.
 
-// Edificios sin nombre en OSM que el equipo identificó.
+// Edificios sin nombre en OSM que el equipo identificó, y los que no son del campus aunque OSM los marque así.
 export const EXTRA = {
   'relation/17542343': { letra: 'B', sub: 'Edificio central, nombre por confirmar' },
+  'way/1082210883': { excluir: true }, // Edificio Costa Santa María: residencial vecino
 };
 
-// Alias de búsqueda para nombres de uso común en Casa Central (clave: alias).
-export const ALIAS = {
-  'Edificio Comedores': ['Casino'],
-  Kiosko: ['Kiosco'],
-  'Dirección de Recursos Humanos': ['RRHH'],
-  'FEUTFSM, Federación de Estudiantes': ['Federación de Estudiantes'],
-  Sansamed: ['Enfermería', 'Salud', 'Médico'],
-};
+// Edificios vecinos: se dibujan como vecinos y no entran a la lista.
+export const VECINOS = ['way/1082210883'];
+
+// Letras de edificios de Casa Central que todavía no están en OpenStreetMap (la vista avisa si alguien las busca).
+export const FALTAN_EN_OSM = ['H', 'O', 'J', 'I', 'N', 'F2', 'P2'];
+
+// Texto sin mayúsculas, tildes ni espacios sobrantes.
+export const norm = (s) => (s ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim().replace(/\s+/g, ' ');
 
 export function limpiar(nombre) {
   return (nombre || '')
     .replace('Comerdores', 'Comedores')
     .replace('Federación de Estudiantes de la Universidad Técnica Federico Santa María', 'FEUTFSM, Federación de Estudiantes');
 }
+
+// ¿El feature es un edificio del campus que entra a la lista?
+const esDelCampus = (p) => p.tipo === 'edificio' && p.campus && !EXTRA[p.osm]?.excluir;
 
 // Anillos exteriores [lng, lat] de un Polygon o MultiPolygon.
 const anillos = (geometry) => (geometry.type === 'Polygon' ? [geometry.coordinates[0]] : geometry.coordinates.map((p) => p[0]));
@@ -38,6 +42,18 @@ function medidas(anillo) {
   return { lat: y0 + y / (3 * a), lng: x0 + x / (3 * a), area: Math.abs(a / 2) };
 }
 
+// ¿El punto [lng, lat] cae dentro de la geometría? (ray casting sobre los anillos exteriores)
+function contiene(geometry, [x, y]) {
+  return anillos(geometry).some((anillo) => {
+    let dentro = false;
+    for (let i = 0, j = anillo.length - 1; i < anillo.length; j = i++) {
+      const [xi, yi] = anillo[i], [xj, yj] = anillo[j];
+      if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) dentro = !dentro;
+    }
+    return dentro;
+  });
+}
+
 function cajaDe(geometry) {
   let s = Infinity, w = Infinity, n = -Infinity, e = -Infinity;
   for (const anillo of anillos(geometry)) for (const [lng, lat] of anillo) { s = Math.min(s, lat); n = Math.max(n, lat); w = Math.min(w, lng); e = Math.max(e, lng); }
@@ -47,31 +63,37 @@ function cajaDe(geometry) {
 /**
  * Edificios del campus agrupados por letra y, si no hay, por nombre. De cada grupo se queda el polígono más grande.
  * Orden: primero los que tienen letra (A, B, C... con orden numérico: M2 después de M) y luego los que solo tienen nombre.
- * @returns [{ clave, letra, titulo, sub, alias, pisos, osm, feature, bounds, centro, area }]
+ * `servicios`: nombres de los puntos de servicio que caen dentro de alguno de los polígonos del grupo.
+ * @returns [{ clave, letra, titulo, sub, pisos, servicios, osm, feature, bounds, centro, area }]
  */
 export function crearEdificios(geo) {
   const porClave = new Map();
+  const puntos = geo.features.filter((f) => f.properties.tipo === 'servicio' && f.geometry.type === 'Point' && f.properties.nombre);
+  const servicios = new Map();
   for (const feature of geo.features) {
     const p = feature.properties;
-    if (p.tipo !== 'edificio' || !p.campus) continue;
+    if (!esDelCampus(p)) continue;
     const extra = EXTRA[p.osm] ?? {};
     const letra = extra.letra || p.letra || null;
     const nombre = limpiar(extra.nombre || p.nombre);
     if (!letra && !nombre) continue;
     const clave = letra || nombre;
+    const dentro = servicios.get(clave) ?? [];
+    for (const s of puntos) if (!dentro.includes(s.properties.nombre) && contiene(feature.geometry, s.geometry.coordinates)) dentro.push(s.properties.nombre);
+    servicios.set(clave, dentro);
     const grande = anillos(feature.geometry).map(medidas).sort((a, b) => b.area - a.area)[0];
     const previo = porClave.get(clave);
     if (previo && previo.area >= grande.area) continue;
-    const partes = nombre.split(' - ');
+    const partes = nombre.split(/ - |, /);
     porClave.set(clave, {
       clave, letra, osm: p.osm,
       titulo: letra ? `Edificio ${letra}` : partes[0],
-      sub: extra.sub || partes[1] || (letra ? '' : 'Edificio del campus'),
-      alias: ALIAS[clave] ?? [],
+      sub: extra.sub || partes.slice(1).join(', '),
       pisos: p.pisos ? Number(p.pisos) : null,
       feature, bounds: cajaDe(feature.geometry), centro: [grande.lat, grande.lng], area: grande.area,
     });
   }
+  for (const e of porClave.values()) e.servicios = servicios.get(e.clave);
   return [...porClave.values()].sort((a, b) => {
     if (Boolean(a.letra) !== Boolean(b.letra)) return a.letra ? -1 : 1;
     return (a.letra || a.titulo).localeCompare(b.letra || b.titulo, 'es', { numeric: true });
@@ -87,20 +109,32 @@ export function centroDe(geometry) {
 // ¿Este feature de edificio pertenece al grupo `clave`? (el C tiene dos polígonos: se resaltan los dos)
 export function perteneceA(feature, clave) {
   const p = feature.properties;
-  if (p.tipo !== 'edificio' || !p.campus) return false;
+  if (!esDelCampus(p)) return false;
   const extra = EXTRA[p.osm] ?? {};
   return (extra.letra || p.letra || limpiar(extra.nombre || p.nombre)) === clave;
 }
 
-// Pisos que se ofrecen en la ficha: el C es -1, 1 y 2; el P (levantamiento) 0 a 3; si se conoce el número de pisos, 1..pisos (máximo 8); si no, solo el 1.
+// Pisos que se ofrecen en la ficha: el C es -1, 1 y 2; el P (levantamiento) 0 a 3; si se conoce el número de pisos, 1..pisos (máximo 8); si no, ninguno.
 const PISOS = { C: [-1, 1, 2], P: [0, 1, 2, 3] };
 export function pisosDe(edificio) {
   if (PISOS[edificio.letra]) return PISOS[edificio.letra];
   if (edificio.pisos) return Array.from({ length: Math.min(edificio.pisos, 8) }, (_, i) => i + 1);
-  return [1];
+  return [];
 }
 
-export const pisoInicial = (edificio) => (edificio.letra === 'C' ? 2 : 1);
+// Piso que se muestra al abrir la ficha: el 2 en el C (tiene interior), el 1 si hay pisos, null si no se conocen.
+export function pisoInicial(edificio) {
+  if (edificio.letra === 'C') return 2;
+  return pisosDe(edificio).length ? 1 : null;
+}
+
+// Pisos como texto: "Pisos −1, 1 y 2" (signo menos U+2212), "4 pisos", "1 piso" o "Pisos por confirmar".
+export function textoPisos(edificio) {
+  if (edificio.letra === 'C') return 'Pisos −1, 1 y 2';
+  if (edificio.letra === 'P') return 'Pisos 0 a 3';
+  if (!edificio.pisos) return 'Pisos por confirmar';
+  return edificio.pisos === 1 ? '1 piso' : `${edificio.pisos} pisos`;
+}
 
 // Salas y pasillos de un edificio en un piso. El C viene de OSM (sin `edificio`); los demás, de interiores
 // dibujados por el equipo, que traen `edificio: <letra>` (p. ej. interiores/edificio-p.geo.json).
@@ -119,21 +153,20 @@ export function nodoDestino(grafo, letra) {
   return grafo.nodos.find((n) => n.edificio === letra && n.tipo === 'edificio')?.id ?? null;
 }
 
-// Búsqueda por letra, título, subtítulo y alias, sin mayúsculas ni tildes.
-// Orden: coincidencia exacta de letra primero, luego nombre o alias que empieza con la consulta, luego el resto.
-const norm = (s) => (s ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
-const aliasDe = (e) => e.alias ?? ALIAS[e.clave] ?? [];
-function prioridad(e, t) {
-  const letra = norm(e.letra);
-  if (letra && letra === t) return 0;
-  const campos = [e.letra, e.titulo, e.sub, ...aliasDe(e)].map(norm).filter(Boolean);
-  if (campos.some((c) => c.startsWith(t))) return 1;
-  return 2;
-}
+// Búsqueda sin mayúsculas ni tildes. Si lo escrito es un código ("c", "M2", "Edificio H") busca solo la letra exacta.
+// Si no, busca en título y subtítulo; el edificio que no coincide por nombre pero sí por un servicio sale como copia con
+// `motivo: 'Servicio: Casino'`. Los resultados quedan en el orden de la lista y no se muta la lista recibida.
+const CODIGO = /^(?:edificio\s+)?([a-z]\d?)$/;
 export function filtrarEdificios(lista, q) {
   const t = norm(q);
   if (!t) return lista;
-  return lista
-    .filter((e) => norm(`${e.letra ?? ''} ${e.titulo} ${e.sub} ${aliasDe(e).join(' ')}`).includes(t))
-    .sort((a, b) => prioridad(a, t) - prioridad(b, t));
+  const codigo = t.match(CODIGO);
+  if (codigo) return lista.filter((e) => norm(e.letra) === codigo[1]);
+  const res = [];
+  for (const e of lista) {
+    if (norm(`${e.titulo} ${e.sub}`).includes(t)) { res.push(e); continue; }
+    const servicio = (e.servicios ?? []).find((s) => norm(s).includes(t));
+    if (servicio) res.push({ ...e, motivo: `Servicio: ${servicio}` });
+  }
+  return res;
 }
