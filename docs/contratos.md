@@ -102,7 +102,7 @@ Errores: `{ "error": "mensaje" }` con 400 o 404.
 
 ## 5. Rutas del frontend (José)
 
-`/` perfil y destino · `/mapa` ruta · `/comparar` · `/reportar` · `/punto/:id` (lo abre el QR, lee en voz alta) · `/campus` mejorar el campus (simulador de obras, Lote 8) · `/horario` ¿llegas a tu próxima clase? (Lote 9, pendiente).
+`/` perfil y destino · `/mapa` ruta · `/comparar` · `/reportar` · `/punto/:id` (lo abre el QR, lee en voz alta) · `/campus` mejorar el campus (simulador de obras, Lote 8).
 
 ## 6. Dueños de carpetas
 
