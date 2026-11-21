@@ -1,0 +1,33 @@
+/* /campus (Lote 8). Provisorio hasta el export de diseño: solo tokens y clases de componentes.css. */
+.campus { display: flex; flex-direction: column; gap: var(--e-7); padding: var(--e-6) var(--margen-movil) 0; max-width: 960px; }
+.campus__titulo { display: flex; flex-direction: column; gap: var(--e-2); }
+.campus__titulo h1 { font-size: var(--t-titulo); font-weight: var(--peso-negro); letter-spacing: var(--tracking-titulo); text-wrap: balance; }
+.campus__bloque { display: flex; flex-direction: column; gap: var(--e-3); }
+.campus__etiqueta { font-size: var(--t-etiqueta); font-weight: var(--peso-negro); }
+.campus__perfiles { display: flex; flex-wrap: wrap; gap: var(--e-2); }
+.campus__perfiles .perfil__icono { width: 40px; height: 40px; }
+.campus__explica { color: var(--tinta-2); }
+
+.campus__comparacion:empty { display: none; }
+.campus__comparacion p {
+  padding: var(--e-4); border-radius: var(--r-panel); border: 2px solid var(--tinta);
+  background: var(--superficie);
+}
+
+.campus__obras { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--e-3); }
+.campus__obra {
+  display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-6); justify-content: space-between; align-items: center;
+  padding: var(--e-4); border-radius: var(--r-panel); border: 2px solid var(--borde-control); background: var(--superficie);
+}
+.campus__obra:has([aria-checked="true"]) { border-color: var(--tinta); background: var(--cobalto-tinte); }
+.campus__obra-texto { flex: 1 1 280px; display: flex; flex-direction: column; gap: var(--e-1); }
+.campus__obra-texto h3 { font-size: var(--t-cuerpo); font-weight: var(--peso-negro); }
+.campus__obra-meta { font-size: var(--t-detalle); color: var(--tinta-2); }
+.campus__simular { width: auto; flex: 0 0 auto; border-bottom: 0; gap: var(--e-3); }
+.campus__simular .interruptor__texto { display: flex; flex-direction: column; }
+.campus__supuestos { font-size: var(--t-detalle); color: var(--tinta-2); }
+
+@media (min-width: 900px) {
+  .campus { padding: var(--e-7) 40px 0; }
+  .campus__titulo h1 { font-size: var(--t-seccion); }
+}

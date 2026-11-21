@@ -17,7 +17,7 @@
 .boton-pastilla svg, .boton-accesibilidad svg { width: 20px; height: 20px; }
 
 /* Panel de accesibilidad: <dialog> con la clase .hoja (componentes.css). */
-dialog.hoja { overscroll-behavior: contain; margin: 0; width: auto; max-width: none; max-height: 90dvh; overflow: auto; border: 0; color: var(--tinta); }
+dialog.hoja { overscroll-behavior: contain; margin: 0; top: auto; height: auto; width: auto; max-width: none; max-height: 90dvh; overflow: auto; border: 0; color: var(--tinta); }
 dialog.hoja:not([open]) { display: none; }   /* .hoja trae display:flex y pisaría el cierre */
 dialog.hoja::backdrop { background: var(--velo); }
 .panel-accesibilidad__cabeza { display: flex; justify-content: space-between; align-items: center; }
@@ -60,3 +60,20 @@ dialog.hoja::backdrop { background: var(--velo); }
 
 /* Lote 3, A0: con zoom al 200 % la cabecera de escritorio se envuelve en vez de hacer scroll horizontal. */
 .nav-escritorio, .barra-accesibilidad { flex-wrap: wrap; }
+
+/* Navegación móvil: el cuarto ítem "Más" abre una hoja con Mejorar el campus y Acerca (Lote 8). */
+.nav-movil__mas {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  border: 0; border-radius: 14px; background: none; color: var(--tinta); cursor: pointer;
+  font: inherit; font-size: 15px; line-height: 20px;
+}
+.nav-movil__mas svg { width: 24px; height: 24px; }
+.nav-movil__mas[aria-current="page"] { background: var(--activo-fondo); color: var(--activo-texto); font-weight: var(--peso-negro); }
+.panel-mas__enlaces { display: flex; flex-direction: column; gap: var(--e-2); }
+.panel-mas__enlaces a {
+  min-height: 60px; padding: 0 var(--e-4); display: flex; align-items: center; gap: var(--e-3);
+  border: 2px solid var(--borde-control); border-radius: var(--r-control);
+  color: var(--tinta); text-decoration: none; font-weight: var(--peso-negro);
+}
+.panel-mas__enlaces a svg { width: 24px; height: 24px; }
+.panel-mas__enlaces a[aria-current="page"] { background: var(--activo-fondo); border-color: var(--activo-fondo); color: var(--activo-texto); }
