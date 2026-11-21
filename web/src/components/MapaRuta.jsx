@@ -1,13 +1,15 @@
 import { useEffect, useMemo } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import L from 'leaflet';
-import { MapContainer, Marker, Polyline, Rectangle, useMap } from 'react-leaflet';
+import { MapContainer, Marker, Polyline, useMap } from 'react-leaflet';
 import { Crosshair, MapPin, Minus, Plus, Prohibit, Warning } from '@phosphor-icons/react';
+import CapaPlano from '../plano/CapaPlano.jsx';
+import { LIMITES_VISTA, ZOOM } from '../plano/plano.js';
 import 'leaflet/dist/leaflet.css';
 import './MapaRuta.css';
 
-// Mapa de /mapa (Lote 2, A5): Leaflet sin teselas y con el CRS normal, en [lat, lng] reales. Hoy dibuja el grafo sobre un
-// rectángulo vacío; cuando exista web/src/plano/ (de José) irá <CapaPlano/> encima del fondo, con sus LIMITES.
+// Mapa de /mapa (Lote 2, A5): Leaflet sin teselas y con el CRS normal, en [lat, lng] reales. El fondo es el plano de
+// Casa Central de web/src/plano/ (<CapaPlano/>, de José), que trae su propia atribución OSM.
 // Las opciones de las capas (className, weight) van como props directas: react-leaflet aplica pathOptions después de crear
 // la capa y Leaflet solo lee className al crearla.
 // Los marcadores no son interactivos ni entran al Tab; el contenedor describe la ruta en una frase (role="img").
@@ -43,7 +45,7 @@ function Vista({ coordenadas, bounds, alturaHoja, controles }) {
   const centrar = useMemo(() => () => {
     mapa.invalidateSize();
     const caja = coordenadas.length ? L.latLngBounds(coordenadas) : L.latLngBounds(bounds);
-    mapa.fitBounds(caja, { paddingTopLeft: [40, 96], paddingBottomRight: [40, alturaHoja + 40], maxZoom: 20, animate: false });
+    mapa.fitBounds(caja, { paddingTopLeft: [40, 96], paddingBottomRight: [40, alturaHoja + 40], maxZoom: ZOOM.max, animate: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapa, clave, bounds, alturaHoja]);
 
@@ -96,17 +98,17 @@ export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras 
     <div className="mapa-ruta" role="img" aria-label={descripcion}>
       <MapContainer
         center={[(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]}
-        zoom={18}
-        minZoom={16}
-        maxZoom={21}
+        className="mapa-plano"
+        zoom={ZOOM.inicial}
+        minZoom={ZOOM.min}
+        maxZoom={ZOOM.max}
         zoomSnap={0.25}
         zoomDelta={0.5}
-        maxBounds={L.latLngBounds(bounds).pad(0.5)}
+        maxBounds={LIMITES_VISTA}
         zoomControl={false}
-        attributionControl={false}
         keyboard={false}
       >
-        <Rectangle bounds={bounds} className="mapa-plano" interactive={false} />
+        <CapaPlano />
         {base.map((par, i) => <Polyline key={i} positions={par} className="mapa-camino" weight={3} interactive={false} />)}
         {ruta.coordenadas.length > 1 && (
           <>

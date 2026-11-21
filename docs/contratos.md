@@ -19,7 +19,7 @@ Todo módulo del servidor/motor es ESM (`"type": "module"`).
 {
   "nodos": [
     { "id": "entrada-principal", "nombre": "Entrada principal", "tipo": "entrada",
-      "lat": -33.0458, "lng": -71.6197, "edificio": "A", "piso": 0,
+      "lat": -33.033897, "lng": -71.59523, "edificio": "A", "piso": 0,
       "descripcion": "Portón principal de Casa Central" }
   ],
   "tramos": [
