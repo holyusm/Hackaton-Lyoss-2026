@@ -77,3 +77,13 @@ dialog.hoja::backdrop { background: var(--velo); }
 }
 .panel-mas__enlaces a svg { width: 24px; height: 24px; }
 .panel-mas__enlaces a[aria-current="page"] { background: var(--activo-fondo); border-color: var(--activo-fondo); color: var(--activo-texto); }
+
+/* Áreas táctiles de 48 px (regla del equipo). componentes.css trae 44 px en estos dos; el ajuste va aquí. */
+.nav-escritorio a { min-height: var(--toque-min); }
+.segmentado button { height: var(--toque-min); }
+/* Con zoom al 200 % (≈195 px de ancho) la barra inferior deja cada ítem en 43 px: sin relleno ni separación
+   llegan a 48. */
+@media (max-width: 260px) {
+  .nav-movil { padding: 0; gap: 0; }
+  .nav-movil a, .nav-movil__mas { border-radius: 0; }
+}
