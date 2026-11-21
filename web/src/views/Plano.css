@@ -34,14 +34,15 @@
 .plano-capa { min-height: var(--toque-min); display: flex; align-items: center; gap: var(--e-2); cursor: pointer; }
 .plano-capa input { width: 22px; height: 22px; accent-color: var(--cobalto); }
 .plano__mapa .leaflet-control-scale-line { background: var(--superficie); color: var(--tinta); border-color: var(--tinta-2); font-family: var(--fuente); }
-.plano__nota-datos { position: absolute; left: var(--e-4); bottom: var(--e-6); z-index: 500; max-width: 340px; margin: 0; padding: var(--e-1) var(--e-3); border-radius: var(--r-control); background: var(--superficie); color: var(--tinta-2); font-size: var(--t-mini); display: none; }
+.plano__nota-datos { position: absolute; left: var(--e-4); bottom: var(--e-6); z-index: 500; max-width: 340px; margin: 0; padding: var(--e-1) var(--e-3); border-radius: var(--r-control); background: var(--superficie); color: var(--tinta-2); font-size: var(--t-mini); }
+.plano-hoja__nota-datos { margin: var(--e-3) 0 0; color: var(--tinta-2); font-size: var(--t-mini); }
 
 /* Marcadores del plano */
 .plano-calle-nombre { display: block; width: 140px; text-align: center; font-family: var(--fuente); font-size: 0.8rem; font-weight: var(--peso-negro); color: var(--tinta-2); text-shadow: 0 0 3px var(--superficie), 0 0 3px var(--superficie), 0 0 5px var(--superficie); white-space: nowrap; pointer-events: none; }
 .plano-aqui { display: flex; align-items: center; gap: var(--e-2); pointer-events: none; }
 .plano-aqui__punto { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--cobalto); border: 3px solid var(--superficie); box-shadow: 0 0 0 4px rgba(36, 67, 208, 0.3); }
 .plano-aqui__texto { padding: 2px var(--e-2); border-radius: var(--r-pill); background: var(--superficie); border: var(--ancho-linea) solid var(--linea); font-family: var(--fuente); font-size: 0.75rem; font-weight: var(--peso-negro); color: var(--tinta); white-space: nowrap; }
-.plano-bano { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: var(--paso); color: #FFFFFF; }
+.plano-bano { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: var(--paso); color: var(--sobre-cobalto); }   /* blanco en claro, oscuro en oscuro: el verde se aclara en esos temas */
 .plano-bano svg { width: 16px; height: 16px; }
 .plano-sala-ref { display: block; width: 40px; text-align: center; font-family: var(--fuente); font-size: 0.6rem; font-weight: var(--peso-negro); color: var(--tinta); text-shadow: 0 0 2px var(--superficie), 0 0 2px var(--superficie); pointer-events: none; }
 
@@ -85,7 +86,6 @@
   .plano__barra { padding-left: 0; padding-right: 0; }
   .plano__mapa { min-height: 0; border-radius: 16px; box-shadow: var(--sombra-panel); }
   .plano__mapa .plano-controles { top: var(--e-4); }
-  .plano__nota-datos { display: block; }
 }
 
 /* Zoom al 200 % (≈195 px): la cabecera de la ficha pasa a columna y el título no se parte letra por letra. */
