@@ -4,6 +4,7 @@ import { calcularRuta } from '../../../motor/ruta.js';
 import { bloqueosDe } from '../../../motor/barreras.js';
 import perfilesRespaldo from '../../../data/perfiles.json';
 import { armarRuta } from '../lib/pasos.js';
+import { rutaCompatible } from '../lib/rutaCompatible.js';
 import { crearPosicion } from '../lib/posicion.js';
 import { useBarreras } from './useBarreras.js';
 import { useLugares } from './useLugares.js';
@@ -33,25 +34,43 @@ export function useRuta() {
   }, [grafo, valida, navigate]);
 
   // El texto de los bloqueos cambia solo cuando cambia el conjunto de barreras, no en cada consulta.
-  const claveBloqueos = bloqueosDe(barreras).sort().join('|');
+  const claveBloqueos = JSON.stringify([...new Set(bloqueosDe(barreras))].sort());
+  const verificadas = Boolean(actualizado) && !error;
+  const solicitud = useMemo(() => ({ grafo, desde, hasta, perfil, claveBloqueos, verificadas }),
+    [grafo, desde, hasta, perfil, claveBloqueos, verificadas]);
+  const [respuesta, setRespuesta] = useState(null);
+  const vigente = respuesta?.solicitud === solicitud ? respuesta : null;
+  const resultado = vigente?.resultado;
 
-  const [resultado, setResultado] = useState(null);
   useEffect(() => {
-    if (!valida) return undefined;
-    let vivo = true;
-    (async () => {
-      let r;
+    if (!valida) return;
+    const controlador = new AbortController();
+    const { grafo, desde, hasta, perfil, claveBloqueos, verificadas } = solicitud;
+    const calcular = async () => {
+      let resultado;
+      let aviso;
       try {
-        const resp = await fetch(`/api/ruta?${new URLSearchParams({ desde, hasta, perfil })}`);
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        r = await resp.json();
+        const resp = await fetch(`/api/ruta?${new URLSearchParams({ desde, hasta, perfil })}`, { signal: controlador.signal });
+        if (!resp.ok) throw new Error();
+        resultado = await resp.json();
       } catch {
-        r = calcularRuta(grafo, perfilesRespaldo, { desde, hasta, perfil, bloqueos: claveBloqueos ? claveBloqueos.split('|') : [] });
+        if (controlador.signal.aborted) return;
+        if (verificadas) {
+          resultado = calcularRuta(grafo, perfilesRespaldo, { desde, hasta, perfil, bloqueos: JSON.parse(claveBloqueos) });
+        } else {
+          aviso = 'No pudimos verificar las barreras activas del campus.';
+        }
       }
-      if (vivo) setResultado(r);
-    })();
-    return () => { vivo = false; };
-  }, [valida, grafo, desde, hasta, perfil, claveBloqueos]);
+      if (!aviso && !rutaCompatible(grafo, resultado, desde, hasta)) {
+        aviso = 'Los datos de la ruta y del mapa no coinciden.';
+      }
+      if (!controlador.signal.aborted) setRespuesta({ solicitud, resultado: aviso ? null : resultado, aviso });
+    };
+    calcular().catch(() => {
+      if (!controlador.signal.aborted) setRespuesta({ solicitud, aviso: 'No pudimos verificar esta ruta.' });
+    });
+    return () => controlador.abort();
+  }, [valida, solicitud]);
 
   const mapa = useMemo(() => (grafo ? crearPosicion(grafo) : null), [grafo]);
   const ruta = useMemo(() => {
@@ -60,6 +79,6 @@ export function useRuta() {
     return { id, pasos, coordenadas, nodos: resultado.nodos, tramos: resultado.tramos, metros: resultado.metros, minutos: resultado.minutos, escalones: resultado.escalones, advertencias: resultado.advertencias };
   }, [grafo, mapa, resultado]);
 
-  const estado = !valida || !resultado ? 'cargando' : resultado.ok ? 'ok' : 'sinRuta';
-  return { estado, ruta, motivo: resultado?.ok === false ? resultado.motivo : null, consulta: { desde, hasta, perfil }, origen, destino, grafo, mapa, barreras, actualizado, errorBarreras: error };
+  const estado = vigente?.aviso ? 'sinVerificar' : !valida || !resultado ? 'cargando' : resultado.ok ? 'ok' : 'sinRuta';
+  return { estado, ruta, aviso: vigente?.aviso, motivo: resultado?.ok === false ? resultado.motivo : null, consulta: { desde, hasta, perfil }, origen, destino, grafo, mapa, barreras, actualizado, errorBarreras: error };
 }
