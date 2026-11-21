@@ -10,7 +10,7 @@ mkdirSync('docs/qr', { recursive: true });
 const filas = [];
 for (const p of puntos) {
   const url = `${base}/punto/${encodeURIComponent(p.id)}`;
-  await QRCode.toFile(`docs/qr/${p.id}.png`, url, { width: 600, margin: 2 });
+  await QRCode.toFile(`docs/qr/${p.id}.png`, url, { width: 1200, margin: 4, errorCorrectionLevel: 'H' });
   filas.push(`## ${p.titulo}\n\n![QR ${p.titulo}](${p.id}.png)\n\n${url}\n`);
   console.log(`docs/qr/${p.id}.png → ${url}`);
 }
