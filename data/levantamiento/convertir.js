@@ -40,6 +40,11 @@ function csv(texto = '', archivo, err) {
   if (!filas.length) return { cabeceras: [], filas: [] };
   const [cab, ...resto] = filas;
   const cabeceras = cab.map((k) => k.replace(/^\uFEFF/, '').trim());
+  // Columnas sin nombre al final (comas de sobra de una hoja de cálculo) no se exigen.
+  const esperados = cabeceras.reduce((n, k, i) => (k ? i + 1 : n), 0);
+  resto.forEach((f, i) => {
+    if (f.length < esperados) err(`${archivo} fila ${i + 2}: tiene ${f.length} campos, se esperaban ${esperados}`);
+  });
   const registros = resto.map((f) => Object.fromEntries(cabeceras.map((k, i) => [k, (f[i] ?? '').trim()])));
   return { cabeceras, filas: registros };
 }
