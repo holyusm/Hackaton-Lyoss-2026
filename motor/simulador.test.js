@@ -127,3 +127,14 @@ test('el desvío nunca es negativo, aunque otra ruta tarde menos que la de Está
     assert.ok(r.zonas.every((z) => z.minutos_extra === null || z.minutos_extra >= 0));
   }
 });
+
+test('seleccionar el ascensor dos veces aplica la obra una sola vez', () => {
+  const obra = {
+    id: 'ascensor-edificio-b',
+    nodos_nuevos: [{ id: 'ascensor-b', nombre: 'Ascensor B', tipo: 'ascensor' }],
+    tramos_nuevos: [tramo('obra-t1', 'b', 'ascensor-b'), tramo('obra-t2', 'ascensor-b', 'c')],
+  };
+  assert.deepEqual(aplicarObras(GRAFO, [obra, obra]), aplicarObras(GRAFO, [obra]));
+  const calcular = (ids) => simular(GRAFO, PERFILES, [obra], { ids });
+  assert.deepEqual(calcular([obra.id, obra.id]), calcular([obra.id]));
+});

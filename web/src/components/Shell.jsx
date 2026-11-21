@@ -41,7 +41,7 @@ export default function Shell() {
   return (
     <div className={enMapa ? 'app app--mapa' : 'app'}>
       {enMapa
-        ? <a className="saltar" href="#ruta">Saltar a los pasos de la ruta</a>
+        ? <a className="saltar" href="#ruta">Saltar a la ruta</a>
         : <a className="saltar" href="#contenido">Saltar al contenido</a>}
 
       <header className="cabecera">

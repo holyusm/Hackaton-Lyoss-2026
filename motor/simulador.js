@@ -15,7 +15,10 @@ const promedio = (xs) => (xs.length ? r1(xs.reduce((s, x) => s + x, 0) / xs.leng
 export function aplicarObras(grafo, obras) {
   const g = structuredClone(grafo);
   const tramos = new Map(g.tramos.map((t) => [t.id, t]));
+  const aplicadas = new Set();
   for (const o of obras) {
+    if (aplicadas.has(o.id)) continue;
+    aplicadas.add(o.id);
     // Un tramo_id inexistente se ignora: data/obras.json lo valida en sus tests (motor/obras.test.js).
     for (const c of o.cambios ?? []) if (tramos.has(c.tramo_id)) Object.assign(tramos.get(c.tramo_id), c.valores);
     g.nodos.push(...structuredClone(o.nodos_nuevos ?? []));

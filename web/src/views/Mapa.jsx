@@ -38,11 +38,11 @@ export default function Mapa() {
   const cambiarLista = (si) => { setLista(si); guardarVista(si); };
 
   if (r.estado === 'cargando') {
-    return <section className="mapa-estado" role="status"><p>Calculando tu ruta</p></section>;
+    return <section id="ruta" tabIndex={-1} className="mapa-estado" role="status"><p>Calculando tu ruta</p></section>;
   }
   if (r.estado === 'sinVerificar') {
     return (
-      <section className="mapa-estado">
+      <section id="ruta" tabIndex={-1} className="mapa-estado">
         <h1>Ruta pendiente de verificar</h1>
         <p role="status">{r.aviso}</p>
         <button type="button" className="boton boton--primario" onClick={() => window.location.reload()}>Reintentar</button>
@@ -51,7 +51,7 @@ export default function Mapa() {
   }
   if (r.estado === 'sinRuta') {
     return (
-      <section className="mapa-estado">
+      <section id="ruta" tabIndex={-1} className="mapa-estado">
         <h1>No encontramos una ruta hacia {r.destino.nombre}</h1>
         <AvisoBarrera variante="bloqueo" role="alert" titulo="No hay una ruta accesible en este momento">{r.motivo}</AvisoBarrera>
         <Link to="/" className="boton boton--primario">Probar con otro destino</Link>
