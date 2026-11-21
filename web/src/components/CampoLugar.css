@@ -1,0 +1,16 @@
+/* Lo que componentes.css no trae para CampoLugar: posición de la lista y su contenido. */
+.campo__control .lista-lugares {
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 20;
+  max-height: min(60dvh, 420px); overflow-y: auto; overscroll-behavior: contain;
+}
+.lista-lugares[hidden] { display: none; }
+.lista-lugares__opcion svg { width: 24px; height: 24px; flex-shrink: 0; }
+.lista-lugares__texto { display: flex; flex-direction: column; min-width: 0; }
+.lista-lugares__nombre { font-weight: var(--peso-negro); }
+.lista-lugares__meta { font-size: var(--t-detalle); color: var(--tinta-2); }
+.lista-lugares__opcion[aria-selected="true"] .lista-lugares__meta { color: inherit; }
+.lista-lugares__opcion:hover { background: var(--cobalto-tinte); color: var(--sobre-tinte); }
+.lista-lugares__vacio { padding: var(--e-3); color: var(--tinta-2); }
+
+/* El placeholder exacto no cabe a 20 px en 390 px: vacío, el campo usa 16 px y no reserva lugar al botón borrar. */
+.campo__input:placeholder-shown { font-size: var(--t-detalle); padding-right: var(--e-4); }

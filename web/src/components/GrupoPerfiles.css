@@ -1,0 +1,22 @@
+/* Disposición interna de .tarjeta-perfil (componentes.css trae colores, bordes y estados).
+   Móvil: ícono y marca arriba, texto abajo. Escritorio: ícono, texto y marca en una fila. */
+.tarjeta-perfil {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "icono marca" "texto texto";
+  align-items: start;
+}
+.tarjeta-perfil .perfil__icono { grid-area: icono; }
+.tarjeta-perfil .perfil__marca { grid-area: marca; justify-self: end; align-self: center; display: flex; }
+.tarjeta-perfil .perfil__texto { grid-area: texto; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+@media (min-width: 900px) {
+  .rejilla-perfiles { grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+  .tarjeta-perfil {
+    min-height: 100px;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "icono texto marca";
+    align-items: center;
+    column-gap: var(--e-3);
+  }
+}
