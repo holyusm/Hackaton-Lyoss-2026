@@ -36,6 +36,12 @@ export function PreferenciasProvider({ children }) {
     setTexto: (t) => { setTexto(t); guardar('parejo:texto', t); },
     setVoz: (si) => { setVoz(si); guardar('parejo:voz', si ? 'si' : 'no'); },
     setPerfil: (id) => { setPerfil(id); guardar('parejo:perfil', id); },
+    // Para vistas que abren con otra base (el punto QR abre en contraste y A+): solo si la persona
+    // nunca eligió tema ni tamaño, y sin guardar nada, así no cambia sus preferencias en el resto de la app.
+    aplicarPorDefecto: ({ tema: t, texto: x }) => {
+      if (t && leer('parejo:tema', null) === null) setTema(t);
+      if (x && leer('parejo:texto', null) === null) setTexto(x);
+    },
   };
   return createElement(Preferencias.Provider, { value: valor }, children);
 }

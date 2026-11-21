@@ -23,6 +23,8 @@ export default function Shell() {
   const { pathname, search } = useLocation();
   // /mapa (Lote 2): el mapa va de la cabecera a la nav, el salto lleva a los pasos y el pie legal va en la hoja.
   const enMapa = pathname.startsWith('/mapa');
+  // /punto/:id (Lote 5): se abre desde un QR; sin navegación ni pie, solo cabecera, Accesibilidad y el salto.
+  const enPunto = pathname.startsWith('/punto/');
   const p = usePreferencias();
   const [panel, setPanel] = useState(false);
   const [mas, setMas] = useState(false);
@@ -54,7 +56,7 @@ export default function Shell() {
           <span aria-hidden="true" translate="no">parejo</span>
         </Link>
 
-        <nav className="nav-escritorio" aria-label="Principal">{NAV.map(enlace)}</nav>
+        {!enPunto && <nav className="nav-escritorio" aria-label="Principal">{NAV.map(enlace)}</nav>}
 
         <div className="barra-accesibilidad" role="group" aria-label="Accesibilidad">
           <div className="segmentado" role="group" aria-label="Tamaño del texto">
@@ -79,17 +81,19 @@ export default function Shell() {
 
       <main id="contenido" tabIndex={-1}>
         <Outlet />
-        {!enMapa && <p className="pie-legal">Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>}
+        {!enMapa && !enPunto && <p className="pie-legal">Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>}
       </main>
 
-      <nav className="nav-movil" aria-label="Principal">
-        {NAV.filter((n) => !EN_MAS.includes(n.a)).map(enlace)}
-        <button type="button" className="nav-movil__mas" aria-haspopup="dialog" aria-expanded={mas}
-          aria-current={enMas ? 'page' : undefined} onClick={() => setMas(true)}>
-          <DotsThreeOutline weight="bold" aria-hidden="true" />
-          <span>Más</span>
-        </button>
-      </nav>
+      {!enPunto && (
+        <nav className="nav-movil" aria-label="Principal">
+          {NAV.filter((n) => !EN_MAS.includes(n.a)).map(enlace)}
+          <button type="button" className="nav-movil__mas" aria-haspopup="dialog" aria-expanded={mas}
+            aria-current={enMas ? 'page' : undefined} onClick={() => setMas(true)}>
+            <DotsThreeOutline weight="bold" aria-hidden="true" />
+            <span>Más</span>
+          </button>
+        </nav>
+      )}
       <PanelMas abierto={mas} onCerrar={() => setMas(false)} enlaces={NAV.filter((n) => EN_MAS.includes(n.a)).map(enlace)} />
 
       <PanelAccesibilidad abierto={panel} onCerrar={() => setPanel(false)} />

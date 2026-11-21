@@ -1,0 +1,33 @@
+/* /punto/:id (Lote 5). Una columna, legible con A+ y zoom; el orden visual es el orden de la voz. */
+.punto { display: flex; flex-direction: column; gap: var(--e-6); padding: var(--e-6) var(--margen-movil) var(--e-7); max-width: 720px; width: 100%; box-sizing: border-box; margin: 0 auto; }
+.punto h1 { font-size: var(--t-titulo); font-weight: var(--peso-negro); letter-spacing: var(--tracking-titulo); line-height: 1.1; text-wrap: balance; }
+.punto h2 { font-size: var(--t-subtitulo); font-weight: var(--peso-negro); }
+.punto__lugar { display: flex; flex-direction: column; gap: var(--e-2); border-radius: var(--r-panel); }
+.punto__sin-conexion { align-self: stretch; height: auto; min-height: 44px; padding: var(--e-2) var(--e-4); }
+
+/* Bloque que se está leyendo: contorno y fondo, no solo color de texto. */
+.punto__leyendo {
+  outline: 4px solid var(--cobalto); outline-offset: 4px; background: var(--cobalto-tinte); border-radius: var(--r-panel);
+}
+.punto__lugar.punto__leyendo { padding: var(--e-3); }
+
+.punto__destinos { display: flex; flex-direction: column; gap: var(--e-3); }
+.punto__destinos ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--e-4); }
+.tarjeta-destino {
+  display: grid; grid-template-columns: auto 1fr; gap: var(--e-3); padding: var(--e-4);
+  border: 2px solid var(--tinta); border-radius: var(--r-panel); background: var(--superficie);
+}
+.tarjeta-destino.punto__leyendo { background: var(--cobalto-tinte); }
+.tarjeta-destino__icono {
+  width: 44px; height: 44px; border-radius: var(--r-control); display: grid; place-items: center;
+  background: var(--cobalto-tinte); color: var(--sobre-tinte);
+}
+.tarjeta-destino__icono svg { width: 26px; height: 26px; }
+.tarjeta-destino__texto { display: flex; flex-direction: column; gap: var(--e-2); min-width: 0; }
+.tarjeta-destino__texto h3 { font-size: var(--t-etiqueta); font-weight: var(--peso-negro); }
+.tarjeta-destino__ir { min-height: 56px; margin-top: var(--e-2); }
+.tarjeta-destino__ir svg { width: 24px; height: 24px; }
+
+.punto__pie { display: flex; flex-direction: column; gap: var(--e-3); padding-top: var(--e-4); border-top: var(--ancho-linea) solid var(--tinta); }
+.punto__perfil { min-height: 48px; display: inline-flex; align-items: center; gap: var(--e-2); align-self: flex-start; font-weight: var(--peso-negro); }
+.punto__perfil svg { width: 22px; height: 22px; }

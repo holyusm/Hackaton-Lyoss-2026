@@ -10,6 +10,7 @@ import Inicio from './views/Inicio.jsx';
 import Mapa from './views/Mapa.jsx';
 import Comparar from './views/Comparar.jsx';
 import Campus from './views/Campus.jsx';
+import Punto from './views/Punto.jsx';
 
 // Vistas sin implementar todavía: cada una se reemplaza por su archivo en web/src/views/.
 const Pendiente = ({ titulo }) => (
@@ -29,7 +30,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/mapa" element={<Mapa />} />
             <Route path="/comparar" element={<Comparar />} />
             <Route path="/reportar" element={<Pendiente titulo="Reportar una barrera" />} />
-            <Route path="/punto/:id" element={<Pendiente titulo="Punto QR" />} />
+            <Route path="/punto/:id" element={<Punto />} />
             <Route path="/campus" element={<Campus />} />
             <Route path="/acerca" element={<Pendiente titulo="Acerca de Parejo" />} />
             <Route path="*" element={<Pendiente titulo="Página no encontrada" />} />
