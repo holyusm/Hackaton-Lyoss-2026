@@ -138,3 +138,31 @@ test('seleccionar el ascensor dos veces aplica la obra una sola vez', () => {
   const calcular = (ids) => simular(GRAFO, PERFILES, [obra], { ids });
   assert.deepEqual(calcular([obra.id, obra.id]), calcular([obra.id]));
 });
+
+test('los minutos ahorrados por obra nunca son negativos aunque una ruta nueva sea más larga (#179)', () => {
+  const g = {
+    nodos: [
+      { id: 'a', nombre: 'A', tipo: 'entrada', lat: 0, lng: 0 },
+      { id: 'b', nombre: 'B', tipo: 'sala', lat: 0, lng: 1 },
+      { id: 'c', nombre: 'C', tipo: 'punto', lat: 1, lng: 0 },
+    ],
+    tramos: [
+      tramo('t1', 'a', 'b', { metros: 20, minutos_medidos: 1 }),
+    ],
+  };
+  const perfiles = [
+    { id: 'baja_vision', nombre: 'Visión', prohibido: {}, costos: { escalon: 20 } },
+  ];
+  const obra = {
+    id: 'obra-larga',
+    titulo: 'Ruta larga',
+    cambios: [],
+    tramos_nuevos: [
+      tramo('t2', 'a', 'c', { metros: 100, minutos_medidos: 3 }),
+      tramo('t3', 'c', 'b', { metros: 100, minutos_medidos: 3 }),
+    ],
+    nodos_nuevos: [],
+  };
+  const r = simular(g, perfiles, [obra], { perfil: 'baja_vision' });
+  assert.ok(r.obras[0].minutos_ahorrados_prom >= 0);
+});

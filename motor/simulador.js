@@ -94,7 +94,7 @@ export function simular(grafo, perfiles, obras, { perfil = 'silla_ruedas', ids =
     const ev = evaluar(aplicarObras(grafo, [o]), perfiles, lugares, delPerfil);
     const ahorros = perfil === 'todos' ? null : claves
       .filter((k) => hoy[perfil].get(k).ok && ev[perfil].get(k).ok)
-      .map((k) => hoy[perfil].get(k).minutos - ev[perfil].get(k).minutos);
+      .map((k) => Math.max(0, hoy[perfil].get(k).minutos - ev[perfil].get(k).minutos));
     const visible = Object.fromEntries(Object.entries(o).filter(([c]) => !OCULTOS.includes(c)));
     return { ...visible, trayectos_sin_barrera: sinBarreraTras(hoy, ev, perfil, claves), minutos_ahorrados_prom: ahorros && promedio(ahorros) };
   }).sort((a, b) => b.trayectos_sin_barrera - a.trayectos_sin_barrera
