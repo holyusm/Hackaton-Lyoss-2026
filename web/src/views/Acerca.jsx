@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Drop, Elevator, Stairs } from '@phosphor-icons/react';
+import { Drop, Elevator, Stairs } from '@phosphor-icons/react';
 import perfiles from '../../../data/perfiles.json';
 import { compararPerfiles } from '../../../motor/ruta.js';
 import { armarFilas, fraseResumen } from '../lib/comparar.js';
@@ -184,14 +184,9 @@ export default function Acerca() {
           })}
         </ul>
         <div className="acerca-foto-nota">
-          <div className="acerca-foto" role="img" aria-label="Espacio para una foto propia del levantamiento, pendiente">
-            <Camera weight="bold" aria-hidden="true" />
-            <span>{loQueCambia.foto}</span>
-          </div>
+          {/* Sin foto ni cifra hasta tener una propia y con fuente: un recuadro "pendiente" se ve inconcluso en la demo (#214). */}
           <div className="acerca-nota">
-            <p>
-              {loQueCambia.nota} {loQueCambia.cifra} <span className="acerca-pendiente">cifra con fuente pendiente</span>.
-            </p>
+            <p>{loQueCambia.nota}</p>
             <p className="acerca-nota__fuente">Fuente: {loQueCambia.fuente}.</p>
           </div>
         </div>
@@ -266,9 +261,7 @@ export default function Acerca() {
             <p>{pie.texto}</p>
           </div>
           <div className="acerca-pie__usm">
-            <div className="acerca-pie__logo" role="img" aria-label="Espacio reservado para el logotipo oficial de la USM, pendiente">
-              Logotipo USM
-            </div>
+            {/* Sin logotipo USM: solo se usa el archivo oficial con aprobación de Comunicaciones (acerca.json). */}
             <p>{pie.firmaUSM}</p>
           </div>
         </div>

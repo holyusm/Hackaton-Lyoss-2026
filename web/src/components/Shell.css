@@ -7,6 +7,18 @@
 .app > main:focus { outline: none; }
 .app > main > .pie-legal { margin-top: auto; padding: var(--e-6) var(--e-4) var(--e-4); }
 
+/* Como app en el teléfono (viewport-fit=cover en index.html): respetar la muesca y la barra de inicio.
+   Fuera de un iPhone env() vale 0 y nada cambia. */
+html { -webkit-tap-highlight-color: transparent; }
+a, button, input, select, textarea, label, [role="button"], [role="switch"], [role="radio"] { touch-action: manipulation; }
+.app { padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+.nav-movil {
+  height: calc(var(--alto-nav-movil) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+}
+.accion-fija { bottom: calc(var(--alto-nav-movil) + env(safe-area-inset-bottom, 0px)); }
+.hoja { padding-bottom: calc(var(--e-6) + env(safe-area-inset-bottom, 0px)); }
+
 /* Símbolo: 32 px sin ventanas en móvil, 40 px completo en escritorio (referencias del Lote 0 y 1). */
 .wordmark__escritorio { display: none; }
 @media (min-width: 900px) {

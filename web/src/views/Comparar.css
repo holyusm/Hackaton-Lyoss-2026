@@ -62,9 +62,10 @@
 @media (min-width: 900px) {
   .comparar {
     padding: var(--e-6) 40px 0; font-size: 1.111rem;
-    display: grid; grid-template-columns: minmax(440px, 5fr) 7fr; column-gap: 40px; align-items: start;
+    display: grid; grid-template-columns: minmax(360px, 5fr) minmax(min(820px, calc(100% - 400px)), 7fr); column-gap: 40px; align-items: start;
   }
-  .comparar > * { grid-column: 2; }
+  /* min-width: 0 para que con A++ la tabla haga scroll dentro de su caja y no estire la página (#214). */
+  .comparar > * { grid-column: 2; min-width: 0; }
   .comparar__cabeza, .comparar__editar { grid-column: 1 / -1; }
   .comparar__mapa { grid-column: 1; grid-row: 2 / span 4; order: 0; margin: 0; position: sticky; top: var(--e-4); }
   .comparar__editar + .comparar__mapa { grid-row: 3 / span 4; }

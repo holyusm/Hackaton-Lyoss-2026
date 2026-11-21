@@ -1,0 +1,14 @@
+{
+  "name": "parejo: campus sin barreras",
+  "short_name": "parejo",
+  "description": "Rutas accesibles por perfil en Casa Central USM. Prototipo estudiantil.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#EFF2F1",
+  "theme_color": "#FCFDFD",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
