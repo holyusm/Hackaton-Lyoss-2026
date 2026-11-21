@@ -131,6 +131,7 @@ export function pisoInicial(edificio) {
 // Pisos como texto: "Pisos −1, 1 y 2" (signo menos U+2212), "4 pisos", "1 piso" o "Pisos por confirmar".
 export function textoPisos(edificio) {
   if (edificio.letra === 'C') return 'Pisos −1, 1 y 2';
+  if (edificio.letra === 'P') return 'Pisos 0 a 3';
   if (!edificio.pisos) return 'Pisos por confirmar';
   return edificio.pisos === 1 ? '1 piso' : `${edificio.pisos} pisos`;
 }
