@@ -35,7 +35,7 @@
 .reporte-tipo__opcion[aria-checked="true"] { background: var(--activo-fondo); border-color: var(--activo-fondo); color: var(--activo-texto); }
 .reporte-tipo__opcion[aria-checked="true"] .reporte-tipo__icono { background: var(--activo-texto); color: var(--activo-fondo); }
 .reporte-tipo__rejilla[aria-invalid="true"] .reporte-tipo__opcion { border-color: var(--alto); }
-.reporte-tipo__opcion:focus-visible, .reporte-duracion__opcion:focus-visible, .reporte-detalle:focus-visible { outline: none; box-shadow: var(--foco); }
+.reporte-tipo__opcion:focus-visible, .reporte-detalle:focus-visible { outline: none; box-shadow: var(--foco); }
 
 /* Detalle */
 .reporte-detalle { height: auto; min-height: 96px; padding: var(--e-3) var(--e-4); resize: vertical; font-family: inherit; }
@@ -47,6 +47,7 @@
   font-weight: var(--peso-negro); cursor: pointer;
 }
 .reporte-duracion__opcion + .reporte-duracion__opcion { border-left: var(--ancho-linea) solid var(--borde-control); }
+.reporte-duracion__opcion:focus-visible { outline: 3px solid currentColor; outline-offset: -5px; }
 .reporte-duracion__opcion[aria-checked="true"] { background: var(--activo-fondo); color: var(--activo-texto); }
 .reporte-duracion .campo__ayuda { margin-top: var(--e-2); }
 
@@ -118,6 +119,10 @@
   .dialogo-resolver__acciones { flex-direction: row; }
 }
 
+@media (min-width: 1200px) {
+  .reporte-tipo__rejilla { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
 /* Zoom al 200 % o pantallas muy angostas (menos de 320 px): una columna y duración en 2 x 2, sin scroll horizontal. */
 .reporte-tipo__nombre, .reporte-fila__lugar, .reporte-fila__titulo { overflow-wrap: anywhere; }
 @media (max-width: 320px) {
@@ -135,7 +140,7 @@
 .plano-marcar { position: relative; display: block; width: 100%; box-sizing: border-box; border: 2px solid var(--borde-control); border-radius: var(--r-panel); overflow: hidden; background: var(--mapa-fondo); cursor: pointer; }
 .plano-marcar__leaflet { display: block; width: 100%; height: 180px; }
 .plano-marcar__atribucion { margin: var(--e-1) 0 0; font-size: var(--t-mini); color: var(--tinta-2); }
-.plano-marcar__atribucion a { color: var(--enlace); }
+.plano-marcar__atribucion a { display: inline-flex; align-items: center; min-height: var(--toque-min); color: var(--enlace); }
 .plano-marcar__leaflet { z-index: 0; }
 .plano-marcar__pin { background: none; border: 0; color: var(--alto-texto); }
 .plano-marcar__pin svg { width: 40px; height: 40px; filter: drop-shadow(0 0 2px var(--superficie)); }
