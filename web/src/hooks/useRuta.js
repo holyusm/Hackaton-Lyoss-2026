@@ -50,22 +50,21 @@ export function useRuta() {
     const calcular = async () => {
       let resultado;
       let aviso;
+      let sinVerificar = false;
       try {
         const resp = await fetch(`/api/ruta?${new URLSearchParams({ desde, hasta, perfil })}`, { signal: controlador.signal });
         if (!resp.ok) throw new Error();
         resultado = await resp.json();
       } catch {
         if (controlador.signal.aborted) return;
-        if (verificadas) {
-          resultado = calcularRuta(grafo, perfilesRespaldo, { desde, hasta, perfil, bloqueos: JSON.parse(claveBloqueos) });
-        } else {
-          aviso = 'No pudimos verificar las barreras activas del campus.';
-        }
+        // Sin servidor la ruta se calcula igual con el motor local; si además las barreras no se verificaron, se avisa sobre la ruta.
+        resultado = calcularRuta(grafo, perfilesRespaldo, { desde, hasta, perfil, bloqueos: JSON.parse(claveBloqueos) });
+        sinVerificar = !verificadas;
       }
-      if (!aviso && !rutaCompatible(grafo, resultado, desde, hasta)) {
+      if (!rutaCompatible(grafo, resultado, desde, hasta)) {
         aviso = 'Los datos de la ruta y del mapa no coinciden.';
       }
-      if (!controlador.signal.aborted) setRespuesta({ solicitud, resultado: aviso ? null : resultado, aviso });
+      if (!controlador.signal.aborted) setRespuesta({ solicitud, resultado: aviso ? null : resultado, aviso, sinVerificar });
     };
     calcular().catch(() => {
       if (!controlador.signal.aborted) setRespuesta({ solicitud, aviso: 'No pudimos verificar esta ruta.' });
@@ -81,5 +80,5 @@ export function useRuta() {
   }, [grafo, mapa, resultado]);
 
   const estado = vigente?.aviso ? 'sinVerificar' : !valida || !resultado ? 'cargando' : resultado.ok ? 'ok' : 'sinRuta';
-  return { estado, ruta, aviso: vigente?.aviso, motivo: resultado?.ok === false ? resultado.motivo : null, consulta: { desde, hasta, perfil }, origen, destino, grafo, mapa, barreras, actualizado, errorBarreras: error };
+  return { estado, ruta, aviso: vigente?.aviso, barrerasSinVerificar: Boolean(vigente?.sinVerificar), motivo: resultado?.ok === false ? resultado.motivo : null, consulta: { desde, hasta, perfil }, origen, destino, grafo, mapa, barreras, actualizado, errorBarreras: error };
 }
