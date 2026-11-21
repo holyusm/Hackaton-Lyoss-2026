@@ -1,0 +1,153 @@
+/* Tokens de "Campus sin barreras". Fuente: prompt maestro en docs/diseno/prompts-claude-design.md.
+   Paleta digital USM 2023. Contrastes medidos (WCAG) anotados junto a cada combinación de texto.
+   Temas: claro (por defecto), oscuro (prefers-color-scheme o data-theme="oscuro") y alto contraste (data-theme="contraste").
+   Tamaño de texto: data-texto="grande" | "enorme" en <html> (A+ / A++). */
+
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+@import '@fontsource/roboto-condensed/600.css';
+@import '@fontsource/roboto-condensed/700.css';
+
+:root {
+  /* Marca USM (valores fijos, se usan a través de los tokens semánticos de abajo) */
+  --usm-azul: #004B85;
+  --usm-azul-oscuro: #00335C;
+  --usm-azul-tinte: #E6EEF5;
+  --usm-amarillo: #F7AE00;
+  --usm-rojo: #D60019;
+  --usm-verde: #008452;
+
+  /* Semánticos, modo claro */
+  --fondo: #FAFAF7;
+  --superficie: #FFFFFF;
+  --tinta: #0F1720;            /* 17.3:1 sobre fondo */
+  --tinta-2: #3D4651;          /* 9.2:1 sobre fondo */
+  --linea: #D5D9DE;            /* solo bordes y separadores */
+  --acento: var(--usm-azul);   /* texto, enlaces, línea de ruta: 8.6:1 sobre fondo */
+  --primario: var(--usm-azul); /* fondo de botón primario, texto blanco 9.0:1 */
+  --primario-hover: var(--usm-azul-oscuro);
+  --sobre-primario: #FFFFFF;
+  --seleccion: var(--usm-azul-tinte);
+  --sobre-seleccion: var(--usm-azul-oscuro); /* 11.0:1 */
+  --alerta: var(--usm-amarillo);  /* solo como fondo, con texto tinta 9.5:1 */
+  --sobre-alerta: #0F1720;
+  --bloqueo: var(--usm-rojo);     /* fondo con texto blanco 5.4:1 */
+  --sobre-bloqueo: #FFFFFF;
+  --bloqueo-texto: var(--usm-rojo); /* texto rojo sobre fondo claro 5.2:1 */
+  --ok: var(--usm-verde);           /* íconos y bordes */
+  --ok-texto: #006B43;              /* 6.3:1 */
+  --sombra: 0 1px 2px rgba(0, 51, 92, 0.08);
+  --textura-podotactil: radial-gradient(circle, rgba(15, 23, 32, 0.28) 2px, transparent 2.5px) 0 0 / 8px 8px;
+
+  /* Tipografía */
+  --fuente-ui: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --fuente-senal: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+  --t-display: 2.5rem;   /* 40/44 */
+  --t-h1: 2rem;          /* 32/38 */
+  --t-h2: 1.5rem;        /* 24/30 */
+  --t-cuerpo: 1rem;      /* 18/27 (1rem = 18px) */
+  --t-pequeno: 0.889rem; /* 16/24 */
+  --t-numero: 2.667rem;  /* 48 */
+
+  /* Forma y espacio (rejilla de 4/8 px) */
+  --radio-panel: 12px;
+  --radio-control: 10px;
+  --tactil: 48px;
+  --boton-alto: 56px;
+  --margen: 16px;
+  --ancho-max: 1200px;
+  --borde: 1px;
+  --transicion: 180ms ease-out;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --fondo: #0E1318;
+    --superficie: #161C23;
+    --tinta: #EEF1F4;            /* 16.5:1 */
+    --tinta-2: #B8C0CA;          /* 10.2:1 */
+    --linea: #2C3540;
+    --acento: #6CA6E0;           /* 7.3:1 */
+    --seleccion: #1B2A3A;
+    --sobre-seleccion: #EEF1F4;  /* 12.9:1 */
+    --bloqueo-texto: #FF7A85;    /* 6.8:1 sobre superficie */
+    --ok-texto: #5FD39B;         /* 9.2:1 */
+    --sombra: none;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='oscuro'] {
+  --fondo: #0E1318;
+  --superficie: #161C23;
+  --tinta: #EEF1F4;
+  --tinta-2: #B8C0CA;
+  --linea: #2C3540;
+  --acento: #6CA6E0;
+  --seleccion: #1B2A3A;
+  --sobre-seleccion: #EEF1F4;
+  --bloqueo-texto: #FF7A85;
+  --ok-texto: #5FD39B;
+  --sombra: none;
+  color-scheme: dark;
+}
+
+:root[data-theme='contraste'] {
+  --fondo: #FFFFFF;
+  --superficie: #FFFFFF;
+  --tinta: #000000;            /* 21:1 */
+  --tinta-2: #000000;
+  --linea: #000000;
+  --acento: #00335C;           /* 12.9:1 */
+  --primario: #00335C;
+  --primario-hover: #000000;
+  --seleccion: #FFFFFF;
+  --sobre-seleccion: #000000;
+  --bloqueo-texto: #A30013;
+  --ok-texto: #00512F;
+  --borde: 2px;
+  --sombra: none;
+  --textura-podotactil: none;
+}
+
+/* A / A+ / A++: todo está en rem, así que basta con cambiar la raíz. */
+html { font-size: 112.5%; }                       /* 18px */
+html[data-texto='grande'] { font-size: 137.5%; }  /* 22px */
+html[data-texto='enorme'] { font-size: 168.75%; } /* 27px */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--fuente-ui);
+  font-size: var(--t-cuerpo);
+  line-height: 1.5;
+}
+
+h1, h2, h3 { font-family: var(--fuente-senal); font-weight: 700; color: var(--tinta); margin: 0 0 0.5em; }
+h1 { font-size: var(--t-h1); line-height: 1.19; }
+h2 { font-size: var(--t-h2); line-height: 1.25; }
+p { max-width: 65ch; }
+a { color: var(--acento); }
+
+/* Foco propio: 3 px tinta por dentro y 3 px amarillo por fuera, visible en cualquier fondo. */
+:focus-visible {
+  outline: 3px solid var(--usm-amarillo);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--tinta);
+}
+
+.visualmente-oculto {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.numero { font-family: var(--fuente-senal); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+}
