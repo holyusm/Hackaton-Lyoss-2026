@@ -80,7 +80,7 @@
 .reporte-fila { display: grid; grid-template-columns: 44px 1fr; gap: var(--e-3); padding: var(--e-3); border: var(--ancho-linea) solid var(--linea); border-radius: var(--r-panel); }
 .reporte-fila--nueva { border: 2px solid var(--paso); }
 .reporte-fila .boton { grid-column: 1 / -1; }
-.reporte-fila__icono { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--tinta); }
+.reporte-fila__icono { width: 44px; height: 44px; border-radius: var(--r-control); display: flex; align-items: center; justify-content: center; border: 2px solid var(--tinta); }
 .reporte-fila__icono svg { width: 24px; height: 24px; }
 .reporte-fila__icono--alerta { background: var(--podotactil); background-image: var(--textura-domos); background-size: var(--textura-domos-tam); color: var(--sobre-podotactil); }
 .reporte-fila__icono--bloqueo { background: var(--alto); color: var(--sobre-alto); }

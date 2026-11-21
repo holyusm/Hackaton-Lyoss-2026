@@ -64,7 +64,7 @@ dialog.hoja::backdrop { background: var(--velo); }
 /* Navegación móvil: el cuarto ítem "Más" abre una hoja con Mejorar el campus y Acerca (Lote 8). */
 .nav-movil__mas {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  border: 0; border-radius: 14px; background: none; color: var(--tinta); cursor: pointer;
+  border: 0; border-radius: var(--r-control); background: none; color: var(--tinta); cursor: pointer;
   font: inherit; font-size: 15px; line-height: 20px;
 }
 .nav-movil__mas svg { width: 24px; height: 24px; }
