@@ -1,0 +1,56 @@
+{
+  "$descripcion": "Datos de ejemplo de /comparar (Lote 3). Son simulados, salvo las cifras de Silla de ruedas frente a Estándar que fija el prompt (75 m contra 40 m, 12 escalones evitados). 'plano' son coordenadas del plano esquemático de referencia (390×704); en Leaflet se reemplazan por lat/lng del grafo.",
+  "trayecto": { "desde": "entrada-principal", "desdeNombre": "Entrada principal", "hasta": "sala-a-201", "hastaNombre": "Sala A-201" },
+  "respuestaCompararSugerida": {
+    "$nota": "Forma sugerida para GET /api/comparar?desde=&hasta=. Ajustar a docs/contratos.md si ya existe.",
+    "base": "estandar",
+    "perfiles": "lista con un objeto por perfil, como en escenas.normal.perfiles; un perfil sin ruta trae ok=false y motivo"
+  },
+  "estilosDeRuta": {
+    "$nota": "Cada perfil se distingue por el trazo, no solo por el color. Seleccionado: ancho +2 y opacidad 1; el resto queda con opacidad 0,2 y se dibuja debajo.",
+    "estandar": { "color": "--tinta", "ancho": 3, "dashArray": null, "lineCap": "round", "borde": null, "leyenda": "línea fina" },
+    "silla": { "color": "--cobalto", "ancho": 6, "dashArray": null, "lineCap": "round", "borde": { "color": "--superficie", "ancho": 12 }, "leyenda": "línea gruesa continua" },
+    "movilidad": { "color": "--cobalto", "ancho": 5, "dashArray": "12 8", "lineCap": "butt", "borde": { "color": "--superficie", "ancho": 9 }, "leyenda": "línea discontinua" },
+    "vision": { "color": "--paso", "ancho": 6, "dashArray": "0.1 11", "lineCap": "round", "borde": null, "leyenda": "línea de puntos" },
+    "ordenDeDibujo": ["estandar", "vision", "movilidad", "silla"]
+  },
+  "escenas": {
+    "normal": {
+      "seleccionInicial": "silla",
+      "resumen": "En silla de ruedas este trayecto es 35 m más largo y evita 12 escalones.",
+      "perfiles": [
+        { "id": "estandar", "nombre": "Estándar", "icono": "Person", "ok": true, "metros": 40, "minutos": 0.9, "escalones": 12, "difMetros": "Base", "difMinutos": "Base", "notaEscalones": "Base", "pasaPor": "Escalera del patio y Ascensor A", "advertencias": "Sube 12 escalones sin descanso.", "plano": "231,430 231,350 196,300 152,258 96,210" },
+        { "id": "silla", "nombre": "Silla de ruedas", "icono": "Wheelchair", "ok": true, "metros": 75, "minutos": 2.3, "escalones": 0, "difMetros": "+35 m", "difMinutos": "+1,4 min", "notaEscalones": "evita 12", "pasaPor": "Rampa, Patio central y Ascensor A", "advertencias": "Tramo de adoquín parejo de 8 m.", "plano": "225,430 271,412 271,358 160,260 150,256 96,210" },
+        { "id": "movilidad", "nombre": "Movilidad reducida", "icono": "PersonSimpleWalk", "ok": true, "metros": 65, "minutos": 2.0, "escalones": 0, "difMetros": "+25 m", "difMinutos": "+1,1 min", "notaEscalones": "evita 12", "pasaPor": "Rampa, borde del patio y Ascensor A", "advertencias": "Rampa de 4 % en 40 m, con bancas a la mitad.", "plano": "225,430 263,415 263,358 205,320 150,262 100,216" },
+        { "id": "vision", "nombre": "Baja visión", "icono": "Eye", "ok": true, "metros": 55, "minutos": 1.5, "escalones": 12, "difMetros": "+15 m", "difMinutos": "+0,6 min", "notaEscalones": "igual", "pasaPor": "Guía podotáctil, escalera con pasamanos y Ascensor A", "advertencias": "Escalera con huella contrastada y pasamanos a ambos lados.", "plano": "219,430 219,350 160,346 160,262 150,256 96,210" }
+      ]
+    },
+    "conPerfilSinRuta": {
+      "seleccionInicial": "todas",
+      "barreras": ["Ascensor A fuera de servicio desde las 11:05", "Pasarela del Edificio B cerrada"],
+      "resumen": "En silla de ruedas hoy no hay ruta hacia la Sala A-201. El resto debe subir al menos 20 escalones.",
+      "perfiles": [
+        { "id": "estandar", "nombre": "Estándar", "ok": true, "metros": 45, "minutos": 1.0, "escalones": 32, "difMetros": "Base", "difMinutos": "Base", "notaEscalones": "Base", "pasaPor": "Escalera del patio y escalera interior del Edificio A", "advertencias": "El Ascensor A está fuera de servicio.", "plano": "231,430 231,350 196,300 64,268 96,210" },
+        { "id": "silla", "nombre": "Silla de ruedas", "ok": false, "motivo": "El Ascensor A está fuera de servicio desde las 11:05 y la pasarela del Edificio B está cerrada." },
+        { "id": "movilidad", "nombre": "Movilidad reducida", "ok": true, "metros": 80, "minutos": 2.8, "escalones": 20, "difMetros": "+35 m", "difMinutos": "+1,8 min", "notaEscalones": "evita 12", "pasaPor": "Rampa y escalera interior con descansos", "advertencias": "20 escalones, con descanso cada 10.", "plano": "225,430 263,415 263,358 205,320 70,276 100,216" },
+        { "id": "vision", "nombre": "Baja visión", "ok": true, "metros": 60, "minutos": 1.6, "escalones": 32, "difMetros": "+15 m", "difMinutos": "+0,6 min", "notaEscalones": "igual", "pasaPor": "Guía podotáctil y escaleras con pasamanos", "advertencias": "Huella contrastada en todos los escalones.", "plano": "219,430 219,350 160,346 160,280 64,268 96,210" }
+      ],
+      "marcadoresExtra": [
+        { "tipo": "bloqueo", "etiqueta": "Ascensor A fuera de servicio", "plano": { "x": 150, "y": 256 }, "ladoEtiqueta": "abajo" },
+        { "tipo": "escalera", "aria": "Escalera interior del Edificio A, 20 escalones", "plano": { "x": 64, "y": 268 }, "etiquetaVisible": false }
+      ]
+    }
+  },
+  "frasesResumen": {
+    "$nota": "La frase se arma con los datos. Plantillas sugeridas, en este orden de prioridad:",
+    "sinRuta": "En {perfil en minúscula con preposición} hoy no hay ruta hacia {destino}. El resto debe subir al menos {mínimo de escalones entre los demás} escalones.",
+    "masLargoYEvita": "En {perfil} este trayecto es {metros perfil - metros base} m más largo y evita {escalones base - escalones perfil} escalones.",
+    "masLargo": "En {perfil} este trayecto es {diferencia} m más largo, con los mismos escalones.",
+    "igual": "Para {perfil} el trayecto es igual al Estándar."
+  },
+  "elementosFijosDelPlano": [
+    { "tipo": "escalera", "etiqueta": "Escalera, 12 escalones", "plano": { "x": 225, "y": 386 }, "ladoEtiqueta": "izquierda" },
+    { "tipo": "origen", "etiqueta": "Entrada principal", "plano": { "x": 225, "y": 430 }, "nota": "círculo hueco con borde --tinta, etiqueta en píldora a la derecha" },
+    { "tipo": "destino", "etiqueta": "Sala A-201, piso 2", "plano": { "x": 96, "y": 210 }, "nota": "pin --tinta (neutro, porque hay varias rutas)" }
+  ]
+}
