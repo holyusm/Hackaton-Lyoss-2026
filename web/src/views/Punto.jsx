@@ -26,14 +26,14 @@ export default function Punto() {
 
   const modelo = useMemo(() => (punto ? armarPunto(punto, grafo, barreras, prefs.perfil) : null), [punto, grafo, barreras, prefs.perfil]);
   const frases = useMemo(() => (modelo ? frasesPunto(modelo) : []), [modelo]);
-  const actual = v.estado !== 'reposo' ? frases[v.indice]?.clave : null;
+  const actual = v.actual?.clave ?? null;
   const resaltar = (clave) => (actual === clave ? 'punto__leyendo' : '');
 
   if (cargando) return <div className="punto"><p>Cargando el punto…</p></div>;
   if (noEncontrado || !modelo) {
     return (
       <div className="punto">
-        <h1>No encontramos este punto QR.</h1>
+        <h1>{noEncontrado ? 'No encontramos este punto QR.' : 'No pudimos cargar este punto. Revisa tu conexión.'}</h1>
         <p><Link to="/">Ir al inicio</Link></p>
       </div>
     );
