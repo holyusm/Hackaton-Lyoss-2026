@@ -1,6 +1,7 @@
 // node --test server/*.test.js
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
+import { rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import express from 'express';
@@ -20,6 +21,7 @@ const post = (ruta, body, ip = '10.0.0.1') => fetch(base + ruta, {
 after(() => {
   servidor.closeAllConnections();
   servidor.close();
+  rmSync(process.env.REPORTES_PATH, { force: true });
 });
 
 test('ciclo de vida de un reporte', async () => {

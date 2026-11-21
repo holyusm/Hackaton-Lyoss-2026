@@ -2,6 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -10,7 +11,7 @@ test('reportar el ascensor recalcula por el Edificio B; con la pasarela también
   const srv = spawn('node', ['server/index.js'], {
     env: { ...process.env, PORT: puerto, REPORTES_PATH: join(tmpdir(), `rutas-test-${process.pid}.json`) },
   });
-  t.after(() => srv.kill());
+  t.after(() => { srv.kill(); rmSync(join(tmpdir(), `rutas-test-${process.pid}.json`), { force: true }); });
   await new Promise((ok) => srv.stdout.once('data', ok));
   const api = `http://localhost:${puerto}/api`;
   const ruta = () => fetch(`${api}/ruta?desde=entrada-principal&hasta=sala-a201&perfil=silla_ruedas`).then((r) => r.json());
@@ -45,4 +46,5 @@ test('reportar el ascensor recalcula por el Edificio B; con la pasarela también
   assert.equal((await fetch(`${api}/ruta?desde=x`)).status, 400);
   assert.equal((await fetch(`${api}/puntos/no-existe`)).status, 404);
   assert.equal((await fetch(`http://localhost:${puerto}/assets/no-existe.js`)).status, 404);
+  assert.equal((await fetch(`${api}/ruta?desde=a&desde=b&hasta=sala-a201&perfil=estandar`)).status, 400);
 });

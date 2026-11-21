@@ -8,7 +8,9 @@ import { simular, GrafoInvalido } from '../motor/simulador.js';
 
 const dist = raiz + 'web/dist';
 const app = express();
-app.set('trust proxy', 1); // Render pone un proxy delante: req.ip = IP real del cliente
+// Render pone un proxy delante: con 1 salto, req.ip = IP real del cliente. TRUST_PROXY ajusta los saltos
+// (o una lista como 'loopback') si cambia la infraestructura; 0 en local evita que X-Forwarded-For burle el cupo.
+app.set('trust proxy', process.env.TRUST_PROXY ? (/^\d+$/.test(process.env.TRUST_PROXY) ? Number(process.env.TRUST_PROXY) : process.env.TRUST_PROXY) : 1);
 app.use(express.json());
 
 const servirDatos = (archivo) => async (req, res) => {
@@ -25,8 +27,10 @@ app.use('/api/reportes', rutasReportes);
 
 // Ruta y comparación: los reportes activos bloquean su tramo o nodo.
 const conMotor = (requeridos, calcular) => async (req, res) => {
-  const falta = requeridos.find((p) => !req.query[p]);
-  if (falta) return res.status(400).json({ error: `falta el parámetro ${falta}` });
+  // ?desde=a&desde=b llega como lista: 400 en vez de pasarla al motor. Un id desconocido sigue siendo 200
+  // con ok:false y su motivo (contrato §3), porque el front lo muestra como "sin ruta".
+  const falta = requeridos.find((p) => typeof req.query[p] !== 'string' || !req.query[p]);
+  if (falta) return res.status(400).json({ error: `falta el parámetro ${falta} (un solo valor de texto)` });
   try {
     const [grafo, perfiles] = await Promise.all([leerDatos('campus.json'), leerDatos('perfiles.json')]);
     const bloqueos = bloqueosDe(reportesActivos());

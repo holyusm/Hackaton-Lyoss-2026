@@ -1,12 +1,13 @@
 // node --test server/*.test.js: el servidor arranca aunque el archivo de reportes esté dañado (#91).
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { writeFileSync, mkdtempSync } from 'node:fs';
+import { writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const dir = mkdtempSync(join(tmpdir(), 'reportes-archivo-'));
+after(() => rmSync(dir, { recursive: true, force: true }));
 
 async function arrancarCon(contenido, t) {
   const archivo = join(dir, `${Math.random()}.json`);
