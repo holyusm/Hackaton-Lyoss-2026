@@ -75,8 +75,9 @@ export default function Shell() {
           </button>
         </div>
 
-        <button type="button" className="boton-accesibilidad" aria-haspopup="dialog" aria-expanded={panel} onClick={() => setPanel(true)}>
-          <PersonArmsSpread weight="bold" aria-hidden="true" /> Accesibilidad
+        <button type="button" className="boton-accesibilidad" aria-label="Accesibilidad" aria-haspopup="dialog" aria-expanded={panel} onClick={() => setPanel(true)}>
+          <PersonArmsSpread weight="bold" aria-hidden="true" />
+          <span className="boton-accesibilidad__texto" aria-hidden="true">Accesibilidad</span>
         </button>
       </header>
 
