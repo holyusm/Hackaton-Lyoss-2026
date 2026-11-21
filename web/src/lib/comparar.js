@@ -37,6 +37,8 @@ export function armarFilas(grafo, resultados) {
   });
 }
 
+const escalones = (n) => `${n} ${n === 1 ? 'escalón' : 'escalones'}`;
+
 // Frase para el pitch, siempre sobre Silla de ruedas (datos-ejemplo.json, frasesResumen).
 export function fraseResumen(filas, destino) {
   const silla = filas.find((f) => f.id === 'silla_ruedas');
@@ -48,15 +50,15 @@ export function fraseResumen(filas, destino) {
     const minimo = Math.min(...otros.map((f) => f.escalones));
     const resto = !otros.length ? '' : minimo === 0
       ? ' Hay perfiles con ruta sin escalones.'
-      : ` Las rutas disponibles tienen al menos ${minimo} escalones.`;
+      : ` Las rutas disponibles tienen al menos ${escalones(minimo)}.`;
     return `En silla de ruedas hoy no hay ruta hacia ${hacia}.${resto}`;
   }
   const dm = Math.round(silla.metros - base.metros);
   const evita = base.escalones - silla.escalones;
-  if (dm > 0 && evita > 0) return `En silla de ruedas este trayecto es ${metros(dm)} m más largo y evita ${evita} escalones.`;
+  if (dm > 0 && evita > 0) return `En silla de ruedas este trayecto es ${metros(dm)} m más largo y evita ${escalones(evita)}.`;
   if (dm > 0 && evita === 0) return `En silla de ruedas este trayecto es ${metros(dm)} m más largo, con los mismos escalones.`;
   // Decisión nuestra: mismo largo o más corto pero sin escalones (no hay plantilla en el diseño).
-  if (evita > 0) return `En silla de ruedas este trayecto evita ${evita} escalones.`;
+  if (evita > 0) return `En silla de ruedas este trayecto evita ${escalones(evita)}.`;
   return 'Para silla de ruedas el trayecto es igual al Estándar.';
 }
 

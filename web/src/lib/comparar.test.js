@@ -74,3 +74,11 @@ test('una bajada al patio se anuncia sin indicar que hay que subir', () => {
   assert.match(frase, /42 escalones/);
   assert.doesNotMatch(frase, /subir/);
 });
+
+test('fraseResumen usa singular con 1 escalón', () => {
+  const fila = (id, metros, escalones) => ({ id, ok: true, metros, escalones });
+  assert.equal(fraseResumen([fila('estandar', 100, 1), fila('silla_ruedas', 140, 0)], null),
+    'En silla de ruedas este trayecto es 40 m más largo y evita 1 escalón.');
+  assert.equal(fraseResumen([fila('estandar', 100, 1), fila('silla_ruedas', 100, 0)], null),
+    'En silla de ruedas este trayecto evita 1 escalón.');
+});

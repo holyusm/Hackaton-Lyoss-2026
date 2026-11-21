@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { leerDatos, asincrono } from './datos.js';
@@ -10,7 +10,7 @@ const MAX_DURACION = 240;
 // En el evento todos comparten la IP del Wi-Fi, por eso 10 y no menos.
 const MAX_POR_IP = 10;
 const VENTANA_IP_MS = 10 * 60_000;
-// ponytail: mapa en memoria sin limpieza; con tráfico real usar un rate limiter con expiración.
+// ponytail: mapa en memoria que se purga en cada envío; con tráfico real, un rate limiter compartido.
 const enviosPorIp = new Map();
 // ponytail: archivo en el tmp del SO; en Render se pierde al redeployar y se vuelven a cargar los ejemplos.
 const archivo = process.env.REPORTES_PATH || join(tmpdir(), 'campus-sin-barreras-reportes.json');
@@ -45,7 +45,8 @@ try {
 let siguiente = Math.max(0, ...reportes.map((r) => Number(r.id.slice(1)) || 0)) + 1;
 // Si falla el disco seguimos en memoria: mejor perder persistencia que tumbar la demo.
 const guardar = () => {
-  try { writeFileSync(archivo, JSON.stringify(reportes, null, 2)); } catch (e) { console.error('No se pudo guardar reportes:', e.message); }
+  // Archivo temporal + rename: un corte a mitad de escritura no deja el JSON truncado.
+  try { writeFileSync(`${archivo}.tmp`, JSON.stringify(reportes, null, 2)); renameSync(`${archivo}.tmp`, archivo); } catch (e) { console.error('No se pudo guardar reportes:', e.message); }
 };
 
 const activo = (r) => !r.resuelto && new Date(r.expira) > new Date();
@@ -55,9 +56,10 @@ export const reportesActivos = () => reportes.filter(activo);
 async function validar(b) {
   if (!b || typeof b !== 'object') return 'cuerpo JSON requerido';
   if (!TIPOS.includes(b.tipo)) return `tipo debe ser uno de: ${TIPOS.join(', ')}`;
-  if (!b.tramo_id === !b.nodo_id) return 'indica tramo_id o nodo_id (solo uno)';
-  const id = b.tramo_id || b.nodo_id;
-  if (typeof id !== 'string') return 'tramo_id/nodo_id debe ser texto';
+  // El que no se usa va ausente o null: "", 0 o false no pasan (contrato §4).
+  if ((b.tramo_id == null) === (b.nodo_id == null)) return 'indica tramo_id o nodo_id (solo uno)';
+  const id = b.tramo_id ?? b.nodo_id;
+  if (typeof id !== 'string' || !id) return 'tramo_id/nodo_id debe ser texto';
   if (typeof b.descripcion !== 'string' || !b.descripcion.trim() || b.descripcion.length > 280)
     return 'descripcion requerida (máx. 280 caracteres)';
   if (b.duracion_min !== undefined && !(Number.isFinite(b.duracion_min) && b.duracion_min >= 1 && b.duracion_min <= MAX_DURACION))
@@ -74,6 +76,7 @@ async function validar(b) {
 // Comprueba y consume un envío por conexión en el mismo paso síncrono (sin await intermedio).
 function consumirCupoIp(ip) {
   const ahora = Date.now();
+  for (const [k, ts] of enviosPorIp) if (ahora - ts.at(-1) >= VENTANA_IP_MS) enviosPorIp.delete(k);
   const envios = (enviosPorIp.get(ip) || []).filter((t) => ahora - t < VENTANA_IP_MS);
   if (envios.length >= MAX_POR_IP) return false;
   enviosPorIp.set(ip, [...envios, ahora]);

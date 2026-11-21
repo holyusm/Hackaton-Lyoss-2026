@@ -26,10 +26,13 @@ export const ATRIBUCION =
   '© colaboradores de <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
 // El color sale de plano.css (tokens), no de aquí: así cambia con el tema.
+// Edificios que OSM marca como del campus pero son vecinos (Edificio Costa Santa María, residencial): se dibujan como barrio.
+const VECINOS = new Set(['way/1082210883']);
+
 export function estilo(feature) {
-  const { tipo, campus } = feature.properties;
+  const { tipo, campus, osm } = feature.properties;
   let clase = `plano-${tipo}`;
-  if (tipo === 'edificio' && campus) clase += ' plano-edificio--campus';
+  if (tipo === 'edificio' && campus && !VECINOS.has(osm)) clase += ' plano-edificio--campus';
   return { className: clase, interactive: false };
 }
 
