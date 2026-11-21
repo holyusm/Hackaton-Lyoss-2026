@@ -6,6 +6,7 @@ import { MapPin, Prohibit, Stairs } from '@phosphor-icons/react';
 import CapaPlano from '../plano/CapaPlano.jsx';
 import { LIMITES_VISTA, ZOOM } from '../plano/plano.js';
 import { lineaRuta } from '../lib/lineaRuta.js';
+import { usePreferencias } from '../hooks/usePreferencias.js';
 import 'leaflet/dist/leaflet.css';
 import './MapaRuta.css';
 import './MapaComparar.css';
@@ -22,6 +23,9 @@ const ESTILOS = {
   silla_ruedas: { weight: 6, borde: 12 },
 };
 const ORDEN_DIBUJO = ['estandar', 'baja_vision', 'movilidad_reducida', 'silla_ruedas'];
+// Modo presentación (Lote 7): mismo trazo de cada perfil, ×1,6 (ancho, borde y guiones).
+const GROSOR_PRESENTACION = 1.6;
+const escalarGuiones = (d, k) => d && d.split(' ').map((n) => +(Number(n) * k).toFixed(2)).join(' ');
 
 const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const svg = (n) => renderToStaticMarkup(n);
@@ -47,6 +51,8 @@ function Encuadre({ puntos }) {
 }
 
 export default function MapaComparar({ grafo, filas, seleccion, barreras, origen, destino, descripcion }) {
+  const { presentacion } = usePreferencias();
+  const k = presentacion ? GROSOR_PRESENTACION : 1;
   const nodos = useMemo(() => new Map(grafo.nodos.map((n) => [n.id, n])), [grafo]);
   const pos = (id) => { const n = nodos.get(id); return n ? [n.lat, n.lng] : null; };
 
@@ -84,11 +90,11 @@ export default function MapaComparar({ grafo, filas, seleccion, barreras, origen
         {ordenadas.map((r) => {
           const e = ESTILOS[r.id];
           const extra = estado(r.id) === 'elegida' ? 2 : 0;
-          const clave = `${r.id}-${estado(r.id)}`;
+          const clave = `${r.id}-${estado(r.id)}-${k}`;
           const comun = { positions: r.puntos, lineJoin: 'round', lineCap: e.lineCap ?? 'round', interactive: false };
           return [
-            e.borde && <Polyline key={`${clave}-b`} {...comun} weight={e.borde + extra} className={`ruta-comparar-borde ruta-comparar--${estado(r.id)}`} />,
-            <Polyline key={clave} {...comun} weight={e.weight + extra} dashArray={e.dashArray} className={`ruta-comparar ruta-comparar--${r.id} ruta-comparar--${estado(r.id)}`} />,
+            e.borde && <Polyline key={`${clave}-b`} {...comun} weight={(e.borde + extra) * k} className={`ruta-comparar-borde ruta-comparar--${estado(r.id)}`} />,
+            <Polyline key={clave} {...comun} weight={(e.weight + extra) * k} dashArray={escalarGuiones(e.dashArray, k)} className={`ruta-comparar ruta-comparar--${r.id} ruta-comparar--${estado(r.id)}`} />,
           ];
         })}
         {marcadores.map((m) => <Marker key={m.id} position={m.punto} icon={m.icono} {...sinInteraccion} />)}

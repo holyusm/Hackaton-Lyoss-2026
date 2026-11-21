@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MagnifyingGlass, MapPin } from '@phosphor-icons/react';
 import CampoLugar from '../components/CampoLugar.jsx';
-import AvisoBarrera from '../components/AvisoBarrera.jsx';
 import TablaComparar from '../components/TablaComparar.jsx';
 import FilaPerfilMovil from '../components/FilaPerfilMovil.jsx';
 import MapaComparar from '../components/MapaComparar.jsx';
@@ -10,12 +9,18 @@ import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import { conArticulo } from '../../../motor/ruta.js';
 import { iconoLugar } from '../components/iconoLugar.js';
 import { useComparacion } from '../hooks/useComparacion.js';
+import { useRetraso } from '../hooks/useRetraso.js';
+import BandaEnVivo from '../components/BandaEnVivo.jsx';
+import ErrorEnLinea from '../components/ErrorEnLinea.jsx';
+import { Bloque, Cargando, PlanoEsqueleto } from '../components/Esqueleto.jsx';
+import { TEXTOS, conHora } from '../lib/estados.js';
 import '../components/TablaComparar.css';
 import './Comparar.css';
 
 // /comparar (Lote 3): el mismo trayecto para los 4 perfiles. El mapa con las 4 rutas llega en el PR B.
 export default function Comparar() {
   const c = useComparacion();
+  const verEsqueleto = useRetraso(c.estado === 'cargando');
   const [editando, setEditando] = useState(false);
   const silla = c.filas.find((f) => f.id === 'silla_ruedas');
   const sillaSinRuta = silla && !silla.ok;
@@ -62,23 +67,42 @@ export default function Comparar() {
 
       {/* La frase cambia sola cuando un perfil queda sin ruta: se anuncia sin mover el foco. */}
       <div className="comparar__vivo" aria-live="polite">
-        {c.estado === 'cargando' && <p>Calculando las rutas…</p>}
-        {c.estado === 'error' && <><p>No pudimos verificar las rutas actuales.</p><button type="button" className="boton boton--secundario boton--chico" onClick={c.reintentar}>Reintentar</button></>}
-        {c.sinVerificar && (
-          <AvisoBarrera variante="compacto" role="status">No pudimos verificar las barreras activas del campus. Las rutas pueden no tenerlas en cuenta.</AvisoBarrera>
+        {c.estado === 'error' && (
+          <ErrorEnLinea titulo={TEXTOS.error.comparar.titulo} texto={TEXTOS.error.comparar.texto} onReintentar={c.reintentar} />
         )}
-        {c.frase && <h2 className="comparar__frase">{c.frase}</h2>}
+        {c.estado === 'ok' && c.sinConexion && (
+          <p className="comparar__nota">{conHora(TEXTOS.sinConexion.comparar, c.hora)}</p>
+        )}
+        {c.estado === 'ok' && c.frase && <h2 className="comparar__frase">{c.frase}</h2>}
       </div>
 
-      {c.filas.length > 0 && c.grafo && (
+      {verEsqueleto && (
+        <>
+          <div className="comparar__mapa"><PlanoEsqueleto className="comparar__plano-esqueleto" /></div>
+          <Cargando anuncio={TEXTOS.carga.comparar} as="ul" className="comparar__esqueleto">
+            {['', '6 6', '10 6', '2 6'].map((guiones, i) => (
+              <li key={i} className="comparar__fila-esqueleto" aria-hidden="true">
+                <svg viewBox="0 0 40 8" width="40" height="8"><line x1="1" y1="4" x2="39" y2="4" stroke="var(--esq-1)" strokeWidth="4" strokeLinecap="round" strokeDasharray={guiones || undefined} /></svg>
+                <Bloque ancho="45%" alto={16} redondo />
+                <span className="comparar__cifras-esqueleto"><Bloque ancho={34} alto={22} /><Bloque ancho={34} alto={22} /><Bloque ancho={26} alto={22} /></span>
+              </li>
+            ))}
+          </Cargando>
+        </>
+      )}
+
+      {c.estado === 'ok' && c.filas.length > 0 && c.grafo && (
         <div className="comparar__mapa">
+          {c.sinConexion && (
+            <BandaEnVivo sinConexion texto={TEXTOS.bandaSinConexion.comparar} hora={c.hora} className="comparar__banda" />
+          )}
           <MapaComparar grafo={c.grafo} filas={c.filas} seleccion={seleccion} barreras={c.barreras}
             origen={c.origen} destino={c.destino} descripcion={descripcion} />
           <LeyendaRutas filas={c.filas} />
         </div>
       )}
 
-      {c.filas.length > 0 && (
+      {c.estado === 'ok' && c.filas.length > 0 && (
         <>
           <div className="comparar__tabla">
             <TablaComparar filas={c.filas} seleccion={seleccion} onElegir={elegir} />

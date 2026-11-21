@@ -1,0 +1,277 @@
+{
+  "$descripcion": "Textos exactos y reglas de los estados del sistema (Lote 7). La hora 11:42 es de ejemplo: en código es la hora de la última respuesta buena guardada.",
+  "bandaSinConexion": {
+    "titulo": "Sin conexión.",
+    "porVista": {
+      "inicio": "Usando los lugares y barreras de las {hora}.",
+      "ruta": "Ruta de las {hora}.",
+      "comparar": "Mostrando la comparación de las {hora}.",
+      "reportar": "Tu reporte se guarda y lo envías al volver.",
+      "punto": "Puedes seguir escuchando lo que ya cargó."
+    },
+    "aria": "role=status, aria-live=polite",
+    "icono": "WifiSlash"
+  },
+  "carga": {
+    "inicio": {
+      "esqueleto": "4 tarjetas de perfil y 2 selectores",
+      "anuncio": "Cargando los lugares del campus.",
+      "boton": "Ver mi ruta (deshabilitado)"
+    },
+    "ruta": {
+      "esqueleto": "contorno punteado de los edificios, título, 3 cifras y 3 pasos con su línea de metro",
+      "anuncio": "Calculando tu ruta."
+    },
+    "comparar": {
+      "esqueleto": "contorno del mapa y 4 filas con el trazo de cada perfil en gris",
+      "anuncio": "Comparando los cuatro perfiles."
+    },
+    "reportar": {
+      "esqueleto": "el formulario se ve completo (no depende del servidor); solo la lista Barreras activas es esqueleto",
+      "anuncio": "Cargando las barreras activas."
+    },
+    "punto": {
+      "esqueleto": "título en dos líneas, descripción y 3 destinos; Escuchar indicaciones deshabilitado",
+      "anuncio": "Cargando el punto."
+    }
+  },
+  "error": {
+    "inicio": {
+      "titulo": "No pudimos cargar los lugares del campus.",
+      "texto": "El servidor no respondió. Tu perfil sigue elegido.",
+      "accion": "Reintentar"
+    },
+    "ruta": {
+      "titulo": "No pudimos calcular tu ruta.",
+      "texto": "El servidor no respondió. Tu perfil y tu destino siguen elegidos.",
+      "accion": "Reintentar",
+      "secundaria": "Cambiar destino"
+    },
+    "comparar": {
+      "titulo": "No pudimos comparar los perfiles.",
+      "texto": "El servidor no respondió. Vuelve a intentarlo en unos segundos.",
+      "accion": "Reintentar"
+    },
+    "reportar": {
+      "titulo": "No se pudo enviar tu reporte.",
+      "texto": "El servidor no respondió. Lo que escribiste sigue aquí.",
+      "accion": "Reintentar el envío"
+    },
+    "punto": {
+      "titulo": "No pudimos cargar este punto.",
+      "texto": "El servidor no respondió. Inténtalo de nuevo o vuelve a escanear el código.",
+      "accion": "Reintentar",
+      "secundaria": "Abrir el mapa del campus"
+    }
+  },
+  "sinConexion": {
+    "inicio": {
+      "nota": "La ruta usará las barreras conocidas a las {hora}.",
+      "boton": "Ver mi ruta (habilitado)"
+    },
+    "ruta": {
+      "aviso": "Es la última ruta conocida, de las {hora}. Puede haber barreras nuevas en el camino."
+    },
+    "comparar": {
+      "nota": "Datos de las {hora}. Se actualizan solos al volver la conexión."
+    },
+    "reportar": {
+      "motivo": "Necesitas conexión para enviar. Tu reporte queda guardado en este teléfono.",
+      "boton": "Enviar reporte (aria-disabled, con aria-describedby al motivo)",
+      "lista": "Barreras activas a las {hora}"
+    },
+    "punto": {
+      "comportamiento": "todo el texto sigue visible y la voz funciona sin red"
+    }
+  },
+  "modoPresentacion": {
+    "activar": [
+      "?presentacion=1",
+      "tecla P en escritorio (fuera de campos de texto)"
+    ],
+    "salir": "Salir (quita el parámetro y vuelve al modo normal)",
+    "escala": 1.2,
+    "grosorRuta": 1.6,
+    "oculta": [
+      "Tamaño del texto",
+      "Alto contraste",
+      "Voz"
+    ],
+    "muestra": "etiqueta Modo presentación"
+  },
+  "radios": {
+    "--r-insignia": "6px",
+    "--r-control": "12px",
+    "--r-panel": "20px",
+    "--r-grande": "24px",
+    "--r-pill": "999px"
+  },
+  "iconos": {
+    "libreria": "@phosphor-icons/react",
+    "peso": "bold",
+    "tamanos": [
+      20,
+      22,
+      24,
+      26
+    ]
+  },
+  "contraste": {
+    "claro": [
+      {
+        "par": "Texto",
+        "texto": "#0D2B3E",
+        "fondo": "#EFF2F1",
+        "ratio": 13.0
+      },
+      {
+        "par": "Texto secundario",
+        "texto": "#3E5566",
+        "fondo": "#FCFDFD",
+        "ratio": 7.6
+      },
+      {
+        "par": "Enlace Cobalto",
+        "texto": "#2443D0",
+        "fondo": "#FCFDFD",
+        "ratio": 7.4
+      },
+      {
+        "par": "Botón primario",
+        "texto": "#FFFFFF",
+        "fondo": "#2443D0",
+        "ratio": 7.5
+      },
+      {
+        "par": "Alerta roja",
+        "texto": "#FFFFFF",
+        "fondo": "#C4122F",
+        "ratio": 6.0
+      },
+      {
+        "par": "Paso verde",
+        "texto": "#FFFFFF",
+        "fondo": "#0E7A57",
+        "ratio": 5.3
+      },
+      {
+        "par": "Aviso amarillo",
+        "texto": "#0D2B3E",
+        "fondo": "#FFC72C",
+        "ratio": 9.4
+      },
+      {
+        "par": "Banda Calamina",
+        "texto": "#0D2B3E",
+        "fondo": "#F4B6C2",
+        "ratio": 8.6
+      },
+      {
+        "par": "Deshabilitado",
+        "texto": "#55606A",
+        "fondo": "#E1E6E8",
+        "ratio": 5.1
+      }
+    ],
+    "oscuro": [
+      {
+        "par": "Texto",
+        "texto": "#E8EFF1",
+        "fondo": "#0A1C29",
+        "ratio": 14.9
+      },
+      {
+        "par": "Texto secundario",
+        "texto": "#A9BBC5",
+        "fondo": "#11293A",
+        "ratio": 7.6
+      },
+      {
+        "par": "Enlace Cobalto",
+        "texto": "#8FA5FF",
+        "fondo": "#11293A",
+        "ratio": 6.4
+      },
+      {
+        "par": "Botón primario",
+        "texto": "#0A1C29",
+        "fondo": "#8FA5FF",
+        "ratio": 7.4
+      },
+      {
+        "par": "Alerta roja",
+        "texto": "#FFFFFF",
+        "fondo": "#C4122F",
+        "ratio": 6.0
+      },
+      {
+        "par": "Texto rojo",
+        "texto": "#FF97A6",
+        "fondo": "#11293A",
+        "ratio": 7.3
+      },
+      {
+        "par": "Paso verde",
+        "texto": "#4FD1A1",
+        "fondo": "#11293A",
+        "ratio": 7.8
+      },
+      {
+        "par": "Aviso amarillo",
+        "texto": "#0A1C29",
+        "fondo": "#FFC72C",
+        "ratio": 11.1
+      },
+      {
+        "par": "Deshabilitado",
+        "texto": "#8A9DA8",
+        "fondo": "#1A3446",
+        "ratio": 4.6
+      }
+    ],
+    "contraste": [
+      {
+        "par": "Texto",
+        "texto": "#000000",
+        "fondo": "#FFFFFF",
+        "ratio": 21.0
+      },
+      {
+        "par": "Enlace",
+        "texto": "#1A2FA0",
+        "fondo": "#FFFFFF",
+        "ratio": 10.7
+      },
+      {
+        "par": "Botón primario",
+        "texto": "#FFFFFF",
+        "fondo": "#1A2FA0",
+        "ratio": 10.7
+      },
+      {
+        "par": "Alerta roja",
+        "texto": "#FFFFFF",
+        "fondo": "#A10E26",
+        "ratio": 8.1
+      },
+      {
+        "par": "Paso verde",
+        "texto": "#FFFFFF",
+        "fondo": "#00593F",
+        "ratio": 8.4
+      },
+      {
+        "par": "Aviso amarillo",
+        "texto": "#000000",
+        "fondo": "#FFC72C",
+        "ratio": 13.5
+      },
+      {
+        "par": "Invertido",
+        "texto": "#FFFFFF",
+        "fondo": "#000000",
+        "ratio": 21.0
+      }
+    ]
+  }
+}

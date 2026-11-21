@@ -72,3 +72,20 @@
   .comparar__tabla { display: block; }
   .comparar__tarjetas { display: none; }
 }
+
+/* Lote 7: estados. Banda "Sin conexión" sobre el mapa, nota con la hora y esqueleto de 4 filas. */
+.comparar__mapa { position: relative; }
+.comparar__banda { position: absolute; z-index: 1000; top: var(--e-3); left: var(--margen-movil); right: var(--margen-movil); align-self: auto; border-radius: var(--r-control); }
+.comparar__nota { font-size: var(--t-detalle); color: var(--tinta-2); }
+.comparar__plano-esqueleto { height: 372px; }
+.comparar__esqueleto { margin: 0; padding: 0; list-style: none; }
+.comparar__fila-esqueleto {
+  display: flex; align-items: center; gap: var(--e-3); min-height: 56px; padding: var(--e-3) var(--e-4); box-sizing: border-box;
+  background: var(--superficie); border-radius: var(--r-panel);
+}
+.comparar__fila-esqueleto svg { flex-shrink: 0; }
+.comparar__cifras-esqueleto { margin-left: auto; display: flex; gap: var(--e-3); }
+@media (min-width: 900px) {
+  .comparar__banda { left: var(--e-4); right: auto; max-width: calc(100% - 2 * var(--e-4)); }
+  .comparar__plano-esqueleto { height: 520px; border-radius: var(--r-panel); }
+}

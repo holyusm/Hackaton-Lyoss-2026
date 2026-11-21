@@ -13,6 +13,12 @@ import { LIMITES, LIMITES_VISTA, ZOOM } from '../plano/plano.js';
 import { usePreferencias } from '../hooks/usePreferencias.js';
 import { useBarreras } from '../hooks/useBarreras.js';
 import { useLugares } from '../hooks/useLugares.js';
+import { useConexion } from '../hooks/useConexion.js';
+import { useRetraso } from '../hooks/useRetraso.js';
+import BandaEnVivo from '../components/BandaEnVivo.jsx';
+import ErrorEnLinea from '../components/ErrorEnLinea.jsx';
+import { Bloque, Cargando, TarjetaEsqueleto } from '../components/Esqueleto.jsx';
+import { TEXTOS, conHora, estadoForzado } from '../lib/estados.js';
 import { ERROR_IGUAL, validarViaje } from '../lib/validarViaje.js';
 import 'leaflet/dist/leaflet.css';
 import './Inicio.css';
@@ -43,8 +49,15 @@ export default function Inicio() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { perfil, setPerfil } = usePreferencias();
-  const { lugares, grafo, cargando } = useLugares();
-  const { barreras } = useBarreras();
+  const { lugares, grafo, cargando: cargandoLugares, origen, reintentar } = useLugares();
+  const { barreras, error: errorBarreras, hora } = useBarreras();
+  // Lote 7: ?estado=carga|error|sinconexion fuerza el estado. Sin servidor se usan los lugares del paquete
+  // y las últimas barreras conocidas: la banda dice "Sin conexión" y el botón sigue habilitado.
+  const forzado = estadoForzado();
+  const enLinea = useConexion();
+  const cargando = forzado === 'carga' || (cargandoLugares && forzado !== 'error');
+  const verEsqueleto = useRetraso(cargando);
+  const sinConexion = !cargando && forzado !== 'error' && (forzado === 'sinconexion' || !enLinea || errorBarreras || origen === 'paquete');
 
   const [desde, setDesde] = useState(() => params.get('desde') || 'entrada-principal');
   // Al volver desde /mapa la URL trae la elección anterior (?desde&hasta&perfil).
@@ -88,8 +101,26 @@ export default function Inicio() {
           <p>Te mostramos el camino que sí puedes recorrer en Casa Central.</p>
         </div>
 
+        {sinConexion && <BandaEnVivo sinConexion texto={TEXTOS.bandaSinConexion.inicio} hora={hora} className="inicio__banda" />}
+
+        {cargando ? (
+          verEsqueleto && (
+            <Cargando anuncio={TEXTOS.carga.inicio} className="inicio__esqueleto">
+              <div className="inicio__esqueleto-perfiles">{[0, 1, 2, 3].map((i) => <TarjetaEsqueleto key={i} icono lineas={1} />)}</div>
+              {[0, 1].map((i) => (
+                <div key={i} className="inicio__esqueleto-campo" aria-hidden="true">
+                  <Bloque ancho={70} alto={14} />
+                  <Bloque alto={56} className="inicio__esqueleto-input" />
+                </div>
+              ))}
+            </Cargando>
+          )
+        ) : <>
         <GrupoPerfiles valor={perfil} onCambiar={setPerfil} />
 
+        {forzado === 'error' ? (
+          <ErrorEnLinea titulo={TEXTOS.error.inicio.titulo} texto={TEXTOS.error.inicio.texto} onReintentar={reintentar} />
+        ) : <>
         <CampoLugar
           className="inicio__desde"
           etiqueta="Desde" Icono={MapPin} lugares={lugares} valor={desde} onCambiar={cambiarDesde} error={errorDesde}
@@ -119,6 +150,8 @@ export default function Inicio() {
             </div>
           )}
         </div>
+        </>}
+        </>}
 
         {/* Siempre montado: así el lector anuncia cuando aparece o cambia el número. */}
         <div role="status" aria-live="polite">
@@ -131,6 +164,7 @@ export default function Inicio() {
               {todasBloquean && 'Tu ruta ya las evita.'}
             </AvisoBarrera>
           )}
+          {sinConexion && <p className="inicio__nota">{conHora(TEXTOS.sinConexion.inicio, hora)}</p>}
         </div>
 
         <div className="accion-fija inicio__accion">

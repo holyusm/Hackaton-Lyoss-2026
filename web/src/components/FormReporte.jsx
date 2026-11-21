@@ -1,6 +1,9 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, Flag, MapPin, Prohibit, Warning } from '@phosphor-icons/react';
+import { ArrowClockwise, Check, Flag, MapPin, Prohibit, Warning } from '@phosphor-icons/react';
+import BandaEnVivo from './BandaEnVivo.jsx';
+import ErrorEnLinea from './ErrorEnLinea.jsx';
+import { TEXTOS } from '../lib/estados.js';
 import CampoLugar from './CampoLugar.jsx';
 import OpcionesTipo from './OpcionesTipo.jsx';
 import SegmentadoDuracion from './SegmentadoDuracion.jsx';
@@ -9,14 +12,27 @@ import { DURACION_INICIAL, MAX_DETALLE, cuerpoReporte, validarReporte } from '..
 
 const VACIO = { tipo: null, lugar: null, detalle: '', duracion: DURACION_INICIAL };
 
-// Formulario de /reportar. Estados: editando | enviando | enviado | limite.
+// Lote 7: el borrador se guarda en este teléfono en cada cambio y se borra al enviarlo bien.
+const BORRADOR = 'parejo:borrador-reporte';
+const leerBorrador = () => {
+  try { const b = JSON.parse(localStorage.getItem(BORRADOR)); return b ? { ...VACIO, ...b } : VACIO; } catch { return VACIO; }
+};
+const guardarBorrador = (f) => {
+  try {
+    if (!f.tipo && !f.lugar && !f.detalle && f.duracion === DURACION_INICIAL) localStorage.removeItem(BORRADOR);
+    else localStorage.setItem(BORRADOR, JSON.stringify(f));
+  } catch { /* sin almacenamiento */ }
+};
+
+// Formulario de /reportar. Estados: editando | enviando | enviado | limite (4xx con mensaje propio) | error (5xx o sin respuesta).
+// sinConexion: el botón queda aria-disabled con el motivo; error: 'Reintentar el envío' y el foco va al mensaje.
 // `onEnviado(reporte)` avisa a la vista para que ponga la barrera nueva primera en la lista.
-export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
+export default function FormReporte({ lugares, grafo, urlMapa, onEnviado, sinConexion = false, errorForzado = false }) {
   const id = useId();
-  const [form, setForm] = useState(VACIO);
+  const [form, setForm] = useState(leerBorrador);
   const [errores, setErrores] = useState({});
   const [resumen, setResumen] = useState(false);
-  const [estado, setEstado] = useState('editando');
+  const [estado, setEstado] = useState(errorForzado ? 'error' : 'editando');
   const [mensaje, setMensaje] = useState('');
   const [enviado, setEnviado] = useState(null);
   const refResumen = useRef(null);
@@ -29,6 +45,7 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
     if (estado === 'limite') setEstado('editando');
   };
 
+  useEffect(() => { guardarBorrador(form); }, [form]);
   useEffect(() => { if (resumen) refResumen.current?.focus(); }, [resumen]);
   useEffect(() => { if (estado === 'enviado') refAviso.current?.focus(); }, [estado]);
 
@@ -38,7 +55,7 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
 
   const enviar = async (e) => {
     e.preventDefault();
-    if (estado === 'enviando') return;
+    if (estado === 'enviando' || sinConexion) return;
     const nuevos = validarReporte(form);
     setErrores(nuevos);
     if (Object.keys(nuevos).length) { setResumen(true); return; }
@@ -48,6 +65,7 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
       const r = await fetch('/api/reportes', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpoReporte(form, grafo)),
       });
+      if (r.status >= 500) { setEstado('error'); return; }
       if (!r.ok) {
         const cuerpo = await r.json().catch(() => ({}));
         setMensaje(`${cuerpo.error ?? 'No pudimos enviar el reporte.'} Tu reporte sigue escrito.`);
@@ -57,10 +75,10 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
       const reporte = await r.json();
       setEnviado({ reporte, lugar: grafo?.nodos.find((n) => n.id === form.lugar)?.nombre ?? 'ese lugar' });
       onEnviado?.(reporte);
+      guardarBorrador(VACIO);
       setEstado('enviado');
     } catch {
-      setMensaje('No pudimos conectar con el servidor. Tu reporte sigue escrito.');
-      setEstado('limite');
+      setEstado('error');
     }
   };
 
@@ -94,6 +112,7 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
 
   return (
     <form className="reporte-form" onSubmit={enviar} noValidate>
+      {sinConexion && <BandaEnVivo sinConexion texto={TEXTOS.bandaSinConexion.reportar} className="reporte-form__banda" />}
       <div className="reporte-form__titulo">
         <h1>Reportar una barrera</h1>
         <p>Tu aviso cambia las rutas de todos en segundos.</p>
@@ -134,12 +153,20 @@ export default function FormReporte({ lugares, grafo, urlMapa, onEnviado }) {
 
       <SegmentadoDuracion valor={form.duracion} onCambiar={(v) => cambiar('duracion', v)} />
 
+      {estado === 'error' && (
+        <ErrorEnLinea enfocar titulo={TEXTOS.error.reportar.titulo} texto={TEXTOS.error.reportar.texto} />
+      )}
+
       <div className="accion-fija reporte-form__accion">
         {textoLimite}
-        <button type="submit" className="boton boton--primario boton--ancho" aria-disabled={estado === 'enviando'}>
-          <Flag weight="bold" aria-hidden="true" /> {estado === 'enviando' ? 'Enviando' : 'Enviar reporte'}
+        {sinConexion && <p className="campo__ayuda reporte-form__motivo" id={`${id}-motivo`}>{TEXTOS.sinConexion.reportarMotivo}</p>}
+        <button type="submit" className="boton boton--primario boton--ancho"
+          aria-disabled={estado === 'enviando' || sinConexion} aria-describedby={sinConexion ? `${id}-motivo` : undefined}>
+          {estado === 'error'
+            ? <><ArrowClockwise weight="bold" aria-hidden="true" /> {TEXTOS.error.reportar.accion}</>
+            : <><Flag weight="bold" aria-hidden="true" /> {estado === 'enviando' ? 'Enviando' : 'Enviar reporte'}</>}
         </button>
-        <p className="campo__ayuda reporte-form__nota">Puedes enviar hasta 10 reportes cada 10 minutos.</p>
+        {!sinConexion && <p className="campo__ayuda reporte-form__nota">Puedes enviar hasta 10 reportes cada 10 minutos.</p>}
       </div>
     </form>
   );

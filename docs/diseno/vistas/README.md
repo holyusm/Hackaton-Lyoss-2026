@@ -11,7 +11,7 @@ José diseña cada vista en Claude Design y deja aquí lo exportado. Quien imple
 | [lote-4-reportar](lote-4-reportar/) | `/reportar` | listo | @juaquo15 |
 | [lote-5-punto](lote-5-punto/) | `/punto/:id` | listo | @Gxppe |
 | [lote-6-acerca](lote-6-acerca/) | `/acerca` | listo | @holyusm |
-| [lote-7-estados](lote-7-estados/) | todas | pendiente | por asignar |
+| [lote-7-estados](lote-7-estados/) | todas | listo | @holyusm |
 | [lote-8-campus](lote-8-campus/) | `/campus` | pendiente | @Gxppe |
 | [lote-9-horario](lote-9-horario/) | `/horario` | pendiente | por asignar |
 | [lote-10-plano](lote-10-plano/) | `/plano` | listo | @juaquo15 |

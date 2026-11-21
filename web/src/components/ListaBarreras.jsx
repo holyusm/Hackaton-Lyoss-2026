@@ -4,13 +4,18 @@ import { ICONOS_REPORTE } from './OpcionesTipo.jsx';
 import BandaEnVivo from './BandaEnVivo.jsx';
 import DialogoResolver from './DialogoResolver.jsx';
 import { iconoReporte, lugarReporte, metaReporte, tituloReporte } from '../lib/reportes.js';
+import { useRetraso } from '../hooks/useRetraso.js';
+import { Cargando, TarjetaEsqueleto } from './Esqueleto.jsx';
+import { TEXTOS, conHora } from '../lib/estados.js';
 
 // Barreras activas. `barreras` ya viene ordenada (las nuevas primero). `nuevas` es un Set de ids con la marca "Nuevo".
-export default function ListaBarreras({ barreras, grafo, nuevas, actualizado, errorConsulta, onResolver }) {
+// Lote 7: `cargando` muestra 2 filas esqueleto; sin conexión el título dice 'a las {hora}' (la de la lista guardada).
+export default function ListaBarreras({ barreras, grafo, nuevas, actualizado, errorConsulta, onResolver, sinConexion = false, hora = null, cargando = false }) {
   const [ahora, setAhora] = useState(() => Date.now());
   const [abierta, setAbierta] = useState(null); // { barrera, boton }
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState('');
+  const verEsqueleto = useRetraso(cargando);
   const refTitulo = useRef(null);
 
   useEffect(() => {
@@ -31,10 +36,15 @@ export default function ListaBarreras({ barreras, grafo, nuevas, actualizado, er
   const estadoVacio = errorConsulta ? 'No pudimos verificar las barreras activas.' : 'Consultando barreras activas…';
   return (
     <section id="activas" className="reporte-lista" aria-labelledby="activas-titulo">
-      <h2 id="activas-titulo" tabIndex={-1} ref={refTitulo}>Barreras activas{verificada ? ` (${barreras.length})` : ''}</h2>
+      <h2 id="activas-titulo" tabIndex={-1} ref={refTitulo}>
+        Barreras activas{verificada ? ` (${barreras.length})` : ''}
+        {sinConexion && hora && <span className="reporte-lista__hora"> {conHora(TEXTOS.sinConexion.reportarLista, hora)}</span>}
+      </h2>
       <div className="reporte-lista__vivo"><BandaEnVivo actualizado={actualizado} error={errorConsulta} /></div>
 
-      {barreras.length === 0 ? (
+      {cargando ? (
+        verEsqueleto && <Cargando anuncio={TEXTOS.carga.reportar} className="reporte-esqueleto"><TarjetaEsqueleto icono /><TarjetaEsqueleto icono /></Cargando>
+      ) : barreras.length === 0 ? (
         <div className="reporte-vacio">
           {verificada ? <p><strong>No hay barreras reportadas ahora.</strong> Si ves una, avísanos: ayudas a todo el campus.</p> : <p role="status">{estadoVacio}</p>}
         </div>

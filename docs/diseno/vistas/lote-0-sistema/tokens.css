@@ -105,7 +105,9 @@
   /* Forma */
   --r-control: 12px;       /* Botones, inputs */
   --r-panel: 20px;         /* Tarjetas de perfil, avisos, listas, paneles */
-  --r-hoja: 28px;          /* Hojas inferiores (solo esquinas superiores) */
+  --r-insignia: 6px;       /* Insignias, bloques de esqueleto */
+  --r-grande: 24px;        /* Hojas inferiores y paneles grandes (Lote 7) */
+  --r-hoja: var(--r-grande); /* Alias: hojas inferiores (solo esquinas superiores) */
   --r-pill: 999px;         /* Chips, navegación, banda En vivo */
   --escalon: 4px;          /* Borde inferior de los botones */
 

@@ -4,6 +4,8 @@ import FormReporte from '../components/FormReporte.jsx';
 import ListaBarreras from '../components/ListaBarreras.jsx';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import { useBarreras } from '../hooks/useBarreras.js';
+import { useConexion } from '../hooks/useConexion.js';
+import { estadoForzado } from '../lib/estados.js';
 import { useLugares } from '../hooks/useLugares.js';
 import { usePreferencias } from '../hooks/usePreferencias.js';
 import { nivelReporte } from '../../../motor/barreras.js';
@@ -16,7 +18,12 @@ export default function Reportar() {
   const [params] = useSearchParams();
   const { perfil } = usePreferencias();
   const { lugares, grafo } = useLugares();
-  const { barreras, actualizado, error, inicioConsulta } = useBarreras();
+  const { barreras, actualizado, error, inicioConsulta, hora } = useBarreras();
+  // Lote 7: sin red o sin respuesta de barreras, el formulario no envía (guarda el borrador) y la lista dice su hora.
+  const forzado = estadoForzado();
+  const enLinea = useConexion();
+  const sinConexion = forzado === 'sinconexion' || !enLinea || error;
+  const cargandoLista = forzado === 'carga' || (!actualizado && !error && !hora);
   const [creadas, setCreadas] = useState([]);
   const [resueltas, setResueltas] = useState(() => new Set());
 
@@ -59,10 +66,11 @@ export default function Reportar() {
 
   return (
     <div className="reportar">
-      <FormReporte lugares={lugares} grafo={grafo} urlMapa={urlMapa} onEnviado={alCrear} />
+      <FormReporte lugares={lugares} grafo={grafo} urlMapa={urlMapa} onEnviado={alCrear} sinConexion={sinConexion} errorForzado={forzado === 'error'} />
       <ListaBarreras
         barreras={lista.barreras} nuevas={lista.nuevas} grafo={grafo}
         actualizado={actualizado} errorConsulta={error} onResolver={resolver}
+        sinConexion={sinConexion} hora={hora ?? actualizado} cargando={cargandoLista}
       />
     </div>
   );

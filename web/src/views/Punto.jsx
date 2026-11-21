@@ -1,6 +1,6 @@
 import { useLayoutEffect, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { MapPin, Person, WifiSlash } from '@phosphor-icons/react';
+import { MapPin, Person, SpeakerHigh } from '@phosphor-icons/react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import L from 'leaflet';
 import { MapContainer, Marker } from 'react-leaflet';
@@ -15,6 +15,12 @@ import { useLugares } from '../hooks/useLugares.js';
 import { usePreferencias } from '../hooks/usePreferencias.js';
 import { usePunto } from '../hooks/usePunto.js';
 import { useVoz } from '../hooks/useVoz.js';
+import { useConexion } from '../hooks/useConexion.js';
+import { useRetraso } from '../hooks/useRetraso.js';
+import BandaEnVivo from '../components/BandaEnVivo.jsx';
+import ErrorEnLinea from '../components/ErrorEnLinea.jsx';
+import { Bloque, Cargando, TarjetaEsqueleto } from '../components/Esqueleto.jsx';
+import { TEXTOS, estadoForzado } from '../lib/estados.js';
 import 'leaflet/dist/leaflet.css';
 import './Punto.css';
 
@@ -43,7 +49,14 @@ export default function Punto() {
     return () => setEnPunto(false);
   }, [setEnPunto]);
 
-  const { punto, cargando, noEncontrado, sinConexion, reintentar } = usePunto(id);
+  const p = usePunto(id);
+  const { punto, noEncontrado, reintentar } = p;
+  // Lote 7: ?estado=carga|error|sinconexion fuerza el estado; sin red, la banda "Sin conexión".
+  const forzado = estadoForzado();
+  const enLinea = useConexion();
+  const cargando = forzado === 'carga' || (p.cargando && forzado !== 'error');
+  const sinConexion = p.sinConexion || !enLinea;
+  const verEsqueleto = useRetraso(cargando);
   const { grafo } = useLugares();
   const { barreras, error, actualizado } = useBarreras();
   const estadoBarreras = error || sinConexion
@@ -63,13 +76,31 @@ export default function Punto() {
     [modelo],
   );
 
-  if (cargando) return <div className="punto"><p>Cargando el punto…</p></div>;
-  if (sinConexion && !modelo && !noEncontrado) {
+  if (cargando) {
+    if (!verEsqueleto) return <div className="punto" />;
+    return (
+      <Cargando className="punto punto--cargando" anuncio={TEXTOS.carga.punto}>
+        <div className="punto__lugar" aria-hidden="true">
+          <Bloque ancho="75%" alto={32} />
+          <Bloque ancho="95%" alto={14} suave />
+          <Bloque ancho="70%" alto={14} suave />
+        </div>
+        <button type="button" className="boton boton--primario boton--ancho" aria-disabled="true" tabIndex={-1} aria-hidden="true">
+          <SpeakerHigh weight="bold" aria-hidden="true" /> Escuchar
+        </button>
+        <div className="punto__destinos" aria-hidden="true">
+          <Bloque ancho="55%" alto={20} />
+          {[0, 1, 2].map((i) => <TarjetaEsqueleto key={i} icono />)}
+        </div>
+      </Cargando>
+    );
+  }
+  // Error del servidor (o sin red y sin copia guardada): no hay nada que mostrar, se ofrece reintentar o el plano.
+  if (forzado === 'error' || (!modelo && !noEncontrado)) {
     return (
       <div className="punto">
-        <h1>No pudimos cargar este punto QR. Revisa tu conexión.</h1>
-        <p><button type="button" className="boton boton--primario" onClick={reintentar}>Reintentar</button></p>
-        <p><Link to="/">Ir al inicio</Link></p>
+        <ErrorEnLinea grande primario titulo={TEXTOS.error.punto.titulo} texto={TEXTOS.error.punto.texto}
+          onReintentar={reintentar} accionSecundaria={{ texto: TEXTOS.error.punto.secundaria, to: '/plano' }} />
       </div>
     );
   }
@@ -84,11 +115,7 @@ export default function Punto() {
 
   return (
     <div className="punto">
-      {sinConexion && (
-        <p className="banda-vivo banda-vivo--sin-conexion punto__sin-conexion" role="status">
-          <WifiSlash weight="bold" aria-hidden="true" /> Sin conexión. Puedes seguir escuchando lo que ya cargó.
-        </p>
-      )}
+      {sinConexion && <BandaEnVivo sinConexion texto={TEXTOS.bandaSinConexion.punto} className="punto__sin-conexion" />}
 
       {estadoBarreras && (
         <div className={resaltar('estado-barreras')}>

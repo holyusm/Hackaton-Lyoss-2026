@@ -23,7 +23,7 @@
 .plano-item__texto span { font-size: var(--t-detalle); color: var(--tinta-2); overflow-wrap: anywhere; }
 .plano-item[aria-pressed="true"] .plano-item__texto span { color: var(--sobre-tinte); }
 .plano-item:focus-visible, .plano-piso:focus-visible, .plano-ficha__cerrar:focus-visible { outline: none; box-shadow: var(--foco); }
-.plano-insignia { flex: none; width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--fondo); border: 2px solid var(--tinta); color: var(--tinta); font-weight: var(--peso-negro); font-size: 1.0556rem; }
+.plano-insignia { flex: none; width: 40px; height: 40px; border-radius: var(--r-control); display: grid; place-items: center; background: var(--fondo); border: 2px solid var(--tinta); color: var(--tinta); font-weight: var(--peso-negro); font-size: 1.0556rem; }
 .plano-item[aria-pressed="true"] .plano-insignia { background: var(--cobalto); border-color: var(--cobalto); color: var(--sobre-cobalto); }
 .plano-insignia--grande { width: 52px; height: 52px; font-size: 1.5rem; background: var(--cobalto); border-color: var(--cobalto); color: var(--sobre-cobalto); }
 
@@ -65,7 +65,7 @@
 .plano-acceso__valor svg { width: 18px; height: 18px; }
 
 /* Móvil: mapa a pantalla completa, búsqueda flotante y hoja inferior */
-.plano-flotante { position: absolute; top: var(--e-3); left: var(--e-3); right: calc(var(--toque-min) + var(--e-6)); z-index: 600; box-sizing: border-box; max-height: calc(100% - var(--e-6)); display: flex; flex-direction: column; gap: var(--e-2); padding: var(--e-2) var(--e-3); border-radius: 14px; background: var(--superficie); box-shadow: var(--sombra-panel); }
+.plano-flotante { position: absolute; top: var(--e-3); left: var(--e-3); right: calc(var(--toque-min) + var(--e-6)); z-index: 600; box-sizing: border-box; max-height: calc(100% - var(--e-6)); display: flex; flex-direction: column; gap: var(--e-2); padding: var(--e-2) var(--e-3); border-radius: var(--r-control); background: var(--superficie); box-shadow: var(--sombra-panel); }
 .plano-flotante .plano-buscar, .plano-flotante__mas { flex: none; }
 .plano-flotante .plano-lista { max-height: 40dvh; min-height: 0; overflow-y: auto; }
 .plano-hoja { position: absolute; left: 0; right: 0; bottom: 0; z-index: 600; box-sizing: border-box; max-height: 55%; overflow-y: auto; padding: var(--e-2) var(--e-4) var(--e-4); background: var(--superficie); border-radius: 20px 20px 0 0; box-shadow: var(--sombra-hoja); }

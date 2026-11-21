@@ -172,7 +172,7 @@
 .acerca-ods h2 { font-size: var(--t-subtitulo); line-height: 1.2; letter-spacing: 0; }
 .acerca-ods ul { display: flex; flex-wrap: wrap; gap: var(--e-3) 28px; }
 .acerca-ods li { display: flex; align-items: center; gap: var(--e-3); }
-.acerca-ods__cuadro { width: 48px; height: 48px; flex-shrink: 0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: var(--peso-negro); font-size: 24px; color: #FFFFFF; }
+.acerca-ods__cuadro { width: 48px; height: 48px; flex-shrink: 0; border-radius: var(--r-control); display: flex; align-items: center; justify-content: center; font-weight: var(--peso-negro); font-size: 24px; color: #FFFFFF; }
 .acerca-ods__cuadro--10 { background: var(--ods-10); }
 .acerca-ods__cuadro--11 { background: var(--ods-11); color: #0D2B3E; }
 .acerca-ods__cuadro--4 { background: var(--ods-4); }

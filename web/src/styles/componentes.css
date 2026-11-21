@@ -396,7 +396,7 @@
 @media (min-width: 900px) { .nav-movil { display: none; } }
 .nav-movil a {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  border-radius: 14px; text-decoration: none; color: var(--tinta);
+  border-radius: var(--r-control); text-decoration: none; color: var(--tinta);
   font-size: 15px; line-height: 20px;   /* no escala: la barra mantiene su alto */
 }
 .nav-movil a svg { width: 24px; height: 24px; }
@@ -488,14 +488,14 @@
 }
 .marcador svg { width: 24px; height: 24px; }
 .marcador--servicio { border-radius: var(--r-pill); background: var(--superficie); color: var(--tinta); }
-.marcador--escalera { border-radius: 10px; background: var(--superficie); color: var(--tinta); border-color: var(--tinta-2); }
+.marcador--escalera { border-radius: var(--r-control); background: var(--superficie); color: var(--tinta); border-color: var(--tinta-2); }
 .marcador--barrera {
-  border-radius: 10px; color: var(--sobre-podotactil);
+  border-radius: var(--r-control); color: var(--sobre-podotactil);
   background-color: var(--podotactil);
   background-image: radial-gradient(circle, var(--podotactil-domo) 2.6px, transparent 3.1px);
   background-size: 12px 12px;
 }
-.marcador--bloqueo { border-radius: 10px; background: var(--alto); color: var(--sobre-alto); }
+.marcador--bloqueo { border-radius: var(--r-control); background: var(--alto); color: var(--sobre-alto); }
 .marcador__etiqueta {
   padding: 4px 10px; border-radius: var(--r-pill);
   background: var(--superficie); color: var(--tinta);
