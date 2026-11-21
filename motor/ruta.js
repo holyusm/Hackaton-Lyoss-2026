@@ -75,8 +75,9 @@ export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos =
   // Un ascensor bloqueado solo bloquea los tramos que pasan por él (ascensor_id, ver tramoBloqueado):
   // el vestíbulo sigue siendo transitable. Los demás nodos bloqueados sí son intransitables.
   const nodoBloqueado = (id) => bloqueados.has(id) && nodosPorId.get(id)?.tipo !== 'ascensor';
-  if (nodoBloqueado(desde) || nodoBloqueado(hasta)) {
-    return { ok: false, motivo: 'sin ruta accesible para este perfil' };
+  // Si la barrera está en el propio origen o destino, el motivo lo dice en vez del genérico.
+  for (const id of [hasta, desde]) {
+    if (nodoBloqueado(id)) return { ok: false, motivo: `hay una barrera reportada en ${nombres.get(id)}` };
   }
 
   // Aristas dirigidas utilizables.

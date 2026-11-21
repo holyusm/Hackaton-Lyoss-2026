@@ -58,6 +58,7 @@ Ids obligatorios: `estandar`, `silla_ruedas`, `movilidad_reducida` (lesión temp
 calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos = [] })
 // -> { ok: true, nodos: [id...], tramos: [id...], metros, minutos, escalones, advertencias: [string] }
 // -> { ok: false, motivo: "sin ruta accesible para este perfil" }
+//    (o "hay una barrera reportada en <nombre>" si el origen o el destino están bloqueados)
 compararPerfiles(grafo, perfiles, { desde, hasta, bloqueos = [] })
 // -> { estandar: <resultado>, silla_ruedas: <resultado>, ... }
 ```
@@ -85,6 +86,7 @@ compararPerfiles(grafo, perfiles, { desde, hasta, bloqueos = [] })
   "expira": "2026-11-21T16:05:00Z", "resuelto": false }
 // POST /reportes body: { tipo, tramo_id | nodo_id, descripcion, duracion_min }
 // tipo: ascensor_fuera_servicio | obstaculo | rampa_bloqueada | piso_mojado | otro
+// piso_mojado es solo alerta (se avisa, no bloquea ruta); los demás tipos bloquean.
 // Punto (QR)
 { "id": "p1", "nodo_id": "entrada-principal", "titulo": "Entrada principal",
   "texto_voz": "Estás en la entrada principal...", "indicaciones": [ { "hacia": "Ascensor A", "texto": "Avanza 40 metros de frente, sin escalones." } ] }

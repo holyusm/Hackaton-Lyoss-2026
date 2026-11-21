@@ -54,6 +54,15 @@ export default function Mapa() {
     return (
       <section id="ruta" tabIndex={-1} className="mapa-estado">
         <h1>No encontramos una ruta hacia {r.destino.nombre}</h1>
+        <div className="mapa-sinruta__mapa">
+          <LimiteError>
+            <MapaRuta
+              grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino} barreras={r.barreras}
+              alturaHoja={0} controles={false}
+              descripcion={`Plano de Casa Central con el origen y ${r.destino.nombre}${r.barreras.length ? ' y las barreras que cortan el paso' : ''}. No hay ruta accesible.`}
+            />
+          </LimiteError>
+        </div>
         <AvisoBarrera variante="bloqueo" role="alert" titulo="No hay una ruta accesible en este momento">{r.motivo}</AvisoBarrera>
         <Link to="/" className="boton boton--primario">Probar con otro destino</Link>
       </section>
