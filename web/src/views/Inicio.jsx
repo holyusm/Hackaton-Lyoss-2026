@@ -17,10 +17,10 @@ export default function Inicio() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { perfil, setPerfil } = usePreferencias();
-  const { lugares } = useLugares();
+  const { lugares, grafo, cargando } = useLugares();
   const { barreras } = useBarreras();
 
-  const [desde, setDesde] = useState(() => params.get('desde') ?? 'entrada-principal');
+  const [desde, setDesde] = useState(() => params.get('desde') || 'entrada-principal');
   // Al volver desde /mapa la URL trae la elección anterior (?desde&hasta&perfil).
   const [hasta, setHasta] = useState(() => params.get('hasta') || null);
   const perfilUrl = params.get('perfil');
@@ -33,7 +33,11 @@ export default function Inicio() {
   const cambiarHasta = (id) => { setHasta(id); setTocado(true); };
 
   const error = tocado && hasta && hasta === desde ? ERROR_IGUAL : null;
-  const motivo = !hasta ? 'Elige a dónde vas para ver tu ruta.' : error;
+  const errorDesde = !cargando && !grafo?.nodos.some((n) => n.id === desde)
+    ? 'Elige un punto de partida del campus.'
+    : null;
+  const motivo = (cargando && 'Cargando lugares del campus…') || errorDesde
+    || (!hasta && 'Elige a dónde vas para ver tu ruta.') || error;
   const puede = !motivo;
   const textoBoton = PERFILES.find((p) => p.id === perfil)?.textoBoton;
   const verRuta = () => {
@@ -44,6 +48,7 @@ export default function Inicio() {
 
   const frecuentes = FRECUENTES.map((id) => lugares.find((l) => l.id === id)).filter(Boolean);
   const n = barreras.length;
+  const todasBloquean = barreras.every((b) => b.nivel === 'bloqueo');
 
   return (
     <div className="inicio">
@@ -57,7 +62,7 @@ export default function Inicio() {
 
         <CampoLugar
           className="inicio__desde"
-          etiqueta="Desde" Icono={MapPin} lugares={lugares} valor={desde} onCambiar={cambiarDesde}
+          etiqueta="Desde" Icono={MapPin} lugares={lugares} valor={desde} onCambiar={cambiarDesde} error={errorDesde}
           extra={(
             <Link className="boton boton--enlace inicio__qr" to="/punto/p1">
               <QrCode weight="bold" aria-hidden="true" /> Estoy en un punto QR
@@ -93,7 +98,7 @@ export default function Inicio() {
               titulo={n === 1 ? '1 barrera activa en el campus.' : `${n} barreras activas en el campus.`}
               acciones={<Link to="/reportar#activas">Ver barreras</Link>}
             >
-              Tu ruta ya las evita.
+              {todasBloquean && 'Tu ruta ya las evita.'}
             </AvisoBarrera>
           )}
         </div>

@@ -46,9 +46,17 @@ export default function CampoLugar({
   const alTeclear = (e) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
-      if (!abierto) { setAbierto(true); setActivo(0); return; }
+      // Patrón APG: sin opción activa, ↓ va a la primera y ↑ a la última.
+      const n = opciones.length;
       const paso = e.key === 'ArrowDown' ? 1 : -1;
-      setActivo((a) => (a + paso + opciones.length) % opciones.length);
+      const inicial = paso > 0 ? 0 : n - 1;
+      if (!abierto) {
+        setAbierto(true);
+        setActivo(n ? inicial : -1);
+        return;
+      }
+      if (!n) return;
+      setActivo((a) => (a < 0 ? inicial : (a + paso + n) % n));
     } else if (e.key === 'Enter' && abierto && opciones[activo]) {
       e.preventDefault();
       elegir(opciones[activo]);
@@ -85,7 +93,7 @@ export default function CampoLugar({
           aria-expanded={abierto}
           aria-controls={idLista}
           aria-autocomplete="list"
-          aria-activedescendant={abierto && activo >= 0 ? idOpcion(activo) : undefined}
+          aria-activedescendant={abierto && opciones[activo] ? idOpcion(activo) : undefined}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? idError : undefined}
           onChange={(e) => { setTexto(e.target.value); setAbierto(true); setActivo(-1); }}
