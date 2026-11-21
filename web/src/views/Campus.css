@@ -208,3 +208,25 @@
   .campus__obras-bloque { grid-area: obras; }
   .campus__supuestos { grid-area: supuestos; align-self: start; }
 }
+
+/* ---------- Proyector (?presentacion=1, Lote 7): el zoom +20 % lo pone el Shell; aquí se quita lo que no cabe en 1920×1080 ---------- */
+.campus--presentacion .campus__bajada-vista, .campus--presentacion .campus__explica, .campus--presentacion .campus__frase,
+.campus--presentacion .campus__supuestos, .campus--presentacion .campus__zonas-cab .campus__ver-lista { display: none; }
+.campus--presentacion.campus--con-obras .campus__hoy { display: none; }
+.campus--presentacion .campus__beneficiados, .campus--presentacion .campus__costo, .campus--presentacion .campus__bajada,
+.campus--presentacion .campus__ordenar { display: none; }
+.campus--presentacion .campus__mapa { height: 420px; } /* el diseño pide 500 px; con las obras activas no cabe en 1920×1080 sin scroll */
+.campus--presentacion .campus__obras-bloque .campus__leyenda { margin-top: var(--e-4); border: var(--ancho-linea) solid var(--borde-control); border-radius: var(--r-panel); }
+.campus--presentacion { gap: var(--e-4); padding-block: var(--e-4); }
+.campus--presentacion .campus__encabezado { gap: var(--e-2); }
+.campus--presentacion .campus__franja { padding: var(--e-3) var(--e-5); gap: var(--e-2); }
+.campus--presentacion .campus__cuerpo { row-gap: var(--e-4); }
+.campus--presentacion .campus__obra { padding-block: var(--e-3); }
+.campus--presentacion .campus__franja { position: relative; }
+.campus--presentacion .campus__franja-acciones { position: absolute; top: var(--e-3); right: var(--e-5); gap: var(--e-4); }
+.campus--presentacion .campus__obras-bloque .campus__leyenda { margin-top: var(--e-2); padding: var(--e-2) var(--e-3); gap: 2px var(--e-4); }
+.campus--presentacion .campus__obras-bloque .campus__leyenda ul { gap: 2px var(--e-4); }
+.campus--presentacion .campus__obra-texto { gap: 2px; }
+.campus--presentacion .campus__obras { margin-top: 0; }
+.campus--presentacion .campus__obra { padding-block: var(--e-2); }
+.campus--presentacion .campus__obras-bloque { gap: 0; }
