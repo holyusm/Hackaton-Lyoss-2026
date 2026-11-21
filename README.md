@@ -24,7 +24,7 @@ En Chile, el 17,6 % de las personas de 18 años o más tiene alguna discapacidad
 Los estudiantes que más lo sufren son los que usan silla de ruedas, los que tienen movilidad reducida (bastón, lesión temporal, embarazo), los que tienen baja visión y los estudiantes nuevos que aún no conocen el campus.
 
 <!-- Cifras de PR #195 (juaquo15, 16:35Z). Confirmar con main cuando se mergee. -->
-Un ejemplo con los datos del prototipo: de la Entrada principal a la Sala C231, la ruta estándar mide 540 m y sube 20 escalones. En silla de ruedas, parejo encuentra una de 550 m y 0 escalones por el ascensor del edificio C: casi el mismo largo, pero hay que conocerla. Si ese ascensor se detiene, no queda ninguna ruta en silla de ruedas, y parejo lo dice en vez de mandar a la escalera. Hoy, 2 de los 6 destinos de la muestra no tienen ruta en silla de ruedas.
+Un ejemplo con los datos del prototipo: de la Entrada principal a la Sala C231, la ruta estándar mide 540 m y sube 20 escalones. En silla de ruedas, parejo encuentra una de 550 m y 0 escalones por el ascensor del edificio C: casi el mismo largo, pero hay que conocerla. Si ese ascensor se detiene, no queda ninguna ruta en silla de ruedas, y parejo lo dice en vez de mandar a la escalera. Hoy, 2 de los 6 destinos de la muestra no tienen ruta en silla de ruedas, y 20 de los 42 trayectos entre lugares del campus tienen alguna barrera para ese perfil.
 
 ## Solución y funcionalidades
 
