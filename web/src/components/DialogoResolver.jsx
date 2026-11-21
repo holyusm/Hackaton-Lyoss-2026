@@ -16,6 +16,8 @@ export default function DialogoResolver({ barrera, titulo, lugar, enviando, erro
   const devolver = () => setTimeout(() => (devolverFoco?.isConnected ? devolverFoco : respaldoFoco?.())?.focus(), 0);
   const cerrar = () => { onCerrar(); devolver(); };
 
+  // Solo los textos genéricos ("Entre…", "Lugar del campus") van en minúscula; los nombres propios se respetan.
+  const lugarEnFrase = /^(Entre |Lugar del campus)/.test(lugar) ? lugar.charAt(0).toLowerCase() + lugar.slice(1) : lugar;
   const detalle = barrera.descripcion && barrera.descripcion !== titulo ? barrera.descripcion : null;
   return (
     <dialog
@@ -24,7 +26,7 @@ export default function DialogoResolver({ barrera, titulo, lugar, enviando, erro
       onClose={() => {}}
     >
       <h2 id={`${id}-titulo`}>¿Ya se resolvió esta barrera?</h2>
-      <p className="dialogo-resolver__nombre"><strong>{titulo}, {lugar.charAt(0).toLowerCase()}{lugar.slice(1)}</strong></p>
+      <p className="dialogo-resolver__nombre"><strong>{titulo}, {lugarEnFrase}</strong></p>
       {detalle && <p id={`${id}-detalle`}>{detalle}</p>}
       <p id={`${id}-texto`}>Si la marcas como resuelta, el aviso deja de aparecer y las rutas vuelven a pasar por ahí.</p>
       {error && <p className="campo__error" role="alert">{error}</p>}

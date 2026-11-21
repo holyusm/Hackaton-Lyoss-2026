@@ -1,6 +1,9 @@
 /* Mapa de /comparar. Trazo por perfil (estilosDeRuta del diseño); colores desde tokens. */
 .mapa-comparar { position: relative; height: 372px; overflow: hidden; }
 .mapa-comparar .leaflet-container { width: 100%; height: 100%; background: var(--mapa-fondo, var(--fondo)); font-family: var(--fuente); outline: none; }
+/* Los paneles de Leaflet tapan un box-shadow inset: el anillo va en una capa encima */
+.mapa-comparar .leaflet-container:focus-visible::after { content: ""; position: absolute; inset: 0; z-index: 1001; pointer-events: none; box-shadow: inset 0 0 0 3px #0D2B3E, inset 0 0 0 6px #FFC72C; }
+@media (forced-colors: active) { .mapa-comparar .leaflet-container:focus-visible::after { box-shadow: none; outline: 3px solid CanvasText; outline-offset: -3px; } }
 .mapa-comparar .leaflet-div-icon { background: none; border: 0; }
 
 .ruta-comparar { fill: none; stroke-opacity: 1; }

@@ -160,6 +160,9 @@
     --activo-texto: #0A1C29;
     --activo-texto-2: #3E5566;
     --sobre-podotactil: #0A1C29;
+    --alto: #FF7A8C;             /* 6,00:1 sobre Superficie oscura (bordes y rellenos) */
+    --alto-hondo: #E5677A;
+    --sobre-alto: #0A1C29;       /* 6,95:1 sobre --alto; texto oscuro como en cobalto */
     --alto-texto: #FF97A6;
     --paso: #4FD1A1;
     --paso-texto: #4FD1A1;
@@ -195,6 +198,9 @@
   --activo-texto: #0A1C29;
   --activo-texto-2: #3E5566;
   --sobre-podotactil: #0A1C29;
+  --alto: #FF7A8C;             /* 6,00:1 sobre Superficie oscura (bordes y rellenos) */
+  --alto-hondo: #E5677A;
+  --sobre-alto: #0A1C29;       /* 6,95:1 sobre --alto; texto oscuro como en cobalto */
   --alto-texto: #FF97A6;
   --paso: #4FD1A1;
   --paso-texto: #4FD1A1;
