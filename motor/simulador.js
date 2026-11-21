@@ -8,7 +8,8 @@ const PISO_MALO = new Set(['adoquin', 'irregular']);
 const OCULTOS = ['cambios', 'tramos_nuevos', 'nodos_nuevos'];
 
 const r1 = (x) => Math.round(x * 10) / 10;
-const promedio = (xs) => (xs.length ? r1(xs.reduce((s, x) => s + x, 0) / xs.length) : 0);
+// Sin muestras no hay promedio: null ("sin trayectos comparables"), no 0, que diría "sin desvío" (#133).
+const promedio = (xs) => (xs.length ? r1(xs.reduce((s, x) => s + x, 0) / xs.length) : null);
 
 // Copia del grafo con las obras aplicadas. Nunca toca el original.
 export function aplicarObras(grafo, obras) {
