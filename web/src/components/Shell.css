@@ -109,3 +109,21 @@ dialog.hoja::backdrop { background: var(--velo); }
   }
   .nav-movil a svg, .nav-movil__mas svg { width: 18px; height: 18px; }
 }
+
+/* Modo presentación (Lote 7): texto y controles +20 %, rutas ×1,6, sin controles de accesibilidad. */
+:root:root[data-presentacion] { --escala: 1.2; --ruta-ancho: calc(6px * 1.6); }
+html[data-presentacion] .cabecera .wordmark span { font-size: 36px; }
+.presentacion { display: flex; align-items: center; gap: var(--e-3); }
+.presentacion__etiqueta {
+  min-height: 44px; padding: 0 var(--e-4); display: flex; align-items: center; gap: var(--e-2);
+  border-radius: var(--r-pill); background: var(--cobalto-tinte); color: var(--sobre-tinte);
+  font-weight: var(--peso-negro); font-size: 20px;
+}
+.presentacion__etiqueta svg { width: 26px; height: 26px; }
+.presentacion__salir {
+  min-height: var(--toque-min); padding: 0 var(--e-4); border: 2px solid var(--borde-control);
+  border-radius: var(--r-pill); background: var(--superficie); color: var(--tinta);
+  font: inherit; font-size: 19px; font-weight: var(--peso-negro); cursor: pointer;
+}
+.presentacion__salir:hover { background: var(--cobalto-tinte); color: var(--sobre-tinte); }
+@media (max-width: 899px) { .presentacion__etiqueta { display: none; } }

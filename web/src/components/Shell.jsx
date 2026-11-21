@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { ArrowsLeftRight, Buildings, CaretLeft, CircleHalf, DotsThreeOutline, Flag, Info, MapPin, MapTrifold, PersonArmsSpread, SpeakerHigh, X } from '@phosphor-icons/react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { ArrowsLeftRight, Buildings, CaretLeft, CircleHalf, DotsThreeOutline, Flag, Info, MapPin, MapTrifold, Monitor, PersonArmsSpread, SpeakerHigh, X } from '@phosphor-icons/react';
 import Simbolo from './Simbolo.jsx';
 import PanelAccesibilidad, { TAMANOS } from './PanelAccesibilidad.jsx';
 import { usePreferencias } from '../hooks/usePreferencias.js';
@@ -27,6 +27,17 @@ export default function Shell() {
   // /punto/:id (Lote 5): se abre desde un QR; sin navegación ni pie, solo cabecera, Accesibilidad y el salto.
   const enPunto = pathname.startsWith('/punto/');
   const p = usePreferencias();
+  const navigate = useNavigate();
+  // Salir del modo presentación: se apaga y se quita ?presentacion=1 para que no vuelva al recargar.
+  const salirPresentacion = () => {
+    p.setPresentacion(false);
+    const q = new URLSearchParams(search);
+    if (q.has('presentacion')) {
+      q.delete('presentacion');
+      const resto = q.toString();
+      navigate({ pathname, search: resto ? `?${resto}` : '' }, { replace: true });
+    }
+  };
   const [panel, setPanel] = useState(false);
   const [mas, setMas] = useState(false);
   useEffect(() => { setMas(false); }, [pathname]);
@@ -59,26 +70,37 @@ export default function Shell() {
 
         {!enPunto && <nav className="nav-escritorio" aria-label="Principal">{NAV.map(enlace)}</nav>}
 
-        <div className="barra-accesibilidad" role="group" aria-label="Accesibilidad">
-          <div className="segmentado" role="group" aria-label="Tamaño del texto">
-            {TAMANOS.map((t) => (
-              <button key={t.id} type="button" aria-pressed={p.texto === t.id} aria-label={t.nombre} onClick={() => p.setTexto(t.id)}>
-                {t.texto}
-              </button>
-            ))}
+        {p.presentacion ? (
+          <div className="presentacion">
+            <span className="presentacion__etiqueta">
+              <Monitor weight="bold" aria-hidden="true" /> Modo presentación
+            </span>
+            <button type="button" className="presentacion__salir" onClick={salirPresentacion}>Salir</button>
           </div>
-          <button type="button" className="boton-pastilla" aria-pressed={p.altoContraste} onClick={() => p.setAltoContraste(!p.altoContraste)}>
-            <CircleHalf weight="bold" aria-hidden="true" /> Alto contraste
-          </button>
-          <button type="button" className="boton-pastilla" aria-pressed={p.voz} onClick={() => p.setVoz(!p.voz)}>
-            <SpeakerHigh weight="bold" aria-hidden="true" /> Voz
-          </button>
-        </div>
+        ) : (
+          <>
+            <div className="barra-accesibilidad" role="group" aria-label="Accesibilidad">
+              <div className="segmentado" role="group" aria-label="Tamaño del texto">
+                {TAMANOS.map((t) => (
+                  <button key={t.id} type="button" aria-pressed={p.texto === t.id} aria-label={t.nombre} onClick={() => p.setTexto(t.id)}>
+                    {t.texto}
+                  </button>
+                ))}
+              </div>
+              <button type="button" className="boton-pastilla" aria-pressed={p.altoContraste} onClick={() => p.setAltoContraste(!p.altoContraste)}>
+                <CircleHalf weight="bold" aria-hidden="true" /> Alto contraste
+              </button>
+              <button type="button" className="boton-pastilla" aria-pressed={p.voz} onClick={() => p.setVoz(!p.voz)}>
+                <SpeakerHigh weight="bold" aria-hidden="true" /> Voz
+              </button>
+            </div>
 
-        <button type="button" className="boton-accesibilidad" aria-label="Accesibilidad" aria-haspopup="dialog" aria-expanded={panel} onClick={() => setPanel(true)}>
-          <PersonArmsSpread weight="bold" aria-hidden="true" />
-          <span className="boton-accesibilidad__texto" aria-hidden="true">Accesibilidad</span>
-        </button>
+            <button type="button" className="boton-accesibilidad" aria-label="Accesibilidad" aria-haspopup="dialog" aria-expanded={panel} onClick={() => setPanel(true)}>
+              <PersonArmsSpread weight="bold" aria-hidden="true" />
+              <span className="boton-accesibilidad__texto" aria-hidden="true">Accesibilidad</span>
+            </button>
+          </>
+        )}
       </header>
 
       <main id="contenido" tabIndex={-1}>
