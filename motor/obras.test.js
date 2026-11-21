@@ -76,3 +76,13 @@ test('hoy la Biblioteca no tiene ruta en silla de ruedas y la rampa del patio la
   assert.ok(hoy.hoy.trayectos_con_barrera > 0, 'en silla de ruedas debe haber trayectos con barrera hoy');
   assert.equal(hoy.obras[0].id, 'rampa-patio-biblioteca', 'la rampa del patio queda primera en el ranking');
 });
+
+// Baja visión queda fuera a propósito: prefiere la guía táctil aunque tarde más, así que una obra que le quita
+// barreras (piso-liso-camino-biblioteca) puede mostrar minutos_ahorrados_prom negativos. Ver #169.
+test('ninguna obra da minutos_ahorrados_prom negativos en silla de ruedas, movilidad reducida ni Estándar', () => {
+  for (const perfil of ['silla_ruedas', 'movilidad_reducida', 'estandar']) {
+    for (const o of simular(grafo, perfiles, obras, { perfil }).obras) {
+      assert.ok((o.minutos_ahorrados_prom ?? 0) >= 0, `${o.id} en ${perfil}: ${o.minutos_ahorrados_prom}`);
+    }
+  }
+});
