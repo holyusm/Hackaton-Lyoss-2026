@@ -4,6 +4,7 @@ import { raiz, leerDatos, asincrono } from './datos.js';
 import { rutasReportes, reportesActivos } from './reportes.js';
 import { calcularRuta, compararPerfiles } from '../motor/ruta.js';
 import { bloqueosDe } from '../motor/barreras.js';
+import { simular } from '../motor/simulador.js';
 
 const dist = raiz + 'web/dist';
 const app = express();
@@ -38,6 +39,20 @@ app.get('/api/ruta', conMotor(['desde', 'hasta', 'perfil'], calcularRuta));
 app.get('/api/comparar', conMotor(['desde', 'hasta'], compararPerfiles));
 
 // Punto QR: data/puntos.json es una lista de Punto (contrato §4).
+// Simulador de obras (contrato §7). Sin data/obras.json todavía, se simula sin obras.
+app.get('/api/simulador', asincrono(async (req, res) => {
+  const [grafo, perfiles, obras] = await Promise.all([
+    leerDatos('campus.json'), leerDatos('perfiles.json'),
+    leerDatos('obras.json').catch((e) => (e.code === 'ENOENT' ? [] : Promise.reject(e))),
+  ]);
+  const perfil = req.query.perfil || 'silla_ruedas';
+  const ids = (req.query.obras || '').split(',').map((s) => s.trim()).filter(Boolean);
+  if (perfil !== 'todos' && !perfiles.some((p) => p.id === perfil)) return res.status(400).json({ error: `perfil desconocido: ${perfil}` });
+  const falta = ids.find((id) => !obras.some((o) => o.id === id));
+  if (falta) return res.status(400).json({ error: `obra desconocida: ${falta}` });
+  res.json(simular(grafo, perfiles, obras, { perfil, ids }));
+}));
+
 app.get('/api/puntos/:id', asincrono(async (req, res) => {
   const puntos = await leerDatos('puntos.json').catch((e) => (e.code === 'ENOENT' ? [] : Promise.reject(e)));
   if (!Array.isArray(puntos)) throw new Error('data/puntos.json debe ser una lista');
