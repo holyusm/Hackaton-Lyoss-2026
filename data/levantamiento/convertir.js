@@ -16,7 +16,7 @@ const COLUMNAS_TRAMOS = [
   'notas', 'foto', 'sentido_unico',
 ];
 
-function csv(texto = '') {
+function csv(texto = '', archivo, err) {
   const filas = [];
   let fila = [], campo = '', q = false;
   for (let i = 0; i < texto.length; i++) {
@@ -34,6 +34,7 @@ function csv(texto = '') {
       fila = [];
     } else campo += c;
   }
+  if (q) err(`${archivo}: comilla sin cerrar en el CSV`);
   fila.push(campo);
   if (fila.some((x) => x.trim() !== '')) filas.push(fila);
   if (!filas.length) return { cabeceras: [], filas: [] };
@@ -46,6 +47,11 @@ function csv(texto = '') {
 function validarCabeceras(cabeceras, esperadas, archivo, err) {
   if (!cabeceras.length) return false;
   const presentes = new Set(cabeceras);
+  const repetidas = new Set(cabeceras.filter((c, i) => cabeceras.indexOf(c) !== i));
+  if (repetidas.size) {
+    err(`${archivo}: columnas repetidas: ${[...repetidas].join(', ')}`);
+    return false;
+  }
   const faltantes = esperadas.filter((c) => !presentes.has(c));
   if (faltantes.length) {
     err(`${archivo}: falta${faltantes.length > 1 ? 'n columnas obligatorias' : ' la columna obligatoria'}: ${faltantes.join(', ')}`);
@@ -90,8 +96,8 @@ export function convertir(nodosCsv, tramosCsv, { existeFoto = (foto) => existsSy
   const avisos = [];
   const err = (m) => errores.push(m);
 
-  const parsedNodos = csv(nodosCsv);
-  const parsedTramos = csv(tramosCsv);
+  const parsedNodos = csv(nodosCsv, 'nodos.csv', err);
+  const parsedTramos = csv(tramosCsv, 'tramos.csv', err);
 
   const cabNodosOk = validarCabeceras(parsedNodos.cabeceras, COLUMNAS_NODOS, 'nodos.csv', err);
   if (!parsedNodos.filas.length) err('nodos.csv no contiene nodos');
@@ -114,6 +120,7 @@ export function convertir(nodosCsv, tramosCsv, { existeFoto = (foto) => existsSy
   const tramos = cabTramosOk ? parsedTramos.filas.map((r) => {
     const ctx = `tramo ${r.id || '(sin id)'}`;
     if (!r.id) err(`${ctx}: falta id`);
+    else if (nodosPorId.has(r.id)) err(`${ctx}: el id coincide con un nodo`);
     if (!nodosPorId.has(r.desde)) err(`${ctx}: desde "${r.desde}" no existe en nodos.csv`);
     if (!nodosPorId.has(r.hasta)) err(`${ctx}: hasta "${r.hasta}" no existe en nodos.csv`);
     const asc = r.ascensor_id || null;

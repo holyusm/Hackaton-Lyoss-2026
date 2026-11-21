@@ -149,3 +149,23 @@ test('convertir acepta ascensor_id que apunta a un nodo tipo ascensor', () => {
   assert.deepEqual(res.errores, []);
   assert.equal(res.tramos[0].ascensor_id, 'asc-a');
 });
+
+test('convertir rechaza una columna duplicada de sentido único', () => {
+  const [cabecera, fila] = tramosCsv().split('\n');
+  const res = convertir(NODOS_CSV, `${cabecera},sentido_unico\n${fila},si`);
+  assert.match(res.errores[0], /tramos\.csv: columnas repetidas: sentido_unico/);
+});
+
+test('convertir rechaza una comilla abierta y conserva las notas multilínea válidas', () => {
+  const abrirNota = tramosCsv().replace(/,,,no$/, ',"nota');
+  assert.match(convertir(NODOS_CSV, abrirNota).errores[0], /tramos\.csv: comilla sin cerrar/);
+  const res = convertir(NODOS_CSV, abrirNota + '\nsegunda línea",,si');
+  assert.deepEqual(res.errores, []);
+  assert.equal(res.tramos[0].notas, 'nota\nsegunda línea');
+  assert.equal(res.tramos[0].sentido_unico, true);
+});
+
+test('convertir rechaza un tramo con el mismo id que un nodo', () => {
+  const res = convertir(NODOS_CSV, tramosCsv().replace('\nt1,', '\na,'));
+  assert.match(res.errores[0], /tramo a: el id coincide con un nodo/);
+});
