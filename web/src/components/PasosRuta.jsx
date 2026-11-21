@@ -29,7 +29,7 @@ export function ListaPasos({ pasos }) {
   );
 }
 
-// Cifra antes que etiqueta en el DOM; column-reverse las ordena (componentes.md, MetricasRuta).
+// Cifra antes que etiqueta en el DOM y también en pantalla: la cifra arriba, la etiqueta abajo.
 export function MetricasRuta({ ruta, compactas = false }) {
   return (
     <dl className={compactas ? 'metricas metricas--compactas' : 'metricas'}>
