@@ -1,9 +1,7 @@
 // Motor de rutas accesibles por perfil (Dijkstra). Módulo puro, sin dependencias.
 // Contrato: docs/contratos.md §3.
 
-const PENDIENTE_BASE = { nula: 1, baja: 1, media: 1, alta: 1 };
-
-function tramoBloqueado(tramo, bloqueados, grafoNodos) {
+function tramoBloqueado(tramo, bloqueados) {
   if (bloqueados.has(tramo.id)) return true;
   if (tramo.ascensor_id && bloqueados.has(tramo.ascensor_id)) return true;
   return false;
@@ -19,7 +17,7 @@ function prohibidoParaPerfil(tramo, perfil) {
 
 function costoTramo(tramo, perfil) {
   const c = perfil.costos || {};
-  const multPend = (c.pendiente && c.pendiente[tramo.pendiente]) ?? PENDIENTE_BASE[tramo.pendiente] ?? 1;
+  const multPend = (c.pendiente && c.pendiente[tramo.pendiente]) ?? 1;
   const multSup = (c.superficie && c.superficie[tramo.superficie]) ?? 1;
   const multGuia = tramo.guia_tactil ? 1 : (c.sin_guia_tactil ?? 1);
   return tramo.metros * multPend * multSup * multGuia + tramo.escalones * (c.escalon ?? 0);

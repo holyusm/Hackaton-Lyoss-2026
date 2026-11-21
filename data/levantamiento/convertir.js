@@ -9,8 +9,14 @@ const aqui = (f) => new URL(f, import.meta.url);
 const TIPOS = ['entrada', 'edificio', 'sala', 'ascensor', 'bano', 'punto'];
 const PENDIENTES = ['nula', 'baja', 'media', 'alta'];
 const SUPERFICIES = ['lisa', 'irregular', 'adoquin'];
+const COLUMNAS_NODOS = ['id', 'nombre', 'tipo', 'lat', 'lng', 'edificio', 'piso', 'descripcion'];
+const COLUMNAS_TRAMOS = [
+  'id', 'desde', 'hasta', 'metros', 'escalones', 'pendiente', 'rampa',
+  'ascensor_id', 'techado', 'superficie', 'minutos_medidos', 'guia_tactil',
+  'notas', 'foto', 'sentido_unico',
+];
 
-function csv(texto) {
+function csv(texto = '') {
   const filas = [];
   let fila = [], campo = '', q = false;
   for (let i = 0; i < texto.length; i++) {
@@ -30,8 +36,22 @@ function csv(texto) {
   }
   fila.push(campo);
   if (fila.some((x) => x.trim() !== '')) filas.push(fila);
+  if (!filas.length) return { cabeceras: [], filas: [] };
   const [cab, ...resto] = filas;
-  return resto.map((f) => Object.fromEntries(cab.map((k, i) => [k.trim(), (f[i] ?? '').trim()])));
+  const cabeceras = cab.map((k, i) => (i === 0 ? k.replace(/^\uFEFF/, '') : k).trim());
+  const registros = resto.map((f) => Object.fromEntries(cabeceras.map((k, i) => [k, (f[i] ?? '').trim()])));
+  return { cabeceras, filas: registros };
+}
+
+function validarCabeceras(cabeceras, esperadas, archivo, err) {
+  if (!cabeceras.length) return false;
+  const presentes = new Set(cabeceras);
+  const faltantes = esperadas.filter((c) => !presentes.has(c));
+  if (faltantes.length) {
+    err(`${archivo}: falta${faltantes.length > 1 ? 'n columnas obligatorias' : ' la columna obligatoria'}: ${faltantes.join(', ')}`);
+    return false;
+  }
+  return true;
 }
 
 export function num(v, campo, ctx, { entero = false, min = 0, err = () => {} } = {}) {
@@ -54,7 +74,7 @@ const coord = (v, campo, ctx, max, err, avisos) => {
   return n;
 };
 const bool = (v, campo, ctx, err) => {
-  const s = v.toLowerCase();
+  const s = String(v ?? '').toLowerCase();
   if (['si', 'sí', 's', 'true', '1'].includes(s)) return true;
   if (['no', 'n', 'false', '0', ''].includes(s)) return false;
   err(`${ctx}: ${campo} debe ser si/no ("${v}")`);
@@ -70,7 +90,13 @@ export function convertir(nodosCsv, tramosCsv, { existeFoto = (foto) => existsSy
   const avisos = [];
   const err = (m) => errores.push(m);
 
-  const nodos = csv(nodosCsv).map((r) => {
+  const parsedNodos = csv(nodosCsv);
+  const parsedTramos = csv(tramosCsv);
+
+  const cabNodosOk = validarCabeceras(parsedNodos.cabeceras, COLUMNAS_NODOS, 'nodos.csv', err);
+  if (!parsedNodos.filas.length) err('nodos.csv no contiene nodos');
+
+  const nodos = cabNodosOk ? parsedNodos.filas.map((r) => {
     const ctx = `nodo ${r.id || '(sin id)'}`;
     if (!r.id) err(`${ctx}: falta id`);
     return {
@@ -78,18 +104,24 @@ export function convertir(nodosCsv, tramosCsv, { existeFoto = (foto) => existsSy
       lat: coord(r.lat, 'lat', ctx, 90, err, avisos), lng: coord(r.lng, 'lng', ctx, 180, err, avisos),
       edificio: r.edificio, piso: num(r.piso, 'piso', ctx, { entero: true, min: -5, err }), descripcion: r.descripcion,
     };
-  });
-  const ids = new Set(nodos.map((n) => n.id));
-  if (ids.size !== nodos.length) err('hay ids de nodo repetidos');
+  }) : [];
+  const nodosPorId = new Map(nodos.map((n) => [n.id, n]));
+  if (nodosPorId.size !== nodos.length) err('hay ids de nodo repetidos');
 
-  const tramos = csv(tramosCsv).map((r) => {
+  const cabTramosOk = validarCabeceras(parsedTramos.cabeceras, COLUMNAS_TRAMOS, 'tramos.csv', err);
+  if (!parsedTramos.filas.length) err('tramos.csv no contiene tramos');
+
+  const tramos = cabTramosOk ? parsedTramos.filas.map((r) => {
     const ctx = `tramo ${r.id || '(sin id)'}`;
     if (!r.id) err(`${ctx}: falta id`);
-    if (!ids.has(r.desde)) err(`${ctx}: desde "${r.desde}" no existe en nodos.csv`);
-    if (!ids.has(r.hasta)) err(`${ctx}: hasta "${r.hasta}" no existe en nodos.csv`);
+    if (!nodosPorId.has(r.desde)) err(`${ctx}: desde "${r.desde}" no existe en nodos.csv`);
+    if (!nodosPorId.has(r.hasta)) err(`${ctx}: hasta "${r.hasta}" no existe en nodos.csv`);
     const asc = r.ascensor_id || null;
-    if (asc && !ids.has(asc)) err(`${ctx}: ascensor_id "${asc}" no existe`);
-    if (asc && nodos.find((n) => n.id === asc)?.tipo !== 'ascensor') err(`${ctx}: ascensor_id "${asc}" no es un nodo tipo ascensor`);
+    if (asc) {
+      const nodoAsc = nodosPorId.get(asc);
+      if (!nodoAsc) err(`${ctx}: ascensor_id "${asc}" no existe`);
+      else if (nodoAsc.tipo !== 'ascensor') err(`${ctx}: ascensor_id "${asc}" no es un nodo tipo ascensor`);
+    }
     const foto = r.foto || null;
     if (foto && !existeFoto(foto)) err(`${ctx}: la foto "${foto}" no está en data/`);
     return {
@@ -101,7 +133,7 @@ export function convertir(nodosCsv, tramosCsv, { existeFoto = (foto) => existsSy
       minutos_medidos: num(r.minutos_medidos, 'minutos_medidos', ctx, { err }), guia_tactil: bool(r.guia_tactil, 'guia_tactil', ctx, err),
       notas: r.notas, foto, sentido_unico: bool(r.sentido_unico, 'sentido_unico', ctx, err),
     };
-  });
+  }) : [];
   if (new Set(tramos.map((t) => t.id)).size !== tramos.length) err('hay ids de tramo repetidos');
 
   // Conectividad: avisa de nodos aislados (ignora el sentido único).
