@@ -17,6 +17,7 @@ import './Plano.css';
 
 // /plano (Lote 10): explorar el campus. La lista es la vía accesible; el mapa es el apoyo visual.
 const AQUI = [-33.033897, -71.59523]; // Acceso Av. España (simulado, declarado en la vista)
+const LIMITE_MOVIL = 6;
 const CALLES = ['Av. España', 'San Luis', 'General Bari', 'Valdés', 'Av. Los Placeres', 'Av. Matta'];
 const CAPAS = [
   { id: 'senderos', texto: 'Senderos' },
@@ -183,20 +184,39 @@ export default function Plano() {
   const { grafo } = useLugares();
   const datos = grafo ?? campusRespaldo;
   const [q, setQ] = useState('');
+  const [verTodos, setVerTodos] = useState(false);
   const [clave, setClave] = useState(null);
   const [piso, setPiso] = useState(1);
   const [capas, setCapas] = useState({ senderos: true, escaleras: true, servicios: true, calles: true });
   const refs = useRef(new Map());
   const buscador = useRef(null);
   const abrio = useRef(null);
+  const enfocarTrasExpandir = useRef(null);
 
   // En móvil las calles empiezan apagadas.
   useEffect(() => { if (!escritorio) setCapas((c) => ({ ...c, calles: false })); }, [escritorio]);
 
   const edificio = EDIFICIOS.find((e) => e.clave === clave) ?? null;
   const visibles = useMemo(() => filtrarEdificios(EDIFICIOS, q), [q]);
-  const lista = escritorio ? visibles : visibles.slice(0, 6);
+  const hayConsulta = q.trim().length > 0;
+  const hayMas = !escritorio && hayConsulta && !verTodos && visibles.length > LIMITE_MOVIL;
+  const lista = hayMas ? visibles.slice(0, LIMITE_MOVIL) : visibles;
   const interiorPiso = useMemo(() => (edificio ? interior(edificio.letra, piso) : []), [edificio, piso]);
+
+  const alBuscar = (ev) => {
+    setQ(ev.target.value);
+    setVerTodos(false);
+  };
+  const alVerTodos = () => {
+    enfocarTrasExpandir.current = visibles[LIMITE_MOVIL]?.clave ?? null;
+    setVerTodos(true);
+  };
+  useEffect(() => {
+    if (!verTodos || !enfocarTrasExpandir.current) return;
+    const siguiente = enfocarTrasExpandir.current;
+    enfocarTrasExpandir.current = null;
+    refs.current.get(siguiente)?.focus();
+  }, [verTodos, lista]);
 
   const elegir = (e, desdeLista = false) => {
     abrio.current = desdeLista ? e.clave : null;
@@ -221,14 +241,20 @@ export default function Plano() {
   const etiquetaMapa = edificio ? `Plano de Casa Central. ${edificio.titulo} elegido, piso ${piso < 0 ? `menos ${-piso}` : piso}.` : 'Plano de Casa Central.';
   const padAbajo = !escritorio && edificio ? 300 : !escritorio ? 130 : 0;
 
+  const textoConteo = visibles.length === 0
+    ? `Sin resultados para «${q}»`
+    : hayMas
+      ? `${lista.length} de ${visibles.length} edificios`
+      : `${visibles.length} ${visibles.length === 1 ? 'edificio' : 'edificios'}`;
+
   const buscar = (
     <div className="plano-buscar">
       <label htmlFor="plano-q" className={escritorio ? 'campo__etiqueta' : 'sr-only'}>Buscar edificio o servicio</label>
       <div className="plano-buscar__campo">
         <MagnifyingGlass weight="bold" aria-hidden="true" />
-        <input id="plano-q" ref={buscador} type="search" className="campo__input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ej.: Biblioteca, C, Casino" autoComplete="off" />
+        <input id="plano-q" ref={buscador} type="search" className="campo__input" value={q} onChange={alBuscar} placeholder="Ej.: Biblioteca, C, Casino" autoComplete="off" />
       </div>
-      <p className="plano-buscar__conteo" aria-live="polite">{visibles.length === 0 ? `Sin resultados para «${q}»` : `${visibles.length} ${visibles.length === 1 ? 'edificio' : 'edificios'}`}</p>
+      <p className="plano-buscar__conteo" aria-live="polite">{textoConteo}</p>
     </div>
   );
 
@@ -291,7 +317,19 @@ export default function Plano() {
 
         {!escritorio && (
           <>
-            <div className="plano-flotante">{buscar}{q && lista.length > 0 && items}</div>
+            <div className="plano-flotante">
+              {buscar}
+              {hayConsulta && lista.length > 0 && (
+                <>
+                  {items}
+                  {hayMas && (
+                    <button type="button" className="boton boton--secundario boton--chico boton--ancho plano-flotante__mas" onClick={alVerTodos}>
+                      Ver todos
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
             <div className="plano-hoja">
               <span className="plano-hoja__asa" aria-hidden="true" />
               {edificio ? (

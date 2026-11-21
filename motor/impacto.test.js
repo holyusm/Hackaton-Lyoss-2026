@@ -44,3 +44,8 @@ test('el escenario con ascensor-a bloqueado alarga la ruta en silla de ruedas', 
 test('el informe se arma sin errores', () => {
   assert.match(informe(), /Origen → destino/);
 });
+
+test('la tabla publicada para el pitch coincide con el grafo vigente', () => {
+  const documento = readFileSync(new URL('../docs/levantamiento.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n'); // en Windows el checkout puede traer CRLF
+  assert.ok(documento.includes(tablaMarkdown(filas(grafo, perfiles), perfiles)));
+});
