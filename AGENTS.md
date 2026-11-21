@@ -39,7 +39,7 @@ Humans over agents. The team lead is `@holyusm`; only the lead reassigns work be
 
 **Models.** Worker sessions (`@Gxppe`, `@juaquo15`) run on Sonnet 5.5 with high effort (`/model sonnet`, effort high). The orchestrator plans with Opus 5.5 and writes every task self-contained: files, steps, acceptance check.
 
-**Views.** Views and design (`web/`) are built by `@holyusm` with Claude Design. Workers never edit `web/`.
+**Views.** `@holyusm` designs every view in Claude Design and leaves the exports in `docs/diseno/vistas/<lote>/`. He assigns each lote to a worker on the board with full instructions; that worker builds it in `web/`. Rules for `web/` (who owns which file): `docs/diseno/vistas/README.md`. Do not edit a view or shared file in `web/` that was not assigned to you.
 
 ## 3. Workflow
 
@@ -56,7 +56,7 @@ Fill this in at kickoff so every agent knows whose files are whose.
 
 | Area | Owner (GitHub login) | Folders |
 |---|---|---|
-| Views, design, UI accessibility, contracts, shared files, README, pitch | `@holyusm` | `web/`, `docs/contratos.md`, `docs/desafio.md`, `AGENTS.md`, `package.json`, `vite.config.js`, `README.md`, `.env.example` |
+| Views, design, UI accessibility, contracts, shared files, README, pitch | `@holyusm` | `web/` design and assignments (`docs/diseno/`), `docs/contratos.md`, `docs/desafio.md`, `AGENTS.md`, `package.json`, `vite.config.js`, `README.md`, `.env.example` |
 | Server, reports API, route/report integration, QR endpoint + generator, deploy | `@Gxppe` | `server/`, `scripts/`, `render.yaml`, `docs/qr/` |
 | Campus data (field survey), profiles, routing engine, QR point content, impact figures | `@juaquo15` | `data/`, `motor/`, `docs/levantamiento.md` |
 
