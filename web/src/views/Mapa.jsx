@@ -39,6 +39,15 @@ export default function Mapa() {
   if (r.estado === 'cargando') {
     return <section className="mapa-estado" role="status"><p>Calculando tu ruta</p></section>;
   }
+  if (r.estado === 'sinVerificar') {
+    return (
+      <section className="mapa-estado">
+        <h1>Ruta pendiente de verificar</h1>
+        <p role="status">{r.aviso}</p>
+        <button type="button" className="boton boton--primario" onClick={() => window.location.reload()}>Reintentar</button>
+      </section>
+    );
+  }
   if (r.estado === 'sinRuta') {
     return (
       <section className="mapa-estado">
@@ -50,8 +59,11 @@ export default function Mapa() {
   }
 
   const perfil = PERFILES.find((p) => p.id === r.consulta.perfil);
+  const sinVerificar = r.barrerasSinVerificar && (
+    <AvisoBarrera variante="compacto" role="status" className="mapa-aviso">No pudimos verificar las barreras activas del campus. La ruta puede no tenerlas en cuenta.</AvisoBarrera>
+  );
   if (lista) {
-    return <VistaLista ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} onVerMapa={() => cambiarLista(false)} />;
+    return <>{sinVerificar}<VistaLista ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} onVerMapa={() => cambiarLista(false)} /></>;
   }
   return (
     <div className="mapa-vista">
@@ -65,6 +77,7 @@ export default function Mapa() {
           <button type="button" className="boton-pastilla" aria-pressed="false" onClick={() => cambiarLista(true)}>
             <ListBullets weight="bold" aria-hidden="true" /> Ver como lista
           </button>
+          {sinVerificar}
         </div>
       </div>
       <HojaRuta ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} altura={altura} onAltura={setAltura} />
