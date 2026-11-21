@@ -1,8 +1,9 @@
 /* /mapa (Lote 2). En móvil el mapa ocupa todo main y la hoja va encima; desde 900 px, mapa y panel en fila. */
 .mapa-vista { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; }
 .mapa-lienzo { position: absolute; inset: 0; z-index: 0; }
-.mapa-flotantes { position: absolute; top: var(--e-4); left: var(--e-4); z-index: 500; display: flex; flex-direction: column; align-items: flex-start; gap: var(--e-2); }
+.mapa-flotantes { max-width: calc(100% - 96px); position: absolute; top: var(--e-4); left: var(--e-4); z-index: 500; display: flex; flex-direction: column; align-items: flex-start; gap: var(--e-2); }
 .mapa-flotantes .boton-pastilla { min-height: 44px; box-shadow: var(--sombra-panel); background: var(--superficie); }
+.mapa-aviso { max-width: 360px; background: var(--superficie); box-shadow: var(--sombra-panel); }
 .mapa-flotantes .boton-pastilla svg { width: 22px; height: 22px; }
 
 @media (min-width: 900px) {
@@ -11,3 +12,5 @@
 
 .mapa-estado { box-sizing: border-box; width: 100%; max-width: 720px; margin: 0 auto; padding: var(--e-6) var(--margen-movil, 16px); display: flex; flex-direction: column; gap: var(--e-5); }
 .mapa-estado h1 { margin: 0; font-size: 1.75rem; line-height: 1.15; font-weight: var(--peso-negro); }
+
+.mapa-sinruta__mapa { position: relative; height: min(50vh, 360px); border-radius: var(--r-md, 12px); overflow: hidden; border: 1px solid var(--borde-control); }

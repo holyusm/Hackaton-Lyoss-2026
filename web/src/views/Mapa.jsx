@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ListBullets } from '@phosphor-icons/react';
 import AvisoBarrera from '../components/AvisoBarrera.jsx';
+import BandaEnVivo from '../components/BandaEnVivo.jsx';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import HojaRuta from '../components/HojaRuta.jsx';
+import LimiteError from '../components/LimiteError.jsx';
 import MapaRuta from '../components/MapaRuta.jsx';
 import VistaLista from '../components/VistaLista.jsx';
 import { useRuta } from '../hooks/useRuta.js';
@@ -37,12 +39,30 @@ export default function Mapa() {
   const cambiarLista = (si) => { setLista(si); guardarVista(si); };
 
   if (r.estado === 'cargando') {
-    return <section className="mapa-estado" role="status"><p>Calculando tu ruta</p></section>;
+    return <section id="ruta" tabIndex={-1} className="mapa-estado" role="status"><p>Calculando tu ruta</p></section>;
+  }
+  if (r.estado === 'sinVerificar') {
+    return (
+      <section id="ruta" tabIndex={-1} className="mapa-estado">
+        <h1>Ruta pendiente de verificar</h1>
+        <p role="status">{r.aviso}</p>
+        <button type="button" className="boton boton--primario" onClick={() => window.location.reload()}>Reintentar</button>
+      </section>
+    );
   }
   if (r.estado === 'sinRuta') {
     return (
-      <section className="mapa-estado">
+      <section id="ruta" tabIndex={-1} className="mapa-estado">
         <h1>No encontramos una ruta hacia {r.destino.nombre}</h1>
+        <div className="mapa-sinruta__mapa">
+          <LimiteError>
+            <MapaRuta
+              grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino} barreras={r.barreras}
+              alturaHoja={0} controles={false}
+              descripcion={`Plano de Casa Central con el origen y ${r.destino.nombre}${r.barreras.length ? ' y las barreras que cortan el paso' : ''}. No hay ruta accesible.`}
+            />
+          </LimiteError>
+        </div>
         <AvisoBarrera variante="bloqueo" role="alert" titulo="No hay una ruta accesible en este momento">{r.motivo}</AvisoBarrera>
         <Link to="/" className="boton boton--primario">Probar con otro destino</Link>
       </section>
@@ -50,21 +70,28 @@ export default function Mapa() {
   }
 
   const perfil = PERFILES.find((p) => p.id === r.consulta.perfil);
+  const sinVerificar = r.barrerasSinVerificar && (
+    <AvisoBarrera variante="compacto" role="status" className="mapa-aviso">No pudimos verificar las barreras activas del campus. La ruta puede no tenerlas en cuenta.</AvisoBarrera>
+  );
   if (lista) {
-    return <VistaLista ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} onVerMapa={() => cambiarLista(false)} />;
+    return <>{sinVerificar}<VistaLista ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} onVerMapa={() => cambiarLista(false)} /></>;
   }
   return (
     <div className="mapa-vista">
       <div className="mapa-lienzo">
-        <MapaRuta
-          ruta={r.ruta} grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino}
-          barreras={r.barreras} alturaHoja={escritorio ? 0 : ALTO_HOJA[altura]} controles={escritorio || altura === 'resumen'}
-          descripcion={describir(r.ruta)}
-        />
+        <LimiteError onVerLista={() => cambiarLista(true)}>
+          <MapaRuta
+            ruta={r.ruta} grafo={r.grafo} mapa={r.mapa} origen={r.origen} destino={r.destino}
+            barreras={r.barreras} alturaHoja={escritorio ? 0 : ALTO_HOJA[altura]} controles={escritorio || altura === 'resumen'}
+            descripcion={describir(r.ruta)}
+          />
+        </LimiteError>
         <div className="mapa-flotantes">
           <button type="button" className="boton-pastilla" aria-pressed="false" onClick={() => cambiarLista(true)}>
             <ListBullets weight="bold" aria-hidden="true" /> Ver como lista
           </button>
+          <BandaEnVivo actualizado={r.actualizado} error={r.errorBarreras} />
+          {!r.errorBarreras && sinVerificar}
         </div>
       </div>
       <HojaRuta ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} altura={altura} onAltura={setAltura} />

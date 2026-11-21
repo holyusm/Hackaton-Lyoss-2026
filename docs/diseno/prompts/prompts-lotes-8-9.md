@@ -7,7 +7,7 @@ Dos vistas nuevas que se pegan en el **mismo proyecto de Claude Design** donde y
 | 8 | `/campus` Mejorar el campus (simulador de obras) | La universidad (Programa de Inclusión, infraestructura) y el jurado | Que la app no solo esquiva barreras: le dice a la USM cuál arreglar primero y cuánto mejora | Alta |
 | 9 | `/horario` ¿Llegas a tu próxima clase? | Estudiantes (accesorio dentro de la app) | El problema traducido a algo que todos entienden: llegar tarde a clase por una escalera | Media |
 
-Los nombres de campos que aparecen al final de cada lote son los que va a entregar el servidor. Diseña con esos datos para que la implementación calce sin inventar nada. Las palabras (trayecto, trayecto con barrera, obra, traslado, ajuste razonable) son las de [GLOSSARY.md](../../GLOSSARY.md).
+Los nombres de campos que aparecen al final de cada lote son los que va a entregar el servidor. Diseña con esos datos para que la implementación calce sin inventar nada. Las palabras (trayecto, trayecto con barrera, obra, traslado, ajuste razonable) son las de [GLOSSARY.md](../../../GLOSSARY.md).
 
 Alcance acordado el 21-11 (14:50): del Lote 8 se implementa hoy lo esencial (cifras de hoy, ranking de obras, interruptor "Simular" y la franja Hoy / Con obras). El informe imprimible se diseña pero no se implementa hoy. Del Lote 9 se implementa solo "Un cambio de sala", y solo si sobra tiempo.
 

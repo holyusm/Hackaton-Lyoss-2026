@@ -8,10 +8,13 @@ José diseña cada vista en Claude Design y deja aquí lo exportado. Quien imple
 | [lote-1-inicio](lote-1-inicio/) | `/` | listo | @Gxppe |
 | [lote-2-mapa](lote-2-mapa/) | `/mapa` | listo | @juaquo15 |
 | [lote-3-comparar](lote-3-comparar/) | `/comparar` | listo | @Gxppe |
-| [lote-4-reportar](lote-4-reportar/) | `/reportar` | pendiente | por asignar |
-| [lote-5-punto](lote-5-punto/) | `/punto/:id` | pendiente | por asignar |
-| [lote-6-acerca](lote-6-acerca/) | `/acerca` | pendiente | por asignar |
+| [lote-4-reportar](lote-4-reportar/) | `/reportar` | listo | @juaquo15 |
+| [lote-5-punto](lote-5-punto/) | `/punto/:id` | listo | @Gxppe |
+| [lote-6-acerca](lote-6-acerca/) | `/acerca` | listo | @holyusm |
 | [lote-7-estados](lote-7-estados/) | todas | pendiente | por asignar |
+| [lote-8-campus](lote-8-campus/) | `/campus` | pendiente | @Gxppe |
+| [lote-9-horario](lote-9-horario/) | `/horario` | pendiente | por asignar |
+| [lote-10-plano](lote-10-plano/) | `/plano` | listo | @juaquo15 |
 
 ## Qué leer antes de implementar
 

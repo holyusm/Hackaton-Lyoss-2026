@@ -46,7 +46,7 @@ app.get('/api/simulador', asincrono(async (req, res) => {
     leerDatos('obras.json').catch((e) => (e.code === 'ENOENT' ? [] : Promise.reject(e))),
   ]);
   const perfil = req.query.perfil || 'silla_ruedas';
-  const ids = (req.query.obras || '').split(',').map((s) => s.trim()).filter(Boolean);
+  const ids = [].concat(req.query.obras ?? '').join(',').split(',').map((s) => s.trim()).filter(Boolean);
   if (perfil !== 'todos' && !perfiles.some((p) => p.id === perfil)) return res.status(400).json({ error: `perfil desconocido: ${perfil}` });
   const falta = ids.find((id) => !obras.some((o) => o.id === id));
   if (falta) return res.status(400).json({ error: `obra desconocida: ${falta}` });

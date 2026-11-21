@@ -96,6 +96,77 @@ test('perfil u obra desconocidos lanzan error', () => {
   assert.throws(() => simular(GRAFO, PERFILES, OBRAS, { ids: ['no-existe'] }), /obra desconocida/);
 });
 
+test('sin trayectos comparables los promedios son null, no 0 (#133)', () => {
+  const aislados = { nodos: [
+    { id: 'x', nombre: 'X', tipo: 'sala', lat: 0, lng: 0 },
+    { id: 'y', nombre: 'Y', tipo: 'sala', lat: 0, lng: 1 },
+  ], tramos: [] };
+  const obra = { id: 'o', titulo: 'O', cambios: [], tramos_nuevos: [], nodos_nuevos: [] };
+  const r = simular(aislados, PERFILES, [obra], { ids: ['o'] });
+  assert.equal(r.hoy.trayectos_con_barrera, 2);
+  assert.equal(r.hoy.minutos_extra_prom, null);
+  assert.equal(r.con_obras.minutos_extra_prom, null);
+  assert.equal(r.obras[0].minutos_ahorrados_prom, null);
+  assert.ok(r.zonas.every((z) => z.minutos_extra === null && z.estado === 'con_barrera'));
+});
+
+test('el desvío nunca es negativo, aunque otra ruta tarde menos que la de Estándar (#141)', () => {
+  // Estándar va por la escalera corta (menos metros, más minutos); silla da la vuelta y tarda menos.
+  const g = { nodos: [
+    { id: 'a', nombre: 'A', tipo: 'entrada', lat: 0, lng: 0 },
+    { id: 'b', nombre: 'B', tipo: 'sala', lat: 0, lng: 1 },
+    { id: 'm', nombre: 'M', tipo: 'punto', lat: 1, lng: 0 },
+  ], tramos: [
+    tramo('esc', 'a', 'b', { metros: 10, escalones: 30, minutos_medidos: 3 }),
+    tramo('r1', 'a', 'm', { metros: 30, minutos_medidos: 0.5 }),
+    tramo('r2', 'm', 'b', { metros: 30, minutos_medidos: 0.5 }),
+  ] };
+  for (const perfil of ['silla_ruedas', 'movilidad_reducida', 'baja_vision']) {
+    const r = simular(g, PERFILES, [], { perfil });
+    assert.ok(r.hoy.minutos_extra_prom === null || r.hoy.minutos_extra_prom >= 0, `${perfil}: ${r.hoy.minutos_extra_prom}`);
+    assert.ok(r.zonas.every((z) => z.minutos_extra === null || z.minutos_extra >= 0));
+  }
+});
+
+test('seleccionar el ascensor dos veces aplica la obra una sola vez', () => {
+  const obra = {
+    id: 'ascensor-edificio-b',
+    nodos_nuevos: [{ id: 'ascensor-b', nombre: 'Ascensor B', tipo: 'ascensor' }],
+    tramos_nuevos: [tramo('obra-t1', 'b', 'ascensor-b'), tramo('obra-t2', 'ascensor-b', 'c')],
+  };
+  assert.deepEqual(aplicarObras(GRAFO, [obra, obra]), aplicarObras(GRAFO, [obra]));
+  const calcular = (ids) => simular(GRAFO, PERFILES, [obra], { ids });
+  assert.deepEqual(calcular([obra.id, obra.id]), calcular([obra.id]));
+});
+
+test('los minutos ahorrados por obra nunca son negativos aunque una ruta nueva sea más larga (#179)', () => {
+  const g = {
+    nodos: [
+      { id: 'a', nombre: 'A', tipo: 'entrada', lat: 0, lng: 0 },
+      { id: 'b', nombre: 'B', tipo: 'sala', lat: 0, lng: 1 },
+      { id: 'c', nombre: 'C', tipo: 'punto', lat: 1, lng: 0 },
+    ],
+    tramos: [
+      tramo('t1', 'a', 'b', { metros: 20, minutos_medidos: 1 }),
+    ],
+  };
+  const perfiles = [
+    { id: 'baja_vision', nombre: 'Visión', prohibido: {}, costos: { escalon: 20 } },
+  ];
+  const obra = {
+    id: 'obra-larga',
+    titulo: 'Ruta larga',
+    cambios: [],
+    tramos_nuevos: [
+      tramo('t2', 'a', 'c', { metros: 100, minutos_medidos: 3 }),
+      tramo('t3', 'c', 'b', { metros: 100, minutos_medidos: 3 }),
+    ],
+    nodos_nuevos: [],
+  };
+  const r = simular(g, perfiles, [obra], { perfil: 'baja_vision' });
+  assert.ok(r.obras[0].minutos_ahorrados_prom >= 0);
+});
+
 test('un grafo inválido detiene la simulación con el tramo y el campo afectados', () => {
   for (const campo of ['desde', 'hasta']) {
     for (const id of ['', undefined, 'retirado']) {

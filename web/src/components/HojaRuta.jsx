@@ -18,7 +18,7 @@ export default function HojaRuta({ ruta, origen, destino, perfil, altura, onAltu
         <span aria-hidden="true" />
       </button>
       <div className="hoja-ruta__cuerpo">
-        <ResumenRuta ruta={ruta} origen={origen} destino={destino} perfil={perfil} />
+        <ResumenRuta ruta={ruta} origen={origen} destino={destino} perfil={perfil} nivel="h1" />
         <button type="button" className="boton boton--secundario hoja-ruta__ver-pasos" onClick={() => onAltura('completa')}>Ver pasos</button>
         <div className="hoja-ruta__pasos">
           <ListaPasos pasos={ruta.pasos} />

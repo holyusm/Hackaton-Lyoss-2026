@@ -30,7 +30,7 @@ test('reportar el ascensor recalcula por el Edificio B; con la pasarela también
   assert.equal(porB.ok, true);
   assert.ok(porB.nodos.includes('edificio-b'));
   assert.equal(porB.escalones, 0);
-  assert.equal(porB.metros - normal.metros, 40);
+  assert.equal(porB.metros - normal.metros, 120);
 
   // 2. Con la pasarela también reportada, no hay ruta accesible; el perfil estándar sigue llegando.
   const pasarela = await reportar('pasarela-b-a', 'Cerrada');

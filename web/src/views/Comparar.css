@@ -23,6 +23,10 @@
   max-width: 26ch; text-wrap: balance;
 }
 
+/* Móvil: el mapa va arriba de todo, de borde a borde (referencia 03); no recibe foco, así el orden de Tab no cambia. */
+.comparar__mapa { order: -1; margin: calc(var(--e-6) * -1) calc(var(--margen-movil) * -1) 0; display: flex; flex-direction: column; gap: var(--e-4); }
+.comparar__mapa .leyenda-rutas { padding: 0 var(--margen-movil); }
+
 .comparar__tabla { display: none; }
 .comparar__tarjetas { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--e-3); }
 .comparar__pie { font-size: var(--t-detalle); color: var(--tinta-2); }
@@ -51,7 +55,15 @@
 .fila-perfil__nota { font-size: var(--t-detalle); color: var(--tinta-2); margin-top: var(--e-2); }
 
 @media (min-width: 900px) {
-  .comparar { padding: var(--e-6) 40px 0; font-size: 1.111rem; }
+  .comparar {
+    padding: var(--e-6) 40px 0; font-size: 1.111rem;
+    display: grid; grid-template-columns: minmax(440px, 5fr) 7fr; column-gap: 40px; align-items: start;
+  }
+  .comparar > * { grid-column: 2; }
+  .comparar__cabeza, .comparar__editar { grid-column: 1 / -1; }
+  .comparar__mapa { grid-column: 1; grid-row: 2 / span 4; order: 0; margin: 0; position: sticky; top: var(--e-4); }
+  .comparar__editar + .comparar__mapa { grid-row: 3 / span 4; }
+  .comparar__mapa .leyenda-rutas { padding: 0; }
   .comparar__cabeza { flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; }
   .comparar__lugar--escritorio { display: inline-flex; }
   .comparar__lugar--movil { display: none; }

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { MagnifyingGlass, MapPin } from '@phosphor-icons/react';
 import CampoLugar from '../components/CampoLugar.jsx';
+import AvisoBarrera from '../components/AvisoBarrera.jsx';
 import TablaComparar from '../components/TablaComparar.jsx';
 import FilaPerfilMovil from '../components/FilaPerfilMovil.jsx';
+import MapaComparar from '../components/MapaComparar.jsx';
+import LeyendaRutas from '../components/LeyendaRutas.jsx';
+import { PERFILES } from '../components/GrupoPerfiles.jsx';
+import { conArticulo } from '../../../motor/ruta.js';
 import { iconoLugar } from '../components/iconoLugar.js';
-import { motivoSinRuta } from '../lib/comparar.js';
 import { useComparacion } from '../hooks/useComparacion.js';
 import '../components/TablaComparar.css';
 import './Comparar.css';
@@ -21,10 +25,14 @@ export default function Comparar() {
   useEffect(() => { if (sillaSinRuta) setSeleccion('todas'); }, [sillaSinRuta]);
   const elegir = (id) => setSeleccion((s) => (s === id ? 'todas' : id));
 
-  const motivo = sillaSinRuta ? motivoSinRuta(c.barreras, c.grafo, { motivo: silla.motivo }) : '';
   const nombreDesde = c.origen?.nombre ?? c.desde;
   const nombreHasta = c.destino?.nombre ?? c.hasta;
   const IconoHasta = iconoLugar(c.destino);
+  const elegido = PERFILES.find((p) => p.id === seleccion);
+  const descripcion = c.origen && c.destino
+    ? `Plano de Casa Central desde ${conArticulo(c.origen)} hasta ${conArticulo(c.destino)}, ${elegido
+      ? `resaltando la ruta ${elegido.textoBoton || 'estándar'}` : 'con las rutas de cada perfil'}.${sillaSinRuta ? ` ${silla.motivo} No hay ruta en silla de ruedas.` : ''}`
+    : 'Plano de Casa Central';
 
   return (
     <div className="comparar">
@@ -53,20 +61,31 @@ export default function Comparar() {
       )}
 
       {/* La frase cambia sola cuando un perfil queda sin ruta: se anuncia sin mover el foco. */}
-      <div aria-live="polite">
+      <div className="comparar__vivo" aria-live="polite">
         {c.estado === 'cargando' && <p>Calculando las rutas…</p>}
-        {c.estado === 'error' && <p>No pudimos calcular las rutas. Intenta de nuevo en unos segundos.</p>}
+        {c.estado === 'error' && <><p>No pudimos verificar las rutas actuales.</p><button type="button" className="boton boton--secundario boton--chico" onClick={c.reintentar}>Reintentar</button></>}
+        {c.sinVerificar && (
+          <AvisoBarrera variante="compacto" role="status">No pudimos verificar las barreras activas del campus. Las rutas pueden no tenerlas en cuenta.</AvisoBarrera>
+        )}
         {c.frase && <h2 className="comparar__frase">{c.frase}</h2>}
       </div>
+
+      {c.filas.length > 0 && c.grafo && (
+        <div className="comparar__mapa">
+          <MapaComparar grafo={c.grafo} filas={c.filas} seleccion={seleccion} barreras={c.barreras}
+            origen={c.origen} destino={c.destino} descripcion={descripcion} />
+          <LeyendaRutas filas={c.filas} />
+        </div>
+      )}
 
       {c.filas.length > 0 && (
         <>
           <div className="comparar__tabla">
-            <TablaComparar filas={c.filas} seleccion={seleccion} onElegir={elegir} motivo={motivo} />
+            <TablaComparar filas={c.filas} seleccion={seleccion} onElegir={elegir} />
           </div>
           <ul className="comparar__tarjetas">
             {c.filas.map((f) => (
-              <FilaPerfilMovil key={f.id} fila={f} abierta={seleccion === f.id} onAlternar={() => elegir(f.id)} motivo={motivo} />
+              <FilaPerfilMovil key={f.id} fila={f} abierta={seleccion === f.id} onAlternar={() => elegir(f.id)} />
             ))}
           </ul>
         </>

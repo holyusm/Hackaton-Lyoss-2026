@@ -115,3 +115,29 @@
 .mapa-plano .leaflet-control-attribution a {
   color: var(--enlace);
 }
+
+/* Lote 10 (/plano): edificio elegido, edificios clicables, baños y servicios. */
+.plano-edificio--elegido {
+  fill: var(--cobalto-tinte);
+  fill-opacity: 1;
+  stroke: var(--cobalto);
+  stroke-width: 3px;
+  stroke-opacity: 1;
+}
+.plano-clic { cursor: pointer; }
+.plano-sala--bano { fill: var(--paso); fill-opacity: 0.25; stroke: var(--paso); stroke-width: 1.5px; }
+.plano-servicio {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--tinta);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-family: var(--fuente);
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1;
+}

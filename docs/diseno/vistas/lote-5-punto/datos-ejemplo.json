@@ -1,0 +1,62 @@
+{
+  "$descripcion": "Datos de ejemplo de /punto/:id (Lote 5). Son simulados: confirmar textos y distancias en el levantamiento. Todo texto va completo, sin abreviaturas, porque se lee en voz alta.",
+  "respuestaPuntoSugerida": {
+    "$nota": "Forma sugerida para GET /api/puntos/:id. Ajustar a docs/contratos.md si ya existe.",
+    "id": "qr-01",
+    "lugarId": "entrada-principal",
+    "nombre": "Entrada principal",
+    "descripcion": "Portón de Avenida España. Frente a ti está el Patio central.",
+    "barrera": "objeto como 'barreraEjemplo' o null",
+    "destinos": "lista como 'destinos'"
+  },
+  "punto": {
+    "id": "qr-01",
+    "lugarId": "entrada-principal",
+    "titulo": "Estás en: Entrada principal",
+    "descripcion": "Portón de Avenida España. Frente a ti está el Patio central."
+  },
+  "barreraEjemplo": {
+    "id": "r-001",
+    "titulo": "Atención: piso mojado en el portón.",
+    "texto": "Avanza por el lado derecho, junto a la pared. El aviso vence a las 12:35.",
+    "textoHablado": "Atención: piso mojado en el portón. Avanza por el lado derecho, junto a la pared. El aviso vence a las 12 y 35."
+  },
+  "destinos": [
+    { "id": "ascensor-a", "nombre": "Ascensor A", "icono": "Elevator", "indicacion": "Avanza 40 metros de frente por la rampa, sin escalones.", "enlace": "/mapa?desde=entrada-principal&hasta=ascensor-a" },
+    { "id": "biblioteca", "nombre": "Biblioteca", "icono": "Books", "indicacion": "Gira a la izquierda y avanza 30 metros por el pasillo techado. Tiene guía podotáctil todo el camino.", "enlace": "/mapa?desde=entrada-principal&hasta=biblioteca" },
+    { "id": "bano-accesible-b", "nombre": "Baño accesible B", "icono": "Toilet", "indicacion": "Avanza 40 metros por la rampa y cruza el patio 30 metros hacia la derecha, sin escalones.", "enlace": "/mapa?desde=entrada-principal&hasta=bano-accesible-b" },
+    { "id": "casino", "nombre": "Casino", "icono": "ForkKnife", "indicacion": "Gira a la derecha y avanza 60 metros por la vereda. Hay un tramo de adoquín de 10 metros.", "enlace": "/mapa?desde=entrada-principal&hasta=casino" }
+  ],
+  "voz": {
+    "api": "window.speechSynthesis + SpeechSynthesisUtterance",
+    "idioma": "es-CL",
+    "velocidades": [
+      { "id": "lenta", "etiqueta": "Lenta", "rate": 0.8 },
+      { "id": "normal", "etiqueta": "Normal", "rate": 1, "porDefecto": true },
+      { "id": "rapida", "etiqueta": "Rápida", "rate": 1.25 }
+    ],
+    "ordenDeLectura": ["barrera (si hay, primero)", "punto: titulo + descripcion", "cada destino: '{nombre}: {indicacion con minúscula inicial}'"],
+    "ejemploFrases": [
+      "Estás en: Entrada principal. Portón de Avenida España. Frente a ti está el Patio central.",
+      "Ascensor A: avanza 40 metros de frente por la rampa, sin escalones."
+    ],
+    "preferenciaGuardada": "localStorage['parejo:velocidad-voz']"
+  },
+  "textos": {
+    "botonEscuchar": "Escuchar indicaciones",
+    "estadoLeyendo": "Leyendo {bloque}",
+    "nombresDeBloque": ["el aviso", "dónde estás", "Ascensor A", "Biblioteca", "Baño accesible B", "Casino"],
+    "estadoPausa": "En pausa",
+    "botonPausar": "Pausar",
+    "botonSeguir": "Seguir",
+    "botonRepetir": "Repetir",
+    "leyendaVelocidad": "Velocidad de la voz",
+    "tituloDestinos": "Desde aquí puedes ir a:",
+    "botonDestino": "Llévame",
+    "ariaBotonDestino": "Llévame a {nombre}",
+    "pie": "Este punto QR es parte de un prototipo estudiantil.",
+    "enlacePerfil": "Cambiar perfil",
+    "sinConexion": "Sin conexión. Puedes seguir escuchando lo que ya cargó.",
+    "sinVoz": "Tu navegador no tiene voz en español. Puedes leer las indicaciones aquí abajo."
+  }
+}

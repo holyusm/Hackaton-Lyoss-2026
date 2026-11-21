@@ -8,7 +8,12 @@ import { PreferenciasProvider } from './hooks/usePreferencias.js';
 import Shell from './components/Shell.jsx';
 import Inicio from './views/Inicio.jsx';
 import Mapa from './views/Mapa.jsx';
+import Reportar from './views/Reportar.jsx';
 import Comparar from './views/Comparar.jsx';
+import Campus from './views/Campus.jsx';
+import Plano from './views/Plano.jsx';
+import Punto from './views/Punto.jsx';
+import Acerca from './views/Acerca.jsx';
 
 // Vistas sin implementar todavía: cada una se reemplaza por su archivo en web/src/views/.
 const Pendiente = ({ titulo }) => (
@@ -26,10 +31,12 @@ createRoot(document.getElementById('root')).render(
           <Route element={<Shell />}>
             <Route path="/" element={<Inicio />} />
             <Route path="/mapa" element={<Mapa />} />
+            <Route path="/plano" element={<Plano />} />
             <Route path="/comparar" element={<Comparar />} />
-            <Route path="/reportar" element={<Pendiente titulo="Reportar una barrera" />} />
-            <Route path="/punto/:id" element={<Pendiente titulo="Punto QR" />} />
-            <Route path="/acerca" element={<Pendiente titulo="Acerca de Parejo" />} />
+            <Route path="/reportar" element={<Reportar />} />
+            <Route path="/punto/:id" element={<Punto />} />
+            <Route path="/campus" element={<Campus />} />
+            <Route path="/acerca" element={<Acerca />} />
             <Route path="*" element={<Pendiente titulo="Página no encontrada" />} />
           </Route>
         </Routes>

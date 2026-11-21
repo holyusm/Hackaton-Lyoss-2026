@@ -2,9 +2,7 @@
 .mapa-ruta { position: absolute; inset: 0; z-index: 0; }   /* z-index: contiene los paneles de Leaflet (400 a 700) */
 .mapa-ruta .leaflet-container { width: 100%; height: 100%; background: var(--mapa-fondo); font-family: var(--fuente); outline: none; }
 
-.mapa-plano { fill: var(--mapa-fondo); fill-opacity: 1; stroke: var(--linea); stroke-width: 2px; }
-.mapa-camino { fill: none; stroke: var(--mapa-camino); stroke-width: 3px; stroke-linecap: round; }
-.mapa-camino, .ruta-borde, .ruta-linea, .mapa-plano { stroke-opacity: 1; }
+.ruta-borde, .ruta-linea { stroke-opacity: 1; }
 .ruta-borde { fill: none; stroke: var(--superficie); stroke-width: calc(var(--ruta-ancho) * 2); }
 .ruta-linea { fill: none; stroke: var(--cobalto); stroke-width: var(--ruta-ancho); }
 
@@ -21,9 +19,18 @@
 .mapa-destino { color: var(--cobalto); }
 .mapa-destino svg { width: 48px; height: 48px; display: block; }
 .mapa-destino .marcador-destino__etiqueta { position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); }
+.mapa-destino--derecha .marcador-destino__etiqueta { left: calc(100% + 4px); bottom: -6px; transform: none; }
+.mapa-destino--abajo .marcador-destino__etiqueta { left: 50%; top: calc(100% + 4px); bottom: auto; transform: translateX(-50%); }
+.mapa-destino--izquierda .marcador-destino__etiqueta { left: auto; right: calc(100% + 4px); bottom: -6px; transform: none; }
 .mapa-marcador { position: relative; }
 .mapa-marcador .marcador { position: absolute; inset: 0; }
-.mapa-marcador__etiqueta--bajo { position: absolute; left: 50%; top: 100%; transform: translate(-50%, 6px); max-width: 190px; overflow: hidden; text-overflow: ellipsis; background: var(--alto); color: var(--sobre-alto); border-color: var(--alto); }
+.mapa-marcador__etiqueta--bajo,
+.mapa-marcador__etiqueta--arriba {
+  position: absolute; left: 50%; max-width: 140px; overflow: hidden; text-overflow: ellipsis;
+  background: var(--alto); color: var(--sobre-alto); border-color: var(--alto);
+}
+.mapa-marcador__etiqueta--bajo { top: 100%; transform: translate(-50%, 6px); }
+.mapa-marcador__etiqueta--arriba { bottom: 100%; transform: translate(-50%, -6px); }
 .mapa-ruta .leaflet-div-icon { background: none; border: 0; }
 
 .mapa-controles { position: absolute; top: var(--e-4); right: var(--e-4); z-index: 500; display: flex; flex-direction: column; gap: var(--e-2); }

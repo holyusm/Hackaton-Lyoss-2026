@@ -8,13 +8,17 @@ const PISO_MALO = new Set(['adoquin', 'irregular']);
 const OCULTOS = ['cambios', 'tramos_nuevos', 'nodos_nuevos'];
 
 const r1 = (x) => Math.round(x * 10) / 10;
-const promedio = (xs) => (xs.length ? r1(xs.reduce((s, x) => s + x, 0) / xs.length) : 0);
+// Sin muestras no hay promedio: null ("sin trayectos comparables"), no 0, que diría "sin desvío" (#133).
+const promedio = (xs) => (xs.length ? r1(xs.reduce((s, x) => s + x, 0) / xs.length) : null);
 
 // Copia del grafo con las obras aplicadas. Nunca toca el original.
 export function aplicarObras(grafo, obras) {
   const g = structuredClone(grafo);
   const tramos = new Map(g.tramos.map((t) => [t.id, t]));
+  const aplicadas = new Set();
   for (const o of obras) {
+    if (aplicadas.has(o.id)) continue;
+    aplicadas.add(o.id);
     // Un tramo_id inexistente se ignora: data/obras.json lo valida en sus tests (motor/obras.test.js).
     for (const c of o.cambios ?? []) if (tramos.has(c.tramo_id)) Object.assign(tramos.get(c.tramo_id), c.valores);
     g.nodos.push(...structuredClone(o.nodos_nuevos ?? []));
@@ -58,9 +62,11 @@ const barreraEn = (ev, perfil, k) =>
   perfil === 'todos' ? EVALUADOS.some((p) => ev[p].get(k).barrera) : ev[perfil].get(k).barrera;
 
 // Minutos de más que el perfil tarda frente a Estándar en un trayecto (null si alguno no tiene ruta).
+// Nunca negativo: Estándar se elige por metros y no por minutos, así que a veces otra ruta tarda menos;
+// eso no es un "desvío" (#141).
 function extra(ev, perfil, k) {
   const r = ev[perfil].get(k), e = ev.estandar.get(k);
-  return r.ok && e.ok ? r.minutos - e.minutos : null;
+  return r.ok && e.ok ? Math.max(0, r.minutos - e.minutos) : null;
 }
 
 function resumen(ev, perfil, claves) {
@@ -92,7 +98,7 @@ export function simular(grafo, perfiles, obras, { perfil = 'silla_ruedas', ids =
     const ev = evaluar(aplicarObras(grafo, [o]), perfiles, lugares, delPerfil);
     const ahorros = perfil === 'todos' ? null : claves
       .filter((k) => hoy[perfil].get(k).ok && ev[perfil].get(k).ok)
-      .map((k) => hoy[perfil].get(k).minutos - ev[perfil].get(k).minutos);
+      .map((k) => Math.max(0, hoy[perfil].get(k).minutos - ev[perfil].get(k).minutos));
     const visible = Object.fromEntries(Object.entries(o).filter(([c]) => !OCULTOS.includes(c)));
     return { ...visible, trayectos_sin_barrera: sinBarreraTras(hoy, ev, perfil, claves), minutos_ahorrados_prom: ahorros && promedio(ahorros) };
   }).sort((a, b) => b.trayectos_sin_barrera - a.trayectos_sin_barrera

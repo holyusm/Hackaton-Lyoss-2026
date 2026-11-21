@@ -16,8 +16,12 @@ const Preferencias = createContext(null);
 
 export function PreferenciasProvider({ children }) {
   // tema null = seguir prefers-color-scheme (tokens.css lo resuelve sin data-tema).
-  const [tema, setTema] = useState(() => leer('parejo:tema', null));
-  const [texto, setTexto] = useState(() => leer('parejo:texto', 'normal'));
+  const [temaElegido, setTema] = useState(() => leer('parejo:tema', null));
+  const [textoElegido, setTexto] = useState(() => leer('parejo:texto', null));
+  const [enPunto, setEnPunto] = useState(false);
+  const temaBase = temaElegido ?? (enPunto ? 'contraste' : null);
+  const tema = temaBase === 'auto' ? null : temaBase;
+  const texto = textoElegido ?? (enPunto ? 'grande' : 'normal');
   const [voz, setVoz] = useState(() => leer('parejo:voz', 'no') === 'si');
   const [perfil, setPerfil] = useState(() => leer('parejo:perfil', null));
 
@@ -32,10 +36,11 @@ export function PreferenciasProvider({ children }) {
   const valor = {
     tema, texto, voz, perfil,
     altoContraste: tema === 'contraste',
-    setAltoContraste: (si) => { const t = si ? 'contraste' : null; setTema(t); guardar('parejo:tema', t); },
+    setAltoContraste: (si) => { const t = si ? 'contraste' : 'auto'; setTema(t); guardar('parejo:tema', t); },
     setTexto: (t) => { setTexto(t); guardar('parejo:texto', t); },
     setVoz: (si) => { setVoz(si); guardar('parejo:voz', si ? 'si' : 'no'); },
     setPerfil: (id) => { setPerfil(id); guardar('parejo:perfil', id); },
+    setEnPunto,
   };
   return createElement(Preferencias.Provider, { value: valor }, children);
 }

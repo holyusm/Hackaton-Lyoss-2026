@@ -19,7 +19,7 @@ Todo módulo del servidor/motor es ESM (`"type": "module"`).
 {
   "nodos": [
     { "id": "entrada-principal", "nombre": "Entrada principal", "tipo": "entrada",
-      "lat": -33.0458, "lng": -71.6197, "edificio": "A", "piso": 0,
+      "lat": -33.033897, "lng": -71.59523, "edificio": "A", "piso": 0,
       "descripcion": "Portón principal de Casa Central" }
   ],
   "tramos": [
@@ -32,11 +32,13 @@ Todo módulo del servidor/motor es ESM (`"type": "module"`).
 ```
 
 - `nodos[].tipo`: `entrada | edificio | sala | ascensor | bano | punto`.
+- `nodos[].oculto` (opcional, #189): `true` en nodos internos del generador de salas (pasillos `<x>-p<n>`). Se rutean igual, pero no se ofrecen como lugar en los buscadores. `nodos[].departamento` (opcional, #189): texto libre que se muestra en la ficha de la sala y se puede buscar.
 - `tramos[].pendiente`: `nula | baja | media | alta`. `superficie`: `lisa | irregular | adoquin`.
 - Los tramos son bidireccionales salvo `sentido_unico: true` (solo `desde` → `hasta`).
 - `ascensor_id`: id de un nodo de tipo `ascensor` por el que pasa el tramo; si ese nodo está bloqueado, el tramo se bloquea.
 - `nodos[].lat`, `nodos[].lng`: coordenadas reales (WGS84) de Casa Central. Salen de la tabla de anclajes de `web/src/plano/README.md`, generada desde OpenStreetMap. El mapa de `/mapa` las usa directo con el CRS normal de Leaflet sobre `<CapaPlano/>`. No hay `x,y`.
 - `tramos[].nombre` (opcional, Lote 2): cómo se nombra el tramo en los pasos, en minúscula y con artículo ("la rampa del Edificio B"). Sin `nombre`, los pasos usan un texto genérico.
+- `tramos[].trazado` (opcional): puntos `[lat, lng]` intermedios entre `desde` y `hasta` (sin incluirlos), siguiendo los senderos del plano sin cruzar edificios. `metros` es el largo de la línea `desde` → trazado → `hasta` (haversine). El mapa dibuja esa línea; si un tramo no lo trae, va en línea recta. Los ids y los nodos no cambian.
 
 ## 2. Perfiles `data/perfiles.json`
 
@@ -56,6 +58,7 @@ Ids obligatorios: `estandar`, `silla_ruedas`, `movilidad_reducida` (lesión temp
 calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos = [] })
 // -> { ok: true, nodos: [id...], tramos: [id...], metros, minutos, escalones, advertencias: [string] }
 // -> { ok: false, motivo: "sin ruta accesible para este perfil" }
+//    (o "hay una barrera reportada en <nombre>" si el origen o el destino están bloqueados)
 compararPerfiles(grafo, perfiles, { desde, hasta, bloqueos = [] })
 // -> { estandar: <resultado>, silla_ruedas: <resultado>, ... }
 ```
@@ -83,10 +86,15 @@ compararPerfiles(grafo, perfiles, { desde, hasta, bloqueos = [] })
   "expira": "2026-11-21T16:05:00Z", "resuelto": false }
 // POST /reportes body: { tipo, tramo_id | nodo_id, descripcion, duracion_min }
 // tipo: ascensor_fuera_servicio | obstaculo | rampa_bloqueada | piso_mojado | otro
+// piso_mojado es solo alerta (se avisa, no bloquea ruta); los demás tipos bloquean.
 // Punto (QR)
 { "id": "p1", "nodo_id": "entrada-principal", "titulo": "Entrada principal",
   "texto_voz": "Estás en la entrada principal...", "indicaciones": [ { "hacia": "Ascensor A", "texto": "Avanza 40 metros de frente, sin escalones." } ] }
+// Opcionales (aditivos): "descripcion": "Portón de Avenida España. Frente a ti está el Patio central."
+//   e "indicaciones[].nodo_id": "ascensor-a". Sin nodo_id, el cliente busca el nodo con nombre === hacia.
 ```
+
+`/punto/:id` (Lote 5) arma la barrera del punto en el cliente con `GET /reportes` (activos con `nodo_id === punto.nodo_id`); el `Punto` no la trae.
 
 Errores: `{ "error": "mensaje" }` con 400 o 404.
 

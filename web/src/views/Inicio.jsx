@@ -1,17 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { MagnifyingGlass, MapPin, QrCode } from '@phosphor-icons/react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import L from 'leaflet';
+import { MapContainer, Marker, useMap } from 'react-leaflet';
 import GrupoPerfiles, { PERFILES } from '../components/GrupoPerfiles.jsx';
 import CampoLugar from '../components/CampoLugar.jsx';
 import AvisoBarrera from '../components/AvisoBarrera.jsx';
 import { iconoLugar } from '../components/iconoLugar.js';
+import CapaPlano from '../plano/CapaPlano.jsx';
+import { LIMITES, LIMITES_VISTA, ZOOM } from '../plano/plano.js';
 import { usePreferencias } from '../hooks/usePreferencias.js';
 import { useBarreras } from '../hooks/useBarreras.js';
 import { useLugares } from '../hooks/useLugares.js';
 import { ERROR_IGUAL, validarViaje } from '../lib/validarViaje.js';
+import 'leaflet/dist/leaflet.css';
 import './Inicio.css';
 
 const FRECUENTES = ['sala-a201', 'biblioteca', 'bano-b', 'casino'];
+
+const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const iconoDestino = (nombre) => L.divIcon({
+  className: 'mapa-destino',
+  html: `<span class="marcador-destino__etiqueta">${escapar(nombre)}</span>${renderToStaticMarkup(<MapPin weight="fill" aria-hidden="true" />)}`,
+  iconSize: [48, 48],
+  iconAnchor: [24, 46],
+});
+
+function EncuadreInicio({ posicion }) {
+  const mapa = useMap();
+  useEffect(() => {
+    if (posicion) {
+      mapa.setView(posicion, 18, { animate: false });
+    } else {
+      mapa.fitBounds(LIMITES, { animate: false });
+    }
+  }, [mapa, posicion]);
+  return null;
+}
 
 export default function Inicio() {
   const navigate = useNavigate();
@@ -50,6 +76,9 @@ export default function Inicio() {
   const frecuentes = FRECUENTES.map((id) => lugares.find((l) => l.id === id)).filter(Boolean);
   const n = barreras.length;
   const todasBloquean = barreras.every((b) => b.nivel === 'bloqueo');
+
+  const nodoDestino = useMemo(() => (grafo?.nodos ?? []).find((n) => n.id === hasta), [grafo, hasta]);
+  const posDestino = nodoDestino?.lat != null && nodoDestino?.lng != null ? [nodoDestino.lat, nodoDestino.lng] : null;
 
   return (
     <div className="inicio">
@@ -97,7 +126,7 @@ export default function Inicio() {
             <AvisoBarrera
               variante="compacto" role={undefined}
               titulo={n === 1 ? '1 barrera activa en el campus.' : `${n} barreras activas en el campus.`}
-              acciones={<Link to="/reportar#activas">Ver barreras</Link>}
+              acciones={<Link className="inicio__ver-barreras" to="/reportar#activas">Ver barreras</Link>}
             >
               {todasBloquean && 'Tu ruta ya las evita.'}
             </AvisoBarrera>
@@ -116,7 +145,21 @@ export default function Inicio() {
       </div>
 
       <section className="inicio__mapa" aria-label="Mapa del campus Casa Central">
-        <p>Mapa en preparación</p>
+        <MapContainer
+          bounds={LIMITES}
+          maxBounds={LIMITES_VISTA}
+          minZoom={ZOOM.min}
+          maxZoom={ZOOM.max + 0.5}
+          zoomSnap={0.25}
+          zoomDelta={0.5}
+          zoomControl={false}
+          keyboard
+          className="mapa-plano inicio__leaflet"
+        >
+          <CapaPlano capas={{ senderos: true, escaleras: true, servicios: true, calles: true }} />
+          {posDestino && <Marker position={posDestino} icon={iconoDestino(nodoDestino.nombre)} interactive={false} keyboard={false} />}
+          <EncuadreInicio posicion={posDestino} />
+        </MapContainer>
       </section>
     </div>
   );
