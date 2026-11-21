@@ -67,17 +67,11 @@ test('p3: con el ascensor A bloqueado existe desvío en silla de ruedas al Edifi
   const p3 = puntos.find((p) => p.id === 'p3');
   assert.ok(p3, 'falta el punto p3');
 
-  // En motor/ruta.js bloquear el nodo 'ascensor-a' también impide usarlo como origen (`desde`).
-  // Para calcular desde p3.nodo_id ('ascensor-a') bloqueamos los tramos del ascensor (`ascensor_id === 'ascensor-a'`),
-  // y además validamos con `bloqueos: ['ascensor-a']` desde el vecino inmediato ('patio-central') más el tramo de salida.
-  const tramosAscensor = grafo.tramos.filter((t) => t.ascensor_id === p3.nodo_id).map((t) => t.id);
-  assert.ok(tramosAscensor.length > 0, 'el ascensor debe tener al menos un tramo');
-
   const desdeP3 = calcularRuta(grafo, perfiles, {
     desde: p3.nodo_id,
     hasta: 'edificio-a-p2',
     perfil: 'silla_ruedas',
-    bloqueos: tramosAscensor,
+    bloqueos: ['ascensor-a'],
   });
   assert.equal(desdeP3.ok, true, 'debe existir ruta en silla de ruedas desde p3 sin usar el ascensor');
   assert.equal(desdeP3.escalones, 0, 'el desvío en silla de ruedas no puede tener escalones');
@@ -129,6 +123,13 @@ test('el QR del patio deriva al mapa para evitar los escalones del piso 2', () =
   assert.match(salida.texto, /42 escalones/);
   assert.match(salida.texto, /ruta actualizada en el mapa/);
   assert.doesNotMatch(salida.texto, /ascensor/i);
+});
+
+test('el QR del patio indica cómo llegar al Edificio B sin escalones', () => {
+  const patio = puntos.find((p) => p.id === 'p2');
+  const salida = patio.indicaciones.find((i) => i.hacia === 'Edificio B');
+  assert.match(salida?.texto ?? '', /sin escalones/);
+  assert.match(patio.texto_voz, /Edificio B queda a \d+ metros/);
 });
 
 test('cada indicación hacia un nodo vecino cita los metros del tramo directo (redondeo a 5 m)', () => {

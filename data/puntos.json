@@ -13,9 +13,10 @@
     "id": "p2",
     "nodo_id": "patio-central",
     "titulo": "Patio central",
-    "texto_voz": "Estás en el patio central, punto de encuentro del campus. Desde aquí llegas al ascensor del edificio A en 45 metros, sin escalones y bajo techo. Si necesitas evitar escalones, no uses la escalera al piso dos: tiene cuarenta y dos.",
+    "texto_voz": "Estás en el patio central, punto de encuentro del campus. Desde aquí llegas al ascensor del edificio A en 45 metros, sin escalones y bajo techo. El Edificio B queda a 100 metros por el borde del patio, también sin escalones y bajo techo. Si necesitas evitar escalones, no uses la escalera al piso dos: tiene cuarenta y dos.",
     "indicaciones": [
       { "hacia": "Ascensor A", "texto": "Avanza 45 metros, bajo techo y sin escalones." },
+      { "hacia": "Edificio B", "texto": "Avanza 100 metros por el borde del patio, bajo techo y sin escalones." },
       { "hacia": "Edificio A, piso 2", "texto": "Por la escalera son 45 metros con 42 escalones y pendiente alta. Si necesitas evitar escalones, consulta la ruta actualizada en el mapa." },
       { "hacia": "Biblioteca", "texto": "Avanza 325 metros por adoquín. Hay 3 escalones a la entrada." },
       { "hacia": "Casino", "texto": "Avanza 70 metros por rampa con pendiente media, sin escalones." },
