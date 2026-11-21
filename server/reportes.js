@@ -9,9 +9,11 @@ const MAX_ACTIVOS = 200;
 // ponytail: archivo en el tmp del SO; en Render se pierde al redeployar y se vuelven a cargar los ejemplos.
 const archivo = process.env.REPORTES_PATH || join(tmpdir(), 'campus-sin-barreras-reportes.json');
 
+// Ejemplos que se ven en el mapa sin cortar la ruta principal de la demo (el ascensor se reporta en vivo).
+// ponytail: ids del grafo falso; revisar cuando llegue el levantamiento real.
 const EJEMPLOS = [
-  { tipo: 'ascensor_fuera_servicio', nodo_id: 'ascensor-a', descripcion: 'Ascensor A detenido por mantención', duracion_min: 240 },
-  { tipo: 'obstaculo', tramo_id: 't1', descripcion: 'Andamio en la vereda frente a la entrada', duracion_min: 120 },
+  { tipo: 'obstaculo', tramo_id: 't6', descripcion: 'Andamio sobre los escalones del atajo a la biblioteca', duracion_min: 240 },
+  { tipo: 'piso_mojado', tramo_id: 't9', descripcion: 'Piso mojado en la rampa hacia el casino', duracion_min: 120 },
 ];
 
 const minutosDesdeAhora = (min) => new Date(Date.now() + min * 60_000).toISOString();
