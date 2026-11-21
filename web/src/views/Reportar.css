@@ -68,7 +68,7 @@
 .reporte-enviado__aviso:focus-visible { outline: none; box-shadow: var(--foco); }
 .reporte-enviado__aviso p { margin: 0; }
 .reporte-enviado__aviso a { grid-column: 2; font-weight: var(--peso-negro); color: var(--tinta); display: inline-block; min-height: var(--toque-min); line-height: var(--toque-min); }
-.reporte-enviado__check { width: 36px; height: 36px; border-radius: 50%; background: var(--paso); color: #FFFFFF; display: flex; align-items: center; justify-content: center; }
+.reporte-enviado__check { width: 36px; height: 36px; border-radius: 50%; background: var(--paso); color: var(--sobre-cobalto); display: flex; align-items: center; justify-content: center; }
 .reporte-enviado__check svg { width: 22px; height: 22px; }
 
 /* Lista de barreras activas */
@@ -107,7 +107,7 @@
   .reportar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 480px); gap: var(--e-8); align-items: start; max-width: var(--contenedor); margin: 0 auto; padding: var(--e-7) var(--e-6); box-sizing: border-box; }
   .reporte-form, .reporte-enviado { padding: 0; }
   .reporte-form__titulo h1 { font-size: 2.444rem; }
-  .reporte-tipo__rejilla { grid-template-columns: repeat(5, 1fr); }
+  .reporte-tipo__rejilla { grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); }
   .reporte-tipo__opcion:last-child { grid-column: auto; }
   .reporte-form__accion { position: static; margin: 0; padding: 0; background: none; border: 0; flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--e-4); }
   .reporte-form__accion .boton { width: auto; }
@@ -137,7 +137,7 @@
 .plano-marcar__atribucion { margin: var(--e-1) 0 0; font-size: var(--t-mini); color: var(--tinta-2); }
 .plano-marcar__atribucion a { color: var(--enlace); }
 .plano-marcar__leaflet { z-index: 0; }
-.plano-marcar__pin { background: none; border: 0; color: var(--alto); }
+.plano-marcar__pin { background: none; border: 0; color: var(--alto-texto); }
 .plano-marcar__pin svg { width: 40px; height: 40px; filter: drop-shadow(0 0 2px var(--superficie)); }
 .plano-marcar__pista { position: absolute; right: var(--e-2); bottom: var(--e-2); z-index: 500; padding: var(--e-1) var(--e-3); border-radius: var(--r-pill); background: var(--superficie); color: var(--tinta); border: var(--ancho-linea) solid var(--borde-control); font-size: var(--t-detalle); font-weight: var(--peso-negro); pointer-events: none; }
 @media (min-width: 900px) { .plano-marcar__leaflet { height: 220px; } }

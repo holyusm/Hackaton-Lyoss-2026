@@ -16,6 +16,7 @@ import 'leaflet/dist/leaflet.css';
 import './Plano.css';
 
 // /plano (Lote 10): explorar el campus. La lista es la vía accesible; el mapa es el apoyo visual.
+const NOTA_DATOS = '«Estás aquí» es simulado. Edificios H, O, J, I, N, F2 y P2 no están en OpenStreetMap y no se dibujan.';
 const AQUI = [-33.033897, -71.59523]; // Acceso Av. España (simulado, declarado en la vista)
 const LIMITE_MOVIL = 6;
 const CALLES = ['Av. España', 'San Luis', 'General Bari', 'Valdés', 'Av. Los Placeres', 'Av. Matta'];
@@ -161,12 +162,14 @@ function Ficha({ edificio, piso, onPiso, onCerrar, grafo, movil }) {
       </div>
       <div className="plano-ficha__piso">
         <span id="plano-piso-leyenda" className="plano-ficha__leyenda">Piso</span>
+        <div role="group" aria-labelledby="plano-piso-leyenda">
         <RadioGrupo
           clase="plano-pisos" claseOpcion="plano-piso"
           opciones={pisos.map((p) => ({ id: p }))} valor={piso} onCambiar={onPiso}
           etiquetaDe={(o) => `Piso ${o.id < 0 ? `menos ${-o.id}` : o.id}`} hijoDe={(o) => (o.id < 0 ? `−${-o.id}` : o.id)}
           describedBy="plano-piso-leyenda"
         />
+        </div>
       </div>
       <p className="plano-ficha__nota">{notaDe(edificio, piso, hayInterior)}</p>
       <ul className="plano-acceso">
@@ -312,7 +315,7 @@ export default function Plano() {
 
           {escritorio && capasUI}
           {escritorio && edificio && <Ficha edificio={edificio} piso={piso} onPiso={setPiso} onCerrar={cerrar} grafo={datos} />}
-          <p className="plano__nota-datos">«Estás aquí» es simulado. Edificios H, O, J, I, N, F2 y P2 no están en OpenStreetMap y no se dibujan.</p>
+          {escritorio && <p className="plano__nota-datos">{NOTA_DATOS}</p>}
         </div>
 
         {!escritorio && (
@@ -342,6 +345,7 @@ export default function Plano() {
                   </div>
                 </div>
               )}
+              <p className="plano-hoja__nota-datos">{NOTA_DATOS}</p>
               <details className="plano-capas-movil">
                 <summary>Capas del plano</summary>
                 {capasUI}
