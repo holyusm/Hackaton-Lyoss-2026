@@ -37,6 +37,7 @@ Todo módulo del servidor/motor es ESM (`"type": "module"`).
 - `ascensor_id`: id de un nodo de tipo `ascensor` por el que pasa el tramo; si ese nodo está bloqueado, el tramo se bloquea.
 - `nodos[].lat`, `nodos[].lng`: coordenadas reales (WGS84) de Casa Central. Salen de la tabla de anclajes de `web/src/plano/README.md`, generada desde OpenStreetMap. El mapa de `/mapa` las usa directo con el CRS normal de Leaflet sobre `<CapaPlano/>`. No hay `x,y`.
 - `tramos[].nombre` (opcional, Lote 2): cómo se nombra el tramo en los pasos, en minúscula y con artículo ("la rampa del Edificio B"). Sin `nombre`, los pasos usan un texto genérico.
+- `tramos[].trazado` (opcional): puntos `[lat, lng]` intermedios entre `desde` y `hasta` (sin incluirlos), siguiendo los senderos del plano sin cruzar edificios. `metros` es el largo de la línea `desde` → trazado → `hasta` (haversine). El mapa dibuja esa línea; si un tramo no lo trae, va en línea recta. Los ids y los nodos no cambian.
 
 ## 2. Perfiles `data/perfiles.json`
 
