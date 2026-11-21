@@ -39,6 +39,15 @@ export default function Mapa() {
   if (r.estado === 'cargando') {
     return <section className="mapa-estado" role="status"><p>Calculando tu ruta</p></section>;
   }
+  if (r.estado === 'sinVerificar') {
+    return (
+      <section className="mapa-estado">
+        <h1>Ruta pendiente de verificar</h1>
+        <p role="status">{r.aviso}</p>
+        <button type="button" className="boton boton--primario" onClick={() => window.location.reload()}>Reintentar</button>
+      </section>
+    );
+  }
   if (r.estado === 'sinRuta') {
     return (
       <section className="mapa-estado">

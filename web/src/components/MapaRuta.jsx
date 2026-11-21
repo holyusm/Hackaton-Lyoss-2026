@@ -95,7 +95,7 @@ export default function MapaRuta({ ruta, grafo, mapa, origen, destino, barreras 
   const sinInteraccion = { interactive: false, keyboard: false };
 
   return (
-    <div className="mapa-ruta" role="img" aria-label={descripcion}>
+    <div className="mapa-ruta" role="group" aria-label={descripcion}>
       <MapContainer
         center={[(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]}
         className="mapa-plano"
