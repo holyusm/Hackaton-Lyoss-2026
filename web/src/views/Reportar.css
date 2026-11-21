@@ -117,3 +117,15 @@
   .reporte-lista__vivo { display: block; }
   .dialogo-resolver__acciones { flex-direction: row; }
 }
+
+/* Zoom al 200 % o pantallas muy angostas (menos de 320 px): una columna y duración en 2 x 2, sin scroll horizontal. */
+.reporte-tipo__nombre, .reporte-fila__lugar, .reporte-fila__titulo { overflow-wrap: anywhere; }
+@media (max-width: 320px) {
+  .reporte-tipo__rejilla { grid-template-columns: 1fr; }
+  .reporte-duracion__grupo { flex-wrap: wrap; border-radius: var(--r-panel); }
+  .reporte-duracion__opcion { flex: 1 1 50%; }
+  .reporte-duracion__opcion:nth-child(3) { border-left: 0; }
+  .reporte-duracion__opcion:nth-child(n+3) { border-top: var(--ancho-linea) solid var(--borde-control); }
+  .reporte-form__titulo h1 { font-size: 1.778rem; overflow-wrap: anywhere; }
+  .reporte-lista { padding: var(--e-3); }
+}
