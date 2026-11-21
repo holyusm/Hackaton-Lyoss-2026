@@ -77,20 +77,44 @@ export function armarRuta(grafo, resultado, { aLatLng, posicion: posicionDe } = 
   if (!resultado || !resultado.ok) return { id: '', pasos: [], coordenadas: [] };
   const nodos = new Map(grafo.nodos.map((n) => [n.id, n]));
   const tramos = new Map(grafo.tramos.map((t) => [t.id, t]));
-  const posicion = posicionDe
+  const pos = posicionDe
     || ((n) => (aLatLng && Number.isFinite(n.x) && Number.isFinite(n.y) ? aLatLng(n.x, n.y) : null));
+  const valido = (p) => Array.isArray(p) && p.every(Number.isFinite);
 
+  // Línea de un tramo en el sentido del recorrido: desde el nodo `de`, por el trazado (si lo tiene) hasta `a`.
+  const lineaDe = (tramo, de, a) => {
+    // Sin posición de los nodos (modo aLatLng sin x,y) tampoco hay línea.
+    if (!valido(pos(de)) || !valido(pos(a))) return [];
+    const medio = (tramo.trazado ?? []).filter(valido);
+    const orden = tramo.desde === de.id ? medio : [...medio].reverse();
+    return [pos(de), ...orden, pos(a)].filter(valido);
+  };
+  // Punto a la mitad del largo de la línea (ahí va el número del paso).
+  const puntoMedio = (linea) => {
+    if (linea.length < 2) return null;
+    const largos = linea.slice(1).map((p, i) => Math.hypot(p[0] - linea[i][0], p[1] - linea[i][1]));
+    let resto = largos.reduce((x, y) => x + y, 0) / 2;
+    for (let i = 0; i < largos.length; i++) {
+      if (resto <= largos[i] || i === largos.length - 1) {
+        const f = largos[i] ? resto / largos[i] : 0;
+        return [linea[i][0] + (linea[i + 1][0] - linea[i][0]) * f, linea[i][1] + (linea[i + 1][1] - linea[i][1]) * f];
+      }
+      resto -= largos[i];
+    }
+    return null;
+  };
+
+  const coordenadas = [];
   const pasos = resultado.tramos.map((id, i) => {
     const de = nodos.get(resultado.nodos[i]);
     const a = nodos.get(resultado.nodos[i + 1]);
-    const paso = pasoDe(tramos.get(id), de, a, nodos, i === resultado.tramos.length - 1);
-    const pd = posicion(de);
-    const pa = posicion(a);
-    // El número del paso va a la mitad del tramo.
-    paso.punto = pd && pa ? [(pd[0] + pa[0]) / 2, (pd[1] + pa[1]) / 2] : null;
+    const tramo = tramos.get(id);
+    const paso = pasoDe(tramo, de, a, nodos, i === resultado.tramos.length - 1);
+    const linea = lineaDe(tramo, de, a);
+    paso.punto = puntoMedio(linea);
+    coordenadas.push(...(i === 0 ? linea : linea.slice(1)));
     return paso;
   });
 
-  const coordenadas = resultado.nodos.map((id) => posicion(nodos.get(id))).filter(Boolean);
   return { id: resultado.tramos.join('-'), pasos, coordenadas };
 }
