@@ -63,22 +63,28 @@ async function validar(b) {
   return null;
 }
 
+// Comprueba y consume un envío por conexión en el mismo paso síncrono (sin await intermedio).
+function consumirCupoIp(ip) {
+  const ahora = Date.now();
+  const envios = (enviosPorIp.get(ip) || []).filter((t) => ahora - t < VENTANA_IP_MS);
+  if (envios.length >= MAX_POR_IP) return false;
+  enviosPorIp.set(ip, [...envios, ahora]);
+  return true;
+}
+
 export const rutasReportes = Router();
 
 rutasReportes.get('/', (req, res) => res.json(reportesActivos()));
 
 rutasReportes.post('/', async (req, res) => {
-  const ahora = Date.now();
-  const envios = (enviosPorIp.get(req.ip) || []).filter((t) => ahora - t < VENTANA_IP_MS);
-  if (envios.length >= MAX_POR_IP) return res.status(429).json({ error: 'demasiados reportes desde esta conexión; espera unos minutos' });
   const error = await validar(req.body);
   if (error) return res.status(400).json({ error });
   reportes = reportesActivos(); // descarta vencidos y resueltos
   if (reportes.length >= MAX_ACTIVOS) return res.status(429).json({ error: 'demasiados reportes activos' });
+  if (!consumirCupoIp(req.ip)) return res.status(429).json({ error: 'demasiados reportes desde esta conexión; espera unos minutos' });
   const { tipo, tramo_id, nodo_id, descripcion, duracion_min } = req.body;
   const reporte = nuevoReporte(`r${siguiente++}`, { tipo, tramo_id, nodo_id, descripcion: descripcion.trim(), duracion_min });
   reportes.push(reporte);
-  enviosPorIp.set(req.ip, [...envios, ahora]);
   guardar();
   res.status(201).json(reporte);
 });
