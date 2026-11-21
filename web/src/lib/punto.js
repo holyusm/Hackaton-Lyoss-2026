@@ -38,7 +38,7 @@ export function armarPunto(punto, grafo, barreras = [], perfil = null) {
         || (!t.sentido_unico && t.hasta === punto.nodo_id && t.desde === nodo?.id);
       return conecta && (bloqueos.has(t.id) || bloqueos.has(t.ascensor_id));
     });
-    const bloqueado = corte || bloqueos.has(punto.nodo_id) || bloqueos.has(nodo?.id);
+    const bloqueado = corte || bloqueos.has(nodo?.id);
     const indicacion = bloqueado ? 'Hay un bloqueo en este acceso. Consulta la ruta actualizada antes de avanzar.' : ind.texto;
     return { id: nodo?.id ?? `destino-${i}`, nombre: ind.hacia, nodo, indicacion, enlace: q ? `/mapa?${q}` : null };
   });

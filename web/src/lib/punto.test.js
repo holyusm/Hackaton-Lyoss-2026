@@ -72,3 +72,30 @@ test('la voz anuncia primero si las barreras no se pudieron verificar', () => {
   assert.deepEqual(frases.slice(0, 3).map((f) => f.clave), ['estado-barreras', 'aviso', 'lugar']);
   assert.equal(frases[0].texto, estado);
 });
+
+test('en p3 con el nodo de origen con barrera, los destinos no bloqueados conservan su indicación', () => {
+  const g = {
+    nodos: [
+      { id: 'ascensor-a', nombre: 'Ascensor A' },
+      { id: 'patio-central', nombre: 'Patio central' },
+      { id: 'a201', nombre: 'Sala A-201' },
+    ],
+    tramos: [
+      { id: 't-salida', desde: 'ascensor-a', hasta: 'patio-central' },
+      { id: 't-bloqueado', desde: 'ascensor-a', hasta: 'a201', ascensor_id: 'ascensor-a' },
+    ],
+  };
+  const p3 = {
+    id: 'p3',
+    nodo_id: 'ascensor-a',
+    titulo: 'Edificio A, piso 2',
+    indicaciones: [
+      { hacia: 'Patio central', texto: 'Sal al patio por la rampa.' },
+      { hacia: 'Sala A-201', texto: 'Avanza por el pasillo.' },
+    ],
+  };
+  const barreras = [{ id: 'b1', nodo_id: 'ascensor-a', nivel: 'bloqueo', descripcion: 'Ascensor detenido', expira: '2026-11-21T18:00:00Z' }];
+  const m = armarPunto(p3, g, barreras);
+  assert.ok(m.barrera);
+  assert.equal(m.destinos[0].indicacion, 'Sal al patio por la rampa.');
+});
