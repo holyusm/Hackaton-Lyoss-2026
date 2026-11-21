@@ -114,3 +114,31 @@ test('la alternativa por B también se puede bloquear por id de tramo', () => {
   const r = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas', bloqueos: ['ascensor-a', 't14'] });
   assert.equal(r.ok, false);
 });
+
+test('grafo con ascensor_id inexistente devuelve ok:false con diagnóstico claro sin lanzar', () => {
+  const editado = structuredClone(grafo);
+  editado.tramos.find((t) => t.id === 't3').ascensor_id = 'ascensor-fantasma';
+  const r = calcularRuta(editado, perfiles, { ...base, perfil: 'silla_ruedas' });
+  assert.equal(r.ok, false);
+  assert.match(r.motivo, /\bt3\b/);
+  assert.match(r.motivo, /ascensor_id/);
+  assert.match(r.motivo, /ascensor-fantasma/);
+});
+
+test('grafo con tramo.desde o tramo.hasta inexistentes devuelve ok:false con diagnóstico claro sin lanzar', () => {
+  const conDesdeMalo = structuredClone(grafo);
+  conDesdeMalo.tramos.find((t) => t.id === 't1').desde = 'nodo-origen-fantasma';
+  const rDesde = calcularRuta(conDesdeMalo, perfiles, { ...base, perfil: 'estandar' });
+  assert.equal(rDesde.ok, false);
+  assert.match(rDesde.motivo, /\bt1\b/);
+  assert.match(rDesde.motivo, /desde/);
+  assert.match(rDesde.motivo, /nodo-origen-fantasma/);
+
+  const conHastaMalo = structuredClone(grafo);
+  conHastaMalo.tramos.find((t) => t.id === 't2').hasta = 'nodo-destino-fantasma';
+  const rHasta = calcularRuta(conHastaMalo, perfiles, { ...base, perfil: 'silla_ruedas' });
+  assert.equal(rHasta.ok, false);
+  assert.match(rHasta.motivo, /\bt2\b/);
+  assert.match(rHasta.motivo, /hasta/);
+  assert.match(rHasta.motivo, /nodo-destino-fantasma/);
+});

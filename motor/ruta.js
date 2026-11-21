@@ -45,11 +45,27 @@ function advertenciasDe(tramo, de, a, nodos) {
   return w;
 }
 
+function validarGrafo(grafo, nodosPorId) {
+  for (const t of grafo.tramos) {
+    if (!nodosPorId.has(t.desde)) {
+      return `grafo inválido: tramo ${t.id} referencia desde inexistente (${t.desde})`;
+    }
+    if (!nodosPorId.has(t.hasta)) {
+      return `grafo inválido: tramo ${t.id} referencia hasta inexistente (${t.hasta})`;
+    }
+    if (t.ascensor_id && !nodosPorId.has(t.ascensor_id)) {
+      return `grafo inválido: tramo ${t.id} referencia ascensor_id inexistente (${t.ascensor_id})`;
+    }
+  }
+  return null;
+}
+
 export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos = [] }) {
   const nodosPorId = new Map(grafo.nodos.map((n) => [n.id, n]));
-  const nombres = new Map(grafo.nodos.map((n) => [n.id, n.nombre]));
-  if (!nombres.has(desde)) return { ok: false, motivo: `origen desconocido: ${desde}` };
-  if (!nombres.has(hasta)) return { ok: false, motivo: `destino desconocido: ${hasta}` };
+  const errorGrafo = validarGrafo(grafo, nodosPorId);
+  if (errorGrafo) return { ok: false, motivo: errorGrafo };
+  if (!nodosPorId.has(desde)) return { ok: false, motivo: `origen desconocido: ${desde}` };
+  if (!nodosPorId.has(hasta)) return { ok: false, motivo: `destino desconocido: ${hasta}` };
   const prof = perfiles.find((p) => p.id === perfil);
   if (!prof) return { ok: false, motivo: `perfil desconocido: ${perfil}` };
 
