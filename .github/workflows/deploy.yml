@@ -22,4 +22,6 @@ jobs:
           HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
         run: |
           if [ -z "$HOOK" ]; then echo "Falta el secreto RENDER_DEPLOY_HOOK: no se despliega."; exit 0; fi
-          curl -fsS -X POST "$HOOK" > /dev/null && echo "Deploy pedido a Render."
+          # ref = el commit que acaba de pasar las pruebas (idea de @juaquo15 en #71).
+          curl -fsS -X POST --url-query "ref=$GITHUB_SHA" "$HOOK" > /dev/null
+          echo "Deploy pedido a Render para $GITHUB_SHA."
