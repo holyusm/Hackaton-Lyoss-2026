@@ -4,6 +4,8 @@
 
 Requiere la carpeta `../lote-0-sistema` (tokens, componentes, íconos). Esta carpeta trae solo lo propio de la vista.
 
+**Plan de implementación:** [PLAN.md](PLAN.md) (el mapa de escritorio queda como placeholder).
+
 ## Referencias
 
 | Archivo en `referencia/` | Qué muestra |
