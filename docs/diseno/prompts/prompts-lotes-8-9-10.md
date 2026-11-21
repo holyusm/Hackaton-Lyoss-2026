@@ -62,7 +62,7 @@ LA APP Y SUS RUTAS
 - /campus: ¿Qué arreglar primero? (Lote 8).
 - /horario: ¿Llegas a tu próxima clase? (Lote 9).
 - /acerca: Acerca de parejo (Lote 6).
-Navegación: en escritorio, cabecera con Ruta, Comparar, Reportar, Mejorar el campus y Acerca. En móvil, barra inferior de 4 ítems: Ruta, Comparar, Reportar y Más. "Más" abre un panel con Mejorar el campus, ¿Llegas a tu próxima clase?, Plano y Acerca.
+Navegación: en escritorio, cabecera con Ruta, Plano, Comparar, Reportar, Mejorar el campus y Acerca. En móvil, barra inferior de 4 ítems: Ruta, Comparar, Reportar y Más. "Más" abre un panel con Mejorar el campus, ¿Llegas a tu próxima clase?, Plano y Acerca.
 
 EL MAPA
 Es un plano vectorial de Casa Central dibujado con datos de OpenStreetMap (edificios, senderos, escaleras), con colores de los tokens. No hay teselas ni imágenes de mapa: mientras carga, se ve el contorno del campus. La atribución "© colaboradores de OpenStreetMap" va siempre visible.
@@ -105,10 +105,10 @@ ESTRUCTURA (escritorio, de arriba hacia abajo)
    - Marca "Datos de ejemplo" visible junto al título mientras corresponda.
 
 2. Estado de hoy (franja de cifras, sin tarjetas, separadas por líneas finas verticales como las métricas de ruta)
-   - "14 de 56 trayectos con barrera" (cifra grande en Alto con ícono Prohibit; la palabra lo dice, no solo el color).
-   - "+3,1 min de desvío promedio" en los trayectos que sí tienen ruta. Con "Todos los perfiles" esta cifra no existe: la franja muestra solo las otras.
+   - "20 de 42 trayectos con barrera" (cifra grande en Alto con ícono Prohibit; la palabra lo dice, no solo el color).
+   - "0,0 min de desvío promedio" en los trayectos que sí tienen ruta (hoy el motor da 0,0 en Silla de ruedas: la cifra se muestra igual, aunque sea cero). Con "Todos los perfiles" esta cifra no existe: la franja muestra solo las otras.
    - Tercera cifra opcional, solo si el servidor la trae: "6 traslados entre salas no alcanzan en 10 min de recreo" (conecta con el Lote 9). Diseña la franja con y sin ella.
-   - Debajo, una frase resumen en Subtítulo generada desde los datos: "Hoy, 1 de cada 4 trayectos de Casa Central no se puede hacer en silla de ruedas." Es la frase del pitch. Para otros perfiles cambia el verbo: "En movilidad reducida, 1 de cada 3 trayectos obliga a subir escalones."
+   - Debajo, una frase resumen en Subtítulo generada desde los datos: "Hoy, 1 de cada 2 trayectos de Casa Central no se puede hacer en silla de ruedas." Es la frase del pitch. Para otros perfiles cambia el verbo: "En movilidad reducida, 1 de cada 3 trayectos obliga a subir escalones."
 
 3. Cuerpo en dos columnas asimétricas
    Izquierda (7/12): mapa de zonas.
@@ -135,9 +135,9 @@ ESTRUCTURA (escritorio, de arriba hacia abajo)
 
 4. Simulación (el momento clave de la vista)
    Cuando se activa una o más obras:
-   - Aparece arriba del cuerpo una franja "Con las obras simuladas" que compara Hoy y Con obras lado a lado, en cifras grandes: "Hoy: 14 con barrera. Con 2 obras: 3 con barrera." y, por perfil: "Silla de ruedas: 11 trayectos más con ruta. Movilidad reducida: 7 trayectos más sin escalones. Baja visión: 4 trayectos más sin barrera." No uses flechas ni barras: dos columnas con encabezado "Hoy" y "Con obras".
+   - Aparece arriba del cuerpo una franja "Con las obras simuladas" que compara Hoy y Con obras lado a lado, en cifras grandes: "Hoy: 20 con barrera. Con 1 obra: 0 con barrera." y, por perfil: "Silla de ruedas: 20 trayectos más con ruta. Movilidad reducida: 16 trayectos más sin escalones. Baja visión: 0 trayectos más sin barrera." No uses flechas ni barras: dos columnas con encabezado "Hoy" y "Con obras".
    - En el mapa, los lugares que cambian de nivel se redibujan con su nueva forma y una marca "Nuevo" en Paso durante unos segundos (sin animación si prefers-reduced-motion).
-   - El cambio se anuncia por aria-live: "Con la rampa del patio central, 9 trayectos más tienen ruta en silla de ruedas."
+   - El cambio se anuncia por aria-live: "Con la rampa del patio central, 20 trayectos más tienen ruta en silla de ruedas."
    - Botones: "Quitar todas" (terciario) y "Armar informe" (primario).
    Diseña los tres momentos: sin obras, una obra activa, tres obras activas.
 
@@ -160,7 +160,7 @@ MÓVIL (390×844)
 - Encabezado y selector de perfil (los chips en scroll horizontal con snap).
 - La franja de cifras pasa a una columna.
 - Pestañas "Obras" y "Mapa" (tablist accesible) en lugar de dos columnas. "Obras" va primero.
-- La franja "Con las obras simuladas" queda fija arriba mientras haya obras activas, compacta: "Con 2 obras: 3 con barrera (hoy 14)".
+- La franja "Con las obras simuladas" queda fija arriba mientras haya obras activas, compacta: "Con 1 obra: 0 con barrera (hoy 20)".
 - Ajuste del shell: la barra inferior pasa a Ruta, Comparar, Reportar y Más. Diseña el panel "Más" (hoja inferior con Mejorar el campus, ¿Llegas a tu próxima clase?, Plano y Acerca, cada uno con su ícono y 56 px de alto; se cierra con Escape y devuelve el foco al botón Más).
 
 PROYECTOR
@@ -169,7 +169,7 @@ Con el modo proyector del Lote 7: tipografía +20 %, solo las cifras de estado, 
 ESTADOS
 - Carga: esqueletos con la forma de las cifras y de las filas de obras.
 - Perfil Estándar: "Para el perfil Estándar ningún trayecto tiene barrera. Elige otro perfil para ver dónde está." (con los chips a la mano).
-- Ninguna obra mejora nada para el perfil elegido: "Ninguna de las obras de la lista quita barreras para Baja visión."
+- Ninguna obra mejora nada para el perfil elegido: "Ninguna de las obras de la lista quita barreras para este perfil."
 - Todas las obras activas y siguen trayectos con barrera: la franja lo dice, en Alto con ícono: "Aún quedan 2 trayectos con barrera: necesitan obras que no están en la lista."
 - Error de servidor: mensaje en línea con "Reintentar".
 
@@ -192,10 +192,16 @@ OBRAS REALES (las definió el equipo con el levantamiento; úsalas con estos tí
 2. Piso liso y guía táctil en el camino lateral a la Biblioteca. Superficie. Lugar: Biblioteca. Costo medio. Beneficia a Baja visión.
 3. Guía táctil entre la entrada principal y el Casino. Guía podotáctil. Lugar: Casino. Costo bajo. Beneficia a Baja visión.
 4. Guía táctil desde el Edificio B hasta la pasarela al Edificio A. Guía podotáctil. Lugar: Edificio B. Costo medio. Beneficia a Baja visión.
-5. Plataforma elevadora en la escalera del patio central hacia la Biblioteca. Ascensor (plataforma elevadora). Lugar: Patio central. Costo alto. Beneficia a Silla de ruedas y Baja visión.
+5. Plataforma elevadora en la escalera del patio central hacia la Biblioteca. Ascensor (plataforma elevadora). Lugar: Patio central. Costo alto. Beneficia a Silla de ruedas y Movilidad reducida.
 6. Techo en el camino del patio central al Casino. Techado. Lugar: Casino. Costo bajo. Beneficia a los tres perfiles con lluvia; puede no quitar barreras.
-Cifras de ejemplo: hoy 14 de 56 trayectos con barrera en Silla de ruedas, +3,1 min de desvío promedio. La rampa del patio deja 9 trayectos sin barrera; la plataforma elevadora, 6.
-Lugares: Entrada principal, Patio central, Ascensor A, Edificio A piso 2, Sala A-201, Biblioteca, Edificio B, Baño accesible B, Casino.
+Cifras reales del motor hoy (úsalas en todos los ejemplos; pueden cambiar cuando el equipo sume salas, así que en la vista siempre salen del servidor):
+- 7 lugares y 42 trayectos evaluados.
+- Silla de ruedas: 20 de 42 con barrera, 0,0 min de desvío promedio. La rampa del patio deja 20 trayectos sin barrera; la plataforma elevadora, también 20 (cada una sola resuelve todo). Las otras 4 obras: 0.
+- Movilidad reducida: 16 de 42 con barrera. Rampa: 16. Plataforma: 16. Piso liso a la Biblioteca: 2.
+- Baja visión: 40 de 42 con barrera. Piso liso a la Biblioteca: 4. Guía táctil Edificio B a pasarela: 4. Guía táctil entrada a Casino: 1. Rampa, plataforma y techo: 0.
+- Todos los perfiles: 40 de 42 con barrera.
+- Con la rampa y la plataforma activas en Silla de ruedas: 0 con barrera, 0,6 min de desvío promedio.
+Lugares (los 7 del motor): Entrada principal, Edificio A piso 2, Sala A-201, Biblioteca, Baño accesible B, Casino, Edificio B.
 
 Entrega: escritorio sin obras, escritorio con una obra, escritorio con tres obras, escritorio "Ver como lista", escritorio con "Todos los perfiles", móvil pestaña Obras con simulación activa, móvil pestaña Mapa, móvil con el panel "Más" abierto, proyector, página del informe impreso y la hoja de componentes nuevos. Modo oscuro y alto contraste de la vista principal de escritorio.
 ```
@@ -207,7 +213,7 @@ Entrega: escritorio sin obras, escritorio con una obra, escritorio con tres obra
 ```
 Lote 9: "/horario", vista "¿Llegas a tu próxima clase?". Es un accesorio de parejo: rápido, de una sola pantalla, pensado para el celular entre clases. No es una agenda ni un gestor de horario: es una revisión rápida.
 
-Usuarios principales: Tomás (muletas por 6 semanas) y Camila (silla de ruedas). Tienen 10 minutos entre una clase en el Edificio A piso 2 y otra en la Biblioteca. Para el perfil Estándar sobra tiempo; para ellos, con el ascensor detenido, no.
+Usuarios principales: Camila (silla de ruedas) y Tomás (muletas por 6 semanas). Camila tiene clase en el Edificio A piso 2 y después en la Biblioteca: hoy no existe una ruta sin escalones entre las dos, así que no hay recreo que alcance y lo que necesita es pedir un ajuste razonable. Tomás sí tiene ruta, pero cuando el Ascensor A se detiene el desvío le suma minutos.
 
 Objetivo: en 20 segundos saber si alcanzan, cuánto les falta y qué hacer.
 
@@ -233,14 +239,14 @@ ESTRUCTURA EN MÓVIL (390×844)
       - Nota en Detalle: "Tu horario se queda en este teléfono. No lo enviamos a nadie."
 
 3. Resultado (aparece debajo, se anuncia por aria-live, y el foco salta a su título)
-   - Una frase resumen en Subtítulo: "Llegas a 2 de tus 3 cambios de sala." o, en modo rápido, "No alcanzas: te faltan 4 minutos."
+   - Una frase resumen en Subtítulo: "Llegas a 2 de tus 3 cambios de sala." o, en modo rápido, "No alcanzas: te faltan 2 minutos."
    - Una fila por traslado, ordenadas por hora, cada una con su estado. Los estados se distinguen por ícono, texto y forma:
      - Alcanza (ícono CheckCircle, Paso): "Sala A-201 a Casino. Tienes 10 min, necesitas 3 min. Te sobran 7 min."
-     - Justo (aviso Podotáctil con textura, ícono Warning): "Tienes 10 min, necesitas 9 min. Sal apenas termine la clase."
-     - No alcanza (ícono Prohibit, Alto): "Edificio A piso 2 a Biblioteca. Tienes 10 min, necesitas 14 min. Te faltan 4 min."
+     - Justo (aviso Podotáctil con textura, ícono Warning): "Sala A-201 a Casino. Tienes 5 min, necesitas 3 min. Sal apenas termine la clase."
+     - No alcanza (ícono Prohibit, Alto): "Edificio A piso 2 a Biblioteca. Tienes 5 min, necesitas 7 min. Te faltan 2 min."
      - Sin ruta (ícono Prohibit, Alto): "No hay ruta sin escalones a Biblioteca en este momento."
-   - Cada fila muestra el motivo en Detalle cuando lo hay: "El Ascensor A está fuera de servicio. El desvío por la rampa del Edificio B suma 6 min."
-   - Cada fila muestra la comparación con el perfil Estándar en Detalle: "Con el perfil Estándar: 4 min." Es lo que hace visible la diferencia.
+   - Cada fila muestra el motivo en Detalle cuando lo hay: "El Ascensor A está fuera de servicio. El desvío suma 1 min."
+   - Cada fila muestra la comparación con el perfil Estándar en Detalle: "Con el perfil Estándar: 7 min." Es lo que hace visible la diferencia.
    - Acción por fila: "Ver ruta" (abre /mapa con origen, destino y perfil puestos).
    - "Justo" es cuando sobran 2 min o menos. Decláralo en la vista como supuesto.
    - Supuesto visible bajo el resultado: "Los minutos consideran que con muletas o en silla de ruedas se avanza más lento que a paso normal. Es una estimación del equipo."
@@ -250,7 +256,7 @@ ESTRUCTURA EN MÓVIL (390×844)
    - Bajada: "Puedes pedir llegar unos minutos después, salir antes o que la clase cambie de sala. Te dejamos el texto listo."
    - Selector de destinatario: "Docente" o "Programa de Inclusión USM". Cambia el saludo del texto.
    - Vista previa del texto en un textarea editable (Cuerpo, buen interlineado), ya redactado con los datos: clases, salas, minutos disponibles y necesarios, motivo. Ejemplo:
-     "Hola. Me muevo con muletas por una lesión temporal. Entre Cálculo (Edificio A, piso 2, termina 09:25) y Física (Biblioteca, empieza 09:35) tengo 10 minutos, y el trayecto sin escaleras me toma 14. Les pido poder llegar hasta 5 minutos después a Física mientras dure la lesión. Gracias."
+     "Hola. Me muevo en silla de ruedas. Después de Cálculo (Edificio A, piso 2, termina 09:25) tengo Física en la Biblioteca a las 09:35, y hoy no hay un camino sin escalones entre los dos lugares. Les pido que Física se haga en una sala a la que pueda llegar, por ejemplo en el Edificio A. Gracias."
    - Campo opcional "Tu nombre" (no obligatorio, no se guarda en ningún servidor).
    - Acciones: "Copiar texto" (primario; confirma en línea "Texto copiado", no un aviso que desaparece solo) y "Abrir en mi correo" (secundario, sin destinatario fijo).
    - Nota: "parejo no envía nada. Tú decides si lo mandas y a quién."
@@ -288,9 +294,11 @@ Por traslado: desde_nombre, hasta_nombre, minutos_disponibles, minutos_necesario
 Resumen: "Llegas a 2 de tus 3 cambios de sala."
 Solicitud: texto base del ajuste razonable (la vista lo deja editar).
 
-DATOS DE EJEMPLO (márcalos como tales)
-Perfil Movilidad reducida. Clases: Cálculo, Edificio A piso 2, 08:15 a 09:25. Física, Biblioteca, 09:35 a 10:45. Programación, Sala A-201, 10:55 a 12:05. Almuerzo en el Casino desde 12:15.
-Resultados: Edificio A piso 2 a Biblioteca, 10 min disponibles, 14 necesarios, no alcanza (Ascensor A fuera de servicio). Biblioteca a Sala A-201, 10 min, 9 necesarios, justo. Sala A-201 a Casino, 10 min, 3 necesarios, alcanza.
+DATOS DE EJEMPLO (márcalos como tales; los minutos son los que da hoy el motor de rutas)
+Perfil Silla de ruedas (Camila). Clases: Cálculo, Edificio A piso 2, 08:15 a 09:25. Física, Biblioteca, 09:35 a 10:45. Programación, Sala A-201, 10:55 a 12:05. Almuerzo en el Casino desde 12:15.
+Resultados: Edificio A piso 2 a Biblioteca: sin ruta (no hay ruta sin escalones). Biblioteca a Sala A-201: sin ruta. Sala A-201 a Casino: 10 min disponibles, 3 necesarios (4 con el Ascensor A detenido), con el perfil Estándar 3 min: alcanza.
+Perfil Movilidad reducida (Tomás), mismo horario: Edificio A piso 2 a Biblioteca, 6 min (7 con el Ascensor A detenido). Biblioteca a Sala A-201, 6 min (7). Sala A-201 a Casino, 3 min (4).
+Para mostrar "Justo" y "No alcanza" usa la opción "Tengo 5 min" en "Un cambio de sala": Edificio A piso 2 a Biblioteca con Tomás y el Ascensor A detenido necesita 7 min, no alcanza por 2. Los textos de ejemplo de las filas en RESULTADO son ilustrativos: usa estas cifras en las pantallas.
 
 Entrega: móvil "Un cambio de sala" con resultado que no alcanza, móvil "Un cambio de sala" con resultado que alcanza, móvil "Mi horario de hoy" con los tres estados, móvil con el bloque de ajuste razonable, móvil con el aviso en vivo, móvil alto contraste con texto A++, escritorio, y las dos entradas desde Inicio y /mapa.
 ```
