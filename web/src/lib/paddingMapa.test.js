@@ -25,3 +25,11 @@ test('ancho muy estrecho reduce el padding lateral', () => {
   assert.ok(paddingAjustado(704, 304, 100).lado <= 10);
   assert.equal(paddingAjustado(704, 304, 0).lado, 0);
 });
+
+test('móvil apaisado en /plano (alto 250, hoja 300): deja espacio útil positivo', () => {
+  for (const p of [paddingAjustado(250, 300), paddingAjustado(250, 300, 844, 40)]) {
+    assert.ok(p.arriba >= 0 && p.abajo >= 0 && p.lado >= 0);
+    assert.ok(250 - p.arriba - p.abajo >= ESPACIO_UTIL_MIN);
+  }
+  assert.deepEqual(paddingAjustado(250, 300, 844, 40), { arriba: 40, abajo: 130, lado: 40 });
+});

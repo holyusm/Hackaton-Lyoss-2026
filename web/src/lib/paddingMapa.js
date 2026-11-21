@@ -1,4 +1,4 @@
-// Padding para fitBounds del mapa de /mapa. Función pura: acota el padding vertical al alto real del contenedor.
+// Padding para fitBounds de /mapa y /plano. Función pura: acota el padding vertical al alto real del contenedor.
 // Si arriba + abajo >= alto, Leaflet obtiene size.y < 0 y lanza "Invalid LatLng object: (NaN, NaN)".
 export const PADDING_ARRIBA = 96;
 export const PADDING_LADO = 40;
@@ -9,10 +9,10 @@ const finito = (v) => (Number.isFinite(v) ? v : 0);
 
 // Devuelve { arriba, abajo, lado } en px; arriba + abajo nunca deja menos de ESPACIO_UTIL_MIN px útiles
 // (si el contenedor es muy bajo se reduce primero el padding inferior, nunca queda negativo).
-export function paddingAjustado(altoMapa, alturaHoja = 0, anchoMapa = Infinity) {
+export function paddingAjustado(altoMapa, alturaHoja = 0, anchoMapa = Infinity, paddingArriba = PADDING_ARRIBA) {
   const alto = Math.max(0, finito(altoMapa));
   const disponible = Math.max(0, alto - ESPACIO_UTIL_MIN);
-  let arriba = PADDING_ARRIBA;
+  let arriba = Math.max(0, finito(paddingArriba));
   let abajo = Math.max(0, finito(alturaHoja)) + MARGEN_ABAJO;
   if (arriba + abajo > disponible) {
     arriba = Math.min(arriba, disponible);

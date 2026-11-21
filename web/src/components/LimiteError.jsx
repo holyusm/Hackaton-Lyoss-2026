@@ -15,7 +15,7 @@ export default class LimiteError extends Component {
     return (
       <div className="mapa-estado" role="alert">
         <h2>No pudimos mostrar el mapa</h2>
-        <p>Puedes seguir tu ruta paso a paso en la lista.</p>
+        {onVerLista && <p>Puedes seguir tu ruta paso a paso en la lista.</p>}
         {onVerLista && <button type="button" className="boton boton--primario" onClick={onVerLista}>Ver como lista</button>}
         <button type="button" className="boton" onClick={() => window.location.reload()}>Volver a cargar</button>
       </div>

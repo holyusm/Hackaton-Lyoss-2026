@@ -5,7 +5,9 @@ import { MapContainer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import { Crosshair, MagnifyingGlass, Minus, NavigationArrow, Plus, Question, Toilet, X } from '@phosphor-icons/react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import CapaPlano from '../plano/CapaPlano.jsx';
+import LimiteError from '../components/LimiteError.jsx';
 import RadioGrupo from '../components/RadioGrupo.jsx';
+import { paddingAjustado } from '../lib/paddingMapa.js';
 import { geojson, LIMITES, LIMITES_VISTA, ZOOM } from '../plano/plano.js';
 import { EDIFICIOS, centroDe, filtrarEdificios, interior, nodoDestino, pisoInicial, pisosDe } from '../plano/edificios.js';
 import campusRespaldo from '../../../data/campus.json';
@@ -63,15 +65,32 @@ const iconoAqui = L.divIcon({ className: '', html: '<span class="plano-aqui"><sp
 const iconoBano = L.divIcon({ className: '', html: `<span class="plano-bano" aria-hidden="true">${renderToStaticMarkup(<Toilet weight="bold" />)}</span>`, iconSize: [24, 24], iconAnchor: [12, 12] });
 const iconoSala = (ref) => L.divIcon({ className: '', html: `<span class="plano-sala-ref">${ref}</span>`, iconSize: [40, 14], iconAnchor: [20, 7] });
 
+const PADDING_ARRIBA_PLANO = 40;
+
+function encajar(mapa, limites, padAbajo, { animar = false, maxZoom } = {}) {
+  mapa.invalidateSize();
+  const { x: ancho, y: alto } = mapa.getSize();
+  if (!(ancho > 0 && alto > 0)) return;
+  const { arriba, abajo, lado } = paddingAjustado(alto, padAbajo, ancho, PADDING_ARRIBA_PLANO);
+  const opciones = {
+    paddingTopLeft: [lado, arriba],
+    paddingBottomRight: [lado, abajo],
+    ...(maxZoom != null ? { maxZoom } : {}),
+  };
+  try {
+    if (animar) mapa.flyToBounds(limites, opciones);
+    else mapa.fitBounds(limites, { ...opciones, animate: false });
+  } catch {
+    try { mapa.fitBounds(limites, maxZoom != null ? { maxZoom, animate: false } : { animate: false }); } catch { /* el mapa queda como estaba */ }
+  }
+}
+
 // Encaja el edificio elegido (o todo el campus) dejando libre lo que tapa la hoja inferior en móvil.
 function Encuadre({ edificio, padAbajo }) {
   const mapa = useMap();
   useEffect(() => {
-    const relleno = { paddingTopLeft: [40, 40], paddingBottomRight: [40, 40 + padAbajo] };
-    if (!edificio) { mapa.fitBounds(LIMITES, { ...relleno, animate: false }); return; }
-    const opciones = { ...relleno, maxZoom: edificio.letra === 'C' ? 19.5 : 19 };
-    if (sinMovimiento()) mapa.fitBounds(edificio.bounds, { ...opciones, animate: false });
-    else mapa.flyToBounds(edificio.bounds, opciones);
+    if (!edificio) { encajar(mapa, LIMITES, padAbajo); return; }
+    encajar(mapa, edificio.bounds, padAbajo, { animar: !sinMovimiento(), maxZoom: edificio.letra === 'C' ? 19.5 : 19 });
   }, [mapa, edificio, padAbajo]);
   return null;
 }
@@ -83,7 +102,7 @@ function Controles({ padAbajo }) {
     <div className="plano-controles" ref={evitar}>
       <button type="button" className="mapa-control" aria-label="Acercar" onClick={() => mapa.zoomIn()}><Plus weight="bold" aria-hidden="true" /></button>
       <button type="button" className="mapa-control" aria-label="Alejar" onClick={() => mapa.zoomOut()}><Minus weight="bold" aria-hidden="true" /></button>
-      <button type="button" className="mapa-control" aria-label="Ver todo el campus" onClick={() => mapa.fitBounds(LIMITES, { paddingTopLeft: [40, 40], paddingBottomRight: [40, 40 + padAbajo] })}><Crosshair weight="bold" aria-hidden="true" /></button>
+      <button type="button" className="mapa-control" aria-label="Ver todo el campus" onClick={() => encajar(mapa, LIMITES, padAbajo)}><Crosshair weight="bold" aria-hidden="true" /></button>
     </div>
   );
 }
@@ -254,14 +273,16 @@ export default function Plano() {
         {escritorio && <aside className="plano__lista" aria-label="Edificios del campus">{buscar}{items}</aside>}
 
         <div className="plano__mapa" role="region" aria-label={etiquetaMapa}>
-          <MapContainer bounds={LIMITES} maxBounds={LIMITES_VISTA} minZoom={ZOOM.min} maxZoom={ZOOM.max + 0.5} zoomSnap={0.25} zoomDelta={0.5} zoomControl={false} keyboard className="mapa-plano plano__leaflet">
-            <CapaPlano seleccion={clave} onElegir={alElegirEnMapa} capas={{ senderos: capas.senderos, escaleras: capas.escaleras, servicios: capas.servicios, calles: true }} interior={interiorPiso} />
-            <Etiquetas edificio={edificio} piso={piso} calles={capas.calles} />
-            <Marker position={AQUI} icon={iconoAqui} interactive={false} keyboard={false} />
-            <Encuadre edificio={edificio} padAbajo={padAbajo} />
-            <Controles padAbajo={padAbajo} />
-            <Escala />
-          </MapContainer>
+          <LimiteError>
+            <MapContainer bounds={LIMITES} maxBounds={LIMITES_VISTA} minZoom={ZOOM.min} maxZoom={ZOOM.max + 0.5} zoomSnap={0.25} zoomDelta={0.5} zoomControl={false} keyboard className="mapa-plano plano__leaflet">
+              <CapaPlano seleccion={clave} onElegir={alElegirEnMapa} capas={{ senderos: capas.senderos, escaleras: capas.escaleras, servicios: capas.servicios, calles: true }} interior={interiorPiso} />
+              <Etiquetas edificio={edificio} piso={piso} calles={capas.calles} />
+              <Marker position={AQUI} icon={iconoAqui} interactive={false} keyboard={false} />
+              <Encuadre edificio={edificio} padAbajo={padAbajo} />
+              <Controles padAbajo={padAbajo} />
+              <Escala />
+            </MapContainer>
+          </LimiteError>
 
           {escritorio && capasUI}
           {escritorio && edificio && <Ficha edificio={edificio} piso={piso} onPiso={setPiso} onCerrar={cerrar} grafo={datos} />}
