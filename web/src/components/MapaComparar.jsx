@@ -41,7 +41,7 @@ function Encuadre({ puntos }) {
   const mapa = useMap();
   const clave = puntos.map((p) => p.join(',')).join(';');
   useEffect(() => {
-    if (puntos.length) mapa.fitBounds(L.latLngBounds(puntos), { padding: [48, 48], maxZoom: ZOOM.max, animate: false });
+    if (puntos.length) mapa.fitBounds(L.latLngBounds(puntos), { padding: [36, 36], maxZoom: ZOOM.max, animate: false });
   }, [mapa, clave]); // eslint-disable-line react-hooks/exhaustive-deps
   return null;
 }
