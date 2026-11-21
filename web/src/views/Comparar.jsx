@@ -3,6 +3,10 @@ import { MagnifyingGlass, MapPin } from '@phosphor-icons/react';
 import CampoLugar from '../components/CampoLugar.jsx';
 import TablaComparar from '../components/TablaComparar.jsx';
 import FilaPerfilMovil from '../components/FilaPerfilMovil.jsx';
+import MapaComparar from '../components/MapaComparar.jsx';
+import LeyendaRutas from '../components/LeyendaRutas.jsx';
+import { PERFILES } from '../components/GrupoPerfiles.jsx';
+import { conArticulo } from '../../../motor/ruta.js';
 import { iconoLugar } from '../components/iconoLugar.js';
 import { motivoSinRuta } from '../lib/comparar.js';
 import { useComparacion } from '../hooks/useComparacion.js';
@@ -25,6 +29,11 @@ export default function Comparar() {
   const nombreDesde = c.origen?.nombre ?? c.desde;
   const nombreHasta = c.destino?.nombre ?? c.hasta;
   const IconoHasta = iconoLugar(c.destino);
+  const elegido = PERFILES.find((p) => p.id === seleccion);
+  const descripcion = c.origen && c.destino
+    ? `Plano de Casa Central desde ${conArticulo(c.origen)} hasta ${conArticulo(c.destino)}, ${elegido
+      ? `resaltando la ruta ${elegido.textoBoton || 'estándar'}` : 'con las rutas de cada perfil'}.${sillaSinRuta ? ` ${motivo} No hay ruta en silla de ruedas.` : ''}`
+    : 'Plano de Casa Central';
 
   return (
     <div className="comparar">
@@ -53,11 +62,19 @@ export default function Comparar() {
       )}
 
       {/* La frase cambia sola cuando un perfil queda sin ruta: se anuncia sin mover el foco. */}
-      <div aria-live="polite">
+      <div className="comparar__vivo" aria-live="polite">
         {c.estado === 'cargando' && <p>Calculando las rutas…</p>}
         {c.estado === 'error' && <p>No pudimos calcular las rutas. Intenta de nuevo en unos segundos.</p>}
         {c.frase && <h2 className="comparar__frase">{c.frase}</h2>}
       </div>
+
+      {c.filas.length > 0 && c.grafo && (
+        <div className="comparar__mapa">
+          <MapaComparar grafo={c.grafo} filas={c.filas} seleccion={seleccion} barreras={c.barreras}
+            origen={c.origen} destino={c.destino} descripcion={descripcion} />
+          <LeyendaRutas filas={c.filas} />
+        </div>
+      )}
 
       {c.filas.length > 0 && (
         <>
