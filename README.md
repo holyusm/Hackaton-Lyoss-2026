@@ -111,9 +111,9 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 
 | Integrante | GitHub | Rol |
 |---|---|---|
-| José | [@holyusm](https://github.com/holyusm) | Líder, diseño de las vistas, accesibilidad, contratos y pitch |
-| Gxppe | [@Gxppe](https://github.com/Gxppe) | Servidor, API de reportes y simulador, QR, deploy y las vistas Inicio, Comparar, Punto QR y Mejorar el campus |
-| juaquo15 | [@juaquo15](https://github.com/juaquo15) | Datos del campus, perfiles de accesibilidad y motor de rutas |
+| José Meza | [@holyusm](https://github.com/holyusm) | Líder, diseño de las vistas, accesibilidad, contratos y pitch |
+| Giuseppe Queirolo | [@Gxppe](https://github.com/Gxppe) | Servidor, API de reportes y simulador, QR, deploy y las vistas Inicio, Comparar, Punto QR y Mejorar el campus |
+| Joaquín Veliz | [@juaquo15](https://github.com/juaquo15) | Datos del campus, perfiles de accesibilidad y motor de rutas |
 
 ## Recursos externos
 
