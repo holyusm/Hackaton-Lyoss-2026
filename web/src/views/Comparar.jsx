@@ -33,7 +33,7 @@ export default function Comparar() {
   const nombreDesde = c.origen?.nombre ?? c.desde;
   const nombreHasta = c.destino?.nombre ?? c.hasta;
   const IconoHasta = iconoLugar(c.destino);
-  const elegido = PERFILES.find((p) => p.id === seleccion);
+  const elegido = c.filas.find((f) => f.id === seleccion)?.ok ? PERFILES.find((p) => p.id === seleccion) : null;
   const descripcion = c.origen && c.destino
     ? `Plano de Casa Central desde ${conArticulo(c.origen)} hasta ${conArticulo(c.destino)}, ${elegido
       ? `resaltando la ruta ${elegido.textoBoton || 'estándar'}` : 'con las rutas de cada perfil'}.${sillaSinRuta ? ` ${silla.motivo} No hay ruta en silla de ruedas.` : ''}`
