@@ -1,0 +1,103 @@
+{
+  "hero": {
+    "titulo": "El camino accesible cambia durante el día.",
+    "bajada": "Parejo te muestra el que sí puedes recorrer en Casa Central, y lo actualiza en vivo.",
+    "botones": [
+      {
+        "texto": "Ver mi ruta",
+        "destino": "/mapa",
+        "tipo": "primario"
+      },
+      {
+        "texto": "Comparar perfiles",
+        "destino": "/comparar",
+        "tipo": "secundario"
+      }
+    ],
+    "etiquetaIlustracion": "Piso parejo"
+  },
+  "loQueCambia": {
+    "titulo": "Lo que cambia sin aviso",
+    "tarjetas": [
+      "Ascensor detenido",
+      "Piso mojado",
+      "Escalones sin rampa"
+    ],
+    "foto": "Foto propia del levantamiento, 1600×1000",
+    "nota": "Un mapa general no sabe nada de esto. Según un diagnóstico publicado por la USM, solo cuatro edificios de Casa Central tienen ascensor y en ninguno era accesible (memoria \"Propuestas para lograr una USM accesible, Casa Central\").",
+    "cifra": "Estudiantes con discapacidad en el campus:",
+    "fuente": "repositorio.usm.cl, memoria \"Propuestas para lograr una USM accesible, Casa Central\""
+  },
+  "perfiles": {
+    "titulo": "Una ruta para cada forma de moverse",
+    "desde": "entrada-principal",
+    "hasta": "sala-a201"
+  },
+  "comoFunciona": {
+    "titulo": "Cómo funciona",
+    "pasos": [
+      {
+        "titulo": "Elige cómo te mueves",
+        "texto": "Silla de ruedas, movilidad reducida, baja visión o estándar."
+      },
+      {
+        "titulo": "Sigue tu ruta",
+        "texto": "En el mapa, como lista o en voz alta. También desde un código QR pegado en el campus."
+      },
+      {
+        "titulo": "Reporta lo que ves",
+        "texto": "Un ascensor detenido cambia la ruta de todos en segundos."
+      }
+    ]
+  },
+  "letraChica": {
+    "titulo": "La letra chica",
+    "lista": [
+      {
+        "tema": "Datos.",
+        "texto": "Levantados por el equipo el 21 de noviembre de 2026; lo que no medimos es simulado y la app lo dice."
+      },
+      {
+        "tema": "Ubicación.",
+        "texto": "No hay GPS dentro de los edificios: partes desde un lugar que eliges o desde un QR."
+      },
+      {
+        "tema": "Reportes.",
+        "texto": "Abiertos y sin moderación. Cada aviso vence solo en 4 horas o menos."
+      },
+      {
+        "tema": "Voz.",
+        "texto": "La del sistema de tu teléfono o computador."
+      },
+      {
+        "tema": "Carácter.",
+        "texto": "Prototipo estudiantil. No es un servicio oficial de la USM."
+      }
+    ]
+  },
+  "ods": {
+    "titulo": "Objetivos de Desarrollo Sostenible",
+    "lista": [
+      {
+        "num": "10",
+        "nombre": "Reducción de las desigualdades",
+        "frase": "Una ruta para cada forma de moverse."
+      },
+      {
+        "num": "11",
+        "nombre": "Ciudades y comunidades sostenibles",
+        "frase": "Un campus que se cuida entre todos."
+      },
+      {
+        "num": "4",
+        "nombre": "Educación de calidad",
+        "frase": "Llegar a clases sin depender de nadie."
+      }
+    ]
+  },
+  "pie": {
+    "texto": "Prototipo estudiantil para la Hackathon USM 2026. No es un servicio oficial de la USM.",
+    "firmaUSM": "Universidad Técnica Federico Santa María, Casa Central, Valparaíso",
+    "logotipoUSM": "Espacio reservado: usar solo el archivo oficial con aprobación de la Dirección General de Comunicaciones"
+  }
+}
