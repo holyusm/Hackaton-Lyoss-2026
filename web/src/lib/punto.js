@@ -13,8 +13,14 @@ export function horaHablada(hhmm) {
   return m === 0 ? `${h} en punto` : `${h} y ${m}`;
 }
 
-// punto: Punto del contrato §4. grafo: { nodos }. barreras: useBarreras().barreras. perfil: id o null.
+// Ids de data/perfiles.json. Se repiten aquí porque node:test no importa JSON sin atributos.
+const PERFILES_CONOCIDOS = ['estandar', 'silla_ruedas', 'movilidad_reducida', 'baja_vision'];
+
+// punto: Punto del contrato §4. grafo: { nodos }. barreras: useBarreras().barreras.
+// perfil: id o null. Sin perfil guardado (o con uno desconocido) el enlace usa 'estandar', porque
+// /mapa exige ?perfil= y sin él useRuta redirige a Inicio (primer escaneo QR, issue #156).
 export function armarPunto(punto, grafo, barreras = [], perfil = null) {
+  const perfilEnlace = PERFILES_CONOCIDOS.includes(perfil) ? perfil : 'estandar';
   const nodos = grafo?.nodos ?? [];
   const aqui = nodos.find((n) => n.id === punto.nodo_id);
   const activa = barreras
@@ -23,8 +29,7 @@ export function armarPunto(punto, grafo, barreras = [], perfil = null) {
 
   const destinos = (punto.indicaciones ?? []).map((ind, i) => {
     const nodo = nodos.find((n) => n.id === ind.nodo_id) ?? nodos.find((n) => n.nombre === ind.hacia) ?? null;
-    const q = nodo ? new URLSearchParams({ desde: punto.nodo_id, hasta: nodo.id }) : null;
-    if (q && perfil) q.set('perfil', perfil);
+    const q = nodo ? new URLSearchParams({ desde: punto.nodo_id, hasta: nodo.id, perfil: perfilEnlace }) : null;
     return { id: nodo?.id ?? `destino-${i}`, nombre: ind.hacia, nodo, indicacion: ind.texto, enlace: q ? `/mapa?${q}` : null };
   });
 

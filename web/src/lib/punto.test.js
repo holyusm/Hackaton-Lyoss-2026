@@ -40,7 +40,16 @@ test('con barrera: el aviso va primero y la hora se dice hablada', () => {
   const f = frasesPunto(m);
   assert.equal(f[0].clave, 'aviso');
   assert.equal(f[0].texto, 'Atención: piso mojado en el portón. El aviso vence a las 12 y 35.');
-  assert.equal(m.destinos[0].enlace, '/mapa?desde=entrada-principal&hasta=patio-central');
+  assert.equal(m.destinos[0].enlace, '/mapa?desde=entrada-principal&hasta=patio-central&perfil=estandar');
+});
+
+test('sin perfil guardado el enlace Llévame usa estandar; con perfil lo conserva', () => {
+  const base = '/mapa?desde=entrada-principal&hasta=patio-central&perfil=';
+  assert.equal(armarPunto(punto, grafo, []).destinos[0].enlace, base + 'estandar');
+  assert.equal(armarPunto(punto, grafo, [], null).destinos[0].enlace, base + 'estandar');
+  assert.equal(armarPunto(punto, grafo, [], 'perfil_inventado').destinos[0].enlace, base + 'estandar');
+  assert.equal(armarPunto(punto, grafo, [], 'silla_ruedas').destinos[0].enlace, base + 'silla_ruedas');
+  assert.equal(armarPunto(punto, grafo, [], 'silla_ruedas').destinos[1].enlace, null);
 });
 
 test('ningún texto lleva separadores prohibidos', () => {
