@@ -32,6 +32,7 @@ Todo módulo del servidor/motor es ESM (`"type": "module"`).
 ```
 
 - `nodos[].tipo`: `entrada | edificio | sala | ascensor | bano | punto`.
+- `nodos[].oculto` (opcional, #189): `true` en nodos internos del generador de salas (pasillos `<x>-p<n>`). Se rutean igual, pero no se ofrecen como lugar en los buscadores. `nodos[].departamento` (opcional, #189): texto libre que se muestra en la ficha de la sala y se puede buscar.
 - `tramos[].pendiente`: `nula | baja | media | alta`. `superficie`: `lisa | irregular | adoquin`.
 - Los tramos son bidireccionales salvo `sentido_unico: true` (solo `desde` → `hasta`).
 - `ascensor_id`: id de un nodo de tipo `ascensor` por el que pasa el tramo; si ese nodo está bloqueado, el tramo se bloquea.
