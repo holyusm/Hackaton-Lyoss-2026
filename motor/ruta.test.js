@@ -62,3 +62,17 @@ test('origen igual a destino: ruta vacía', () => {
   assert.equal(r.ok, true);
   assert.equal(r.metros, 0);
 });
+
+test('advertencias siguen el sentido real del recorrido (ida y vuelta)', () => {
+  const ida = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas' });
+  assert.ok(ida.advertencias.includes('Usa ascensor (Ascensor A → Edificio A, piso 2)'));
+  const vuelta = calcularRuta(grafo, perfiles, { desde: 'sala-a201', hasta: 'entrada-principal', perfil: 'silla_ruedas' });
+  assert.equal(vuelta.ok, true);
+  assert.ok(vuelta.advertencias.includes('Usa ascensor (Edificio A, piso 2 → Ascensor A)'));
+  assert.equal(vuelta.advertencias.some((a) => a.includes('Ascensor A → Edificio A, piso 2')), false);
+});
+
+test('escalera de bajada: la advertencia nombra origen y destino en orden real', () => {
+  const r = calcularRuta(grafo, perfiles, { desde: 'sala-a201', hasta: 'entrada-principal', perfil: 'estandar' });
+  assert.ok(r.advertencias.includes('42 escalones (Edificio A, piso 2 → Patio central)'));
+});

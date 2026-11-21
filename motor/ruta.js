@@ -25,9 +25,10 @@ function costoTramo(tramo, perfil) {
   return tramo.metros * multPend * multSup * multGuia + tramo.escalones * (c.escalon ?? 0);
 }
 
-function advertenciasDe(tramo, nombres) {
+// `de` y `a` son los nodos en el orden en que se recorre el tramo (no el orden desde/hasta del dato).
+function advertenciasDe(tramo, de, a, nombres) {
   const w = [];
-  const via = `${nombres.get(tramo.desde)} → ${nombres.get(tramo.hasta)}`;
+  const via = `${nombres.get(de)} → ${nombres.get(a)}`;
   if (tramo.escalones > 0) w.push(`${tramo.escalones} escalones (${via})`);
   if (tramo.pendiente === 'alta') w.push(`Pendiente alta (${via})`);
   if (tramo.superficie === 'irregular') w.push(`Superficie irregular (${via})`);
@@ -96,7 +97,7 @@ export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos =
     metros: tramos.reduce((s, t) => s + t.metros, 0),
     minutos: Math.round(tramos.reduce((s, t) => s + t.minutos_medidos, 0) * 10) / 10,
     escalones: tramos.reduce((s, t) => s + t.escalones, 0),
-    advertencias: tramos.flatMap((t) => advertenciasDe(t, nombres)),
+    advertencias: tramos.flatMap((t, i) => advertenciasDe(t, nodos[i], nodos[i + 1], nombres)),
   };
 }
 
