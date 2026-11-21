@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { ArrowsLeftRight, Buildings, CaretLeft, CircleHalf, DotsThreeOutline, Flag, Info, MapTrifold, PersonArmsSpread, SpeakerHigh, X } from '@phosphor-icons/react';
+import { ArrowsLeftRight, Buildings, CaretLeft, CircleHalf, DotsThreeOutline, Flag, Info, MapPin, MapTrifold, PersonArmsSpread, SpeakerHigh, X } from '@phosphor-icons/react';
 import Simbolo from './Simbolo.jsx';
 import PanelAccesibilidad, { TAMANOS } from './PanelAccesibilidad.jsx';
 import { usePreferencias } from '../hooks/usePreferencias.js';
@@ -8,13 +8,14 @@ import './Shell.css';
 
 const NAV = [
   { a: '/', texto: 'Ruta', Icono: MapTrifold },
+  { a: '/plano', texto: 'Plano', Icono: MapPin },
   { a: '/comparar', texto: 'Comparar', Icono: ArrowsLeftRight },
   { a: '/reportar', texto: 'Reportar', Icono: Flag },
   { a: '/campus', texto: 'Mejorar el campus', Icono: Buildings },
   { a: '/acerca', texto: 'Acerca', Icono: Info },
 ];
 // En móvil caben 4: los dos últimos van dentro de "Más".
-const EN_MAS = ['/campus', '/acerca'];
+const EN_MAS = ['/plano', '/campus', '/acerca'];
 
 // "Ruta" cubre el flujo completo: elegir destino (/) y verlo en el mapa (/mapa).
 const esActual = (a, ruta) => (a === '/' ? ruta === '/' || ruta.startsWith('/mapa') : ruta.startsWith(a));

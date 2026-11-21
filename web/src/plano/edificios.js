@@ -2,7 +2,7 @@
 import { geojson } from './plano.js';
 import { crearEdificios, interior as interiorDe } from './edificios-lib.js';
 
-export { EXTRA, limpiar, pisosDe, pisoInicial, nodoDestino, filtrarEdificios, perteneceA } from './edificios-lib.js';
+export { EXTRA, limpiar, pisosDe, pisoInicial, nodoDestino, filtrarEdificios, perteneceA, centroDe } from './edificios-lib.js';
 
 export const EDIFICIOS = crearEdificios(geojson);
 export const interior = (letra, piso) => interiorDe(geojson, letra, piso);

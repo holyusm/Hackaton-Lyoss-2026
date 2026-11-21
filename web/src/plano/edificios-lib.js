@@ -68,6 +68,12 @@ export function crearEdificios(geo) {
   });
 }
 
+// Centro [lat, lng] de un polígono (para poner la etiqueta de una sala).
+export function centroDe(geometry) {
+  const grande = anillos(geometry).map(medidas).sort((a, b) => b.area - a.area)[0];
+  return [grande.lat, grande.lng];
+}
+
 // ¿Este feature de edificio pertenece al grupo `clave`? (el C tiene dos polígonos: se resaltan los dos)
 export function perteneceA(feature, clave) {
   const p = feature.properties;
