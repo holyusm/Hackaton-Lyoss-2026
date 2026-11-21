@@ -1,0 +1,117 @@
+/* Plano de Casa Central. Colores solo de tokens.css, así funciona en claro, oscuro y contraste.
+   Se distingue por forma además de color: escaleras dentadas, senderos punteados finos. */
+
+.mapa-plano.leaflet-container,
+.mapa-plano .leaflet-container {
+  background: var(--mapa-fondo);
+  font-family: var(--fuente);
+}
+
+/* Calles vecinas: banda ancha clara con borde, como en un plano impreso. */
+.plano-calle {
+  stroke: var(--mapa-camino);
+  stroke-width: 7px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Contorno del campus: área base un poco distinta del barrio. */
+.plano-campus {
+  fill: var(--mapa-patio);
+  fill-opacity: 1;
+  stroke: var(--mapa-patio-borde);
+  stroke-width: 2px;
+  stroke-dasharray: 2 5;
+}
+
+.plano-patio {
+  stroke: var(--mapa-camino);
+  stroke-width: 10px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: var(--mapa-camino);
+  fill-opacity: 1;
+}
+
+/* Edificios del barrio: apagados, sin borde marcado. */
+.plano-edificio {
+  fill: var(--mapa-edificio);
+  fill-opacity: 0.55;
+  stroke: var(--mapa-edificio-borde);
+  stroke-width: 0.5px;
+  stroke-opacity: 0.6;
+}
+
+/* Edificios del campus: superficie clara con borde nítido. */
+.plano-edificio.plano-edificio--campus {
+  fill: var(--superficie);
+  fill-opacity: 1;
+  stroke: var(--tinta-2);
+  stroke-width: 1.25px;
+  stroke-opacity: 1;
+}
+
+.plano-sala {
+  fill: none;
+  stroke: var(--mapa-edificio-borde);
+  stroke-width: 0.75px;
+}
+
+.plano-pasillo {
+  fill: none;
+  stroke: var(--mapa-edificio-borde);
+  stroke-width: 0.75px;
+  stroke-dasharray: 2 2;
+}
+
+.plano-sendero {
+  fill: none;
+  stroke: var(--mapa-patio-borde);
+  stroke-width: 1.5px;
+  stroke-dasharray: 1 4;
+  stroke-linecap: round;
+}
+
+.plano-rampa {
+  fill: none;
+  stroke: var(--paso);
+  stroke-width: 2px;
+}
+
+/* Escaleras: trazo dentado (huellas), se reconocen sin depender del color. */
+.plano-escalera {
+  fill: none;
+  stroke: var(--tinta-2);
+  stroke-width: 6px;
+  stroke-dasharray: 1.5 2.5;
+  stroke-linecap: butt;
+}
+
+/* Letras de edificio: decorativas para el lector (aria-hidden); la información
+   accesible va en la hoja de ruta. */
+.plano-letra {
+  display: grid;
+  place-items: center;
+  font-family: var(--fuente);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--tinta);
+  pointer-events: none;
+  text-shadow:
+    0 0 3px var(--superficie),
+    0 0 3px var(--superficie),
+    0 0 6px var(--superficie);
+}
+
+.mapa-plano .leaflet-control-attribution {
+  font-size: var(--t-mini);
+  background: var(--superficie);
+  color: var(--tinta-2);
+}
+
+.mapa-plano .leaflet-control-attribution a {
+  color: var(--enlace);
+}

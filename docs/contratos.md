@@ -35,7 +35,7 @@ Todo módulo del servidor/motor es ESM (`"type": "module"`).
 - `tramos[].pendiente`: `nula | baja | media | alta`. `superficie`: `lisa | irregular | adoquin`.
 - Los tramos son bidireccionales salvo `sentido_unico: true` (solo `desde` → `hasta`).
 - `ascensor_id`: id de un nodo de tipo `ascensor` por el que pasa el tramo; si ese nodo está bloqueado, el tramo se bloquea.
-- `nodos[].x`, `nodos[].y` (opcionales, Lote 2): posición en el plano de Casa Central, en unidades del `viewBox` de `web/src/plano/casa-central.svg`, con el origen arriba a la izquierda. El mapa de `/mapa` usa estas, no `lat`/`lng` (que quedan para un GPS futuro). Conversión: `aLatLng` de `web/src/plano/plano.js`.
+- `nodos[].lat`, `nodos[].lng`: coordenadas reales (WGS84) de Casa Central. Salen de la tabla de anclajes de `web/src/plano/README.md`, generada desde OpenStreetMap. El mapa de `/mapa` las usa directo con el CRS normal de Leaflet sobre `<CapaPlano/>`. No hay `x,y`.
 - `tramos[].nombre` (opcional, Lote 2): cómo se nombra el tramo en los pasos, en minúscula y con artículo ("la rampa del Edificio B"). Sin `nombre`, los pasos usan un texto genérico.
 
 ## 2. Perfiles `data/perfiles.json`
