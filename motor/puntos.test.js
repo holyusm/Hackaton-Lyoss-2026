@@ -8,6 +8,9 @@ const grafo = leer('campus.json');
 const perfiles = leer('perfiles.json');
 const puntos = leer('puntos.json');
 const nodoPorId = new Map(grafo.nodos.map((n) => [n.id, n]));
+const idPorNombre = new Map(grafo.nodos.map((n) => [n.nombre, n.id]));
+const redondear5 = (m) => Math.round(m / 5) * 5;
+const citarMetros = (texto) => [...texto.matchAll(/(\d+)\s*metros\b/gi)].map((m) => Number(m[1]));
 
 // Vecinos a los que se puede ir desde cada nodo, respetando el sentido único.
 const vecinos = new Map(grafo.nodos.map((n) => [n.id, new Set()]));
@@ -97,7 +100,6 @@ test('p3: con el ascensor A bloqueado existe desvío en silla de ruedas al Edifi
   assert.ok(tramoAlPatio, 'p3 debe conectar con patio-central sin pasar por el ascensor');
   assert.equal(tramoAlPatio.metros + desdePatio.metros, desdeP3.metros);
 
-  const redondear5 = (m) => Math.round(m / 5) * 5;
   const metrosEsperadosP3 = redondear5(desdeP3.metros);
   const metrosEsperadosPatio = redondear5(desdePatio.metros);
 
@@ -106,7 +108,6 @@ test('p3: con el ascensor A bloqueado existe desvío en silla de ruedas al Edifi
   assert.ok(indPiso2, 'p3 debe tener indicación hacia Edificio A, piso 2');
   assert.ok(indPatio, 'p3 debe tener indicación hacia Patio central');
 
-  const citarMetros = (texto) => [...texto.matchAll(/(\d+)\s*metros\b/gi)].map((m) => Number(m[1]));
   assert.ok(
     citarMetros(p3.texto_voz).includes(metrosEsperadosP3),
     `p3.texto_voz debe citar ${metrosEsperadosP3} metros (redondeo a 5 m de ${desdeP3.metros} m)`,
@@ -125,4 +126,27 @@ test('p3: con el ascensor A bloqueado existe desvío en silla de ruedas al Edifi
   }
   assert.match(p3.texto_voz, /barreras activas/i);
   assert.match(indPiso2.texto, /barreras activas/i);
+});
+
+test('cada indicación hacia un nodo vecino cita los metros del tramo directo (redondeo a 5 m)', () => {
+  for (const p of puntos) {
+    for (const i of p.indicaciones) {
+      const destino = idPorNombre.get(i.hacia);
+      if (!destino || !vecinos.get(p.nodo_id)?.has(destino)) continue;
+
+      const tramosDirectos = grafo.tramos.filter(
+        (t) =>
+          (t.desde === p.nodo_id && t.hasta === destino) ||
+          (!t.sentido_unico && t.desde === destino && t.hasta === p.nodo_id),
+      );
+      assert.ok(tramosDirectos.length > 0, `${p.id}: falta tramo directo entre ${p.nodo_id} y ${destino}`);
+
+      const esperados = tramosDirectos.map((t) => redondear5(t.metros));
+      const citados = citarMetros(i.texto);
+      assert.ok(
+        esperados.some((m) => citados.includes(m)),
+        `${p.id} -> "${i.hacia}": "${i.texto}" debe citar ${esperados.join(' o ')} metros (citados: ${citados.join(', ') || 'ninguno'})`,
+      );
+    }
+  }
 });

@@ -13,10 +13,10 @@ const ruta = (extra = {}) => armarRuta(grafo, calcularRuta(grafo, perfiles, { ..
 test('ruta de silla de ruedas por el ascensor: un paso por tramo, con el texto del diseño', () => {
   const r = ruta();
   assert.deepEqual(r.pasos.map((p) => p.instruccion), [
-    'Avanza 40 m por la rampa hasta Patio central.',
-    'Cruza 25 m por el pasillo techado hasta el Ascensor A.',
+    'Avanza 130 m por la rampa hasta Patio central.',
+    'Cruza 35 m por el pasillo techado hasta el Ascensor A.',
     'Sube al piso 2.',
-    'La Sala A-201 está a 20 m.',
+    'La Sala A-201 está a 5 m.',
   ]);
   assert.deepEqual(r.pasos.map((p) => p.icono), ['TrendUp', 'Umbrella', 'Elevator', 'Door']);
   assert.deepEqual(r.pasos.map((p) => p.nodo), ['patio-central', 'ascensor-a', 'edificio-a-p2', 'sala-a201']);
@@ -31,10 +31,10 @@ test('el id solo cambia cuando cambia la ruta', () => {
 test('ruta alternativa por el Edificio B usa los nombres de los tramos', () => {
   const r = ruta({ bloqueos: ['ascensor-a'] });
   const textos = r.pasos.map((p) => p.instruccion);
-  assert.ok(textos.includes('Cruza 20 m por el borde del patio hasta el Edificio B.'));
+  assert.ok(textos.includes('Cruza 95 m por el borde del patio hasta el Edificio B.'));
   assert.ok(textos.includes('Sube por la rampa del Edificio B al piso 2.'));
   assert.ok(textos.some((t) => t.includes('la pasarela techada')));
-  assert.equal(textos.at(-1), 'La Sala A-201 está a 20 m.');
+  assert.equal(textos.at(-1), 'La Sala A-201 está a 5 m.');
 });
 
 test('la vuelta baja en ascensor y usa el orden real de los nodos', () => {

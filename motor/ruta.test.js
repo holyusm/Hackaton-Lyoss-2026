@@ -12,7 +12,7 @@ test('estándar toma la escalera (más corta)', () => {
   const r = calcularRuta(grafo, perfiles, { ...base, perfil: 'estandar' });
   assert.equal(r.ok, true);
   assert.deepEqual(r.tramos, ['t1', 't4', 't5']);
-  assert.equal(r.metros, 90);
+  assert.equal(r.metros, 170);
   assert.equal(r.escalones, 42);
 });
 
@@ -86,15 +86,15 @@ test('las advertencias no llevan flechas ni puntos medios', () => {
   }
 });
 
-test('recálculo de la demo: ascensor bloqueado sale por la rampa del Edificio B, con unos 40 m y 1 min más', () => {
+test('recálculo de la demo: ascensor bloqueado sale por la rampa del Edificio B, con unos 135 m y 1,1 min más', () => {
   const normal = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas' });
   const sinAscensor = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas', bloqueos: ['ascensor-a'] });
   assert.equal(normal.ok, true);
   assert.equal(sinAscensor.ok, true);
   assert.deepEqual(sinAscensor.nodos, ['entrada-principal', 'patio-central', 'edificio-b', 'rampa-b', 'pasarela-b-a', 'edificio-a-p2', 'sala-a201']);
   assert.equal(sinAscensor.escalones, 0);
-  assert.equal(sinAscensor.metros - normal.metros, 40);
-  assert.equal(Math.round((sinAscensor.minutos - normal.minutos) * 10) / 10, 1);
+  assert.equal(sinAscensor.metros - normal.metros, 135);
+  assert.equal(Math.round((sinAscensor.minutos - normal.minutos) * 10) / 10, 1.1);
   assert.notDeepEqual(sinAscensor.tramos, normal.tramos);
 });
 
