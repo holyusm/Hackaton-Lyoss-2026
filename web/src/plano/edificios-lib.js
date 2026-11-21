@@ -6,6 +6,15 @@ export const EXTRA = {
   'relation/17542343': { letra: 'B', sub: 'Edificio central, nombre por confirmar' },
 };
 
+// Alias de búsqueda para nombres de uso común en Casa Central (clave: alias).
+export const ALIAS = {
+  'Edificio Comedores': ['Casino'],
+  Kiosko: ['Kiosco'],
+  'Dirección de Recursos Humanos': ['RRHH'],
+  'FEUTFSM, Federación de Estudiantes': ['Federación de Estudiantes'],
+  Sansamed: ['Enfermería', 'Salud', 'Médico'],
+};
+
 export function limpiar(nombre) {
   return (nombre || '')
     .replace('Comerdores', 'Comedores')
@@ -38,7 +47,7 @@ function cajaDe(geometry) {
 /**
  * Edificios del campus agrupados por letra y, si no hay, por nombre. De cada grupo se queda el polígono más grande.
  * Orden: primero los que tienen letra (A, B, C... con orden numérico: M2 después de M) y luego los que solo tienen nombre.
- * @returns [{ clave, letra, titulo, sub, pisos, osm, feature, bounds, centro, area }]
+ * @returns [{ clave, letra, titulo, sub, alias, pisos, osm, feature, bounds, centro, area }]
  */
 export function crearEdificios(geo) {
   const porClave = new Map();
@@ -58,6 +67,7 @@ export function crearEdificios(geo) {
       clave, letra, osm: p.osm,
       titulo: letra ? `Edificio ${letra}` : partes[0],
       sub: extra.sub || partes[1] || (letra ? '' : 'Edificio del campus'),
+      alias: ALIAS[clave] ?? [],
       pisos: p.pisos ? Number(p.pisos) : null,
       feature, bounds: cajaDe(feature.geometry), centro: [grande.lat, grande.lng], area: grande.area,
     });
@@ -103,10 +113,21 @@ export function nodoDestino(grafo, letra) {
   return grafo.nodos.find((n) => n.edificio === letra && n.tipo === 'edificio')?.id ?? null;
 }
 
-// Búsqueda por letra, título y subtítulo, sin mayúsculas ni tildes.
+// Búsqueda por letra, título, subtítulo y alias, sin mayúsculas ni tildes.
+// Orden: coincidencia exacta de letra primero, luego nombre o alias que empieza con la consulta, luego el resto.
 const norm = (s) => (s ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
+const aliasDe = (e) => e.alias ?? ALIAS[e.clave] ?? [];
+function prioridad(e, t) {
+  const letra = norm(e.letra);
+  if (letra && letra === t) return 0;
+  const campos = [e.letra, e.titulo, e.sub, ...aliasDe(e)].map(norm).filter(Boolean);
+  if (campos.some((c) => c.startsWith(t))) return 1;
+  return 2;
+}
 export function filtrarEdificios(lista, q) {
   const t = norm(q);
   if (!t) return lista;
-  return lista.filter((e) => norm(`${e.letra ?? ''} ${e.titulo} ${e.sub}`).includes(t));
+  return lista
+    .filter((e) => norm(`${e.letra ?? ''} ${e.titulo} ${e.sub} ${aliasDe(e).join(' ')}`).includes(t))
+    .sort((a, b) => prioridad(a, t) - prioridad(b, t));
 }
