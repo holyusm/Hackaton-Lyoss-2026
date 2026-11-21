@@ -19,9 +19,18 @@
 .mapa-destino { color: var(--cobalto); }
 .mapa-destino svg { width: 48px; height: 48px; display: block; }
 .mapa-destino .marcador-destino__etiqueta { position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); }
+.mapa-destino--derecha .marcador-destino__etiqueta { left: calc(100% + 4px); bottom: -6px; transform: none; }
+.mapa-destino--abajo .marcador-destino__etiqueta { left: 50%; top: calc(100% + 4px); bottom: auto; transform: translateX(-50%); }
+.mapa-destino--izquierda .marcador-destino__etiqueta { left: auto; right: calc(100% + 4px); bottom: -6px; transform: none; }
 .mapa-marcador { position: relative; }
 .mapa-marcador .marcador { position: absolute; inset: 0; }
-.mapa-marcador__etiqueta--bajo { position: absolute; left: 50%; top: 100%; transform: translate(-50%, 6px); max-width: 140px; overflow: hidden; text-overflow: ellipsis; background: var(--alto); color: var(--sobre-alto); border-color: var(--alto); }
+.mapa-marcador__etiqueta--bajo,
+.mapa-marcador__etiqueta--arriba {
+  position: absolute; left: 50%; max-width: 140px; overflow: hidden; text-overflow: ellipsis;
+  background: var(--alto); color: var(--sobre-alto); border-color: var(--alto);
+}
+.mapa-marcador__etiqueta--bajo { top: 100%; transform: translate(-50%, 6px); }
+.mapa-marcador__etiqueta--arriba { bottom: 100%; transform: translate(-50%, -6px); }
 .mapa-ruta .leaflet-div-icon { background: none; border: 0; }
 
 .mapa-controles { position: absolute; top: var(--e-4); right: var(--e-4); z-index: 500; display: flex; flex-direction: column; gap: var(--e-2); }
