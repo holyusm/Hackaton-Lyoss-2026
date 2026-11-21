@@ -29,15 +29,18 @@ export function useComparacion() {
     const { desde, hasta, grafo, bloqueos, verificadas } = consulta;
     const cargar = async () => {
       let resultados;
+      let sinVerificar = false;
       try {
         const r = await fetch(`/api/comparar?${new URLSearchParams({ desde, hasta })}`, { signal: controlador.signal });
         if (!r.ok) throw new Error();
         resultados = await r.json();
       } catch (err) {
-        if (controlador.signal.aborted || !verificadas) throw err;
+        if (controlador.signal.aborted) throw err;
+        // Sin servidor se calcula igual con el motor local (mismo patrón que /mapa); si las barreras no se verificaron, se avisa.
+        sinVerificar = !verificadas;
         resultados = compararPerfiles(grafo, perfiles, { desde, hasta, bloqueos: JSON.parse(bloqueos) });
       }
-      if (!controlador.signal.aborted) setRespuesta({ consulta, estado: 'ok', resultados });
+      if (!controlador.signal.aborted) setRespuesta({ consulta, estado: 'ok', resultados, sinVerificar });
     };
     cargar().catch(() => {
       if (!controlador.signal.aborted) setRespuesta({ consulta, estado: 'error' });
@@ -64,6 +67,7 @@ export function useComparacion() {
 
   return {
     estado: vigente?.estado ?? 'cargando', reintentar: () => reintentar((n) => n + 1),
+    sinVerificar: Boolean(vigente?.sinVerificar),
     filas, frase: fraseResumen(filas, destino), barreras, grafo, lugares,
     desde, hasta, origen, destino, cambiar,
   };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MagnifyingGlass, MapPin } from '@phosphor-icons/react';
 import CampoLugar from '../components/CampoLugar.jsx';
+import AvisoBarrera from '../components/AvisoBarrera.jsx';
 import TablaComparar from '../components/TablaComparar.jsx';
 import FilaPerfilMovil from '../components/FilaPerfilMovil.jsx';
 import MapaComparar from '../components/MapaComparar.jsx';
@@ -30,7 +31,7 @@ export default function Comparar() {
   const elegido = PERFILES.find((p) => p.id === seleccion);
   const descripcion = c.origen && c.destino
     ? `Plano de Casa Central desde ${conArticulo(c.origen)} hasta ${conArticulo(c.destino)}, ${elegido
-      ? `resaltando la ruta ${elegido.textoBoton || 'estándar'}` : 'con las rutas de cada perfil'}.${sillaSinRuta ? ` ${motivo} No hay ruta en silla de ruedas.` : ''}`
+      ? `resaltando la ruta ${elegido.textoBoton || 'estándar'}` : 'con las rutas de cada perfil'}.${sillaSinRuta ? ` ${silla.motivo} No hay ruta en silla de ruedas.` : ''}`
     : 'Plano de Casa Central';
 
   return (
@@ -62,7 +63,10 @@ export default function Comparar() {
       {/* La frase cambia sola cuando un perfil queda sin ruta: se anuncia sin mover el foco. */}
       <div className="comparar__vivo" aria-live="polite">
         {c.estado === 'cargando' && <p>Calculando las rutas…</p>}
-        {c.estado === 'error' && <><p>No pudimos verificar las rutas actuales.</p><button type="button" onClick={c.reintentar}>Reintentar</button></>}
+        {c.estado === 'error' && <><p>No pudimos verificar las rutas actuales.</p><button type="button" className="boton boton--secundario boton--chico" onClick={c.reintentar}>Reintentar</button></>}
+        {c.sinVerificar && (
+          <AvisoBarrera variante="compacto" role="status">No pudimos verificar las barreras activas del campus. Las rutas pueden no tenerlas en cuenta.</AvisoBarrera>
+        )}
         {c.frase && <h2 className="comparar__frase">{c.frase}</h2>}
       </div>
 
