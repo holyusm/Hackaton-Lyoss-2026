@@ -1,5 +1,14 @@
 # Team rules for every agent
 
+## 0. What we are building (read first)
+
+**Challenge (revealed 09:20, 21-11-2026): "Campus sin barreras: movilidad y orientación para todos".** Use technology to reduce the orientation and mobility difficulties that students with different needs face inside a university campus (reference: USM Casa Central). We choose one concrete difficulty, the target students, and the tech. Deliverable: a working prototype that clearly shows the difficulty, who benefits, and how it helps. Simulated data is allowed if assumptions are declared.
+
+- Challenge summary + current team decisions (idea, users, stack, demo URL): `docs/desafio.md`. **Read it at session start.**
+- Official PDFs (source of truth): `docs/oficial/Enunciado_Hackathon_2026.pdf`, `docs/oficial/Bases_Hackaton_Oficiales.pdf`.
+- Schedule, rubric, deliverables: `docs/hackaton.md`.
+- Accessibility is part of the topic *and* of the UX/UI score: the app itself must be accessible (contrast, keyboard, screen-reader labels).
+
 > Guía práctica (en español) de cómo escuchar el tablero y trabajar en paralelo sin pisarse: `.claude/skills/tablero-equipo/SKILL.md`. Claude Code la carga sola; otros agentes, léanla al empezar.
 >
 > **Hackathon context:** official schedule, rubric, required deliverables and originality/AI rules are in `docs/hackaton.md`. Read it at session start. No product code before 09:20; delivery at 17:00. Which skills to use when: `docs/skills.md`.
