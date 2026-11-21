@@ -68,4 +68,4 @@ Impacto 30% · Innovación 25% · Ejecución 20% · Presentación (pitch + READM
 - **Dificultad elegida:** orientación y desplazamiento en Casa Central USM: el camino accesible es desconocido o cambia (ascensor fuera de servicio, obstáculos).
 - **Usuarios objetivo:** estudiantes con movilidad reducida (silla de ruedas, lesión temporal), baja visión/ceguera, y estudiantes nuevos.
 - **Stack:** Vite + React + Leaflet / Node + Express / motor de rutas JS. Detalle en `docs/contratos.md`.
-- **Demo pública:** por definir (Render, objetivo ~11:00).
+- **Demo pública:** https://hackaton-lyoss-2026.onrender.com (Render Free: se duerme tras ~15 min sin tráfico, abrirla unos minutos antes del pitch; los reportes se reinician en cada deploy).
