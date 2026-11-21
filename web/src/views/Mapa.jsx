@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ListBullets } from '@phosphor-icons/react';
 import AvisoBarrera from '../components/AvisoBarrera.jsx';
+import BandaEnVivo from '../components/BandaEnVivo.jsx';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import HojaRuta from '../components/HojaRuta.jsx';
 import MapaRuta from '../components/MapaRuta.jsx';
@@ -77,7 +78,8 @@ export default function Mapa() {
           <button type="button" className="boton-pastilla" aria-pressed="false" onClick={() => cambiarLista(true)}>
             <ListBullets weight="bold" aria-hidden="true" /> Ver como lista
           </button>
-          {sinVerificar}
+          <BandaEnVivo actualizado={r.actualizado} error={r.errorBarreras} />
+          {!r.errorBarreras && sinVerificar}
         </div>
       </div>
       <HojaRuta ruta={r.ruta} origen={r.origen} destino={r.destino} perfil={perfil} altura={altura} onAltura={setAltura} />
