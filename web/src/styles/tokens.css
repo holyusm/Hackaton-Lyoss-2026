@@ -310,3 +310,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Colores forzados: el navegador suprime box-shadow, así que el foco usa outline */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
