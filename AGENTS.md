@@ -52,6 +52,8 @@ Fill this in at kickoff so every agent knows whose files are whose.
 
 | Area | Owner (GitHub login) | Folders |
 |---|---|---|
-| TBD at kickoff | `@holyusm` | TBD |
-| TBD at kickoff | `@Gxppe` | TBD |
-| TBD at kickoff | `@juaquo15` | TBD |
+| Views, design, UI accessibility, contracts, shared files, README, pitch | `@holyusm` | `web/`, `docs/contratos.md`, `docs/desafio.md`, `AGENTS.md`, `package.json`, `vite.config.js`, `README.md`, `.env.example` |
+| Server, reports API, route/report integration, QR endpoint + generator, deploy | `@Gxppe` | `server/`, `scripts/`, `render.yaml`, `docs/qr/` |
+| Campus data (field survey), profiles, routing engine, QR point content, impact figures | `@juaquo15` | `data/`, `motor/`, `docs/levantamiento.md` |
+
+Contracts between areas: `docs/contratos.md` (only `@holyusm` edits it). Need a change in someone else's file (e.g. a new dependency in `package.json`)? Ask on the board.
