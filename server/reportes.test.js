@@ -35,6 +35,11 @@ test('ciclo de vida de un reporte', async () => {
   assert.ok(!reportesActivos().some((x) => x.id === creado.id), 'resuelto ya no está activo');
   assert.equal((await post('/r999/resolver')).status, 404);
 
+  assert.equal((await post('/', { tipo: 'otro', nodo_id: 'ascensor-a', descripcion: 'larga', duracion_min: 241 })).status, 400);
+  const otro = { tipo: 'otro', nodo_id: 'ascensor-a', descripcion: 'spam' };
+  for (let i = 1; i < 10; i++) assert.equal((await post('/', otro)).status, 201);
+  assert.equal((await post('/', otro)).status, 429, 'tope por IP');
+
   servidor.closeAllConnections();
   servidor.close();
 });

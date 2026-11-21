@@ -6,6 +6,7 @@ import { calcularRuta, compararPerfiles } from '../motor/ruta.js';
 
 const dist = raiz + 'web/dist';
 const app = express();
+app.set('trust proxy', 1); // Render pone un proxy delante: req.ip = IP real del cliente
 app.use(express.json());
 
 const servirDatos = (archivo) => async (req, res) => {

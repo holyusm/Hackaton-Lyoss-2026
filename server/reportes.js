@@ -6,6 +6,12 @@ import { leerDatos } from './datos.js';
 
 const TIPOS = ['ascensor_fuera_servicio', 'obstaculo', 'rampa_bloqueada', 'piso_mojado', 'otro'];
 const MAX_ACTIVOS = 200;
+const MAX_DURACION = 240;
+// En el evento todos comparten la IP del Wi-Fi, por eso 10 y no menos.
+const MAX_POR_IP = 10;
+const VENTANA_IP_MS = 10 * 60_000;
+// ponytail: mapa en memoria sin limpieza; con tráfico real usar un rate limiter con expiración.
+const enviosPorIp = new Map();
 // ponytail: archivo en el tmp del SO; en Render se pierde al redeployar y se vuelven a cargar los ejemplos.
 const archivo = process.env.REPORTES_PATH || join(tmpdir(), 'campus-sin-barreras-reportes.json');
 
@@ -46,8 +52,8 @@ async function validar(b) {
   if (typeof id !== 'string') return 'tramo_id/nodo_id debe ser texto';
   if (typeof b.descripcion !== 'string' || !b.descripcion.trim() || b.descripcion.length > 280)
     return 'descripcion requerida (máx. 280 caracteres)';
-  if (b.duracion_min !== undefined && !(Number.isFinite(b.duracion_min) && b.duracion_min >= 1 && b.duracion_min <= 1440))
-    return 'duracion_min debe ser un número entre 1 y 1440';
+  if (b.duracion_min !== undefined && !(Number.isFinite(b.duracion_min) && b.duracion_min >= 1 && b.duracion_min <= MAX_DURACION))
+    return `duracion_min debe ser un número entre 1 y ${MAX_DURACION}`;
   // Si el grafo aún no existe no se puede verificar el id; se acepta.
   const grafo = await leerDatos('campus.json').catch(() => null);
   if (grafo) {
@@ -62,6 +68,9 @@ export const rutasReportes = Router();
 rutasReportes.get('/', (req, res) => res.json(reportesActivos()));
 
 rutasReportes.post('/', async (req, res) => {
+  const ahora = Date.now();
+  const envios = (enviosPorIp.get(req.ip) || []).filter((t) => ahora - t < VENTANA_IP_MS);
+  if (envios.length >= MAX_POR_IP) return res.status(429).json({ error: 'demasiados reportes desde esta conexión; espera unos minutos' });
   const error = await validar(req.body);
   if (error) return res.status(400).json({ error });
   reportes = reportesActivos(); // descarta vencidos y resueltos
@@ -69,6 +78,7 @@ rutasReportes.post('/', async (req, res) => {
   const { tipo, tramo_id, nodo_id, descripcion, duracion_min } = req.body;
   const reporte = nuevoReporte(`r${siguiente++}`, { tipo, tramo_id, nodo_id, descripcion: descripcion.trim(), duracion_min });
   reportes.push(reporte);
+  enviosPorIp.set(req.ip, [...envios, ahora]);
   guardar();
   res.status(201).json(reporte);
 });
