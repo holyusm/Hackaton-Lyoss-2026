@@ -65,7 +65,7 @@ Impacto 30% · Innovación 25% · Ejecución 20% · Presentación (pitch + READM
 > El orquestador (sesión de @holyusm) actualiza esta sección cuando se decide algo grande.
 
 - **Nombre:** **parejo** (piso sin desniveles, "igual para todos"). Diseño en `docs/diseno/vistas/`.
-- **Idea:** mapa de rutas accesibles por perfil (silla de ruedas, movilidad reducida, baja visión) + barreras reportadas en vivo que recalculan la ruta + (si alcanza) puntos QR con voz para personas con discapacidad visual.
+- **Idea (tal como quedó):** mapa de rutas accesibles por perfil (silla de ruedas, movilidad reducida, baja visión, estándar) + barreras reportadas en vivo que recalculan la ruta + plano interactivo `/plano` con interiores (Edificio C desde OpenStreetMap, Edificio P dibujado por el equipo) y rutas a salas + comparador de perfiles + puntos QR con voz + `/campus` (simulador de obras e informe A4 para la universidad).
 - **Dificultad elegida:** orientación y desplazamiento en Casa Central USM: el camino accesible es desconocido o cambia (ascensor fuera de servicio, obstáculos).
 - **Usuarios objetivo:** estudiantes con movilidad reducida (silla de ruedas, lesión temporal), baja visión/ceguera, y estudiantes nuevos.
 - **Stack:** Vite + React + Leaflet / Node + Express / motor de rutas JS. Detalle en `docs/contratos.md`.
