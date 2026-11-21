@@ -3,13 +3,13 @@
 
 // Edificios sin nombre en OSM que el equipo identificó.
 export const EXTRA = {
-  'relation/17542343': { letra: 'B', sub: 'Edificio central · nombre por confirmar' },
+  'relation/17542343': { letra: 'B', sub: 'Edificio central, nombre por confirmar' },
 };
 
 export function limpiar(nombre) {
   return (nombre || '')
     .replace('Comerdores', 'Comedores')
-    .replace('Federación de Estudiantes de la Universidad Técnica Federico Santa María', 'FEUTFSM · Federación de Estudiantes');
+    .replace('Federación de Estudiantes de la Universidad Técnica Federico Santa María', 'FEUTFSM, Federación de Estudiantes');
 }
 
 // Anillos exteriores [lng, lat] de un Polygon o MultiPolygon.
@@ -66,6 +66,12 @@ export function crearEdificios(geo) {
     if (Boolean(a.letra) !== Boolean(b.letra)) return a.letra ? -1 : 1;
     return (a.letra || a.titulo).localeCompare(b.letra || b.titulo, 'es', { numeric: true });
   });
+}
+
+// Centro [lat, lng] de un polígono (para poner la etiqueta de una sala).
+export function centroDe(geometry) {
+  const grande = anillos(geometry).map(medidas).sort((a, b) => b.area - a.area)[0];
+  return [grande.lat, grande.lng];
 }
 
 // ¿Este feature de edificio pertenece al grupo `clave`? (el C tiene dos polígonos: se resaltan los dos)

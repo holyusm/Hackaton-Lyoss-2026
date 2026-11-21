@@ -11,6 +11,7 @@ import Mapa from './views/Mapa.jsx';
 import Reportar from './views/Reportar.jsx';
 import Comparar from './views/Comparar.jsx';
 import Campus from './views/Campus.jsx';
+import Plano from './views/Plano.jsx';
 import Punto from './views/Punto.jsx';
 
 // Vistas sin implementar todavía: cada una se reemplaza por su archivo en web/src/views/.
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')).render(
           <Route element={<Shell />}>
             <Route path="/" element={<Inicio />} />
             <Route path="/mapa" element={<Mapa />} />
+            <Route path="/plano" element={<Plano />} />
             <Route path="/comparar" element={<Comparar />} />
             <Route path="/reportar" element={<Reportar />} />
             <Route path="/punto/:id" element={<Punto />} />
