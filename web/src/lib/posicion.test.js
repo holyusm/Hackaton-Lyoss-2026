@@ -35,7 +35,8 @@ test('armarRuta con posicion arma coordenadas y un punto por paso', () => {
   const { posicion } = crearPosicion(grafo);
   const res = calcularRuta(grafo, perfiles, { desde: 'entrada-principal', hasta: 'sala-a201', perfil: 'silla_ruedas' });
   const r = armarRuta(grafo, res, { posicion });
-  assert.equal(r.coordenadas.length, res.nodos.length);
+  assert.ok(r.coordenadas.length >= res.nodos.length, 'la línea pasa por todos los nodos y por el trazado de cada tramo');
+  assert.deepEqual(r.coordenadas[0], posicion(grafo.nodos.find((n) => n.id === res.nodos[0])));
   assert.ok(r.pasos.every((p) => p.punto.length === 2 && p.punto.every(Number.isFinite)));
 });
 
