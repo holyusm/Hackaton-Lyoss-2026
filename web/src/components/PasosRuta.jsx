@@ -29,13 +29,13 @@ export function ListaPasos({ pasos }) {
   );
 }
 
-// Cifra antes que etiqueta en el DOM y también en pantalla: la cifra arriba, la etiqueta abajo.
+// La etiqueta (dt) va antes que la cifra (dd) en el DOM; column-reverse (componentes.css) deja la cifra arriba.
 export function MetricasRuta({ ruta, compactas = false }) {
   return (
     <dl className={compactas ? 'metricas metricas--compactas' : 'metricas'}>
-      <div className="metrica"><dd>{coma(Math.round(ruta.metros))}</dd><dt>metros</dt></div>
-      <div className="metrica"><dd>{coma(ruta.minutos)}</dd><dt>minutos</dt></div>
-      <div className={ruta.escalones === 0 ? 'metrica metrica--buena' : 'metrica'}><dd>{ruta.escalones}</dd><dt>{ruta.escalones === 1 ? 'escalón' : 'escalones'}</dt></div>
+      <div className="metrica"><dt>metros</dt><dd>{coma(Math.round(ruta.metros))}</dd></div>
+      <div className="metrica"><dt>minutos</dt><dd>{coma(ruta.minutos)}</dd></div>
+      <div className={ruta.escalones === 0 ? 'metrica metrica--buena' : 'metrica'}><dt>{ruta.escalones === 1 ? 'escalón' : 'escalones'}</dt><dd>{ruta.escalones}</dd></div>
     </dl>
   );
 }
