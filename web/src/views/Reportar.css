@@ -141,3 +141,10 @@
 .plano-marcar__pin svg { width: 40px; height: 40px; filter: drop-shadow(0 0 2px var(--superficie)); }
 .plano-marcar__pista { position: absolute; right: var(--e-2); bottom: var(--e-2); z-index: 500; padding: var(--e-1) var(--e-3); border-radius: var(--r-pill); background: var(--superficie); color: var(--tinta); border: var(--ancho-linea) solid var(--borde-control); font-size: var(--t-detalle); font-weight: var(--peso-negro); pointer-events: none; }
 @media (min-width: 900px) { .plano-marcar__leaflet { height: 220px; } }
+
+/* Lote 7: estados de Reportar. */
+.reporte-form__banda { align-self: stretch; border-radius: var(--r-control); }
+.reporte-form__motivo { margin: 0 0 var(--e-2); }
+.reporte-form__accion .boton[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+.reporte-lista__hora { font-size: var(--t-detalle); font-weight: 400; color: var(--tinta-2); }
+.reporte-esqueleto { gap: var(--e-3); }
