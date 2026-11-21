@@ -59,7 +59,10 @@ export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos =
   if (!prof) return { ok: false, motivo: `perfil desconocido: ${perfil}` };
 
   const bloqueados = new Set(bloqueos);
-  if (bloqueados.has(desde) || bloqueados.has(hasta)) {
+  // Un ascensor bloqueado solo bloquea los tramos que pasan por él (ascensor_id, ver tramoBloqueado):
+  // el vestíbulo sigue siendo transitable. Los demás nodos bloqueados sí son intransitables.
+  const nodoBloqueado = (id) => bloqueados.has(id) && nodosPorId.get(id)?.tipo !== 'ascensor';
+  if (nodoBloqueado(desde) || nodoBloqueado(hasta)) {
     return { ok: false, motivo: 'sin ruta accesible para este perfil' };
   }
 
@@ -67,7 +70,7 @@ export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos =
   const ady = new Map(grafo.nodos.map((n) => [n.id, []]));
   for (const t of grafo.tramos) {
     if (tramoBloqueado(t, bloqueados) || prohibidoParaPerfil(t, prof)) continue;
-    if (bloqueados.has(t.desde) || bloqueados.has(t.hasta)) continue;
+    if (nodoBloqueado(t.desde) || nodoBloqueado(t.hasta)) continue;
     const costo = costoTramo(t, prof);
     ady.get(t.desde).push({ a: t.hasta, tramo: t, costo });
     if (!t.sentido_unico) ady.get(t.hasta).push({ a: t.desde, tramo: t, costo });
