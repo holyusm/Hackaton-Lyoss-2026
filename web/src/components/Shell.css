@@ -81,9 +81,17 @@ dialog.hoja::backdrop { background: var(--velo); }
 /* Áreas táctiles de 48 px (regla del equipo). componentes.css trae 44 px en estos dos; el ajuste va aquí. */
 .nav-escritorio a { min-height: var(--toque-min); }
 .segmentado button { height: var(--toque-min); }
-/* Con zoom al 200 % (≈195 px de ancho) la barra inferior deja cada ítem en 43 px: sin relleno ni separación
-   llegan a 48. */
+/* Con zoom al 200 % (≈195 px de ancho) la barra inferior no debe solapar textos ni pegarse */
 @media (max-width: 260px) {
-  .nav-movil { padding: 0; gap: 0; }
-  .nav-movil a, .nav-movil__mas { border-radius: 0; }
+  .nav-movil { padding: 2px; gap: 2px; }
+  .nav-movil a, .nav-movil__mas {
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 13px;
+    padding: 2px 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav-movil a svg, .nav-movil__mas svg { width: 18px; height: 18px; }
 }
