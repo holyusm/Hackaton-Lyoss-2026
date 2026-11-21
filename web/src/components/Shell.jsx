@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { ArrowsLeftRight, Buildings, CaretLeft, CircleHalf, DotsThreeOutline, Flag, Info, MapPin, MapTrifold, Monitor, PersonArmsSpread, SpeakerHigh, X } from '@phosphor-icons/react';
+import { ArrowsLeftRight, Buildings, CaretLeft, CircleHalf, DotsThreeOutline, Flag, Hammer, Info, MapPin, MapTrifold, Monitor, PersonArmsSpread, SpeakerHigh, SquaresFour, X } from '@phosphor-icons/react';
 import Simbolo from './Simbolo.jsx';
 import PanelAccesibilidad, { TAMANOS } from './PanelAccesibilidad.jsx';
 import { usePreferencias } from '../hooks/usePreferencias.js';
@@ -8,13 +8,13 @@ import './Shell.css';
 
 const NAV = [
   { a: '/', texto: 'Ruta', Icono: MapTrifold },
-  { a: '/plano', texto: 'Plano', Icono: MapPin },
+  { a: '/plano', texto: 'Plano', Icono: MapPin, IconoMas: SquaresFour },
   { a: '/comparar', texto: 'Comparar', Icono: ArrowsLeftRight },
   { a: '/reportar', texto: 'Reportar', Icono: Flag },
-  { a: '/campus', texto: 'Mejorar el campus', Icono: Buildings },
+  { a: '/campus', texto: 'Mejorar el campus', Icono: Buildings, IconoMas: Hammer },
   { a: '/acerca', texto: 'Acerca', Icono: Info },
 ];
-// En móvil caben 4: los dos últimos van dentro de "Más".
+// En móvil caben 4: Plano, Mejorar el campus y Acerca van dentro de "Más" (íconos del Lote 8 en la hoja).
 const EN_MAS = ['/plano', '/campus', '/acerca'];
 
 // "Ruta" cubre el flujo completo: elegir destino (/) y verlo en el mapa (/mapa).
@@ -30,6 +30,8 @@ export default function Shell() {
   const enMapa = pathname.startsWith('/mapa');
   // /punto/:id (Lote 5): se abre desde un QR; sin navegación ni pie, solo cabecera, Accesibilidad y el salto.
   const enPunto = pathname.startsWith('/punto/');
+  // /plano (Lote 10): saltos propios (lista en escritorio, búsqueda en móvil) y sin pie legal que agregue scroll.
+  const enPlano = pathname.startsWith('/plano');
   const p = usePreferencias();
   const navigate = useNavigate();
   // Salir del modo presentación: se apaga y se quita ?presentacion=1 para que no vuelva al recargar.
@@ -53,10 +55,18 @@ export default function Shell() {
       <span>{texto}</span>
     </Link>
   );
-  const enMas = EN_MAS.some((a) => esActual(a, pathname));
+  const actualEnMas = NAV.find((n) => EN_MAS.includes(n.a) && esActual(n.a, pathname));
+  const enMas = Boolean(actualEnMas);
+  const botonMas = useRef(null);
 
   return (
     <div className={enMapa ? 'app app--mapa' : 'app'}>
+      {enPlano && (
+        <>
+          <a className="saltar saltar--escritorio" href="#plano-lista">Saltar a la lista de edificios</a>
+          <a className="saltar saltar--movil" href="#plano-busqueda">Saltar a la búsqueda de edificios</a>
+        </>
+      )}
       {enMapa
         ? <a className="saltar" href="#ruta">Saltar a la ruta</a>
         : <a className="saltar" href="#contenido">Saltar al contenido</a>}
@@ -110,42 +120,63 @@ export default function Shell() {
 
       <main id="contenido" tabIndex={-1}>
         <Outlet />
-        {!enMapa && !enPunto && <p className="pie-legal">Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>}
+        {!enMapa && !enPunto && !enPlano && <p className="pie-legal">Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>}
       </main>
 
       {!enPunto && (
         <nav className="nav-movil" aria-label="Principal">
           {NAV.filter((n) => !EN_MAS.includes(n.a)).map(enlace)}
-          <button type="button" className="nav-movil__mas" aria-haspopup="dialog" aria-expanded={mas}
-            aria-current={enMas ? 'page' : undefined} onClick={() => setMas(true)}>
+          <button ref={botonMas} type="button" className="nav-movil__mas" aria-haspopup="dialog" aria-expanded={mas}
+            aria-current={enMas ? 'page' : undefined} aria-label={enMas ? `Más, estás en ${actualEnMas.texto}` : undefined}
+            onClick={() => setMas(true)}>
             <DotsThreeOutline weight="bold" aria-hidden="true" />
             <span>Más</span>
           </button>
         </nav>
       )}
-      <PanelMas abierto={mas} onCerrar={() => setMas(false)} enlaces={NAV.filter((n) => EN_MAS.includes(n.a)).map(enlace)} />
+      <PanelMas abierto={mas} onCerrar={() => setMas(false)} botonMas={botonMas}
+        destinos={NAV.filter((n) => EN_MAS.includes(n.a))} esActual={(a) => esActual(a, pathname)} />
 
       <PanelAccesibilidad abierto={panel} onCerrar={() => setPanel(false)} />
     </div>
   );
 }
 
-// Hoja móvil con los ítems que no caben en la barra. <dialog> nativo, igual que PanelAccesibilidad.
-function PanelMas({ abierto, onCerrar, enlaces }) {
+// Hoja móvil con los ítems que no caben en la barra. <dialog> nativo con showModal(), igual que PanelAccesibilidad:
+// el navegador atrapa el foco y Escape la cierra. Al cerrarla con Escape o Cerrar el foco vuelve al botón Más;
+// al elegir un destino no, para que el foco quede en la vista nueva.
+function PanelMas({ abierto, onCerrar, botonMas, destinos, esActual }) {
   const d = useRef(null);
+  const navegando = useRef(false);
   useEffect(() => {
-    if (abierto && !d.current.open) d.current.showModal();
+    if (abierto && !d.current.open) { navegando.current = false; d.current.showModal(); }
     if (!abierto && d.current.open) d.current.close();
   }, [abierto]);
+  const alCerrar = () => {
+    onCerrar();
+    if (!navegando.current) botonMas.current?.focus();
+  };
   return (
-    <dialog ref={d} className="hoja panel-mas" aria-labelledby="titulo-mas" onClose={onCerrar}>
+    <dialog ref={d} className="hoja panel-mas" aria-labelledby="titulo-mas" onClose={alCerrar}>
       <div className="panel-accesibilidad__cabeza">
         <h2 id="titulo-mas">Más</h2>
-        <button type="button" className="panel-accesibilidad__cerrar" aria-label="Cerrar" onClick={onCerrar}>
+        <button type="button" className="panel-accesibilidad__cerrar" aria-label="Cerrar" onClick={() => d.current.close()}>
           <X weight="bold" aria-hidden="true" />
         </button>
       </div>
-      <nav className="panel-mas__enlaces" aria-label="Más secciones">{enlaces}</nav>
+      <nav className="panel-mas__enlaces" aria-label="Más secciones">
+        {destinos.map(({ a, texto, Icono, IconoMas }) => {
+          const Ic = IconoMas ?? Icono;
+          const aqui = esActual(a);
+          return (
+            <Link key={a} to={a} aria-current={aqui ? 'page' : undefined} onClick={() => { if (aqui) d.current.close(); else navegando.current = true; }}>
+              <Ic weight="bold" aria-hidden="true" />
+              <span>{texto}</span>
+              {aqui && <span className="panel-mas__aqui">Estás aquí</span>}
+            </Link>
+          );
+        })}
+      </nav>
     </dialog>
   );
 }
