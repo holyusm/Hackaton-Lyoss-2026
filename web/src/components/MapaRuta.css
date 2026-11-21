@@ -1,0 +1,35 @@
+/* Mapa de /mapa. Los colores van como clases porque los atributos SVG de Leaflet no resuelven var(). */
+.mapa-ruta { position: absolute; inset: 0; z-index: 0; }   /* z-index: contiene los paneles de Leaflet (400 a 700) */
+.mapa-ruta .leaflet-container { width: 100%; height: 100%; background: var(--mapa-fondo); font-family: var(--fuente); outline: none; }
+
+.mapa-plano { fill: var(--mapa-fondo); fill-opacity: 1; stroke: var(--linea); stroke-width: 2px; }
+.mapa-camino { fill: none; stroke: var(--mapa-camino); stroke-width: 3px; stroke-linecap: round; }
+.mapa-camino, .ruta-borde, .ruta-linea, .mapa-plano { stroke-opacity: 1; }
+.ruta-borde { fill: none; stroke: var(--superficie); stroke-width: calc(var(--ruta-ancho) * 2); }
+.ruta-linea { fill: none; stroke: var(--cobalto); stroke-width: var(--ruta-ancho); }
+
+.mapa-paso span {
+  box-sizing: border-box; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r-pill); background: var(--cobalto); color: var(--sobre-cobalto);
+  border: 3px solid var(--fondo); outline: 2px solid var(--cobalto);
+  font-family: var(--fuente); font-weight: var(--peso-negro); font-size: 15px; font-variant-numeric: tabular-nums;
+}
+.mapa-origen span {
+  box-sizing: border-box; display: block; width: 28px; height: 28px;
+  border-radius: var(--r-pill); background: var(--superficie); border: 5px solid var(--cobalto);
+}
+.mapa-destino { color: var(--cobalto); }
+.mapa-destino svg { width: 48px; height: 48px; display: block; }
+.mapa-destino .marcador-destino__etiqueta { position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); }
+.mapa-marcador { position: relative; }
+.mapa-marcador .marcador { position: absolute; inset: 0; }
+.mapa-marcador__etiqueta--bajo { position: absolute; left: 50%; top: 100%; transform: translate(-50%, 6px); max-width: 190px; overflow: hidden; text-overflow: ellipsis; background: var(--alto); color: var(--sobre-alto); border-color: var(--alto); }
+.mapa-ruta .leaflet-div-icon { background: none; border: 0; }
+
+.mapa-controles { position: absolute; top: var(--e-4); right: var(--e-4); z-index: 500; display: flex; flex-direction: column; gap: var(--e-2); }
+.mapa-control {
+  box-sizing: border-box; width: 48px; height: 48px; padding: 0; display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; border: 2px solid var(--borde-control); background: var(--superficie); color: var(--tinta); cursor: pointer;
+}
+.mapa-control svg { width: 24px; height: 24px; }
+.mapa-control:hover { background: var(--cobalto-tinte); }
