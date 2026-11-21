@@ -29,10 +29,17 @@ const nuevoReporte = (id, { tipo, tramo_id = null, nodo_id = null, descripcion, 
   creado: new Date().toISOString(), expira: minutosDesdeAhora(duracion_min), resuelto: false,
 });
 
+// Un archivo guardado puede venir dañado o editado a mano: se usan solo las entradas válidas
+// y, si no queda una lista, se parte como en un arranque limpio. El servidor nunca se cae por esto.
+const valido = (r) => r && typeof r.id === 'string' && typeof r.tipo === 'string' && typeof r.expira === 'string';
 let reportes;
 try {
-  reportes = JSON.parse(readFileSync(archivo, 'utf8'));
-} catch {
+  const leidos = JSON.parse(readFileSync(archivo, 'utf8'));
+  if (!Array.isArray(leidos)) throw new Error('no es una lista');
+  reportes = leidos.filter(valido);
+  if (reportes.length < leidos.length) console.error(`Reportes: ignoré ${leidos.length - reportes.length} entradas inválidas de ${archivo}`);
+} catch (e) {
+  if (e.code !== 'ENOENT') console.error(`Reportes: no pude usar ${archivo} (${e.message}); parto de cero.`);
   reportes = grafoSimulado ? EJEMPLOS.map((r, i) => nuevoReporte(`r${i + 1}`, r)) : [];
 }
 let siguiente = Math.max(0, ...reportes.map((r) => Number(r.id.slice(1)) || 0)) + 1;
