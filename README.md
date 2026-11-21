@@ -1,7 +1,7 @@
 <!--
   BORRADOR (12:20). Revisar a las 15:45, después del [CONGELAR]:
   - Funcionalidades: confirmar en la URL pública que todas funcionan (/, /mapa, /reportar, /comparar, /punto/:id, /campus).
-  - Impacto: completar con las cifras de #14 (salen del grafo con los metros recalculados en #118).
+  - Impacto: cifras de PR #195; confirmar con main cuando se mergee.
   - Equipo: nombres de @Gxppe y @juaquo15.
 -->
 
@@ -23,7 +23,8 @@ En Chile, el 17,6 % de las personas de 18 años o más tiene alguna discapacidad
 
 Los estudiantes que más lo sufren son los que usan silla de ruedas, los que tienen movilidad reducida (bastón, lesión temporal, embarazo), los que tienen baja visión y los estudiantes nuevos que aún no conocen el campus.
 
-<!-- Impacto: completar con #14. Ejemplo de forma: "De la Entrada principal a la Sala A-201, en silla de ruedas la ruta es X m más larga y evita Y escalones. Hoy, N de M trayectos entre lugares del campus tienen barrera para al menos un perfil." -->
+<!-- Cifras de PR #195 (juaquo15, 16:35Z). Confirmar con main cuando se mergee. -->
+Un ejemplo con los datos del prototipo: de la Entrada principal a la Sala C231, la ruta estándar mide 540 m y sube 20 escalones. En silla de ruedas, parejo encuentra una de 550 m y 0 escalones por el ascensor del edificio C: casi el mismo largo, pero hay que conocerla. Si ese ascensor se detiene, no queda ninguna ruta en silla de ruedas, y parejo lo dice en vez de mandar a la escalera. Hoy, 2 de los 6 destinos de la muestra no tienen ruta en silla de ruedas.
 
 ## Solución y funcionalidades
 
