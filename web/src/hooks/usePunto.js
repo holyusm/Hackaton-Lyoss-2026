@@ -20,7 +20,8 @@ export function usePunto(id) {
       .catch(() => {
         if (controlador.signal.aborted) return;
         const punto = guardado();
-        setR({ punto, cargando: false, noEncontrado: !punto, sinConexion: true });
+        // Sin red y sin copia no es "no existe": la vista lo dice distinto.
+        setR({ punto, cargando: false, noEncontrado: false, sinConexion: true });
       });
     const online = () => setR((e) => ({ ...e, sinConexion: false }));
     const offline = () => setR((e) => ({ ...e, sinConexion: true }));

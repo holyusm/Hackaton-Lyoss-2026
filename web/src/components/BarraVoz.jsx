@@ -24,7 +24,7 @@ export default function BarraVoz({ v, frases }) {
     <div className="barra-voz">
       {/* Siempre en el DOM, aunque esté vacío: así el lector anuncia cuando empieza a leer. */}
       <p className={leyendo ? 'barra-voz__estado' : 'barra-voz__estado barra-voz__estado--vacio'} role="status" aria-live="polite">
-        {leyendo && <><SpeakerHigh weight="bold" aria-hidden="true" />{v.estado === 'pausa' ? 'En pausa' : `Leyendo ${frases[v.indice]?.nombre ?? ''}`}</>}
+        {leyendo && <><SpeakerHigh weight="bold" aria-hidden="true" />{v.estado === 'pausa' ? 'En pausa' : `Leyendo ${v.actual?.nombre ?? ''}`}</>}
       </p>
 
       {!leyendo ? (
