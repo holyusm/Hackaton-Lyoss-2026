@@ -11,6 +11,7 @@ import Mapa from './views/Mapa.jsx';
 import Reportar from './views/Reportar.jsx';
 import Comparar from './views/Comparar.jsx';
 import Campus from './views/Campus.jsx';
+import CampusInforme from './views/CampusInforme.jsx';
 import Plano from './views/Plano.jsx';
 import Punto from './views/Punto.jsx';
 import Acerca from './views/Acerca.jsx';
@@ -41,6 +42,8 @@ createRoot(document.getElementById('root')).render(
             <Route path="/acerca" element={<Acerca />} />
             <Route path="*" element={<NoEncontrada />} />
           </Route>
+          {/* Informe A4 de /campus: fuera del Shell, sin cabecera ni navegación (Lote 8, ref. 16). */}
+          <Route path="/campus/informe" element={<CampusInforme />} />
         </Routes>
       </BrowserRouter>
     </PreferenciasProvider>

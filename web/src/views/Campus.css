@@ -177,6 +177,12 @@
   background: var(--marca-pacifico); color: #FFFFFF; box-shadow: 0 2px 6px rgba(13, 43, 62, 0.35); font-size: var(--t-cuerpo);
 }
 .campus__fija strong { font-weight: var(--peso-negro); }
+.campus__fija p { margin: 0; }
+.campus__fija-informe {
+  display: inline-flex; align-items: center; gap: var(--e-2); flex-shrink: 0; min-height: 44px; padding: 0 var(--e-4); border-radius: var(--r-pill);
+  background: #FFFFFF; color: var(--marca-pacifico); font-weight: var(--peso-negro); font-size: var(--t-detalle); text-decoration: none;
+}
+.campus__fija-informe:focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
 
 /* ---------- Escritorio ---------- */
 @media (min-width: 720px) {

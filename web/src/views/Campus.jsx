@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Prohibit, UsersThree } from '@phosphor-icons/react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Printer, Prohibit, UsersThree } from '@phosphor-icons/react';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import { usePreferencias } from '../hooks/usePreferencias.js';
 import { useSimulador } from '../hooks/useSimulador.js';
@@ -109,10 +109,11 @@ export default function Campus() {
     />
   );
 
+  const informeHref = `/campus/informe?perfil=${perfil}&obras=${activas.join(',')}`;
   const franja = hoy && con && !estandar ? (
     <FranjaComparativa
       hoy={hoy} con={con} cantidad={activas.length} quedan={quedan} ocupada={ocupada}
-      onQuitar={() => setActivas([])}
+      onQuitar={() => setActivas([])} informeHref={informeHref}
     />
   ) : null;
   const zonasSec = hoy && datos.zonas?.length > 0 ? (
@@ -222,6 +223,7 @@ export default function Campus() {
           <p aria-hidden="true">
             <strong>Con {activas.length === 1 ? '1 obra' : `${activas.length} obras`}: {con.trayectos_con_barrera} con barrera</strong> (hoy {hoy.trayectos_con_barrera})
           </p>
+          <Link to={informeHref} className="campus__fija-informe"><Printer weight="bold" aria-hidden="true" /> Armar informe</Link>
         </div>
       )}
       {!movil && franja}
