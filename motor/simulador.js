@@ -82,7 +82,8 @@ export function simular(grafo, perfiles, obras, { perfil = 'silla_ruedas', ids =
   if (faltante) throw new Error(`obra desconocida: ${faltante}`);
   const elegidas = ids.map((id) => obras.find((o) => o.id === id));
 
-  const lugares = grafo.nodos.filter((n) => LUGARES.has(n.tipo)).map((n) => n.id);
+  // Las salas generadas del levantamiento (generado: 'salas') no son destinos del simulador: con ellas serían ~1400 trayectos.
+  const lugares = grafo.nodos.filter((n) => LUGARES.has(n.tipo) && n.generado !== 'salas').map((n) => n.id);
   const claves = lugares.flatMap((a) => lugares.filter((b) => b !== a).map((b) => `${a}>${b}`));
   const delPerfil = perfil === 'todos' ? EVALUADOS : [perfil];
   // Con obras elegidas hace falta Hoy en los tres perfiles para trayectos_sin_barrera_por_perfil.

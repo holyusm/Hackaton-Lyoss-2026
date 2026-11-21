@@ -166,3 +166,16 @@ test('los minutos ahorrados por obra nunca son negativos aunque una ruta nueva s
   const r = simular(g, perfiles, [obra], { perfil: 'baja_vision' });
   assert.ok(r.obras[0].minutos_ahorrados_prom >= 0);
 });
+
+test('los nodos generados del levantamiento de salas no entran como lugares del simulador (#195)', () => {
+  const conSalas = structuredClone(GRAFO);
+  conSalas.nodos.push(
+    { id: 's1', nombre: 'Sala 1', tipo: 'sala', lat: 1, lng: 2, generado: 'salas' },
+    { id: 's2', nombre: 'Sala 2', tipo: 'sala', lat: 1, lng: 3, generado: 'salas' },
+  );
+  conSalas.tramos.push(tramo('t9', 'b', 's1'), tramo('t10', 's1', 's2'));
+  const base = simular(GRAFO, PERFILES, OBRAS);
+  const con = simular(conSalas, PERFILES, OBRAS);
+  assert.equal(con.hoy.trayectos_evaluados, base.hoy.trayectos_evaluados);
+  assert.deepEqual(con.hoy, base.hoy);
+});
