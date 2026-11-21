@@ -46,4 +46,5 @@ test('reportar el ascensor recalcula por el Edificio B; con la pasarela también
   assert.equal((await fetch(`${api}/ruta?desde=x`)).status, 400);
   assert.equal((await fetch(`${api}/puntos/no-existe`)).status, 404);
   assert.equal((await fetch(`http://localhost:${puerto}/assets/no-existe.js`)).status, 404);
+  assert.equal((await fetch(`${api}/ruta?desde=a&desde=b&hasta=sala-a201&perfil=estandar`)).status, 400);
 });
