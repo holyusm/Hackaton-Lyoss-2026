@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 // GET /api/simulador (contrato §7) cada vez que cambian el perfil o las obras activas.
 // Sin sondeo: el campus construido no cambia en ejecución. Descarta respuestas de una consulta anterior.
-export function useSimulador(perfil, ids) {
-  const clave = `${perfil}|${[...ids].sort().join(',')}`;
+export function useSimulador(perfil, ids, intento = 0) {
+  const clave = `${perfil}|${[...ids].sort().join(',')}|${intento}`;
   const [r, setR] = useState({ clave: null, estado: 'cargando', datos: null });
 
   useEffect(() => {
