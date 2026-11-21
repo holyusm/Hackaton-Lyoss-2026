@@ -13,10 +13,10 @@ const NODOS_CSV = [
   'b,Nodo B,edificio,-33.0348,-71.5952,B,0,Destino',
 ].join('\n');
 
-function tramosCsv({ metros = '45.5', minutos = '1.2', ascensorId = '' } = {}) {
+function tramosCsv({ id = 't1', metros = '45.5', minutos = '1.2', ascensorId = '' } = {}) {
   return [
     'id,desde,hasta,metros,escalones,pendiente,rampa,ascensor_id,techado,superficie,minutos_medidos,guia_tactil,notas,foto,sentido_unico',
-    `t1,a,b,${metros},0,nula,no,${ascensorId},no,lisa,${minutos},no,,,no`,
+    `${id},a,b,${metros},0,nula,no,${ascensorId},no,lisa,${minutos},no,,,no`,
   ].join('\n');
 }
 
@@ -201,4 +201,30 @@ test('convertir.js --escribir con dos columnas escalones falla (exit 1) sin sobr
   } finally {
     rmSync(baseDir, { recursive: true, force: true });
   }
+});
+
+test('convertir rechaza comilla sin cerrar en nodos.csv nombrando el archivo', () => {
+  const nodosConComillaSinCerrar = [
+    'id,nombre,tipo,lat,lng,edificio,piso,descripcion',
+    'a,"Nodo A,entrada,-33.0345,-71.5955,A,0,Origen',
+    'b,Nodo B,edificio,-33.0348,-71.5952,B,0,Destino',
+  ].join('\n');
+  const res = convertir(nodosConComillaSinCerrar, tramosCsv());
+  assert.ok(res.errores.some((e) => e.includes('nodos.csv') && /comilla/i.test(e)));
+});
+
+test('convertir rechaza comilla sin cerrar en tramos.csv nombrando el archivo', () => {
+  const tramosConComillaSinCerrar = [
+    'id,desde,hasta,metros,escalones,pendiente,rampa,ascensor_id,techado,superficie,minutos_medidos,guia_tactil,notas,foto,sentido_unico',
+    't1,a,b,45.5,0,nula,no,,no,lisa,1.2,no,"nota sin cerrar,,no',
+  ].join('\n');
+  const res = convertir(NODOS_CSV, tramosConComillaSinCerrar);
+  assert.ok(res.errores.some((e) => e.includes('tramos.csv') && /comilla/i.test(e)));
+});
+
+test('convertir rechaza tramo cuyo id coincide con el de un nodo', () => {
+  const res = convertir(NODOS_CSV, tramosCsv({ id: 'a' }));
+  assert.equal(res.errores.length, 1);
+  assert.match(res.errores[0], /tramo a/);
+  assert.match(res.errores[0], /coincide con un nodo/);
 });
