@@ -204,7 +204,7 @@ Confirmación: un aviso verde en línea (no un toast que desaparece): "Reporte e
 
 Lista "Barreras activas" (al lado en escritorio, debajo en móvil): cada barrera es una fila con pictograma en cuadrado amarillo o rojo, título ("Ascensor A detenido"), lugar, "Reportado hace 12 min · vence 13:05", y la acción secundaria "Ya está resuelto". Al resolverla se confirma con un diálogo accesible. Estado vacío: "No hay barreras reportadas ahora. Si ves una, avísanos: ayudas a todo el campus." (sin ilustración genérica; usa el patrón podotáctil muy suave como fondo del bloque vacío).
 
-Límite de envíos: el servidor acepta 10 reportes por persona cada 10 minutos. Diseña el estado de error 429 en línea, en rojo con ícono: "Enviaste muchos reportes seguidos. Espera unos minutos y vuelve a intentar." (el formulario conserva lo escrito).
+Límite de envíos: el servidor acepta 10 reportes por conexión (IP) cada 10 minutos; en una red Wi-Fi compartida el cupo se reparte entre todos. Diseña el estado de error 429 en línea, en rojo con ícono: "Se enviaron muchos reportes desde esta red. Espera unos minutos y vuelve a intentar." (el formulario conserva lo escrito).
 
 Pensado para usarlo de pie y con una mano: botón de envío al alcance del pulgar y formulario que se completa en 3 toques más el lugar.
 Entrega: móvil formulario, móvil con errores (incluido el límite de envíos), móvil confirmación, escritorio formulario + lista, lista vacía.
