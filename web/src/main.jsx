@@ -8,6 +8,7 @@ import { PreferenciasProvider } from './hooks/usePreferencias.js';
 import Shell from './components/Shell.jsx';
 import Inicio from './views/Inicio.jsx';
 import Mapa from './views/Mapa.jsx';
+import Reportar from './views/Reportar.jsx';
 import Comparar from './views/Comparar.jsx';
 import Campus from './views/Campus.jsx';
 import Punto from './views/Punto.jsx';
@@ -29,7 +30,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/" element={<Inicio />} />
             <Route path="/mapa" element={<Mapa />} />
             <Route path="/comparar" element={<Comparar />} />
-            <Route path="/reportar" element={<Pendiente titulo="Reportar una barrera" />} />
+            <Route path="/reportar" element={<Reportar />} />
             <Route path="/punto/:id" element={<Punto />} />
             <Route path="/campus" element={<Campus />} />
             <Route path="/acerca" element={<Pendiente titulo="Acerca de Parejo" />} />
