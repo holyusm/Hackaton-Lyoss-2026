@@ -1,10 +1,3 @@
-<!--
-  BORRADOR (12:20). Revisar a las 15:45, después del [CONGELAR]:
-  - Funcionalidades: confirmar en la URL pública que todas funcionan (/, /mapa, /plano, /reportar, /comparar, /punto/:id, /campus, /campus/informe, /acerca).
-  - Impacto: cifras de PR #195; confirmar con main cuando se mergee.
-  - Equipo: nombres de @Gxppe y @juaquo15.
--->
-
 # parejo
 
 Rutas accesibles por perfil para moverse por Casa Central de la USM. parejo le indica a cada estudiante el camino que le sirve según cómo se mueve (silla de ruedas, movilidad reducida o baja visión), y cambia la ruta en vivo cuando alguien reporta una barrera, como un ascensor detenido. A la universidad le muestra qué obras quitarían más barreras.
@@ -23,7 +16,6 @@ En Chile, el 17,6 % de las personas de 18 años o más tiene alguna discapacidad
 
 Los estudiantes que más lo sufren son los que usan silla de ruedas, los que tienen movilidad reducida (bastón, lesión temporal, embarazo), los que tienen baja visión y los estudiantes nuevos que aún no conocen el campus.
 
-<!-- Cifras de PR #195 (juaquo15, 16:35Z). Confirmar con main cuando se mergee. -->
 Un ejemplo con los datos simulados del prototipo: de la Entrada principal a la Sala C231, la ruta estándar mide 540 m y sube 20 escalones. En silla de ruedas, parejo encuentra una de 550 m y 0 escalones por el ascensor del edificio C: casi el mismo largo, pero hay que conocerla. Si ese ascensor se detiene, no queda ninguna ruta en silla de ruedas, y parejo lo dice en vez de mandar a la escalera. Hoy, 2 de los 6 destinos de la muestra no tienen ruta en silla de ruedas, y 20 de los 42 trayectos entre lugares del campus tienen alguna barrera para ese perfil.
 
 ## Solución y funcionalidades
@@ -32,12 +24,12 @@ parejo modela el campus como un grafo de lugares y tramos, con lo que importa pa
 
 - **Ruta por perfil** (`/` y `/mapa`): eliges desde dónde, hacia dónde y cómo te mueves. parejo dibuja la ruta en el plano real del campus (OpenStreetMap) y la cuenta paso a paso, con advertencias como "escalones" o "piso irregular". *ODS 10 y 4.a: el estudiante llega solo, sin depender de que alguien le muestre el camino.*
 - **Barreras en vivo que recalculan la ruta** (`/reportar`): cualquier estudiante reporta un ascensor detenido, un obstáculo o una rampa bloqueada. El reporte vence solo, y mientras está activo, las rutas lo evitan. Si ya no hay camino posible, parejo lo dice en vez de mandar al estudiante a una escalera. *ODS 11.7: información de accesibilidad actualizada por la comunidad.*
-- **Plano interactivo** (`/plano`): el plano de Casa Central con sus edificios, que se recorre con el dedo, el mouse o el teclado. Al elegir un edificio o una sala se ve su ficha, y la sala se puede usar como inicio o llegada: la ruta del perfil se dibuja sobre el plano.
+- **Plano interactivo** (`/plano`): el plano de Casa Central con sus 25 edificios, que se recorre con el dedo, el mouse o el teclado. Se busca por letra, nombre o servicio ("Casino", "Biblioteca"), y cada edificio tiene su ficha con pisos, salas y accesibilidad. Un panel de capas muestra u oculta senderos, escaleras, servicios y nombres de calles. Del Edificio C se ve el interior de sus pisos −1, 1 y 2; cualquier sala se puede usar como inicio o llegada, y la ruta del perfil se dibuja sobre el plano. Los edificios que aún no están en OpenStreetMap se declaran en pantalla en vez de inventarlos.
 - **Comparar perfiles** (`/comparar`): el mismo trayecto para los cuatro perfiles, lado a lado, con metros, minutos y escalones. Muestra en cinco segundos que el campus no es igual para todos.
 - **Puntos QR con voz** (`/punto/:id`): carteles QR en puntos clave que, al escanearlos, leen en voz alta dónde estás y cómo seguir. Pensados para estudiantes con baja visión. Los QR para imprimir están en [`docs/qr/`](docs/qr/).
 - **¿Qué arreglar primero?** (`/campus`): para la universidad. Cuenta cuántos trayectos tienen barrera para cada perfil, ordena obras posibles (rampas, ascensores, piso liso, guía podotáctil) según cuántas barreras quitan, y simula el campus con las obras elegidas. Tiene un modo para proyectar en una reunión (`?presentacion=1`) y arma un informe de una hoja A4 para imprimir o guardar como PDF (`/campus/informe`).
 
-**La app misma es accesible:** tipografía Atkinson Hyperlegible Next, contraste AA o mejor, tema oscuro y de alto contraste, tres tamaños de texto, manejo completo con teclado, foco visible, etiquetas para lector de pantalla y anuncios en vivo cuando cambia la ruta. El estado nunca se indica solo con color.
+**La app misma es accesible:** tipografía Atkinson Hyperlegible Next, contraste AA o mejor, tema oscuro y de alto contraste, tres tamaños de texto, manejo completo con teclado, foco visible, etiquetas para lector de pantalla y anuncios en vivo cuando cambia la ruta. Además se puede instalar como app (PWA), tiene una página 404 propia y cada ruta pone su título en la pestaña. El estado nunca se indica solo con color.
 
 **En qué se distingue:** los mapas de campus muestran dónde están los edificios; parejo muestra *por dónde puede pasar cada persona hoy*, y le da a la universidad los datos para decidir qué obra hacer.
 
@@ -119,8 +111,8 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 | Integrante | GitHub | Rol |
 |---|---|---|
 | José | [@holyusm](https://github.com/holyusm) | Líder, diseño de las vistas, accesibilidad, contratos y pitch |
-| <nombre> | [@Gxppe](https://github.com/Gxppe) | Servidor, API, integración de vistas, QR y deploy |
-| <nombre> | [@juaquo15](https://github.com/juaquo15) | Datos del campus, perfiles de accesibilidad y motor de rutas |
+| Gxppe | [@Gxppe](https://github.com/Gxppe) | Servidor, API de reportes y simulador, QR, deploy y las vistas Inicio, Comparar, Punto QR y Mejorar el campus |
+| juaquo15 | [@juaquo15](https://github.com/juaquo15) | Datos del campus, perfiles de accesibilidad y motor de rutas |
 
 ## Recursos externos
 
@@ -139,7 +131,7 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 
 - **Claude Code** (Anthropic): asistente de programación. La sesión del líder (Claude Opus 5.5) coordinó el trabajo, escribió los contratos y las tareas, y revisó PRs. Las sesiones de @Gxppe y @juaquo15 (Claude Sonnet 5.5) implementaron sus áreas a partir de esas tareas. Se usó para generar código y pruebas, depurar y revisar accesibilidad. El equipo revisó y entiende todo el código, y cada integrante puede explicar su área.
 - **Claude Design** (Anthropic): diseño del sistema visual y de cada vista. Los diseños exportados están en [`docs/diseno/vistas/`](docs/diseno/vistas/).
-- Skills de Claude Code incluidas en `.claude/skills/` (guías de trabajo para el agente): `tablero-equipo`, `grilling`, `prototype`, `design-taste-frontend`, `redesign-existing-projects`, `web-design-guidelines`, `diagnosing-bugs`, `research`.
+- Skills de Claude Code incluidas en `.claude/skills/` (guías de trabajo para el agente): `tablero-equipo`, `grilling`, `grill-me`, `prototype`, `design-taste-frontend` (`taste-skill`), `redesign-existing-projects` (`redesign-skill`), `web-design-guidelines`, `diagnosing-bugs`, `research`.
 - No ingresamos datos personales, credenciales ni claves en herramientas de IA.
 
 ## Componentes preexistentes (declarados)
