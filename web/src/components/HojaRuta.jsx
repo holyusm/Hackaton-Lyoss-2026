@@ -28,7 +28,7 @@ export default function HojaRuta({ ruta, origen, destino, perfil, altura, onAltu
         </button>
         <div className="hoja-ruta__extra">
           <Advertencias advertencias={ruta.advertencias} />
-          <Link className="boton boton--enlace" to={`/reportar?${new URLSearchParams({ ruta: ruta.id, desde: origen.id, hasta: destino.id })}`}>
+          <Link className="boton boton--enlace" to={`/reportar?${new URLSearchParams({ ruta: ruta.id, desde: origen.id, hasta: destino.id, perfil: perfil.id })}`}>
             <Flag weight="bold" aria-hidden="true" /> Reportar un problema en esta ruta
           </Link>
           <p className="pie-legal">{PIE}</p>
