@@ -13,8 +13,8 @@ const ruta = (extra = {}) => armarRuta(grafo, calcularRuta(grafo, perfiles, { ..
 test('ruta de silla de ruedas por el ascensor: un paso por tramo, con el texto del diseño', () => {
   const r = ruta();
   assert.deepEqual(r.pasos.map((p) => p.instruccion), [
-    'Avanza 130 m por la rampa hasta Patio central.',
-    'Cruza 35 m por el pasillo techado hasta el Ascensor A.',
+    'Avanza 270 m por la rampa hasta Patio central.',
+    'Cruza 45 m por el pasillo techado hasta el Ascensor A.',
     'Sube al piso 2.',
     'La Sala A-201 está a 5 m.',
   ]);
@@ -31,7 +31,7 @@ test('el id solo cambia cuando cambia la ruta', () => {
 test('ruta alternativa por el Edificio B usa los nombres de los tramos', () => {
   const r = ruta({ bloqueos: ['ascensor-a'] });
   const textos = r.pasos.map((p) => p.instruccion);
-  assert.ok(textos.includes('Cruza 95 m por el borde del patio hasta el Edificio B.'));
+  assert.ok(textos.includes('Cruza 100 m por el borde del patio hasta el Edificio B.'));
   assert.ok(textos.includes('Sube por la rampa del Edificio B al piso 2.'));
   assert.ok(textos.some((t) => t.includes('la pasarela techada')));
   assert.equal(textos.at(-1), 'La Sala A-201 está a 5 m.');
@@ -67,6 +67,7 @@ test('sin plano (aLatLng) las coordenadas quedan vacías; con x,y y aLatLng se a
   assert.deepEqual(ruta().coordenadas, []);
   const g = structuredClone(grafo);
   g.nodos.forEach((n, i) => { n.x = i * 10; n.y = i * 5; });
+  g.tramos.forEach((t) => { delete t.trazado; });
   const res = calcularRuta(g, perfiles, consulta);
   const r = armarRuta(g, res, { aLatLng: (x, y) => [y, x] });
   assert.equal(r.coordenadas.length, res.nodos.length);
@@ -85,4 +86,16 @@ test('el último tramo por rampa que cambia de piso conserva subir o bajar', () 
   const baja = armarRuta(grafo, calcularRuta(grafo, perfiles, { desde: 'rampa-b', hasta: 'edificio-b', perfil: 'silla_ruedas' }));
   assert.equal(baja.pasos.at(-1).instruccion, 'Baja por la rampa del Edificio B al piso 0.');
   assert.equal(baja.pasos.at(-1).tramo, 'rampa');
+});
+
+test('las coordenadas siguen el trazado de cada tramo, y al volver van al revés', () => {
+  const posicion = (n) => [n.lat, n.lng];
+  const ida = armarRuta(grafo, calcularRuta(grafo, perfiles, { desde: 'entrada-principal', hasta: 'patio-central', perfil: 'estandar' }), { posicion });
+  const t1 = grafo.tramos.find((t) => t.id === 't1');
+  assert.ok(t1.trazado.length > 0, 'el tramo t1 debe tener trazado');
+  assert.equal(ida.coordenadas.length, t1.trazado.length + 2);
+  assert.deepEqual(ida.coordenadas.slice(1, -1), t1.trazado);
+  const vuelta = armarRuta(grafo, calcularRuta(grafo, perfiles, { desde: 'patio-central', hasta: 'entrada-principal', perfil: 'estandar' }), { posicion });
+  assert.deepEqual(vuelta.coordenadas, [...ida.coordenadas].reverse());
+  assert.equal(ida.pasos[0].punto.length, 2);
 });
