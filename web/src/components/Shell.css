@@ -1,0 +1,41 @@
+/* Solo lo que el shell necesita y componentes.css no trae. Colores siempre desde tokens. */
+
+.app { min-height: 100dvh; display: flex; flex-direction: column; }
+/* La barra inferior es sticky: que no tape lo que recibe foco al tabular. */
+@media (max-width: 899px) { html { scroll-padding-bottom: calc(var(--alto-nav-movil) + var(--e-2)); } }
+.app > main { flex: 1; display: flex; flex-direction: column; }
+.app > main:focus { outline: none; }
+.app > main > .pie-legal { margin-top: auto; padding: var(--e-6) var(--e-4) var(--e-4); }
+
+/* Símbolo: 32 px sin ventanas en móvil, 40 px completo en escritorio (referencias del Lote 0 y 1). */
+.wordmark__escritorio { display: none; }
+@media (min-width: 900px) {
+  .wordmark__movil { display: none; }
+  .wordmark__escritorio { display: block; }
+}
+.nav-escritorio a svg { display: none; }   /* en escritorio la navegación es solo texto */
+.boton-pastilla svg, .boton-accesibilidad svg { width: 20px; height: 20px; }
+
+/* Panel de accesibilidad: <dialog> con la clase .hoja (componentes.css). */
+dialog.hoja { overscroll-behavior: contain; margin: 0; width: auto; max-width: none; max-height: 90dvh; overflow: auto; border: 0; color: var(--tinta); }
+dialog.hoja:not([open]) { display: none; }   /* .hoja trae display:flex y pisaría el cierre */
+dialog.hoja::backdrop { background: var(--velo); }
+.panel-accesibilidad__cabeza { display: flex; justify-content: space-between; align-items: center; }
+.panel-accesibilidad__cabeza h2 { font-size: var(--t-subtitulo); font-weight: var(--peso-negro); }
+.panel-accesibilidad__cerrar {
+  width: var(--toque-min); height: var(--toque-min); display: grid; place-items: center;
+  border: 2px solid var(--borde-control); border-radius: var(--r-pill);
+  background: var(--superficie); color: var(--tinta); cursor: pointer;
+}
+.panel-accesibilidad__cerrar svg { width: 24px; height: 24px; }
+.panel-accesibilidad__grupo { display: flex; flex-direction: column; gap: var(--e-2); }
+.panel-accesibilidad__tamanos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-2); }
+.panel-accesibilidad__tamano { min-height: 60px; justify-content: center; }
+.panel-accesibilidad__tamano:nth-child(1) { font-size: 16px; }
+.panel-accesibilidad__tamano:nth-child(2) { font-size: 20px; }
+.panel-accesibilidad__tamano:nth-child(3) { font-size: 24px; }
+.interruptor__texto { display: flex; flex-direction: column; }
+.panel-accesibilidad__nota { font-size: var(--t-detalle); color: var(--tinta-2); }
+
+/* Vistas que todavía no se implementan. */
+.vista-pendiente { padding: var(--e-6) var(--e-4); display: flex; flex-direction: column; gap: var(--e-3); }
