@@ -41,12 +41,17 @@ app.get('/api/comparar', conMotor(['desde', 'hasta'], compararPerfiles));
 // Punto QR: data/puntos.json es una lista de Punto (contrato §4).
 // Simulador de obras (contrato §7). Sin data/obras.json todavía, se simula sin obras.
 app.get('/api/simulador', asincrono(async (req, res) => {
+  // qs puede entregar string, Array (?obras=a&obras=b) u Object (?obras[0]=a): solo string o Array de strings.
+  const { perfil: perfilQ = 'silla_ruedas', obras: obrasQ = '' } = req.query;
+  if (typeof perfilQ !== 'string') return res.status(400).json({ error: 'perfil debe ser un texto' });
+  const lista = Array.isArray(obrasQ) ? obrasQ : [obrasQ];
+  if (!lista.every((o) => typeof o === 'string')) return res.status(400).json({ error: 'obras debe ser una lista separada por comas' });
+  const perfil = perfilQ || 'silla_ruedas';
+  const ids = [...new Set(lista.flatMap((o) => o.split(',')).map((s) => s.trim()).filter(Boolean))];
   const [grafo, perfiles, obras] = await Promise.all([
     leerDatos('campus.json'), leerDatos('perfiles.json'),
     leerDatos('obras.json').catch((e) => (e.code === 'ENOENT' ? [] : Promise.reject(e))),
   ]);
-  const perfil = req.query.perfil || 'silla_ruedas';
-  const ids = (req.query.obras || '').split(',').map((s) => s.trim()).filter(Boolean);
   if (perfil !== 'todos' && !perfiles.some((p) => p.id === perfil)) return res.status(400).json({ error: `perfil desconocido: ${perfil}` });
   const falta = ids.find((id) => !obras.some((o) => o.id === id));
   if (falta) return res.status(400).json({ error: `obra desconocida: ${falta}` });

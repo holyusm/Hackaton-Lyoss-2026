@@ -25,4 +25,23 @@ test('GET /api/simulador: perfil por defecto, errores 400', async (t) => {
   assert.equal((await fetch(`${api}?perfil=todos`)).status, 200);
   assert.equal((await fetch(`${api}?perfil=nada`)).status, 400);
   assert.equal((await fetch(`${api}?obras=nada`)).status, 400);
+
+  // Hallazgo #166: obras repetidas u objetos no deben dar 500.
+  const a = 'rampa-patio-biblioteca';
+  const b = 'piso-liso-camino-biblioteca';
+  const coma = await fetch(`${api}?obras=${a},${b}`);
+  assert.equal(coma.status, 200);
+  const repetido = await fetch(`${api}?obras=${a}&obras=${b}`);
+  assert.equal(repetido.status, 200);
+  assert.deepEqual(await repetido.json(), await coma.json());
+  assert.equal((await fetch(`${api}?obras=${a}&obras=${a}`)).status, 200);
+
+  // qs (Express 4) convierte obras[0]=a en ['a'], un Array de strings: es válido.
+  assert.equal((await fetch(`${api}?obras[0]=${a}`)).status, 200);
+
+  for (const q of [`obras[x]=${a}`, `obras[x][y]=${a}`, `obras[0][y]=${a}`, `perfil[0]=todos`, `perfil[x]=todos`, `perfil=todos&perfil=todos`]) {
+    const mal = await fetch(`${api}?${q}`);
+    assert.equal(mal.status, 400, q);
+    assert.equal(typeof (await mal.json()).error, 'string', q);
+  }
 });
