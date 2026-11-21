@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { ArrowsLeftRight, CircleHalf, Flag, Info, MapTrifold, PersonArmsSpread, SpeakerHigh } from '@phosphor-icons/react';
+import { ArrowsLeftRight, CaretLeft, CircleHalf, Flag, Info, MapTrifold, PersonArmsSpread, SpeakerHigh } from '@phosphor-icons/react';
 import Simbolo from './Simbolo.jsx';
 import PanelAccesibilidad, { TAMANOS } from './PanelAccesibilidad.jsx';
 import { usePreferencias } from '../hooks/usePreferencias.js';
@@ -17,7 +17,9 @@ const NAV = [
 const esActual = (a, ruta) => (a === '/' ? ruta === '/' || ruta.startsWith('/mapa') : ruta.startsWith(a));
 
 export default function Shell() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  // /mapa (Lote 2): el mapa va de la cabecera a la nav, el salto lleva a los pasos y el pie legal va en la hoja.
+  const enMapa = pathname.startsWith('/mapa');
   const p = usePreferencias();
   const [panel, setPanel] = useState(false);
 
@@ -29,10 +31,17 @@ export default function Shell() {
   ));
 
   return (
-    <div className="app">
-      <a className="saltar" href="#contenido">Saltar al contenido</a>
+    <div className={enMapa ? 'app app--mapa' : 'app'}>
+      {enMapa
+        ? <a className="saltar" href="#ruta">Saltar a los pasos de la ruta</a>
+        : <a className="saltar" href="#contenido">Saltar al contenido</a>}
 
       <header className="cabecera">
+        {enMapa && (
+          <Link to={`/${search}`} className="cabecera__volver" aria-label="Volver a elegir destino">
+            <CaretLeft weight="bold" aria-hidden="true" />
+          </Link>
+        )}
         <Link to="/" className="wordmark" aria-label="Parejo, inicio">
           <Simbolo size={32} className="wordmark__movil" aria-hidden="true" />
           <Simbolo size={40} className="wordmark__escritorio" aria-hidden="true" />
@@ -64,7 +73,7 @@ export default function Shell() {
 
       <main id="contenido" tabIndex={-1}>
         <Outlet />
-        <p className="pie-legal">Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>
+        {!enMapa && <p className="pie-legal">Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>}
       </main>
 
       <nav className="nav-movil" aria-label="Principal">{enlaces}</nav>
