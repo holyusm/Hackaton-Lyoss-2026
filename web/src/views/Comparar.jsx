@@ -4,7 +4,6 @@ import CampoLugar from '../components/CampoLugar.jsx';
 import TablaComparar from '../components/TablaComparar.jsx';
 import FilaPerfilMovil from '../components/FilaPerfilMovil.jsx';
 import { iconoLugar } from '../components/iconoLugar.js';
-import { motivoSinRuta } from '../lib/comparar.js';
 import { useComparacion } from '../hooks/useComparacion.js';
 import '../components/TablaComparar.css';
 import './Comparar.css';
@@ -21,7 +20,6 @@ export default function Comparar() {
   useEffect(() => { if (sillaSinRuta) setSeleccion('todas'); }, [sillaSinRuta]);
   const elegir = (id) => setSeleccion((s) => (s === id ? 'todas' : id));
 
-  const motivo = sillaSinRuta ? motivoSinRuta(c.barreras, c.grafo, { motivo: silla.motivo }) : '';
   const nombreDesde = c.origen?.nombre ?? c.desde;
   const nombreHasta = c.destino?.nombre ?? c.hasta;
   const IconoHasta = iconoLugar(c.destino);
@@ -55,18 +53,18 @@ export default function Comparar() {
       {/* La frase cambia sola cuando un perfil queda sin ruta: se anuncia sin mover el foco. */}
       <div aria-live="polite">
         {c.estado === 'cargando' && <p>Calculando las rutas…</p>}
-        {c.estado === 'error' && <p>No pudimos calcular las rutas. Intenta de nuevo en unos segundos.</p>}
+        {c.estado === 'error' && <><p>No pudimos verificar las rutas actuales.</p><button type="button" onClick={c.reintentar}>Reintentar</button></>}
         {c.frase && <h2 className="comparar__frase">{c.frase}</h2>}
       </div>
 
       {c.filas.length > 0 && (
         <>
           <div className="comparar__tabla">
-            <TablaComparar filas={c.filas} seleccion={seleccion} onElegir={elegir} motivo={motivo} />
+            <TablaComparar filas={c.filas} seleccion={seleccion} onElegir={elegir} />
           </div>
           <ul className="comparar__tarjetas">
             {c.filas.map((f) => (
-              <FilaPerfilMovil key={f.id} fila={f} abierta={seleccion === f.id} onAlternar={() => elegir(f.id)} motivo={motivo} />
+              <FilaPerfilMovil key={f.id} fila={f} abierta={seleccion === f.id} onAlternar={() => elegir(f.id)} />
             ))}
           </ul>
         </>

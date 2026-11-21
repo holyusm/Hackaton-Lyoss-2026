@@ -4,7 +4,7 @@ import { PERFILES } from './GrupoPerfiles.jsx';
 import { fmtMetros, fmtMinutos } from './TablaComparar.jsx';
 
 // Tarjeta móvil de un perfil (Lote 3, A4). Abrirla también resalta su ruta en el mapa.
-export default function FilaPerfilMovil({ fila: f, abierta, onAlternar, motivo }) {
+export default function FilaPerfilMovil({ fila: f, abierta, onAlternar }) {
   const panel = useId();
   const p = PERFILES.find((x) => x.id === f.id);
   const dif = (d) => (d && d !== 'Base' ? `, ${d.replace(/ (m|min)$/, '')}` : d === 'Base' ? ', base' : '');
@@ -36,7 +36,7 @@ export default function FilaPerfilMovil({ fila: f, abierta, onAlternar, motivo }
               <p>{f.advertencias.length ? f.advertencias.join('. ') + '.' : 'Sin advertencias'}</p>
               <p className="fila-perfil__nota">Su ruta está resaltada en el mapa.</p>
             </>
-          ) : <p>{motivo}</p>}
+          ) : <p>{f.motivo}</p>}
         </div>
       )}
     </li>
