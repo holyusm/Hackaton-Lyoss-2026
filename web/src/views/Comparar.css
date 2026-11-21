@@ -95,3 +95,7 @@
   .comparar__banda { left: var(--e-4); right: auto; max-width: calc(100% - 2 * var(--e-4)); }
   .comparar__plano-esqueleto { height: 520px; border-radius: var(--r-panel); }
 }
+
+/* El caption vive dentro de la caja con scroll y medía lo que la tabla (820 px): que mida lo visible (#214). */
+.comparar .tabla-comparar__caja { container-type: inline-size; }
+.comparar .tabla-comparar caption { position: sticky; left: 0; max-width: 100cqi; box-sizing: border-box; }
