@@ -1,0 +1,13 @@
+[
+  { "id": "estandar", "nombre": "Estándar", "descripcion": "Sin restricciones de movilidad; busca el camino más corto.",
+    "prohibido": {}, "costos": {} },
+  { "id": "silla_ruedas", "nombre": "Silla de ruedas", "descripcion": "No puede usar escalones ni pendientes altas; evita adoquín y piso irregular.",
+    "prohibido": { "escalones": true, "pendiente": ["alta"] },
+    "costos": { "escalon": 0, "pendiente": { "media": 1.5 }, "superficie": { "adoquin": 1.5, "irregular": 2 } } },
+  { "id": "movilidad_reducida", "nombre": "Movilidad reducida", "descripcion": "Lesión temporal o bastón: puede usar escalones pero cuestan mucho; evita pendientes y piso irregular.",
+    "prohibido": {},
+    "costos": { "escalon": 15, "pendiente": { "media": 1.3, "alta": 2.5 }, "superficie": { "adoquin": 1.3, "irregular": 1.6 } } },
+  { "id": "baja_vision", "nombre": "Baja visión", "descripcion": "Prefiere guía táctil y piso liso; evita superficie irregular y escalones sueltos.",
+    "prohibido": {},
+    "costos": { "escalon": 3, "pendiente": { "alta": 1.3 }, "superficie": { "adoquin": 1.5, "irregular": 2.5 }, "sin_guia_tactil": 1.2 } }
+]

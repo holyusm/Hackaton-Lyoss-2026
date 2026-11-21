@@ -1,0 +1,25 @@
+{
+  "_aviso": "DATOS FALSOS de ejemplo con la forma del contrato. Se reemplazan por el levantamiento real (#12).",
+  "nodos": [
+    { "id": "entrada-principal", "nombre": "Entrada principal", "tipo": "entrada", "lat": -33.0458, "lng": -71.6197, "edificio": "A", "piso": 0, "descripcion": "Portón principal de Casa Central" },
+    { "id": "patio-central", "nombre": "Patio central", "tipo": "punto", "lat": -33.0460, "lng": -71.6194, "edificio": "A", "piso": 0, "descripcion": "Patio abierto, punto de encuentro" },
+    { "id": "ascensor-a", "nombre": "Ascensor A", "tipo": "ascensor", "lat": -33.0461, "lng": -71.6192, "edificio": "A", "piso": 0, "descripcion": "Ascensor del edificio A, conecta pisos 0 y 2" },
+    { "id": "edificio-a-p2", "nombre": "Edificio A, piso 2", "tipo": "edificio", "lat": -33.0461, "lng": -71.6192, "edificio": "A", "piso": 2, "descripcion": "Salida del ascensor A en el piso 2" },
+    { "id": "sala-a201", "nombre": "Sala A-201", "tipo": "sala", "lat": -33.0462, "lng": -71.6191, "edificio": "A", "piso": 2, "descripcion": "Sala de clases" },
+    { "id": "biblioteca", "nombre": "Biblioteca", "tipo": "edificio", "lat": -33.0464, "lng": -71.6195, "edificio": "B", "piso": 0, "descripcion": "Biblioteca central" },
+    { "id": "bano-b", "nombre": "Baño accesible B", "tipo": "bano", "lat": -33.0465, "lng": -71.6196, "edificio": "B", "piso": 0, "descripcion": "Baño accesible junto a la biblioteca" },
+    { "id": "casino", "nombre": "Casino", "tipo": "edificio", "lat": -33.0457, "lng": -71.6191, "edificio": "C", "piso": 0, "descripcion": "Casino de estudiantes" }
+  ],
+  "tramos": [
+    { "id": "t1", "desde": "entrada-principal", "hasta": "patio-central", "metros": 40, "escalones": 0, "pendiente": "baja", "rampa": true, "ascensor_id": null, "techado": false, "superficie": "lisa", "minutos_medidos": 0.8, "guia_tactil": true, "notas": "", "foto": null, "sentido_unico": false },
+    { "id": "t2", "desde": "patio-central", "hasta": "ascensor-a", "metros": 25, "escalones": 0, "pendiente": "nula", "rampa": false, "ascensor_id": null, "techado": true, "superficie": "lisa", "minutos_medidos": 0.5, "guia_tactil": false, "notas": "", "foto": null, "sentido_unico": false },
+    { "id": "t3", "desde": "ascensor-a", "hasta": "edificio-a-p2", "metros": 10, "escalones": 0, "pendiente": "nula", "rampa": false, "ascensor_id": "ascensor-a", "techado": true, "superficie": "lisa", "minutos_medidos": 1.0, "guia_tactil": false, "notas": "Pasa por el ascensor A", "foto": null, "sentido_unico": false },
+    { "id": "t4", "desde": "patio-central", "hasta": "edificio-a-p2", "metros": 30, "escalones": 42, "pendiente": "alta", "rampa": false, "ascensor_id": null, "techado": true, "superficie": "lisa", "minutos_medidos": 1.5, "guia_tactil": false, "notas": "Escalera, alternativa al ascensor", "foto": null, "sentido_unico": false },
+    { "id": "t5", "desde": "edificio-a-p2", "hasta": "sala-a201", "metros": 20, "escalones": 0, "pendiente": "nula", "rampa": false, "ascensor_id": null, "techado": true, "superficie": "lisa", "minutos_medidos": 0.4, "guia_tactil": false, "notas": "", "foto": null, "sentido_unico": false },
+    { "id": "t6", "desde": "patio-central", "hasta": "biblioteca", "metros": 50, "escalones": 3, "pendiente": "media", "rampa": false, "ascensor_id": null, "techado": false, "superficie": "adoquin", "minutos_medidos": 1.2, "guia_tactil": false, "notas": "Escalones cortos a la entrada, atajo", "foto": null, "sentido_unico": false },
+    { "id": "t7", "desde": "entrada-principal", "hasta": "biblioteca", "metros": 90, "escalones": 0, "pendiente": "baja", "rampa": true, "ascensor_id": null, "techado": false, "superficie": "irregular", "minutos_medidos": 2.0, "guia_tactil": false, "notas": "Rodeo por la rampa lateral, piso irregular", "foto": null, "sentido_unico": false },
+    { "id": "t8", "desde": "biblioteca", "hasta": "bano-b", "metros": 15, "escalones": 0, "pendiente": "nula", "rampa": false, "ascensor_id": null, "techado": true, "superficie": "lisa", "minutos_medidos": 0.3, "guia_tactil": true, "notas": "", "foto": null, "sentido_unico": false },
+    { "id": "t9", "desde": "patio-central", "hasta": "casino", "metros": 45, "escalones": 0, "pendiente": "media", "rampa": true, "ascensor_id": null, "techado": false, "superficie": "lisa", "minutos_medidos": 1.0, "guia_tactil": false, "notas": "", "foto": null, "sentido_unico": false },
+    { "id": "t10", "desde": "casino", "hasta": "entrada-principal", "metros": 35, "escalones": 0, "pendiente": "baja", "rampa": false, "ascensor_id": null, "techado": false, "superficie": "lisa", "minutos_medidos": 0.7, "guia_tactil": false, "notas": "Bajada de un solo sentido por la calle de servicio", "foto": null, "sentido_unico": true }
+  ]
+}
