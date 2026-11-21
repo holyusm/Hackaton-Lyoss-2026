@@ -228,3 +228,24 @@ test('convertir rechaza tramo cuyo id coincide con el de un nodo', () => {
   assert.match(res.errores[0], /tramo a/);
   assert.match(res.errores[0], /coincide con un nodo/);
 });
+
+test('convertir rechaza una fila corta de nodos con archivo y fila', () => {
+  const nodos = `${NODOS_CSV}\nc,Nodo C,entrada,-33.0346,-71.5954`;
+  const res = convertir(nodos, tramosCsv());
+  assert.ok(res.errores.some((e) => e === 'nodos.csv fila 4: tiene 5 campos, se esperaban 8'), res.errores.join('|'));
+});
+
+test('convertir rechaza una fila corta de tramos con archivo y fila', () => {
+  const [cab, fila] = tramosCsv().split('\n');
+  const corta = fila.replace(/,no$/, '');
+  assert.equal(corta.split(',').length, 14);
+  const res = convertir(NODOS_CSV, `${cab}\n${corta}`);
+  assert.ok(res.errores.some((e) => /^tramos\.csv fila 2: tiene 14 campos, se esperaban 15$/.test(e)), res.errores.join('|'));
+});
+
+test('convertir acepta una celda vacía explícita al final de la fila', () => {
+  const [cab, fila] = tramosCsv().split('\n');
+  const res = convertir(NODOS_CSV, `${cab}\n${fila.replace(/,no$/, ',')}`);
+  assert.deepEqual(res.errores, []);
+  assert.equal(res.tramos[0].sentido_unico, false);
+});
