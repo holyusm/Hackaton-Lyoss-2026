@@ -1,5 +1,6 @@
 {
   "_aviso": "DATOS FALSOS de ejemplo con la forma del contrato. Se reemplazan por el levantamiento real (#12).",
+  "simulado": true,
   "nodos": [
     { "id": "entrada-principal", "nombre": "Entrada principal", "tipo": "entrada", "lat": -33.0458, "lng": -71.6197, "edificio": "A", "piso": 0, "descripcion": "Portón principal de Casa Central" },
     { "id": "patio-central", "nombre": "Patio central", "tipo": "punto", "lat": -33.0460, "lng": -71.6194, "edificio": "A", "piso": 0, "descripcion": "Patio abierto, punto de encuentro" },
