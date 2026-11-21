@@ -6,6 +6,7 @@ import './styles/tokens.css';
 import './styles/componentes.css';
 import { PreferenciasProvider } from './hooks/usePreferencias.js';
 import Shell from './components/Shell.jsx';
+import Inicio from './views/Inicio.jsx';
 import Mapa from './views/Mapa.jsx';
 
 // Vistas sin implementar todavía: cada una se reemplaza por su archivo en web/src/views/.
@@ -22,7 +23,7 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <Routes>
           <Route element={<Shell />}>
-            <Route path="/" element={<Pendiente titulo="¿A dónde vas hoy?" />} />
+            <Route path="/" element={<Inicio />} />
             <Route path="/mapa" element={<Mapa />} />
             <Route path="/comparar" element={<Pendiente titulo="Comparar rutas" />} />
             <Route path="/reportar" element={<Pendiente titulo="Reportar una barrera" />} />

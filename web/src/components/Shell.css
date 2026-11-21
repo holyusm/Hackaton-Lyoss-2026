@@ -39,3 +39,8 @@ dialog.hoja::backdrop { background: var(--velo); }
 
 /* Vistas que todavía no se implementan. */
 .vista-pendiente { padding: var(--e-6) var(--e-4); display: flex; flex-direction: column; gap: var(--e-3); }
+
+/* La cabecera no escala con A+/A++ (referencia 03): si creciera, el botón Accesibilidad se parte en dos líneas. */
+.cabecera .wordmark span { font-size: 26px; }
+.boton-accesibilidad, .boton-pastilla { font-size: 16px; }
+@media (min-width: 900px) { .cabecera .wordmark span { font-size: 30px; } }

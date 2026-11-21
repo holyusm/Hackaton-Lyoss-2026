@@ -1,0 +1,47 @@
+/* Layout de la vista Inicio (lote-1-inicio/README.md y PLAN.md, B5). Componentes en componentes.css. */
+
+.inicio { display: flex; flex-direction: column; }
+.inicio__form { display: flex; flex-direction: column; gap: 32px; padding: 28px var(--margen-movil) 0; }
+
+.inicio__titulo { display: flex; flex-direction: column; gap: var(--e-3); }
+.inicio__titulo h1 {
+  font-size: var(--t-hero-movil); font-weight: var(--peso-negro);
+  letter-spacing: -0.03em; line-height: 1; text-wrap: balance;
+}
+
+.inicio__perfiles { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--e-3); }
+.inicio__leyenda { padding: 0; font-size: var(--t-etiqueta); font-weight: var(--peso-negro); }
+
+/* Desde: en móvil el enlace QR va debajo del campo; en escritorio, a la derecha de la etiqueta. */
+.inicio__desde .inicio__qr { align-self: flex-start; }
+.inicio__qr svg { width: 22px; height: 22px; }
+
+.inicio__hasta { display: flex; flex-direction: column; gap: var(--e-3); }
+/* Sin esto el snap alinea el primer chip al borde de la pantalla y se come el margen. */
+.inicio .frecuentes { scroll-padding-inline: var(--margen-movil); }
+
+/* Botón: "Ver mi ruta" en 800 y el perfil en 400. Sale del flujo de 32 px para pegarse al borde. */
+.inicio__accion { margin: 0 calc(var(--margen-movil) * -1); }
+.inicio__boton-extra { font-weight: var(--peso-normal); margin-left: 0.4em; }
+.boton[aria-disabled="true"] { cursor: not-allowed; }
+
+.inicio__mapa { display: none; }
+
+@media (min-width: 900px) {
+  .inicio { flex-direction: row; flex-wrap: wrap; flex: 1; }
+  .inicio__form { flex: 5 1 440px; gap: 26px; padding: 32px 48px 32px 56px; }
+  .inicio__titulo h1 { font-size: 2.889rem; }
+
+  .inicio__desde { display: grid; grid-template-columns: 1fr auto; align-items: center; }
+  .inicio__desde .campo__control { grid-column: 1 / -1; }
+  .inicio__desde .inicio__qr { grid-row: 1; grid-column: 2; }
+
+  .inicio .frecuentes { flex-wrap: wrap; overflow: visible; margin: var(--e-1) 0 0; padding: 0; }
+
+  .inicio__accion { position: static; margin: 0; padding: 0; border: 0; background: none; }
+
+  .inicio__mapa {
+    flex: 7 1 520px; min-height: 560px; display: grid; place-items: center;
+    border-left: var(--ancho-linea) solid var(--linea); background: var(--superficie); color: var(--tinta-2);
+  }
+}
