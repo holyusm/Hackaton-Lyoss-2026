@@ -68,15 +68,17 @@ function pasoDe(tramo, de, a, nodos, esUltimo) {
 /**
  * @param grafo       data/campus.json
  * @param resultado   salida de calcularRuta (con ok: true)
- * @param opciones    { aLatLng(x, y) -> [lat, lng] }, de web/src/plano/plano.js. Sin él (o sin x,y en los nodos),
- *                    `coordenadas` y `punto` quedan vacíos y el mapa usa lo que tenga.
+ * @param opciones    { posicion(nodo) -> [lat, lng] } (ver posicion.js), o bien { aLatLng(x, y) } de
+ *                    web/src/plano/plano.js. Sin ninguna (o sin x,y en los nodos con aLatLng), `coordenadas`
+ *                    y `punto` quedan vacíos.
  * @returns { id, pasos, coordenadas }  `id` es tramos.join('-'): cambia solo cuando cambia la ruta.
  */
-export function armarRuta(grafo, resultado, { aLatLng } = {}) {
+export function armarRuta(grafo, resultado, { aLatLng, posicion: posicionDe } = {}) {
   if (!resultado || !resultado.ok) return { id: '', pasos: [], coordenadas: [] };
   const nodos = new Map(grafo.nodos.map((n) => [n.id, n]));
   const tramos = new Map(grafo.tramos.map((t) => [t.id, t]));
-  const posicion = (n) => (aLatLng && Number.isFinite(n.x) && Number.isFinite(n.y) ? aLatLng(n.x, n.y) : null);
+  const posicion = posicionDe
+    || ((n) => (aLatLng && Number.isFinite(n.x) && Number.isFinite(n.y) ? aLatLng(n.x, n.y) : null));
 
   const pasos = resultado.tramos.map((id, i) => {
     const de = nodos.get(resultado.nodos[i]);
