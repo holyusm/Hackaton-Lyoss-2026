@@ -95,3 +95,17 @@ test('perfil u obra desconocidos lanzan error', () => {
   assert.throws(() => simular(GRAFO, PERFILES, OBRAS, { perfil: 'nada' }), /perfil desconocido/);
   assert.throws(() => simular(GRAFO, PERFILES, OBRAS, { ids: ['no-existe'] }), /obra desconocida/);
 });
+
+test('sin trayectos comparables los promedios son null, no 0 (#133)', () => {
+  const aislados = { nodos: [
+    { id: 'x', nombre: 'X', tipo: 'sala', lat: 0, lng: 0 },
+    { id: 'y', nombre: 'Y', tipo: 'sala', lat: 0, lng: 1 },
+  ], tramos: [] };
+  const obra = { id: 'o', titulo: 'O', cambios: [], tramos_nuevos: [], nodos_nuevos: [] };
+  const r = simular(aislados, PERFILES, [obra], { ids: ['o'] });
+  assert.equal(r.hoy.trayectos_con_barrera, 2);
+  assert.equal(r.hoy.minutos_extra_prom, null);
+  assert.equal(r.con_obras.minutos_extra_prom, null);
+  assert.equal(r.obras[0].minutos_ahorrados_prom, null);
+  assert.ok(r.zonas.every((z) => z.minutos_extra === null && z.estado === 'con_barrera'));
+});
