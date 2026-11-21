@@ -26,6 +26,10 @@ way[building](area.campus)->.edificiosCampus;
 out body geom;
 `;
 
+// Salas que en OSM no traen `level` pero cuyo piso se deduce sin duda de sus vecinas (supuesto declarado).
+// C224 está entre C221, C223 y C225, todas del piso 2 del Edificio C.
+const NIVEL_INFERIDO = { 'way/1297788251': '2' };
+
 const r6 = (n) => Math.round(n * 1e6) / 1e6;
 const anillo = (geom) => geom.map((p) => [r6(p.lon), r6(p.lat)]);
 const cerrado = (geom) => geom.length > 3 && geom[0].lat === geom.at(-1).lat && geom[0].lon === geom.at(-1).lon;
@@ -123,6 +127,7 @@ async function main() {
     if (t.name) props.nombre = t.name;
     if (t.ref) props.ref = t.ref;
     if (t.level) props.nivel = t.level;
+    else if (NIVEL_INFERIDO[props.osm]) { props.nivel = NIVEL_INFERIDO[props.osm]; props.nivel_inferido = true; }
     if (t['building:levels']) props.pisos = Number(t['building:levels']);
     if (t.wheelchair) props.silla = t.wheelchair;
     if (t.amenity) props.servicio = t.amenity;

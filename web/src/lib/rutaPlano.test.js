@@ -10,12 +10,20 @@ const perfiles = leer('../../../data/perfiles.json');
 const geo = leer('../plano/casa-central.geo.json');
 const poligonosC2 = geo.features.filter((f) => f.properties.tipo === 'sala' && f.properties.nivel === '2' && f.geometry.type === 'Polygon');
 
-test('salasDe devuelve las 30 salas y baños del C, piso 2, ordenadas', () => {
+test('salasDe devuelve las 31 salas y baños del C, piso 2, ordenadas', () => {
   const lista = salasDe(grafo, 'C', 2);
-  assert.equal(lista.length, 30);
+  assert.equal(lista.length, 31);
   assert.deepEqual(salasDe(grafo, 'C', 1), []);
   const nombres = lista.filter((n) => n.tipo === 'sala').map((n) => n.nombre);
   assert.deepEqual(nombres, [...nombres].sort((a, b) => a.localeCompare(b, 'es', { numeric: true })));
+});
+
+test('ninguna sala con número en OSM queda sin piso (C224 no trae level: se infiere el 2)', () => {
+  const conNumero = geo.features.filter((f) => f.properties.tipo === 'sala' && /^Cd{3}/.test(f.properties.ref ?? f.properties.nombre ?? ''));
+  assert.deepEqual(conNumero.filter((f) => !f.properties.nivel).map((f) => f.properties.ref), []);
+  const c224 = geo.features.find((f) => f.properties.ref === 'C224');
+  assert.equal(c224.properties.nivel, '2');
+  assert.equal(c224.properties.nivel_inferido, true);
 });
 
 test('buscarSalas encuentra por nombre, por id y por departamento, sin tildes', () => {
@@ -34,7 +42,7 @@ test('cada polígono con nombre del C2 corresponde a una sala del grafo, y los b
     if (f.properties.servicio === 'toilets') assert.equal(n?.tipo, 'bano');
     if (n) con += 1;
   }
-  assert.equal(con, 30);
+  assert.equal(con, 31);
 });
 
 test('salasSinPoligono: las salas agregadas a mano sin polígono salen aparte', () => {
