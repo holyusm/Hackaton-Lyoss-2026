@@ -46,14 +46,17 @@ export default function CampoLugar({
   const alTeclear = (e) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
+      // Patrón APG: sin opción activa, ↓ va a la primera y ↑ a la última.
+      const n = opciones.length;
+      const paso = e.key === 'ArrowDown' ? 1 : -1;
+      const inicial = paso > 0 ? 0 : n - 1;
       if (!abierto) {
         setAbierto(true);
-        setActivo(opciones.length ? 0 : -1);
+        setActivo(n ? inicial : -1);
         return;
       }
-      if (!opciones.length) return;
-      const paso = e.key === 'ArrowDown' ? 1 : -1;
-      setActivo((a) => (a + paso + opciones.length) % opciones.length);
+      if (!n) return;
+      setActivo((a) => (a < 0 ? inicial : (a + paso + n) % n));
     } else if (e.key === 'Enter' && abierto && opciones[activo]) {
       e.preventDefault();
       elegir(opciones[activo]);
