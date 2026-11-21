@@ -68,6 +68,9 @@ function Vista({ coordenadas, bounds, alturaHoja, controles }) {
     if (!(ancho > 0 && alto > 0)) return; // contenedor oculto o sin medir: Leaflet daría NaN
     const caja = coordenadas.length ? L.latLngBounds(coordenadas) : L.latLngBounds(bounds);
     const { arriba, abajo, lado } = paddingAjustado(alto, alturaHoja, ancho);
+    // Los límites del campus dejan el Edificio C pegado al borde sur: sin más margen el mapa no puede correrse
+    // para dejar la ruta sobre la hoja de abajo. Se amplía el límite sur lo que ocupa la hoja (≈1 m por px en el zoom mínimo).
+    mapa.setMaxBounds([[LIMITES_VISTA[0][0] - abajo / 111320, LIMITES_VISTA[0][1]], LIMITES_VISTA[1]]);
     // Red de seguridad: un fitBounds que lance (p. ej. NaN con un padding imposible) no debe desmontar la app.
     try {
       mapa.fitBounds(caja, { paddingTopLeft: [lado, arriba], paddingBottomRight: [lado, abajo], maxZoom: ZOOM.max, animate: false });

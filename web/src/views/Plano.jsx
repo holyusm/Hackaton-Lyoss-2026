@@ -121,19 +121,36 @@ function encajar(mapa, limites, pad, { animar = false, maxZoom } = {}) {
   }
 }
 
-// Encaja el edificio elegido (con su interior a la vista, p. ej. los pasillos del −1 del C) o todo el campus.
-function Encuadre({ edificio, interiorPiso, pad }) {
+// Cámara del plano: encaja la ruta (con todos sus tramos a la vista) si acaba de aparecer; si no, el edificio elegido
+// (con su interior, p. ej. los pasillos del −1 del C) o todo el campus. Si solo cambia el padding (se abre la ficha,
+// crece la hoja móvil), vuelve a encajar lo mismo sin animar. Elegir otro edificio sí lleva la cámara a ese edificio.
+function Camara({ edificio, interiorPiso, coordenadas, pad }) {
   const mapa = useMap();
   const clavePad = JSON.stringify(pad);
+  const claveRuta = coordenadas.length > 1 ? coordenadas.map((c) => c.join(',')).join(';') : '';
+  const previo = useRef({ edificio: undefined, interiorPiso: undefined, claveRuta: '' });
+  const modo = useRef('edificio');
   useEffect(() => {
-    const p = JSON.parse(clavePad);
-    if (!edificio) { encajar(mapa, LIMITES, p); return; }
+    const p = previo.current;
+    const cambioRuta = claveRuta !== p.claveRuta;
+    const cambioEdificio = edificio !== p.edificio || interiorPiso !== p.interiorPiso;
+    previo.current = { edificio, interiorPiso, claveRuta };
+    if (cambioRuta && claveRuta) modo.current = 'ruta';
+    else if (cambioEdificio || !claveRuta) modo.current = 'edificio';
+    const cambio = cambioRuta || cambioEdificio;
+    const animar = cambio && !sinMovimiento();
+    const q = JSON.parse(clavePad);
+    if (modo.current === 'ruta') {
+      encajar(mapa, L.latLngBounds(claveRuta.split(';').map((c) => c.split(',').map(Number))), q, { animar, maxZoom: 19.5 });
+      return;
+    }
+    if (!edificio) { encajar(mapa, LIMITES, q); return; }
     let limites = L.latLngBounds(edificio.bounds);
     if (interiorPiso.length) {
       try { limites = limites.extend(L.geoJSON({ type: 'FeatureCollection', features: interiorPiso }).getBounds()); } catch { /* sin interior */ }
     }
-    encajar(mapa, limites, p, { animar: !sinMovimiento(), maxZoom: edificio.letra === 'C' ? 19.5 : 19 });
-  }, [mapa, edificio, interiorPiso, clavePad]);
+    encajar(mapa, limites, q, { animar, maxZoom: edificio.letra === 'C' ? 19.5 : 19 });
+  }, [mapa, edificio, interiorPiso, claveRuta, clavePad]);
   return null;
 }
 
@@ -349,6 +366,9 @@ export default function Plano() {
   const enfocarFicha = useRef(false);
   const [refMapa, tamMapa] = useTamano();
   const [refHoja, tamHoja] = useTamano();
+  const [refFlotante, tamFlotante] = useTamano();
+  const hojaEl = useRef(null);
+  const refHojaTotal = useCallback((el) => { hojaEl.current = el; refHoja(el); }, [refHoja]);
   const angosto = escritorio && tamMapa.ancho > 0 && tamMapa.ancho < 760;
 
   // #189: inicio y llegada (ids de nodo), sala elegida y paso activo de la ruta.
@@ -369,6 +389,8 @@ export default function Plano() {
   const ruta = useMemo(() => (resultado?.ok ? armarRuta(datos, resultado, { posicion: (n) => [n.lat, n.lng] }) : { pasos: [], coordenadas: [] }), [datos, resultado]);
   const marcas = useMemo(() => marcasPiso(datos, resultado), [datos, resultado]);
   useEffect(() => { setPaso(null); }, [resultado]);
+  // Al armarse una ruta nueva, la hoja móvil vuelve arriba para que «Tu ruta» quede a la vista.
+  useEffect(() => { if (resultado && hojaEl.current) hojaEl.current.scrollTop = 0; }, [resultado]);
   const pasoActivo = paso ?? ruta.pasos.length - 1;
 
   // En móvil las calles empiezan apagadas y Capas plegado; en un plano angosto, Capas también parte plegado.
@@ -471,7 +493,7 @@ export default function Plano() {
       abajo: edificio && angosto ? tamMapa.alto * 0.5 + 16 : 56,
       arriba: 40,
     }
-    : { izq: 16, der: 72, arriba: 96, abajo: (tamHoja.alto || (edificio ? 380 : 150)) + 16 };
+    : { izq: 28, der: 84, arriba: (tamFlotante.alto || 84) + 24, abajo: (tamHoja.alto || (edificio ? 380 : 150)) + 16 };
 
   const textoConteo = visibles.length === 0
     ? `Sin resultados para «${q}»`
@@ -573,7 +595,7 @@ export default function Plano() {
               <Etiquetas edificio={edificio} piso={piso} calles={capas.calles} datos={datos} onSala={elegirSala} />
               <CapaRuta coordenadas={ruta.coordenadas} desde={desdeId && nodos.get(desdeId) ? [nodos.get(desdeId).lat, nodos.get(desdeId).lng] : null} hasta={hastaId && nodos.get(hastaId) ? [nodos.get(hastaId).lat, nodos.get(hastaId).lng] : null} marcas={marcas} />
               <Marker position={AQUI} icon={iconoAqui} interactive={false} keyboard={false} />
-              <Encuadre edificio={edificio} interiorPiso={interiorPiso} pad={pad} />
+              <Camara edificio={edificio} interiorPiso={interiorPiso} coordenadas={ruta.coordenadas} pad={pad} />
               <Controles pad={pad} />
               <Pildora escala={escritorio} clase={escritorio ? (angosto && edificio ? 'plano-pildora--sobre-ficha' : '') : 'plano-pildora--movil'} />
             </MapContainer>
@@ -585,12 +607,12 @@ export default function Plano() {
 
         {!escritorio && (
           <>
-            <div className="plano-flotante">
+            <div ref={refFlotante} className="plano-flotante">
               {buscar}
               {hayConsulta && (sinResultados || items)}
               {!hayConsulta && panelCapas}
             </div>
-            <div ref={refHoja} className="plano-hoja">
+            <div ref={refHojaTotal} className="plano-hoja">
               <span className="plano-hoja__asa" aria-hidden="true" />
               {panelRuta}
               {edificio ? (
