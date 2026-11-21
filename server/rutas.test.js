@@ -26,4 +26,5 @@ test('reportar el ascensor deja sin ruta a silla de ruedas', async (t) => {
   await fetch(`${api}/reportes/${r.id}/resolver`, { method: 'POST' });
   assert.equal((await ruta()).ok, true);
   assert.equal((await fetch(`${api}/ruta?desde=x`)).status, 400);
+  assert.equal((await fetch(`${api}/puntos/no-existe`)).status, 404);
 });
