@@ -26,7 +26,7 @@
     "id": "p3",
     "nodo_id": "ascensor-a",
     "titulo": "Ascensor A",
-    "texto_voz": "Estás en el ascensor del edificio A. Sube al piso dos, en un recorrido de diez metros sin escalones. Si el ascensor está fuera de servicio, la única alternativa es una escalera de cuarenta y dos escalones, que no sirve para silla de ruedas. Avisa el problema desde la aplicación.",
+    "texto_voz": "Estás en el ascensor del edificio A. Sube al piso dos, en un recorrido de diez metros sin escalones. Si el ascensor está fuera de servicio, vuelve al Patio central por el pasillo techado. Son veinticinco metros sin escalones. Elige Patio central como punto de partida en la aplicación para buscar una ruta sin escalones al piso dos.",
     "indicaciones": [
       { "hacia": "Edificio A, piso 2", "texto": "Sube en el ascensor. Son 10 metros, sin escalones." },
       { "hacia": "Patio central", "texto": "Avanza 25 metros, bajo techo y sin escalones." }
