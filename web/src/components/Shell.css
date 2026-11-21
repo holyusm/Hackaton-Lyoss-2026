@@ -81,6 +81,7 @@ dialog.hoja::backdrop { background: var(--velo); }
 /* Áreas táctiles de 48 px (regla del equipo). componentes.css trae 44 px en estos dos; el ajuste va aquí. */
 .nav-escritorio a { min-height: var(--toque-min); }
 .segmentado button { height: var(--toque-min); }
+.segmentado button:focus-visible { outline: 3px solid var(--tinta); outline-offset: -3px; box-shadow: none; position: relative; z-index: 1; }
 /* Cabecera en una sola fila en móviles estrechos (320-360 px) (#175 punto 2) */
 @media (max-width: 420px) {
   .boton-accesibilidad {

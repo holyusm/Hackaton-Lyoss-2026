@@ -20,6 +20,10 @@ const EN_MAS = ['/plano', '/campus', '/acerca'];
 // "Ruta" cubre el flujo completo: elegir destino (/) y verlo en el mapa (/mapa).
 const esActual = (a, ruta) => (a === '/' ? ruta === '/' || ruta.startsWith('/mapa') : ruta.startsWith(a));
 
+// Título de la pestaña por ruta (WCAG 2.4.2). Lo que no está aquí es la 404.
+const TITULOS = { '/': 'Elige tu ruta', '/mapa': 'Tu ruta', '/plano': 'Plano', '/comparar': 'Comparar perfiles', '/reportar': 'Reportar una barrera', '/campus': 'Mejorar el campus', '/acerca': 'Acerca', '/punto': 'Punto QR' };
+const tituloDe = (ruta) => TITULOS[ruta] ?? TITULOS[`/${ruta.split('/')[1]}`] ?? 'Página no encontrada';
+
 export default function Shell() {
   const { pathname, search } = useLocation();
   // /mapa (Lote 2): el mapa va de la cabecera a la nav, el salto lleva a los pasos y el pie legal va en la hoja.
@@ -41,6 +45,7 @@ export default function Shell() {
   const [panel, setPanel] = useState(false);
   const [mas, setMas] = useState(false);
   useEffect(() => { setMas(false); }, [pathname]);
+  useEffect(() => { document.title = `${tituloDe(pathname)} | parejo`; }, [pathname]);
 
   const enlace = ({ a, texto, Icono }) => (
     <Link key={a} to={a} aria-current={esActual(a, pathname) ? 'page' : undefined}>

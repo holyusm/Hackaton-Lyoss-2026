@@ -38,6 +38,11 @@
   width: 100%; padding: var(--e-4); border: 0; background: none; color: var(--tinta); text-align: left; cursor: pointer;
   display: flex; flex-direction: column; gap: var(--e-3);
 }
+.fila-perfil__boton:focus-visible {
+  outline: 3px solid var(--tinta);
+  outline-offset: -3px;
+  box-shadow: none;
+}
 .fila-perfil__cabeza { display: flex; align-items: center; gap: var(--e-3); }
 .fila-perfil__nombre { flex: 1; font-size: var(--t-etiqueta); font-weight: var(--peso-negro); }
 .fila-perfil__caret { width: 24px; height: 24px; transition: transform var(--t-media); }

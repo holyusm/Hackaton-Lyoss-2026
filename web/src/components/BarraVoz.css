@@ -24,4 +24,10 @@
   font-weight: var(--peso-negro); cursor: pointer;
 }
 .barra-voz__segmentos button[aria-checked="true"] { background: var(--activo-fondo); color: var(--activo-texto); }
-.barra-voz__segmentos button:focus-visible { position: relative; z-index: 1; }
+.barra-voz__segmentos button:focus-visible {
+  outline: 3px solid var(--tinta);
+  outline-offset: -3px;
+  box-shadow: none;
+  position: relative;
+  z-index: 1;
+}
