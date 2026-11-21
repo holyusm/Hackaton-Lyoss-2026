@@ -26,7 +26,14 @@ export default function PanelAccesibilidad({ abierto, onCerrar }) {
       className="hoja panel-accesibilidad"
       aria-labelledby="titulo-a11y"
       onClose={onCerrar}
-      onClick={(e) => { if (e.target === dialogo.current) onCerrar(); }}
+      onClick={(e) => {
+        const d = dialogo.current;
+        // Solo clics de puntero sobre el fondo: el padding de .hoja también tiene como destino el <dialog>,
+        // y Enter/Espacio llegan como click con detail 0.
+        if (e.target !== d || e.detail === 0) return;
+        const r = d.getBoundingClientRect();
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) onCerrar();
+      }}
     >
       <div className="panel-accesibilidad__cabeza">
         <h2 id="titulo-a11y">Accesibilidad</h2>
