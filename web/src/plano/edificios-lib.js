@@ -92,19 +92,25 @@ export function perteneceA(feature, clave) {
   return (extra.letra || p.letra || limpiar(extra.nombre || p.nombre)) === clave;
 }
 
-// Pisos que se ofrecen en la ficha: el C es -1, 1 y 2; si se conoce el número de pisos, 1..pisos (máximo 8); si no, solo el 1.
+// Pisos que se ofrecen en la ficha: el C es -1, 1 y 2; el P (levantamiento) 0 a 3; si se conoce el número de pisos, 1..pisos (máximo 8); si no, solo el 1.
+const PISOS = { C: [-1, 1, 2], P: [0, 1, 2, 3] };
 export function pisosDe(edificio) {
-  if (edificio.letra === 'C') return [-1, 1, 2];
+  if (PISOS[edificio.letra]) return PISOS[edificio.letra];
   if (edificio.pisos) return Array.from({ length: Math.min(edificio.pisos, 8) }, (_, i) => i + 1);
   return [1];
 }
 
 export const pisoInicial = (edificio) => (edificio.letra === 'C' ? 2 : 1);
 
-// Salas y pasillos de un edificio en un piso. Hoy solo el C tiene interior en OSM.
+// Salas y pasillos de un edificio en un piso. El C viene de OSM (sin `edificio`); los demás, de interiores
+// dibujados por el equipo, que traen `edificio: <letra>` (p. ej. interiores/edificio-p.geo.json).
 export function interior(geo, letra, piso) {
-  if (letra !== 'C') return [];
-  return geo.features.filter((f) => (f.properties.tipo === 'sala' || f.properties.tipo === 'pasillo') && f.properties.nivel === String(piso));
+  if (!letra) return [];
+  return geo.features.filter((f) => {
+    const p = f.properties;
+    if ((p.tipo !== 'sala' && p.tipo !== 'pasillo') || p.nivel !== String(piso)) return false;
+    return p.edificio ? p.edificio === letra : letra === 'C';
+  });
 }
 
 // id del nodo de data/campus.json que representa al edificio (para "Cómo llegar sin barreras"), o null.

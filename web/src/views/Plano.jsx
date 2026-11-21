@@ -156,6 +156,7 @@ function Etiquetas({ edificio, piso, calles, datos, onSala }) {
 }
 
 const notaDe = (e, piso, hayInterior) => {
+  if (hayInterior && e.letra !== 'C') return `Plano interior del piso ${piso} dibujado por el equipo a partir de un boceto en terreno: la escala es aproximada. Las salas marcadas con el ícono de baño son baños.`;
   if (hayInterior) return `Plano interior del piso ${piso} según OpenStreetMap. Las salas marcadas con el ícono de baño son baños.`;
   if (e.letra === 'C' || e.pisos) return 'Plano interior pendiente: se agrega con el levantamiento en terreno.';
   return 'Número de pisos y plano interior por confirmar en terreno.';
