@@ -43,7 +43,7 @@ test('metros es el largo real del trazado, con una tolerancia de 10 % (o 5 m)', 
   }
 });
 
-test('el trazado no pasa más lejos que el doble del largo en línea recta más 150 m (no da vueltas absurdas)', () => {
+test('el largo del trazado no supera 2,5 veces la distancia en línea recta más 150 m', () => {
   for (const t of conTrazado) {
     const recto = haversine(nodos.get(t.desde), nodos.get(t.hasta));
     const real = largoTramo(t, nodos.get(t.desde), nodos.get(t.hasta));
