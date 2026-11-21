@@ -14,7 +14,7 @@ La planificación por perfil apoya el **ODS 10** de reducción de desigualdades 
 
 Los estudiantes que más lo sufren son los que usan silla de ruedas, los que tienen movilidad reducida (bastón, lesión temporal, embarazo), los que tienen baja visión y los estudiantes nuevos que aún no conocen el campus.
 
-Un ejemplo con los datos simulados del prototipo: de la Entrada principal a la Sala C231, la ruta estándar mide 540 m y sube 20 escalones. En silla de ruedas, parejo encuentra una de 550 m y 0 escalones por el ascensor del edificio C: casi el mismo largo, pero hay que conocerla. Si ese ascensor se detiene, no queda ninguna ruta en silla de ruedas, y parejo lo dice en vez de mandar a la escalera. Hoy, 2 de los 6 destinos de la muestra no tienen ruta en silla de ruedas, y 20 de los 42 trayectos entre lugares del campus tienen alguna barrera para ese perfil.
+El prototipo permite determinar rutas alternativas en caso de que un ascensor este deshabilitado, lo cual permite a una persona con movilidad reducida replanificar su ruta en base a esto, obteniendo una ruta con menor cantidad de obstaculos.
 
 ## Solución y funcionalidades
 
