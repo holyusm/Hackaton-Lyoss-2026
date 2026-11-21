@@ -56,3 +56,19 @@ test('ningún texto lleva separadores prohibidos', () => {
   const textos = frasesPunto(armarPunto(punto, grafo, [barrera])).map((f) => f.texto).join(' ');
   for (const c of ['·', '—', '–']) assert.ok(!textos.includes(c), c);
 });
+
+test('el QR sustituye también en la voz la indicación de un tramo bloqueado', () => {
+  const g = { ...grafo, tramos: [{ id: 't8', desde: 'patio-central', hasta: 'entrada-principal' }] };
+  const m = armarPunto(punto, g, [{ ...barrera, nodo_id: null, tramo_id: 't8' }]);
+  assert.match(m.destinos[0].indicacion, /bloqueo/);
+  assert.doesNotMatch(frasesPunto(m).map(f => f.texto).join(' '), /130 metros/);
+  assert.equal(m.destinos[1].indicacion, 'Sigue de frente.');
+});
+
+test('la voz anuncia primero si las barreras no se pudieron verificar', () => {
+  const modelo = armarPunto(punto, grafo, [barrera]);
+  const estado = 'No pudimos verificar las barreras actuales.';
+  const frases = frasesPunto(modelo, estado);
+  assert.deepEqual(frases.slice(0, 3).map((f) => f.clave), ['estado-barreras', 'aviso', 'lugar']);
+  assert.equal(frases[0].texto, estado);
+});

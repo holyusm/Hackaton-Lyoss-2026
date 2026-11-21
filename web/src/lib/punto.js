@@ -1,3 +1,5 @@
+import { bloqueosDe } from '../../../motor/barreras.js';
+
 // Punto QR (/punto/:id, Lote 5). Funciones puras: arman lo que se ve y lo que se lee en voz alta,
 // en el mismo orden, para que la voz y la pantalla nunca se separen.
 
@@ -27,10 +29,18 @@ export function armarPunto(punto, grafo, barreras = [], perfil = null) {
     .filter((b) => b.nodo_id === punto.nodo_id)
     .sort((a, b) => (NIVEL[b.nivel] ?? 0) - (NIVEL[a.nivel] ?? 0))[0];
 
+  const bloqueos = new Set(bloqueosDe(barreras));
   const destinos = (punto.indicaciones ?? []).map((ind, i) => {
     const nodo = nodos.find((n) => n.id === ind.nodo_id) ?? nodos.find((n) => n.nombre === ind.hacia) ?? null;
     const q = nodo ? new URLSearchParams({ desde: punto.nodo_id, hasta: nodo.id, perfil: perfilEnlace }) : null;
-    return { id: nodo?.id ?? `destino-${i}`, nombre: ind.hacia, nodo, indicacion: ind.texto, enlace: q ? `/mapa?${q}` : null };
+    const corte = grafo?.tramos?.some((t) => {
+      const conecta = (t.desde === punto.nodo_id && t.hasta === nodo?.id)
+        || (!t.sentido_unico && t.hasta === punto.nodo_id && t.desde === nodo?.id);
+      return conecta && (bloqueos.has(t.id) || bloqueos.has(t.ascensor_id));
+    });
+    const bloqueado = corte || bloqueos.has(punto.nodo_id) || bloqueos.has(nodo?.id);
+    const indicacion = bloqueado ? 'Hay un bloqueo en este acceso. Consulta la ruta actualizada antes de avanzar.' : ind.texto;
+    return { id: nodo?.id ?? `destino-${i}`, nombre: ind.hacia, nodo, indicacion, enlace: q ? `/mapa?${q}` : null };
   });
 
   return {
@@ -45,8 +55,9 @@ export function armarPunto(punto, grafo, barreras = [], perfil = null) {
 }
 
 // Bloques en el orden de lectura: aviso, dónde estás y cada destino. La clave sirve para resaltar el bloque.
-export function frasesPunto(m) {
+export function frasesPunto(m, estadoBarreras) {
   const frases = [];
+  if (estadoBarreras) frases.push({ clave: 'estado-barreras', nombre: 'el estado de las barreras', texto: estadoBarreras });
   if (m.barrera) {
     frases.push({ clave: 'aviso', nombre: 'el aviso', texto: `${m.barrera.titulo} El aviso vence a las ${horaHablada(m.barrera.vence)}.` });
   }

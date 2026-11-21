@@ -101,7 +101,6 @@ test('p3: con el ascensor A bloqueado existe desvío en silla de ruedas al Edifi
   assert.equal(tramoAlPatio.metros + desdePatio.metros, desdeP3.metros);
 
   const metrosEsperadosP3 = redondear5(desdeP3.metros);
-  const metrosEsperadosPatio = redondear5(desdePatio.metros);
 
   const indPiso2 = p3.indicaciones.find((i) => i.hacia === 'Edificio A, piso 2');
   const indPatio = p3.indicaciones.find((i) => i.hacia === 'Patio central');
@@ -112,20 +111,24 @@ test('p3: con el ascensor A bloqueado existe desvío en silla de ruedas al Edifi
     citarMetros(p3.texto_voz).includes(metrosEsperadosP3),
     `p3.texto_voz debe citar ${metrosEsperadosP3} metros (redondeo a 5 m de ${desdeP3.metros} m)`,
   );
-  assert.ok(
-    citarMetros(indPiso2.texto).includes(metrosEsperadosP3),
-    `p3 indicación a Edificio A, piso 2 debe citar ${metrosEsperadosP3} metros`,
-  );
-  assert.ok(
-    citarMetros(indPatio.texto).includes(metrosEsperadosPatio),
-    `p3 indicación a Patio central debe citar ${metrosEsperadosPatio} metros`,
-  );
+  assert.doesNotMatch(p3.texto_voz, /180 metros/);
+  assert.deepEqual(citarMetros(indPiso2.texto), [10]);
+  assert.deepEqual(citarMetros(indPatio.texto), [45]);
+  assert.match(indPiso2.texto, /consulta en el mapa/);
+  assert.match(indPatio.texto, /ruta actualizada/);
 
   for (const texto of [p3.texto_voz, ...p3.indicaciones.map((i) => i.texto)]) {
     assert.doesNotMatch(texto, /[→·—–]|--/, `símbolo no apto para voz en p3: "${texto}"`);
   }
   assert.match(p3.texto_voz, /barreras activas/i);
-  assert.match(indPiso2.texto, /barreras activas/i);
+
+});
+
+test('el QR del patio deriva al mapa para evitar los escalones del piso 2', () => {
+  const salida = puntos.find((p) => p.id === 'p2').indicaciones.find((i) => i.hacia === 'Edificio A, piso 2');
+  assert.match(salida.texto, /42 escalones/);
+  assert.match(salida.texto, /ruta actualizada en el mapa/);
+  assert.doesNotMatch(salida.texto, /ascensor/i);
 });
 
 test('cada indicación hacia un nodo vecino cita los metros del tramo directo (redondeo a 5 m)', () => {
