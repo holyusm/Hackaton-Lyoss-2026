@@ -86,7 +86,11 @@ compararPerfiles(grafo, perfiles, { desde, hasta, bloqueos = [] })
 // Punto (QR)
 { "id": "p1", "nodo_id": "entrada-principal", "titulo": "Entrada principal",
   "texto_voz": "Estás en la entrada principal...", "indicaciones": [ { "hacia": "Ascensor A", "texto": "Avanza 40 metros de frente, sin escalones." } ] }
+// Opcionales (aditivos): "descripcion": "Portón de Avenida España. Frente a ti está el Patio central."
+//   e "indicaciones[].nodo_id": "ascensor-a". Sin nodo_id, el cliente busca el nodo con nombre === hacia.
 ```
+
+`/punto/:id` (Lote 5) arma la barrera del punto en el cliente con `GET /reportes` (activos con `nodo_id === punto.nodo_id`); el `Punto` no la trae.
 
 Errores: `{ "error": "mensaje" }` con 400 o 404.
 
