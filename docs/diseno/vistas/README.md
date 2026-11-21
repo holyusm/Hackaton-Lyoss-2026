@@ -7,7 +7,7 @@ José diseña cada vista en Claude Design y deja aquí lo exportado. Quien imple
 | [lote-0-sistema](lote-0-sistema/) | toda la app: marca, tokens, componentes, shell | listo | @Gxppe |
 | [lote-1-inicio](lote-1-inicio/) | `/` | listo | @Gxppe |
 | [lote-2-mapa](lote-2-mapa/) | `/mapa` | listo | @juaquo15 |
-| [lote-3-comparar](lote-3-comparar/) | `/comparar` | pendiente | por asignar |
+| [lote-3-comparar](lote-3-comparar/) | `/comparar` | listo | @Gxppe |
 | [lote-4-reportar](lote-4-reportar/) | `/reportar` | pendiente | por asignar |
 | [lote-5-punto](lote-5-punto/) | `/punto/:id` | pendiente | por asignar |
 | [lote-6-acerca](lote-6-acerca/) | `/acerca` | pendiente | por asignar |
