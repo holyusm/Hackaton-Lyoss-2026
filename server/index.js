@@ -65,12 +65,15 @@ app.use('/api', (req, res) => res.status(404).json({ error: 'ruta no encontrada'
 // Frontend: archivos de web/dist y, para rutas del SPA (/mapa, /punto/:id...), index.html.
 app.use(express.static(dist));
 app.use((req, res) => {
+  // Un asset o un endpoint que no existe es 404, no index.html con 200 (el navegador lo tomaría por JS).
+  if (req.method !== 'GET' || /^\/(api|assets)\//.test(req.path)) return res.status(404).json({ error: 'no encontrado' });
   if (existsSync(dist + '/index.html')) res.sendFile(dist + '/index.html');
   else res.status(503).send('Frontend sin compilar: corre npm run build');
 });
 
 // JSON mal formado u otro error: siempre { error } en vez de HTML.
 app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
   if (err instanceof GrafoInvalido) return res.status(500).json({ error: err.message });
   if (!err.status) console.error(err);
   res.status(err.status || 500).json({ error: err.status ? err.message : 'error interno' });
