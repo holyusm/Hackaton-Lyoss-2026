@@ -1,0 +1,88 @@
+{
+  "$descripcion": "Datos de ejemplo de la vista /mapa (Lote 2). Son simulados: la UI muestra 'Datos de ejemplo' en el pie. 'plano' son coordenadas en px del plano esquemático de referencia (390×704). Para Leaflet hay que reemplazarlas por lat/lng del grafo real.",
+  "consulta": { "desde": "entrada-principal", "hasta": "sala-a-201", "perfil": "silla" },
+  "respuestaRutaSugerida": {
+    "$nota": "Forma sugerida para GET /api/ruta?desde=&hasta=&perfil=. Ajustar a docs/contratos.md si ya existe un contrato.",
+    "ok": true,
+    "id": "ruta-entrada-a201-silla-v1",
+    "actualizadaA": "11:37",
+    "metros": 75,
+    "minutos": 2.3,
+    "escalones": 0,
+    "coordenadas": "lista de [lat, lng] del grafo, en orden, para la Polyline de Leaflet",
+    "pasos": "mismo formato que escenas.normal.pasos, más [lat, lng] del punto donde va el número",
+    "advertencias": "mismo formato que escenas.normal.advertencias",
+    "barrerasEvitadas": ["r-001", "r-002"],
+    "sinRuta": "si no hay ruta: ok=false y un objeto con titulo, motivo y alternativas (ver escenas.sinRuta)"
+  },
+  "escenas": {
+    "normal": {
+      "metros": 75, "minutos": "2,3", "escalones": 0,
+      "planoRuta": "225,430 271,412 271,358 160,260 150,256 96,210",
+      "planoNumeros": [{ "n": 1, "x": 271, "y": 385 }, { "n": 2, "x": 215, "y": 309 }, { "n": 3, "x": 150, "y": 256 }, { "n": 4, "x": 123, "y": 233 }],
+      "pasos": [
+        { "instruccion": "Avanza 40 m por la rampa hasta el Patio central.", "detalle": "Rampa de 4 %, piso liso, al aire libre", "tramo": "rampa", "icono": "TrendUp", "metros": 40 },
+        { "instruccion": "Cruza el patio techado 25 m hasta el Ascensor A.", "detalle": "Adoquín parejo, techado", "tramo": "techado", "icono": "Umbrella", "metros": 25 },
+        { "instruccion": "Sube al piso 2.", "detalle": "Ascensor A, puerta de 90 cm", "tramo": "ascensor", "icono": "Elevator", "metros": 0 },
+        { "instruccion": "La Sala A-201 está a 10 m a tu izquierda.", "detalle": "Pasillo techado", "tramo": "sala", "icono": "Door", "metros": 10 }
+      ],
+      "advertencias": [
+        { "icono": "Info", "texto": "Tramo de adoquín de 8 m en el patio. Es parejo y está techado." },
+        { "icono": "Elevator", "texto": "El Ascensor A tiene botones a 1 m de altura y aviso por voz." }
+      ],
+      "perfilRecorrido": {
+        "$nota": "SVG 520×230. Ver componente PerfilRecorrido en ../lote-0-sistema/componentes.md.",
+        "terreno": "20,190 260,166 410,166 410,76 500,76 500,206 20,206",
+        "tramosCaminados": ["20,190 260,166 410,166", "410,76 500,76"],
+        "tramoAscensor": { "x1": 410, "y1": 166, "x2": 410, "y2": 76 },
+        "etiquetas": [
+          { "texto": "Rampa 40 m, 4 %", "x": 22, "y": 156 },
+          { "texto": "Patio 25 m", "x": 262, "y": 148 },
+          { "texto": "Ascensor A", "x": 402, "y": 112, "ancla": "end" },
+          { "texto": "Sala A-201", "x": 500, "y": 52, "ancla": "end", "fuerte": true }
+        ]
+      }
+    },
+    "recalculada": {
+      "motivo": { "barrera": "r-003", "titulo": "Ascensor A fuera de servicio", "desde": "11:05" },
+      "aviso": "Recalculamos tu ruta por la rampa del Edificio B: 40 m y 1 min más.",
+      "diferencia": { "metros": 40, "minutos": 1 },
+      "metros": 115, "minutos": "3,3", "escalones": 0,
+      "planoRuta": "225,430 271,412 271,358 271,290 290,280 330,160 330,135 144,135 96,210",
+      "planoRutaAnterior": "225,430 271,412 271,358 160,260 150,256 96,210",
+      "planoNumeros": [{ "n": 1, "x": 271, "y": 385 }, { "n": 2, "x": 271, "y": 318 }, { "n": 3, "x": 310, "y": 220 }, { "n": 4, "x": 237, "y": 135 }],
+      "pasos": [
+        { "instruccion": "Avanza 40 m por la rampa hasta el Patio central.", "detalle": "Rampa de 4 %, piso liso, al aire libre", "tramo": "rampa", "icono": "TrendUp", "metros": 40 },
+        { "instruccion": "Sigue 20 m por el borde del patio hasta el Edificio B.", "detalle": "Piso liso, techado", "tramo": "techado", "icono": "Umbrella", "metros": 20 },
+        { "instruccion": "Sube por la rampa del Edificio B al piso 2.", "detalle": "25 m con 6 % de pendiente y un descanso", "tramo": "rampa", "icono": "TrendUp", "metros": 25 },
+        { "instruccion": "Cruza la pasarela techada 20 m hasta el Edificio A.", "detalle": "Piso liso, baranda a ambos lados", "tramo": "techado", "icono": "Umbrella", "metros": 20 },
+        { "instruccion": "La Sala A-201 está a 10 m a tu derecha.", "detalle": "Pasillo techado", "tramo": "sala", "icono": "Door", "metros": 10 }
+      ],
+      "advertencias": [
+        { "icono": "TrendUp", "texto": "La rampa del Edificio B tiene 6 % de pendiente en 25 m. Hay un descanso a la mitad." },
+        { "icono": "Prohibit", "texto": "El Ascensor A está fuera de servicio desde las 11:05." }
+      ],
+      "estado": "Ruta actualizada a las 11:42. El Ascensor A está fuera de servicio."
+    },
+    "sinRuta": {
+      "titulo": "No encontramos una ruta sin escalones hacia Sala A-201 en este momento.",
+      "motivo": "El Ascensor A está fuera de servicio desde las 11:05 y la pasarela del Edificio B está cerrada.",
+      "alternativas": [
+        { "tipo": "boton", "texto": "Probar con otro destino", "accion": "volver-a-inicio" },
+        { "tipo": "boton", "texto": "Ir al Baño accesible B", "accion": "ruta-a:bano-accesible-b" },
+        { "tipo": "enlace", "texto": "Avisar a Dirección de Asuntos Estudiantiles", "accion": "simulado", "nota": "Enlace simulado: en la demo no envía nada." }
+      ]
+    }
+  },
+  "barreras": [
+    { "id": "r-001", "titulo": "Piso mojado", "lugar": "Frente al Casino", "nivel": "alerta", "plano": { "x": 356, "y": 408 }, "etiquetaVisible": false, "aria": "Barrera activa: piso mojado frente al Casino" },
+    { "id": "r-002", "titulo": "Rampa lateral bloqueada", "lugar": "Rampa lateral de la Biblioteca", "nivel": "bloqueo", "aria": "Bloqueado: rampa lateral de la Biblioteca" },
+    { "id": "r-003", "titulo": "Ascensor A fuera de servicio", "lugar": "Edificio A", "nivel": "bloqueo", "plano": { "x": 150, "y": 256 }, "etiqueta": "Ascensor A fuera de servicio", "aria": "Ascensor A fuera de servicio", "soloEnEscenas": ["recalculada", "sinRuta"] },
+    { "id": "r-004", "titulo": "Pasarela cerrada", "lugar": "Pasarela entre los edificios B y A", "nivel": "bloqueo", "plano": { "x": 237, "y": 135 }, "etiqueta": "Pasarela cerrada", "aria": "Pasarela del Edificio B cerrada", "soloEnEscenas": ["sinRuta"] }
+  ],
+  "elementosFijosDelPlano": [
+    { "tipo": "escalera", "etiqueta": "Escalera, 12 escalones", "plano": { "x": 225, "y": 386 }, "ladoEtiqueta": "izquierda", "aria": "Escalera de 12 escalones" },
+    { "tipo": "origen", "etiqueta": "Entrada principal", "plano": { "x": 225, "y": 430 } },
+    { "tipo": "destino", "etiqueta": "Sala A-201, piso 2", "plano": { "x": 96, "y": 210 } }
+  ]
+}
