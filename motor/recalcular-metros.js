@@ -43,6 +43,9 @@ export function recalcularTramo(tramo, nodosPorId) {
     ? tramo.minutos_medidos
     : redondear1(metros / VELOCIDAD_M_POR_MIN + (tramo.escalones ?? 0) * MIN_POR_ESCALON);
 
+  if (!Number.isFinite(metros) || metros < 0 || !Number.isFinite(minutos_medidos) || minutos_medidos < 0) {
+    throw new Error(`Distancia o tiempo inválido en el tramo ${tramo.id}.`);
+  }
   const nota = esAscensor
     ? 'ascensor (conserva)'
     : esVerticalCorto
@@ -66,6 +69,12 @@ export function recalcularTramo(tramo, nodosPorId) {
 }
 
 export function recalcularGrafo(grafo) {
+  if (grafo.simulado !== true) throw new Error('El recálculo requiere un grafo marcado como simulado.');
+  for (const n of grafo.nodos) {
+    if (!Number.isFinite(n.lat) || Math.abs(n.lat) > 90 || !Number.isFinite(n.lng) || Math.abs(n.lng) > 180) {
+      throw new Error(`Coordenadas inválidas en el nodo ${n.id}.`);
+    }
+  }
   const nodosPorId = new Map(grafo.nodos.map((n) => [n.id, n]));
   const tramos = [];
   const filas = [];
