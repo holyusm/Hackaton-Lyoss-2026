@@ -19,11 +19,11 @@ Son plantillas de Claude Design y no se abren solas en el navegador. **Léanlas 
 
 - **Edificios del campus:** features con `tipo: "edificio"` y `campus: true`. Se agrupan por `letra` y, si no hay letra, por `nombre`. De cada grupo se queda el polígono más grande. Orden: primero los que tienen letra (A, B, C… con orden numérico, así M2 va después de M) y luego los que solo tienen nombre.
 - **Supuestos declarados** (van también en "Acerca de los datos" de la vista):
-  - `relation/17542343` es el **Edificio B** ("Edificio central · nombre por confirmar"). En OSM no tiene nombre.
+  - `relation/17542343` es el **Edificio B** ("Edificio central, nombre por confirmar"). En OSM no tiene nombre.
   - H, O, J, I, N, F2 y P2 no están en OSM. No se dibujan, y la lista no los muestra.
   - Pisos: se usa `pisos` de OSM cuando existe. Si no existe, se muestra "Pisos por confirmar". La accesibilidad de cada edificio dice **"Por levantar"** hasta que exista el levantamiento en terreno (#12, `data/`).
 - **Interior:** solo el Edificio C tiene interior en OSM: salas C201 a C247 en el piso 2 (`tipo: "sala"`, `nivel: "2"`, con 2 baños) y 3 pasillos en el piso -1. Los pisos del C son −1, 1 y 2, y al elegirlo se abre en el piso 2.
-- **Arreglos de texto:** "Comerdores" se muestra como "Comedores". El nombre largo de la Federación se acorta a "FEUTFSM · Federación de Estudiantes" (función `limpiar` del tablero).
+- **Arreglos de texto:** "Comerdores" se muestra como "Comedores". El nombre largo de la Federación se acorta a "FEUTFSM, Federación de Estudiantes" (función `limpiar` del tablero).
 - **Atribución:** "© colaboradores de OpenStreetMap" visible siempre (ya la trae `CapaPlano`).
 
 ## Escritorio (≥ 900 px)
@@ -40,7 +40,7 @@ Son plantillas de Claude Design y no se abren solas en el navegador. **Léanlas 
      - **Resaltado:** el edificio elegido lleva relleno `--cobalto-tinte` y borde `--cobalto` de 3 px. Los demás quedan igual.
      - **Al elegir:** `flyToBounds` del edificio, con padding y `maxZoom` 19. Para el C se usa 19.5, para que se lean las salas.
      - **Interior del C:** cuando el C está elegido y el piso es 2, se dibujan sus salas (borde fino) con la `ref` (C201…) como etiqueta pequeña desde zoom 19. Los **baños** van en `--paso`, con su ícono `Toilet` y no solo el color. En el piso −1 se dibujan los pasillos. En el piso 1 no hay interior, y la ficha lo dice.
-     - **"Estás aquí":** un punto Cobalto con halo en el Acceso Av. España (-33.033897, -71.595230) y la etiqueta "Estás aquí · Acceso". Es simulado y está declarado.
+     - **"Estás aquí":** un punto Cobalto con halo en el Acceso Av. España (-33.033897, -71.595230) y la etiqueta "Estás aquí, Acceso". Es simulado y está declarado.
      - **Capas** (tarjeta flotante arriba a la izquierda, `<fieldset>` con `<legend>` "Capas"): casillas reales para Senderos, Escaleras, Servicios y Nombres de calles, todas marcadas al inicio.
      - **Controles** (arriba a la derecha, botones de 48 px): Acercar, Alejar y "Ver todo el campus" (`fitBounds(LIMITES)`).
      - **Abajo a la izquierda:** flecha del norte (decorativa, con texto "N") y escala métrica (`L.control.scale({ imperial: false })`, con estilo de tokens).
