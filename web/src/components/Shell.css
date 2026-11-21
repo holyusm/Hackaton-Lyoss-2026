@@ -57,3 +57,6 @@ dialog.hoja::backdrop { background: var(--velo); }
 .cabecera__volver svg { width: 24px; height: 24px; }
 .cabecera__volver:hover { background: var(--cobalto-tinte); color: var(--sobre-tinte); }
 @media (min-width: 900px) { .cabecera__volver { display: none; } }
+
+/* Lote 3, A0: con zoom al 200 % la cabecera de escritorio se envuelve en vez de hacer scroll horizontal. */
+.nav-escritorio, .barra-accesibilidad { flex-wrap: wrap; }
