@@ -6,7 +6,7 @@
     "texto_voz": "Estás en la entrada principal de Casa Central. Desde aquí hay dos caminos. El más corto va al patio central: cuarenta metros por rampa, sin escalones, con guía táctil en el piso. El otro va a la biblioteca: noventa metros por rampa, sin escalones, pero con piso irregular.",
     "indicaciones": [
       { "hacia": "Patio central", "texto": "Avanza 40 metros por la rampa, sin escalones. Hay guía táctil en el piso." },
-      { "hacia": "Biblioteca", "texto": "Avanza 90 metros por la rampa lateral, sin escalones. El piso es irregular: ve con cuidado." }
+      { "hacia": "Biblioteca", "texto": "Avanza 90 metros por la rampa lateral, sin escalones. Es muy empinada y el piso es irregular: en silla de ruedas no es una ruta segura, ve con cuidado." }
     ]
   },
   {
@@ -40,7 +40,7 @@
     "indicaciones": [
       { "hacia": "Baño accesible B", "texto": "Avanza 15 metros, sin escalones. Hay guía táctil en el piso." },
       { "hacia": "Patio central", "texto": "Avanza 50 metros por adoquín. Hay 3 escalones." },
-      { "hacia": "Entrada principal", "texto": "Avanza 90 metros por la rampa lateral, sin escalones. El piso es irregular." }
+      { "hacia": "Entrada principal", "texto": "Avanza 90 metros por la rampa lateral, sin escalones. Es muy empinada y el piso es irregular." }
     ]
   },
   {
