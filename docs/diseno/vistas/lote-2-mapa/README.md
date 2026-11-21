@@ -6,7 +6,7 @@ Es el corazón de la demo: la ruta que sirve a tu perfil y cómo cambia en vivo 
 
 > Ajuste respecto del paquete anterior: el enlace del Wordmark (logo que lleva al inicio) debe medir al menos 48 px de alto (`min-height: 48px`). Ya está aplicado en `componentes.css` (`.wordmark`).
 
-**Plan de implementación:** [PLAN.md](PLAN.md). El mapa usa el plano oficial de Casa Central redibujado (ver `plano/`), no teselas geográficas.
+**Plan de implementación:** [PLAN.md](PLAN.md). El mapa usa el plano generado desde OpenStreetMap (`web/src/plano/`), sin teselas.
 
 ## Referencias
 
