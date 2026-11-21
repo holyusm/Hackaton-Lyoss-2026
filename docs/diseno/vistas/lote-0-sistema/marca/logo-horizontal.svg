@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 64" role="img" aria-label="Parejo">
+  <!-- El texto usa Atkinson Hyperlegible Next 800. En la web, preferir el componente
+       Wordmark (símbolo SVG + texto HTML) para que el nombre sea texto real. -->
+  <rect width="64" height="64" rx="14" fill="#2443D0"/>
+  <path d="M4 58L60 22" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <path d="M19 9H45V28.7L19 45.4Z" fill="#F4B6C2"/>
+  <rect x="23" y="13" width="8" height="8" rx="1.5" fill="#2443D0"/>
+  <rect x="33" y="13" width="8" height="8" rx="1.5" fill="#2443D0"/>
+  <path d="M19 27H45" stroke="#0D2B3E" stroke-width="3"/>
+  <text x="78" y="47" fill="#0D2B3E" font-family="'Atkinson Hyperlegible Next','Atkinson Hyperlegible',system-ui,sans-serif" font-weight="800" font-size="54" letter-spacing="-2.2">parejo</text>
+</svg>
