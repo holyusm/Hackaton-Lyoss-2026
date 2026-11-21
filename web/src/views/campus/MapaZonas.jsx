@@ -5,7 +5,7 @@ import { MapContainer, Marker, useMap } from 'react-leaflet';
 import { Check } from '@phosphor-icons/react';
 import CapaPlano from '../../plano/CapaPlano.jsx';
 import { LIMITES_VISTA, ZOOM } from '../../plano/plano.js';
-import { estadoZona, etiquetaZona, resumenPlano, ubicacionObra } from '../../lib/campus.js';
+import { estadoZona, etiquetaZona, nombreCorto, resumenPlano, ubicacionObra } from '../../lib/campus.js';
 import FormaZona from './FormaZona.jsx';
 import IconoObra, { TIPO_TEXTO } from './IconoObra.jsx';
 import 'leaflet/dist/leaflet.css';
@@ -27,10 +27,20 @@ const DISPOSICION = {
 const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const svg = (n) => renderToStaticMarkup(n);
 
-function iconoZona(z, perfil, nuevo) {
+function iconoZona(z, perfil, nuevo, compacto) {
   const estado = z.estado ?? estadoZona(z);
   const { lado = 'der', dy = 0 } = DISPOSICION[z.nodo_id] ?? {};
   const mas = Math.max(1, Math.round(z.minutos_extra ?? 0));
+  if (compacto) {
+    // Móvil: forma de 36 px con la cantidad de trayectos con barrera en un círculo y etiqueta de una línea con el nombre corto.
+    const cuenta = z.trayectos_con_barrera > 0 ? `<span class="zona__cuenta">${z.trayectos_con_barrera}</span>` : '';
+    return L.divIcon({
+      className: `zona zona--compacta zona--${lado}${nuevo ? ' zona--nuevo' : ''}`,
+      html: `${nuevo ? '<span class="zona__nuevo">Nuevo</span>' : ''}${svg(<FormaZona estado={estado} mas={mas} tamano={36} />)}${cuenta}`
+        + `<span class="zona__etiqueta zona__etiqueta--${estado}"><strong>${escapar(nombreCorto(z))}</strong></span>`,
+      iconSize: [36, 36], iconAnchor: [18, 18 - dy * 0.7],
+    });
+  }
   return L.divIcon({
     className: `zona zona--${lado}${nuevo ? ' zona--nuevo' : ''}`,
     html: `${nuevo ? '<span class="zona__nuevo">Nuevo</span>' : ''}${svg(<FormaZona estado={estado} mas={mas} tamano={44} />)}`
@@ -49,21 +59,21 @@ function iconoObra(o, simulada, seleccionada) {
   });
 }
 
-function Encuadre({ puntos }) {
+function Encuadre({ puntos, compacto }) {
   const mapa = useMap();
   const clave = puntos.map((p) => p.join(',')).join(';');
   useEffect(() => {
     if (puntos.length) {
-      mapa.fitBounds(L.latLngBounds(puntos), { paddingTopLeft: [64, 56], paddingBottomRight: [170, 56], maxZoom: ZOOM.max, animate: false });
+      mapa.fitBounds(L.latLngBounds(puntos), { paddingTopLeft: compacto ? [86, 40] : [64, 56], paddingBottomRight: compacto ? [108, 40] : [170, 56], maxZoom: ZOOM.max, animate: false });
     }
-  }, [mapa, clave]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mapa, clave, compacto]); // eslint-disable-line react-hooks/exhaustive-deps
   return null;
 }
 
-export default function MapaZonas({ zonas, obras, activas, perfil, recientes, seleccionada, onElegirObra }) {
+export default function MapaZonas({ zonas, obras, activas, perfil, recientes, seleccionada, onElegirObra, compacto = false }) {
   const marcasZona = useMemo(
-    () => zonas.map((z) => ({ z, icono: iconoZona(z, perfil, recientes?.has(z.nodo_id)) })),
-    [zonas, perfil, recientes],
+    () => zonas.map((z) => ({ z, icono: iconoZona(z, perfil, recientes?.has(z.nodo_id), compacto) })),
+    [zonas, perfil, recientes, compacto],
   );
   const marcasObra = useMemo(
     () => obras.map((o) => ({ o, punto: ubicacionObra(o) })).filter((m) => m.punto)
@@ -74,7 +84,7 @@ export default function MapaZonas({ zonas, obras, activas, perfil, recientes, se
   const sinInteraccion = { interactive: false, keyboard: false };
 
   return (
-    <div className="campus__mapa" role="img" aria-label={resumenPlano(zonas, perfil)}>
+    <div className={`campus__mapa${compacto ? " campus__mapa--compacto" : ""}`} role="img" aria-label={resumenPlano(zonas, perfil)}>
       <MapContainer
         className="mapa-plano" bounds={LIMITES_VISTA} minZoom={ZOOM.min} maxZoom={ZOOM.max} maxBounds={LIMITES_VISTA}
         zoomSnap={0.25} zoomControl={false} keyboard={false} scrollWheelZoom={false} dragging={!L.Browser.mobile}
@@ -88,20 +98,21 @@ export default function MapaZonas({ zonas, obras, activas, perfil, recientes, se
             eventHandlers={{ click: () => onElegirObra?.(seleccionada === o.id ? null : o.id) }}
           />
         ))}
-        <Encuadre puntos={puntos} />
+        <Encuadre puntos={puntos} compacto={compacto} />
       </MapContainer>
     </div>
   );
 }
 
 // Leyenda en franja bajo el plano: las tres formas, el pictograma de obra y la atribución (siempre visible).
-export function LeyendaZonas() {
+export function LeyendaZonas({ compacto = false }) {
   return (
     <div className="campus__leyenda">
       <ul>
         <li><FormaZona estado="accesible" tamano={24} /> Accesible</li>
         <li><FormaZona estado="desvio" mas="N" tamano={30} /> Con desvío de N min</li>
         <li><FormaZona estado="con_barrera" tamano={24} /> Con barrera</li>
+        {compacto && <li><span className="zona__cuenta zona__cuenta--leyenda" aria-hidden="true">3</span> Trayectos con barrera que llegan</li>}
         <li><span className="campus__leyenda-obra"><IconoObra tipo="rampa" /></span> Obra (ubicación aproximada)</li>
       </ul>
       <p>© colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></p>

@@ -161,6 +161,23 @@
 .campus__supuestos h2 { font-size: var(--t-cuerpo); color: var(--tinta); margin-bottom: var(--e-2); }
 .campus__supuestos ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: var(--e-1); }
 
+/* ---------- Móvil: pestañas Obras / Mapa y franja compacta fija ---------- */
+.campus__pestanas { display: flex; border-radius: var(--r-pill); border: 2px solid var(--borde-control); overflow: hidden; }
+.campus__pestana {
+  flex: 1 1 0; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: var(--e-2);
+  border: 0; cursor: pointer; background: var(--superficie); color: var(--tinta); font: inherit; font-size: var(--t-cuerpo); font-weight: var(--peso-negro);
+}
+.campus__pestana + .campus__pestana { border-left: 2px solid var(--borde-control); }
+.campus__pestana[aria-selected="true"] { background: var(--activo-fondo); color: var(--activo-texto); }
+.campus__pestana svg { width: 22px; height: 22px; }
+.campus__panel { display: flex; flex-direction: column; gap: var(--e-7); min-width: 0; }
+.campus__fija {
+  position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: var(--e-3);
+  margin-inline: calc(var(--margen-movil) * -1); padding: var(--e-3) var(--margen-movil);
+  background: var(--marca-pacifico); color: #FFFFFF; box-shadow: 0 2px 6px rgba(13, 43, 62, 0.35); font-size: var(--t-cuerpo);
+}
+.campus__fija strong { font-weight: var(--peso-negro); }
+
 /* ---------- Escritorio ---------- */
 @media (min-width: 720px) {
   .campus__franja-bloques { flex-direction: row; gap: 0; }
