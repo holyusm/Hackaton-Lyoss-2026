@@ -1,18 +1,16 @@
 # parejo
 
-Rutas accesibles por perfil para moverse por Casa Central de la USM. parejo le indica a cada estudiante el camino que le sirve según cómo se mueve (silla de ruedas, movilidad reducida o baja visión), y cambia la ruta en vivo cuando alguien reporta una barrera, como un ascensor detenido. A la universidad le muestra qué obras quitarían más barreras.
+Prototipo de orientación y rutas accesibles para estudiantes de Casa Central de la Universidad Técnica Federico Santa María, en Valparaíso. Calcula un recorrido según el perfil de movilidad y lo actualiza si aparece una barrera, como un ascensor fuera de servicio.
 
-"Parejo" es el piso sin desniveles, y lo que es igual para todos.
-
-**Desafío:** Campus sin barreras: movilidad y orientación para todos · **ODS:** 10 Reducción de las desigualdades, 11 Ciudades y comunidades sostenibles (meta 11.7), 4 Educación de calidad (meta 4.a) · **Demo:** https://hackaton-lyoss-2026.onrender.com
+[Demo de parejo](https://hackaton-lyoss-2026.onrender.com) · [Enunciado «Campus sin barreras»](docs/oficial/Enunciado_Hackathon_2026.pdf) · [Bases de la hackatón](docs/oficial/Bases_Hackaton_Oficiales.pdf)
 
 ## Problema
 
-En Chile, el 17,6 % de las personas de 18 años o más tiene alguna discapacidad, según el III Estudio Nacional de la Discapacidad 2022 de SENADIS ([fuente](https://www.senadis.gob.cl/)). En un campus histórico y en pendiente como Casa Central, un estudiante en silla de ruedas, con una lesión temporal o con baja visión se encuentra con lo mismo:
+Antes de salir hacia una sala, un estudiante necesita saber por dónde puede pasar y si la ruta sigue disponible. En el campus, una escalera, una rampa empinada o un ascensor detenido pueden hacer que tenga que devolverse y buscar otro camino. El prototipo se dirige a estudiantes que usan silla de ruedas, tienen movilidad reducida temporal o permanente o tienen baja visión. El plano también ayuda a quienes recién llegan al campus.
 
-- **El camino accesible no está señalizado.** Hay escaleras, adoquín y desniveles, y la alternativa (un ascensor, una rampa, un rodeo) solo la conoce quien ya la recorrió.
-- **El camino cambia durante el día.** Si el ascensor está detenido o una rampa está bloqueada, nadie avisa, y el estudiante lo descubre al llegar.
-- **La universidad no ve el problema completo.** Sabe dónde hay una escalera, pero no cuántos trayectos deja sin salida para cada perfil ni qué obra conviene hacer primero.
+En Chile, el 17,6 % de la población de 18 años o más tenía alguna discapacidad según el estudio nacional de 2022. [SENADIS, III Estudio Nacional de la Discapacidad](https://www.senadis.gob.cl/pag/693/2004/iii_estudio_nacional_de_la_discapacidad)
+
+La planificación por perfil apoya el **ODS 10** de reducción de desigualdades y la **meta 4.a** de entornos educativos inclusivos. El plano y los avisos de barreras aportan información para el acceso a los espacios del campus, en línea con la **meta 11.7**.
 
 Los estudiantes que más lo sufren son los que usan silla de ruedas, los que tienen movilidad reducida (bastón, lesión temporal, embarazo), los que tienen baja visión y los estudiantes nuevos que aún no conocen el campus.
 
@@ -20,7 +18,7 @@ Un ejemplo con los datos simulados del prototipo: de la Entrada principal a la S
 
 ## Solución y funcionalidades
 
-parejo modela el campus como un grafo de lugares y tramos, con lo que importa para moverse: escalones, pendiente, superficie, techo, guía podotáctil y ascensores. Un motor de rutas calcula el mejor camino para cada perfil con costos y prohibiciones propias, en vez de buscar el camino más corto para todos.
+parejo modela el campus como un grafo de lugares y tramos. El motor usa escalones, pendiente, superficie, techo, guía podotáctil y ascensores para calcular una ruta con los costos y restricciones de cada perfil.
 
 - **Ruta por perfil** (`/` y `/mapa`): eliges desde dónde, hacia dónde y cómo te mueves. parejo dibuja la ruta en el plano real del campus (OpenStreetMap) y la cuenta paso a paso, con advertencias como "escalones" o "piso irregular". *ODS 10 y 4.a: el estudiante llega solo, sin depender de que alguien le muestre el camino.*
 - **Barreras en vivo que recalculan la ruta** (`/reportar`): cualquier estudiante reporta un ascensor detenido, un obstáculo o una rampa bloqueada. El reporte vence solo, y mientras está activo, las rutas lo evitan. Si ya no hay camino posible, parejo lo dice en vez de mandar al estudiante a una escalera. *ODS 11.7: información de accesibilidad actualizada por la comunidad.*
@@ -31,7 +29,11 @@ parejo modela el campus como un grafo de lugares y tramos, con lo que importa pa
 
 **La app misma es accesible:** tipografía Atkinson Hyperlegible Next, contraste AA o mejor, tema oscuro y de alto contraste, tres tamaños de texto, manejo completo con teclado, foco visible, etiquetas para lector de pantalla y anuncios en vivo cuando cambia la ruta. Además se puede instalar como app (PWA), tiene una página 404 propia y cada ruta pone su título en la pestaña. El estado nunca se indica solo con color.
 
-**En qué se distingue:** los mapas de campus muestran dónde están los edificios; parejo muestra *por dónde puede pasar cada persona hoy*, y le da a la universidad los datos para decidir qué obra hacer.
+## Demostración
+
+1. Abre **Comparar** con la Entrada principal como origen y Sala C231 como destino. Con los datos de ejemplo, la ruta estándar mide **540 m y tiene 20 escalones**. En silla de ruedas mide **550 m y tiene 0 escalones**, usando el ascensor simulado del Edificio C.
+2. En una instancia local, reporta el Ascensor C fuera de servicio. Al actualizarse las barreras, la ruta en silla de ruedas queda sin recorrido. Resuelve el reporte para restaurarla.
+3. En **Mejorar el campus**, selecciona silla de ruedas. El simulador parte de **20 de 42 trayectos con barreras** y permite medir cómo cambia esa cifra al seleccionar una obra. En la muestra de rutas desde la Entrada principal, **2 de 6 destinos** quedan sin ruta en silla de ruedas con los datos base.
 
 ## Instalación
 
@@ -40,14 +42,14 @@ Requiere Node.js 22 o superior.
 ```bash
 git clone https://github.com/holyusm/Hackaton-Lyoss-2026.git
 cd Hackaton-Lyoss-2026
-npm install
+npm ci
 ```
 
-No hace falta `.env`: la única variable es `PORT` (por defecto 3000). Si quieres cambiarla, copia `.env.example` a `.env`.
+La instalación local funciona con la configuración predeterminada. El servidor usa el puerto 3000. Para iniciar la compilación de producción en otro puerto, usa `PORT=3999 npm start`.
 
 ## Ejecución
 
-Desarrollo (API y frontend con recarga):
+Para trabajar con recarga automática, inicia la API y el frontend:
 
 ```bash
 npm run dev
@@ -55,7 +57,7 @@ npm run dev
 
 Abrir la URL que muestra Vite (por defecto <http://localhost:5173>). La API corre en <http://localhost:3000/api>.
 
-Producción local (lo mismo que corre en Render):
+Para ejecutar la misma compilación que sirve Render:
 
 ```bash
 npm run build
@@ -64,7 +66,7 @@ npm start
 
 Abrir <http://localhost:3000>.
 
-Otros comandos:
+Para ejecutar las pruebas o generar los QR:
 
 ```bash
 npm test   # pruebas del motor, la API y la lógica del frontend
@@ -87,12 +89,11 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 
 ## Supuestos y limitaciones
 
-- **Datos del campus:** el grafo de Casa Central (`data/campus.json`) es una muestra de lugares y tramos con coordenadas reales sobre el plano de OpenStreetMap. Las 28 salas y 2 baños del piso 2 del Edificio C también salen de OpenStreetMap. Todo lo demás es **simulado**: escalones, pendientes, superficies, guía podotáctil, el acceso sin escalones de la entrada principal, el interior de los edificios y el ascensor del Edificio C (no sabemos si existe). La app lo indica con la marca "Datos de ejemplo". Para agregar salas reales basta con editar `data/levantamiento/salas.csv` (ver [`data/README.md`](data/README.md)).
-- **Distancias y tiempos:** distancias en línea recta entre los puntos del plano, redondeadas a 5 m. Tiempos a 1,2 m/s más 2 s por escalón; el ascensor incluye la espera. Son aproximados.
-- **Perfiles:** los costos de cada perfil (cuánto pesa un escalón, el adoquín o la falta de guía podotáctil) son supuestos nuestros, inspirados en criterios de accesibilidad universal. No reemplazan la experiencia de cada persona.
-- **Reportes:** se guardan en el servidor y vencen solos. En la demo (Render, plan gratuito) se reinician con cada despliegue, y el servidor se duerme tras unos 15 minutos sin uso: la primera carga puede tardar.
-- **Obras:** el costo relativo (bajo, medio, alto) de cada obra es una estimación nuestra, no un presupuesto.
-- parejo es un prototipo estudiantil. No es un servicio oficial de la USM.
+- **Plano y grafo.** La cartografía base, las 28 salas numeradas y los dos baños del segundo piso del Edificio C vienen de OpenStreetMap. El grafo abarca una muestra del campus y usa atributos de ejemplo para escalones, pendientes, superficies y guía podotáctil. Las rutas interiores y el ascensor del Edificio C son simulados. El acceso sin escalones de la Entrada principal requiere verificación en terreno. [Datos y levantamiento](docs/levantamiento.md) · [Cómo agregar salas](data/README.md)
+- **Métricas.** Se estima la distancia según el trazado disponible. El tiempo usa 1,2 m/s más 2 s por escalón y un tiempo estimado en los tramos con ascensor. Los costos y restricciones representan perfiles de ejemplo.
+- **Reportes.** Los avisos tienen vencimiento y se almacenan en un archivo temporal que puede reiniciarse al desplegar. La primera carga de la demo puede tardar si el servicio está inactivo.
+- **Obras.** La ubicación en el mapa y los costos relativos son aproximados. Las cifras de impacto son resultados de la simulación sobre la muestra del prototipo.
+- **Alcance.** parejo es un prototipo estudiantil. Para usarlo como guía oficial se requiere completar y validar el levantamiento del campus.
 
 ## Tecnologías, dependencias y servicios
 
@@ -104,7 +105,7 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 | Backend | Express; reportes persistidos en un archivo JSON |
 | Otras dependencias | `qrcode` (generar los QR), `concurrently` (desarrollo) |
 | Pruebas | `node:test` (incluido en Node) |
-| Deploy | Render (plan gratuito). Cada push a `main` corre pruebas y build en GitHub Actions y, si pasan, despliega |
+| Deploy | Render (plan gratuito). GitHub Actions ejecuta pruebas y compilación en cada push a `main`. Si el secreto de Render está configurado y las verificaciones pasan, solicita el despliegue |
 
 ## Equipo
 
@@ -125,12 +126,15 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 | [Phosphor Icons](https://phosphoricons.com/) | Íconos | MIT |
 | [Atkinson Hyperlegible Next](https://www.brailleinstitute.org/freefont/) (vía Fontsource) | Tipografía | SIL OFL 1.1 |
 | [node-qrcode](https://github.com/soldair/node-qrcode) | Generar los QR | MIT |
-| III Estudio Nacional de la Discapacidad 2022, [SENADIS](https://www.senadis.gob.cl/) | Dato del problema | Público |
+| [concurrently](https://github.com/open-cli-tools/concurrently) | Ejecutar la API y Vite durante el desarrollo | MIT |
+| [III Estudio Nacional de la Discapacidad 2022, SENADIS](https://www.senadis.gob.cl/pag/693/2004/iii_estudio_nacional_de_la_discapacidad) | Contexto de la problemática | Publicación de acceso público |
 
 ## Herramientas de IA utilizadas
 
 - **Claude Code** (Anthropic): asistente de programación. La sesión del líder (Claude Opus 5.5) coordinó el trabajo, escribió los contratos y las tareas, y revisó PRs. Las sesiones de @Gxppe y @juaquo15 (Claude Sonnet 5.5) implementaron sus áreas a partir de esas tareas. Se usó para generar código y pruebas, depurar y revisar accesibilidad. El equipo revisó y entiende todo el código, y cada integrante puede explicar su área.
 - **Claude Design** (Anthropic): diseño del sistema visual y de cada vista. Los diseños exportados están en [`docs/diseno/vistas/`](docs/diseno/vistas/).
+- **Codex** (OpenAI) asistió con implementación, auditoría, pruebas locales y documentación.
+- **Antigravity** asistió con la revisión y las pruebas de integración.
 - Skills de Claude Code incluidas en `.claude/skills/` (guías de trabajo para el agente): `tablero-equipo`, `grilling`, `grill-me`, `prototype`, `design-taste-frontend` (`taste-skill`), `redesign-existing-projects` (`redesign-skill`), `web-design-guidelines`, `diagnosing-bugs`, `research`.
 - No ingresamos datos personales, credenciales ni claves en herramientas de IA.
 
