@@ -53,7 +53,7 @@ function ladoDestino(pDestino, vecinos) {
 function barreraEtiquetaArriba(punto, puntosRuta) {
   return puntosRuta.some((p) => {
     const dLat = punto[0] - p[0];
-    return dLat > 0 && dLat < 0.0005 && Math.abs(p[1] - punto[1]) < 0.0005;
+    return dLat > 0 && dLat < 0.0008 && Math.abs(p[1] - punto[1]) < 0.0006;
   });
 }
 
