@@ -179,3 +179,13 @@ test('los nodos generados del levantamiento de salas no entran como lugares del 
   assert.equal(con.hoy.trayectos_evaluados, base.hoy.trayectos_evaluados);
   assert.deepEqual(con.hoy, base.hoy);
 });
+
+test('un grafo inválido detiene la simulación con el tramo y el campo afectados', () => {
+  for (const campo of ['desde', 'hasta']) {
+    for (const id of ['', undefined, 'retirado']) {
+      const grafo = structuredClone(GRAFO);
+      grafo.tramos[0][campo] = id;
+      assert.throws(() => simular(grafo, PERFILES, []), new RegExp(`grafo inválido.*t1.*${campo}`));
+    }
+  }
+});

@@ -1,6 +1,6 @@
 // Simulador de obras "¿Qué arreglar primero?" (Lote 8). Contrato: docs/contratos.md §7.
 // Módulo puro, sin dependencias. Siempre sobre el campus construido: sin reportes (bloqueos = []).
-import { calcularRuta } from './ruta.js';
+import { calcularRuta, validarReferencias } from './ruta.js';
 
 const LUGARES = new Set(['entrada', 'edificio', 'sala', 'bano']);
 const EVALUADOS = ['silla_ruedas', 'movilidad_reducida', 'baja_vision'];
@@ -39,7 +39,11 @@ function conBarrera(perfil, ruta, tramos) {
 }
 
 // Para cada perfil, el resultado de cada trayecto ("a>b") en este grafo.
+export class GrafoInvalido extends Error {}
+
 function evaluar(grafo, perfiles, lugares, perfilIds) {
+  const error = validarReferencias(grafo);
+  if (error) throw new GrafoInvalido(error);
   const tramos = new Map(grafo.tramos.map((t) => [t.id, t]));
   const ev = {};
   for (const p of new Set(['estandar', ...perfilIds])) {

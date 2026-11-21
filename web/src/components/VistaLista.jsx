@@ -17,7 +17,7 @@ export default function VistaLista({ ruta, origen, destino, perfil, onVerMapa })
       <ResumenRuta ruta={ruta} origen={origen} destino={destino} perfil={perfil} nivel="h1" compactas={false} />
       <ListaPasos pasos={ruta.pasos} />
       <Advertencias advertencias={ruta.advertencias} />
-      <Link className="boton boton--enlace" to={`/reportar?ruta=${encodeURIComponent(ruta.id)}`}>
+      <Link className="boton boton--enlace" to={`/reportar?${new URLSearchParams({ ruta: ruta.id, desde: origen.id, hasta: destino.id })}`}>
         <Flag weight="bold" aria-hidden="true" /> Reportar un problema en esta ruta
       </Link>
       <p className="pie-legal">{PIE}</p>
