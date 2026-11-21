@@ -5,6 +5,7 @@ import { bloqueosDe } from '../../../motor/barreras.js';
 import perfilesRespaldo from '../../../data/perfiles.json';
 import { armarRuta } from '../lib/pasos.js';
 import { crearPosicion } from '../lib/posicion.js';
+import { LIMITES } from '../plano/plano.js';
 import { useBarreras } from './useBarreras.js';
 import { useLugares } from './useLugares.js';
 
@@ -53,7 +54,7 @@ export function useRuta() {
     return () => { vivo = false; };
   }, [valida, grafo, desde, hasta, perfil, claveBloqueos]);
 
-  const mapa = useMemo(() => (grafo ? crearPosicion(grafo) : null), [grafo]);
+  const mapa = useMemo(() => (grafo ? crearPosicion(grafo, { limites: LIMITES }) : null), [grafo]);
   const ruta = useMemo(() => {
     if (!grafo || !mapa || !resultado?.ok) return null;
     const { id, pasos, coordenadas } = armarRuta(grafo, resultado, { posicion: mapa.posicion });

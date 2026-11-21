@@ -2,17 +2,17 @@
   "_aviso": "DATOS FALSOS de ejemplo con la forma del contrato. Se reemplazan por el levantamiento real (#12).",
   "simulado": true,
   "nodos": [
-    { "id": "entrada-principal", "nombre": "Entrada principal", "tipo": "entrada", "lat": -33.0458, "lng": -71.6197, "edificio": "A", "piso": 0, "descripcion": "Portón principal de Casa Central" },
-    { "id": "patio-central", "nombre": "Patio central", "tipo": "punto", "lat": -33.0460, "lng": -71.6194, "edificio": "A", "piso": 0, "descripcion": "Patio abierto, punto de encuentro" },
-    { "id": "ascensor-a", "nombre": "Ascensor A", "tipo": "ascensor", "lat": -33.0461, "lng": -71.6192, "edificio": "A", "piso": 0, "descripcion": "Ascensor del edificio A, conecta pisos 0 y 2" },
-    { "id": "edificio-a-p2", "nombre": "Edificio A, piso 2", "tipo": "edificio", "lat": -33.0461, "lng": -71.6192, "edificio": "A", "piso": 2, "descripcion": "Salida del ascensor A en el piso 2" },
-    { "id": "sala-a201", "nombre": "Sala A-201", "tipo": "sala", "lat": -33.0462, "lng": -71.6191, "edificio": "A", "piso": 2, "descripcion": "Sala de clases" },
-    { "id": "biblioteca", "nombre": "Biblioteca", "tipo": "edificio", "lat": -33.0464, "lng": -71.6195, "edificio": "B", "piso": 0, "descripcion": "Biblioteca central" },
-    { "id": "bano-b", "nombre": "Baño accesible B", "tipo": "bano", "lat": -33.0465, "lng": -71.6196, "edificio": "B", "piso": 0, "descripcion": "Baño accesible junto a la biblioteca" },
-    { "id": "casino", "nombre": "Casino", "tipo": "edificio", "lat": -33.0457, "lng": -71.6191, "edificio": "C", "piso": 0, "descripcion": "Casino de estudiantes" },
-    { "id": "edificio-b", "nombre": "Edificio B", "tipo": "edificio", "lat": -33.0463, "lng": -71.619, "edificio": "B", "piso": 0, "descripcion": "Acceso al Edificio B, junto al patio central" },
-    { "id": "rampa-b", "nombre": "Rampa del Edificio B, piso 2", "tipo": "punto", "lat": -33.0463, "lng": -71.619, "edificio": "B", "piso": 2, "descripcion": "Parte alta de la rampa del Edificio B" },
-    { "id": "pasarela-b-a", "nombre": "Pasarela entre los edificios B y A", "tipo": "punto", "lat": -33.0462, "lng": -71.6191, "edificio": "B", "piso": 2, "descripcion": "Inicio de la pasarela techada hacia el Edificio A" }
+    { "id": "entrada-principal", "nombre": "Entrada principal", "tipo": "entrada", "lat": -33.033897, "lng": -71.59523, "edificio": "A", "piso": 0, "descripcion": "Portón principal de Casa Central" },
+    { "id": "patio-central", "nombre": "Patio central", "tipo": "punto", "lat": -33.034933, "lng": -71.59588, "edificio": "A", "piso": 0, "descripcion": "Patio abierto, punto de encuentro" },
+    { "id": "ascensor-a", "nombre": "Ascensor A", "tipo": "ascensor", "lat": -33.034852, "lng": -71.595507, "edificio": "A", "piso": 0, "descripcion": "Ascensor del edificio A, conecta pisos 0 y 2" },
+    { "id": "edificio-a-p2", "nombre": "Edificio A, piso 2", "tipo": "edificio", "lat": -33.034852, "lng": -71.595507, "edificio": "A", "piso": 2, "descripcion": "Salida del ascensor A en el piso 2" },
+    { "id": "sala-a201", "nombre": "Sala A-201", "tipo": "sala", "lat": -33.03483, "lng": -71.59547, "edificio": "A", "piso": 2, "descripcion": "Sala de clases" },
+    { "id": "biblioteca", "nombre": "Biblioteca", "tipo": "edificio", "lat": -33.034936, "lng": -71.595002, "edificio": "B", "piso": 0, "descripcion": "Biblioteca central" },
+    { "id": "bano-b", "nombre": "Baño accesible B", "tipo": "bano", "lat": -33.03496, "lng": -71.59503, "edificio": "B", "piso": 0, "descripcion": "Baño accesible junto a la biblioteca" },
+    { "id": "casino", "nombre": "Casino", "tipo": "edificio", "lat": -33.035443, "lng": -71.595821, "edificio": "C", "piso": 0, "descripcion": "Casino de estudiantes" },
+    { "id": "edificio-b", "nombre": "Edificio B", "tipo": "edificio", "lat": -33.035603, "lng": -71.595209, "edificio": "B", "piso": 0, "descripcion": "Acceso al Edificio B, junto al patio central" },
+    { "id": "rampa-b", "nombre": "Rampa del Edificio B, piso 2", "tipo": "punto", "lat": -33.03556, "lng": -71.59524, "edificio": "B", "piso": 2, "descripcion": "Parte alta de la rampa del Edificio B" },
+    { "id": "pasarela-b-a", "nombre": "Pasarela entre los edificios B y A", "tipo": "punto", "lat": -33.0352, "lng": -71.59537, "edificio": "B", "piso": 2, "descripcion": "Inicio de la pasarela techada hacia el Edificio A" }
   ],
   "tramos": [
     { "id": "t1", "desde": "entrada-principal", "hasta": "patio-central", "metros": 40, "escalones": 0, "pendiente": "baja", "rampa": true, "ascensor_id": null, "techado": false, "superficie": "lisa", "minutos_medidos": 0.8, "guia_tactil": true, "notas": "", "foto": null, "sentido_unico": false },

@@ -38,3 +38,11 @@ test('armarRuta con posicion arma coordenadas y un punto por paso', () => {
   assert.equal(r.coordenadas.length, res.nodos.length);
   assert.ok(r.pasos.every((p) => p.punto.length === 2 && p.punto.every(Number.isFinite)));
 });
+
+test('todos los nodos del grafo caen dentro de los límites del plano', () => {
+  const { limites } = JSON.parse(readFileSync(new URL('../plano/casa-central.geo.json', import.meta.url), 'utf8'));
+  const [[s, o], [n, e]] = limites;
+  for (const nodo of grafo.nodos) {
+    assert.ok(nodo.lat >= s && nodo.lat <= n && nodo.lng >= o && nodo.lng <= e, `${nodo.id} fuera del plano`);
+  }
+});
