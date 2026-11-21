@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Parejo">
+  <!-- Para fondos Cobalto o Pacífico. Las ventanas son huecos: muestran el color de fondo. -->
+  <path d="M4 58L60 22" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <path fill-rule="evenodd" d="M19 9H45V28.7L19 45.4ZM23 13h8v8h-8ZM33 13h8v8h-8Z" fill="#F4B6C2"/>
+  <path d="M19 27H45" stroke="#0D2B3E" stroke-width="3"/>
+</svg>

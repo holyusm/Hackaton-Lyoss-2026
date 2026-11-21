@@ -1,5 +1,7 @@
 # Prompts para Claude Design: vistas de "Campus sin barreras"
 
+> **Ojo: estos prompts ya se usaron.** El diseño final se llama **parejo** y cambió la paleta y la tipografía: ahora son los "colores de cerro" y Atkinson Hyperlegible Next. Para implementar manda `docs/diseno/vistas/` (empieza por `lote-0-sistema/README.md`), no los colores ni las fuentes de este archivo. Lo que sigue sirve como historial y para diseñar los lotes que faltan.
+
 Prompt maestro y prompts por lote para diseñar las vistas en Claude Design, con la paleta digital y la tipografía del Manual de Normas Gráficas USM 2023 (https://usm.cl/wp-content/uploads/2023/11/Manual-de-Normas-USM.pdf). No usamos el escudo ni el logotipo de la USM: el manual exige aprobación de la Dirección General de Comunicaciones.
 
 Datos de marca extraídos del manual: azul #004B85, rojo #D60019, verde #008452, amarillo #F7AE00, negro #000000, gris de submarcas #9A999E; tipografía digital Roboto Condensed. Contrastes calculados sobre #FAFAF7 (WCAG): azul 8,56, rojo 5,18, verde 4,54 (para texto usar #006B43, 6,31), amarillo 1,82 (solo como fondo con texto tinta, 9,46), gris 2,70 (solo decorativo).

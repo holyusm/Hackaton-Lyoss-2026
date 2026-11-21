@@ -1,10 +1,14 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import '@fontsource-variable/atkinson-hyperlegible-next';
 import './styles/tokens.css';
+import './styles/componentes.css';
 
+// Esqueleto: el shell y las vistas los implementa quien tenga asignado cada lote
+// (docs/diseno/vistas/README.md).
 createRoot(document.getElementById('root')).render(
-  <main>
-    <h1>Campus sin barreras</h1>
-    <p>Esqueleto: las vistas las construye la sesión orquestadora.</p>
+  <main id="contenido">
+    <h1>parejo</h1>
+    <p>Campus sin barreras en Casa Central, USM.</p>
   </main>
 );

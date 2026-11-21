@@ -16,8 +16,7 @@
     "qr": "node scripts/generar-qr.js"
   },
   "dependencies": {
-    "@fontsource/atkinson-hyperlegible": "^5.3.0",
-    "@fontsource/roboto-condensed": "^5.3.0",
+    "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
     "@phosphor-icons/react": "^2.1.10",
     "express": "^4.21.2",
     "leaflet": "^1.9.4",

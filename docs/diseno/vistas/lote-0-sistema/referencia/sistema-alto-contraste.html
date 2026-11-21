@@ -1,0 +1,550 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Referencia: AltoContraste</title><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet"/><style>
+body{margin:0}
+</style></head><body>
+
+<div style="width: 1280px; min-height: 7300px; background: #FFFFFF">
+
+
+<main style="width: 1280px; min-height: 7300px; box-sizing: border-box; padding: 64px 64px 72px; background: #FFFFFF; color: #000000; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif; font-size: 18px; line-height: 1.5; display: flex; flex-direction: column; gap: 96px">
+<header style="display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; align-items: center; gap: 12px">
+<svg viewbox="0 0 64 64" width="48" height="48" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#000000"></rect><path d="M4 58L60 22" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path><path d="M19 9H45V28.7L19 45.4Z" fill="#FFFFFF"></path><rect x="23" y="13" width="8" height="8" rx="1.5" fill="#000000"></rect><rect x="33" y="13" width="8" height="8" rx="1.5" fill="#000000"></rect><path d="M19 27H45" stroke="#000000" stroke-width="3"></path></svg>
+<span style="font-weight: 800; font-size: 40px; line-height: 1; letter-spacing: -0.04em">parejo</span>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: end">
+<h1 style="margin: 0; font-weight: 800; font-size: 72px; line-height: 0.98; letter-spacing: -0.035em">Sistema de diseño en alto contraste</h1>
+<p style="margin: 0; max-width: 40ch; color: #000000; text-wrap: pretty">Tokens, componentes y shell de todas las vistas. Cada combinación de texto lleva su contraste calculado con WCAG 2.2. Datos de ejemplo.</p>
+</div>
+</header>
+<section aria-labelledby="s-paleta" style="display: flex; flex-direction: column; gap: 32px">
+<h2 id="s-paleta" style="margin: 0; font-weight: 800; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em">Color</h2>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 24px">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #000000; background-image: none; background-size: 16px 16px; color: #FFFFFF; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">Aa</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Negro</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#000000</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">Todo el texto y bordes de 2 px.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Sobre blanco 21:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">--tinta</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #FFFFFF; background-image: none; background-size: 16px 16px; color: #000000; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">Aa</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Blanco</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#FFFFFF</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">Fondo único. Sin texturas ni sombras.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Negro encima 21:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">--fondo</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #1A2FA0; background-image: none; background-size: 16px 16px; color: #FFFFFF; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">Ver mi ruta</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Cobalto profundo</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#1A2FA0</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">Botones, enlaces y línea de ruta.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Blanco encima 10,72:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">--cobalto</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #E3E8FB; background-image: none; background-size: 16px 16px; color: #000000; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">Opción elegida</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Cobalto tinte</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#E3E8FB</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">Opciones elegidas, con borde negro.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Negro encima 17,20:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">--cobalto-tinte</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #FFC72C; background-image: none; background-size: 16px 16px; color: #000000; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">Piso mojado</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Podotáctil</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#FFC72C</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">Alerta sin textura, con borde negro.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Negro encima 13,46:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">--podotactil</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #A10E26; background-image: none; background-size: 16px 16px; color: #FFFFFF; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">Bloqueado</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Alto profundo</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#A10E26</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">Rojo oscurecido para pasar 7:1.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Blanco encima 8,06:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">--alto</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #FFFFFF; background-image: none; background-size: 16px 16px; color: #00593F; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">Ruta disponible</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Paso profundo</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#00593F</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">Texto e íconos de accesible.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Sobre blanco 8,40:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">--paso</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; background-color: #FFFFFF; background-image: none; background-size: 16px 16px; color: #000000; padding: 16px 18px; display: flex; align-items: flex-end; font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">parejo</div>
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+<span style="font-weight: 800; font-size: 20px">Marca</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">#000000</span>
+</div>
+<span style="font-size: 16px; line-height: 24px">El símbolo pasa a negro y blanco. Sin Calamina.</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Negro encima 21:1.</span>
+<span style="font-size: 14px; line-height: 20px; color: #000000; font-variant-numeric: tabular-nums">símbolo</span>
+</div>
+
+</div>
+</section>
+<section aria-labelledby="s-tipo" style="display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+<h2 id="s-tipo" style="margin: 0; font-weight: 800; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em">Tipografía</h2>
+<p style="margin: 0; max-width: 52ch; color: #000000">Una sola familia, Atkinson Hyperlegible Next, del 400 al 800. La jerarquía la hacen el tamaño, el peso y el interletraje, nunca otra fuente. Base de 18 px en todas las pantallas.</p>
+</div>
+<div style="display: flex; flex-direction: column; border-top: 2px solid #000000">
+<div style="display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #000000"><span style="font-size: 16px; line-height: 24px; color: #000000">Cifra de ruta<br>64/64, 800, tabular</span><span style="font-weight: 800; font-size: 64px; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">75 m</span></div>
+<div style="display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #000000"><span style="font-size: 16px; line-height: 24px; color: #000000">Display<br>56/58, 800, −2,5 %</span><span style="font-weight: 800; font-size: 56px; line-height: 1.04; letter-spacing: -0.025em">¿A dónde vas hoy?</span></div>
+<div style="display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #000000"><span style="font-size: 16px; line-height: 24px; color: #000000">Título<br>32/38, 700, −1 %</span><span style="font-weight: 700; font-size: 32px; line-height: 1.2; letter-spacing: -0.01em">Hacia Sala A-201</span></div>
+<div style="display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #000000"><span style="font-size: 16px; line-height: 24px; color: #000000">Subtítulo<br>24/31, 700</span><span style="font-weight: 700; font-size: 24px; line-height: 1.3">En silla de ruedas este trayecto es 35 m más largo y evita 12 escalones.</span></div>
+<div style="display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid #000000"><span style="font-size: 16px; line-height: 24px; color: #000000">Cuerpo<br>18/27, 400 y 700</span><span style="max-width: 65ch"><strong>Gira a la derecha en el patio central.</strong> Te mostramos el camino que sí puedes recorrer en Casa Central.</span></div>
+<div style="display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: baseline; padding: 20px 0"><span style="font-size: 16px; line-height: 24px; color: #000000">Detalle<br>16/24, 400</span><span style="font-size: 16px; line-height: 24px">Piso liso, techado, 40 m</span></div>
+</div>
+</section>
+<section aria-labelledby="s-botones" style="display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+<h2 id="s-botones" style="margin: 0; font-weight: 800; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em">Botones</h2>
+<p style="margin: 0; max-width: 52ch; color: #000000">Cada botón tiene un escalón de 4 px abajo. Al presionarlo el escalón desaparece y el botón baja: se siente como apretar una tecla. Foco: anillo doble, Pacífico por dentro y Podotáctil por fuera.</p>
+</div>
+<div style="display: grid; grid-template-columns: 150px repeat(4, minmax(0, 1fr)); gap: 24px; align-items: start">
+<span></span>
+<span style="font-size: 16px; line-height: 24px; font-weight: 700; color: #000000">Primario</span>
+<span style="font-size: 16px; line-height: 24px; font-weight: 700; color: #000000">Secundario</span>
+<span style="font-size: 16px; line-height: 24px; font-weight: 700; color: #000000">Enlace</span>
+<span style="font-size: 16px; line-height: 24px; font-weight: 700; color: #000000">Peligro</span>
+<span style="font-size: 16px; line-height: 56px; color: #000000">Normal</span>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 4px solid #000000; border-radius: 12px; background: #1A2FA0; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Ver mi ruta</button>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 2px solid #1A2FA0; border-bottom-width: 4px; border-radius: 12px; background: #FFFFFF; color: #1A2FA0; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 168H32V88h48l72-56v192ZM192 100a40 40 0 0 1 0 56M216 76a72 72 0 0 1 0 104"></path></svg>Escuchar ruta</button>
+<a href="#s-botones" style="height: 56px; display: flex; align-items: center; color: #1A2FA0; font-weight: 800; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px">Ver barreras</a>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 4px solid #000000; border-radius: 12px; background: #A10E26; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Marcar como resuelto</button>
+<span style="font-size: 16px; line-height: 56px; color: #000000">Hover</span>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 4px solid #000000; border-radius: 12px; background: #0F1F70; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Ver mi ruta</button>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 2px solid #1A2FA0; border-bottom-width: 4px; border-radius: 12px; background: #E3E8FB; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 168H32V88h48l72-56v192ZM192 100a40 40 0 0 1 0 56M216 76a72 72 0 0 1 0 104"></path></svg>Escuchar ruta</button>
+<a href="#s-botones" style="height: 56px; display: flex; align-items: center; color: #1A2FA0; font-weight: 800; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 4px">Ver barreras</a>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 4px solid #000000; border-radius: 12px; background: #000000; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Marcar como resuelto</button>
+<span style="font-size: 16px; line-height: 56px; color: #000000">Presionado</span>
+<button type="button" style="height: 53px; margin-top: 3px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid #000000; border-radius: 12px; background: #0F1F70; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Ver mi ruta</button>
+<button type="button" style="height: 53px; margin-top: 3px; width: 100%; box-sizing: border-box; border: 2px solid #1A2FA0; border-radius: 12px; background: #E3E8FB; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 168H32V88h48l72-56v192ZM192 100a40 40 0 0 1 0 56M216 76a72 72 0 0 1 0 104"></path></svg>Escuchar ruta</button>
+<a href="#s-botones" style="height: 56px; display: flex; align-items: center; color: #000000; font-weight: 800; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 4px">Ver barreras</a>
+<button type="button" style="height: 53px; margin-top: 3px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid #000000; border-radius: 12px; background: #000000; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Marcar como resuelto</button>
+<span style="font-size: 16px; line-height: 56px; color: #000000">Foco</span>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 4px solid #000000; border-radius: 12px; background: #1A2FA0; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C; cursor: pointer">Ver mi ruta</button>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 2px solid #1A2FA0; border-bottom-width: 4px; border-radius: 12px; background: #FFFFFF; color: #1A2FA0; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C; cursor: pointer"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 168H32V88h48l72-56v192ZM192 100a40 40 0 0 1 0 56M216 76a72 72 0 0 1 0 104"></path></svg>Escuchar ruta</button>
+<a href="#s-botones" style="height: 56px; display: flex; align-items: center; align-self: start; padding: 0 10px; border-radius: 12px; color: #1A2FA0; font-weight: 800; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C">Ver barreras</a>
+<button type="button" style="height: 56px; width: 100%; box-sizing: border-box; border: 0; border-bottom: 4px solid #000000; border-radius: 12px; background: #A10E26; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C; cursor: pointer">Marcar como resuelto</button>
+<span style="font-size: 16px; line-height: 56px; color: #000000">Deshabilitado</span>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<button type="button" disabled="" aria-describedby="m-prim" style="height: 56px; width: 100%; box-sizing: border-box; border: 2px dashed #000000; border-radius: 12px; background: #FFFFFF; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: not-allowed">Ver mi ruta</button>
+<span id="m-prim" style="font-size: 16px; line-height: 24px; color: #000000">Elige un destino para continuar.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<button type="button" disabled="" aria-describedby="m-sec" style="height: 56px; width: 100%; box-sizing: border-box; border: 2px dashed #000000; border-radius: 12px; background: transparent; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: not-allowed"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 168H32V88h48l72-56v192ZM192 100a40 40 0 0 1 0 56M216 76a72 72 0 0 1 0 104"></path></svg>Escuchar ruta</button>
+<span id="m-sec" style="font-size: 16px; line-height: 24px; color: #000000">Tu navegador no tiene voz en español.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="height: 56px; display: flex; align-items: center; color: #000000; font-weight: 800; text-decoration: line-through">Ver barreras</span>
+<span style="font-size: 16px; line-height: 24px; color: #000000">No hay barreras activas.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<button type="button" disabled="" aria-describedby="m-pel" style="height: 56px; width: 100%; box-sizing: border-box; border: 2px dashed #000000; border-radius: 12px; background: #FFFFFF; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: not-allowed">Marcar como resuelto</button>
+<span id="m-pel" style="font-size: 16px; line-height: 24px; color: #000000">Ya se marcó como resuelto hace 2 min.</span>
+</div>
+</div>
+</section>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: start">
+<section aria-labelledby="s-chips" style="display: flex; flex-direction: column; gap: 24px">
+<h2 id="s-chips" style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1.15; letter-spacing: -0.015em">Chip de perfil</h2>
+<div role="radiogroup" aria-label="¿Cómo te mueves?" style="display: flex; flex-wrap: wrap; gap: 12px">
+
+<button type="button" role="radio" aria-checked="false" style="height: 60px; box-sizing: border-box; padding: 0 18px 0 6px; border-radius: 999px; border: 2px solid #000000; background: #FFFFFF; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; gap: 10px; cursor: pointer">
+<span style="width: 44px; height: 44px; border-radius: 999px; background: #E3E8FB; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="26" height="26" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M108 52a20 20 0 1 0 40 0a20 20 0 1 0-40 0M128 88v76M84 108h88M128 164l-32 60M128 164l32 60"></path></svg></span>
+Estándar
+
+</button>
+
+<button type="button" role="radio" aria-checked="true" style="height: 60px; box-sizing: border-box; padding: 0 18px 0 6px; border-radius: 999px; border: 2px solid #000000; background: #000000; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; gap: 10px; cursor: pointer">
+<span style="width: 44px; height: 44px; border-radius: 999px; background: #FFFFFF; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="26" height="26" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M140 44a20 20 0 1 0 40 0a20 20 0 1 0-40 0M156 84v68h48l28 56M156 116h44M116 112a64 64 0 1 0 72 92"></path></svg></span>
+Silla de ruedas
+<svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>
+</button>
+
+<button type="button" role="radio" aria-checked="false" style="height: 60px; box-sizing: border-box; padding: 0 18px 0 6px; border-radius: 999px; border: 2px solid #000000; background: #FFFFFF; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; gap: 10px; cursor: pointer">
+<span style="width: 44px; height: 44px; border-radius: 999px; background: #E3E8FB; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="26" height="26" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M132 40a20 20 0 1 0 40 0a20 20 0 1 0-40 0M80 128l40-40 36 24 36 32M120 88l-16 72-40 64M104 160l48 16 16 56"></path></svg></span>
+Movilidad reducida
+
+</button>
+
+<button type="button" role="radio" aria-checked="false" style="height: 60px; box-sizing: border-box; padding: 0 18px 0 6px; border-radius: 999px; border: 2px solid #000000; background: #FFFFFF; color: #000000; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; gap: 10px; cursor: pointer">
+<span style="width: 44px; height: 44px; border-radius: 999px; background: #E3E8FB; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="26" height="26" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 128s40-80 112-80 112 80 112 80-40 80-112 80S16 128 16 128ZM88 128a40 40 0 1 0 80 0a40 40 0 1 0-80 0"></path></svg></span>
+Baja visión
+
+</button>
+
+</div>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">Grupo de radio que se recorre con las flechas. El elegido se invierte: fondo Pacífico, texto claro y check. Se distingue sin ver colores.</p>
+</section>
+<section aria-labelledby="s-vivo" style="display: flex; flex-direction: column; gap: 24px">
+<h2 id="s-vivo" style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1.15; letter-spacing: -0.015em">Banda En vivo</h2>
+<div role="status" aria-live="polite" style="height: 44px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; background: #FFFFFF; border: 2px solid #000000; display: flex; align-items: center; gap: 10px; font-size: 16px; line-height: 24px; color: #000000; align-self: flex-start">
+<svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: #00593F"><path d="M104 128a24 24 0 1 0 48 0a24 24 0 1 0-48 0M84 84a62 62 0 0 0 0 88M172 84a62 62 0 0 1 0 88M56 56a102 102 0 0 0 0 144M200 56a102 102 0 0 1 0 144"></path></svg>
+<span><strong style="color: #000000">En vivo.</strong> Actualizado hace 3 s</span>
+</div>
+<div role="status" aria-live="polite" style="min-height: 44px; box-sizing: border-box; padding: 8px 16px; border-radius: 999px; border: 2px solid #000000; background: #FFFFFF; display: flex; align-items: center; gap: 10px; font-size: 16px; line-height: 24px; color: #000000; align-self: flex-start">
+<svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 40l160 176M24 96a160 160 0 0 1 64-34M232 96a160 160 0 0 0-112-42M60 136a104 104 0 0 1 44-26M196 136a104 104 0 0 0-24-18M100 176a48 48 0 0 1 56 0M128 212h.01"></path></svg>
+<span><strong>Sin conexión.</strong> Mostrando la última ruta conocida, de las 11:42.</span>
+</div>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">Discreta, bajo la cabecera. Consulta cada 5 s. Sin conexión gana borde e ícono, y se anuncia con aria-live="polite".</p>
+</section>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: start">
+<section aria-labelledby="s-selector" style="display: flex; flex-direction: column; gap: 24px">
+<h2 id="s-selector" style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1.15; letter-spacing: -0.015em">Selector de lugar</h2>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="hasta-demo" style="font-weight: 800">Hasta</label>
+<div style="position: relative">
+<input id="hasta-demo" type="text" value="Sala A" readonly="" role="combobox" aria-expanded="true" aria-controls="lista-demo" style="width: 100%; height: 60px; box-sizing: border-box; padding: 0 16px 0 52px; border-radius: 12px; border: 2px solid #1A2FA0; background: #FFFFFF; color: #000000; font: 400 20px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; left: 16px; top: 18px; color: #000000"><path d="M40 112a72 72 0 1 0 144 0a72 72 0 1 0-144 0M163 163l61 61"></path></svg>
+</div>
+<ul id="lista-demo" role="listbox" aria-label="Lugares" style="margin: 6px 0 0; padding: 8px; list-style: none; border-radius: 20px; border: 2px solid #000000; background: #FFFFFF; box-shadow: none; display: flex; flex-direction: column">
+
+<li role="presentation" style="display: flex; flex-direction: column">
+<span style="padding: 12px 12px 4px; font-size: 16px; line-height: 24px; font-weight: 800; color: #000000">Salas</span>
+<ul role="group" aria-label="Salas" style="margin: 0; padding: 0; list-style: none">
+
+<li role="option" aria-selected="true" style="min-height: 56px; box-sizing: border-box; padding: 8px 12px; border-radius: 12px; background: #E3E8FB; color: #000000; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 224h192M64 224V40h128v184M156 132h.01"></path></svg>
+<span style="display: flex; flex-direction: column; flex: 1"><span style="font-weight: 800">Sala A-201</span><span style="font-size: 16px; line-height: 24px">Edificio A, piso 2</span></span>
+<svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>
+</li>
+
+<li role="option" aria-selected="false" style="min-height: 56px; box-sizing: border-box; padding: 8px 12px; border-radius: 12px; background: transparent; color: #000000; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 224h192M64 224V40h128v184M156 132h.01"></path></svg>
+<span style="display: flex; flex-direction: column; flex: 1"><span style="font-weight: 800">Sala A-104</span><span style="font-size: 16px; line-height: 24px">Edificio A, piso 1</span></span>
+
+</li>
+
+</ul>
+</li>
+
+<li role="presentation" style="display: flex; flex-direction: column">
+<span style="padding: 12px 12px 4px; font-size: 16px; line-height: 24px; font-weight: 800; color: #000000">Servicios</span>
+<ul role="group" aria-label="Servicios" style="margin: 0; padding: 0; list-style: none">
+
+<li role="option" aria-selected="false" style="min-height: 56px; box-sizing: border-box; padding: 8px 12px; border-radius: 12px; background: transparent; color: #000000; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M64 52a16 16 0 1 0 32 0a16 16 0 1 0-32 0M160 52a16 16 0 1 0 32 0a16 16 0 1 0-32 0M128 32v192M56 92h48v72h-8v56H64v-56h-8ZM156 92h40l16 72h-16v56h-40v-56h-16Z"></path></svg>
+<span style="display: flex; flex-direction: column; flex: 1"><span style="font-weight: 800">Baño accesible B</span><span style="font-size: 16px; line-height: 24px">Edificio B, piso 1</span></span>
+
+</li>
+
+<li role="option" aria-selected="false" style="min-height: 56px; box-sizing: border-box; padding: 8px 12px; border-radius: 12px; background: transparent; color: #000000; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 40h40v176H48ZM88 40h40v176H88ZM144 52l38-10 40 164-38 10Z"></path></svg>
+<span style="display: flex; flex-direction: column; flex: 1"><span style="font-weight: 800">Biblioteca</span><span style="font-size: 16px; line-height: 24px">Junto al Patio central</span></span>
+
+</li>
+
+</ul>
+</li>
+
+<li role="presentation" style="display: flex; flex-direction: column">
+<span style="padding: 12px 12px 4px; font-size: 16px; line-height: 24px; font-weight: 800; color: #000000">Edificios</span>
+<ul role="group" aria-label="Edificios" style="margin: 0; padding: 0; list-style: none">
+
+<li role="option" aria-selected="false" style="min-height: 56px; box-sizing: border-box; padding: 8px 12px; border-radius: 12px; background: transparent; color: #000000; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 224h192M48 224V40h96v184M144 96h64v128M80 80h32M80 120h32M80 160h32"></path></svg>
+<span style="display: flex; flex-direction: column; flex: 1"><span style="font-weight: 800">Edificio A piso 2</span><span style="font-size: 16px; line-height: 24px">Se llega por el Ascensor A</span></span>
+
+</li>
+
+</ul>
+</li>
+
+<li role="option" aria-selected="false" style="margin-top: 8px; min-height: 56px; box-sizing: border-box; padding: 8px 12px; border-top: 2px solid #000000; color: #1A2FA0; display: flex; align-items: center; gap: 12px; font-weight: 800; cursor: pointer">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 40h64v64H40ZM152 40h64v64h-64ZM40 152h64v64H40ZM152 152v32M184 152h32M216 184v32h-32M152 216h.01"></path></svg>
+Estoy en un punto QR
+</li>
+</ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="desde-err" style="font-weight: 800">Desde</label>
+<input id="desde-err" type="text" value="Sala A-201" readonly="" aria-invalid="true" aria-describedby="desde-err-msg" style="width: 100%; height: 60px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 2px solid #A10E26; background: #FFFFFF; color: #000000; font: 400 20px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif">
+<span id="desde-err-msg" style="display: flex; align-items: center; gap: 8px; font-size: 16px; line-height: 24px; font-weight: 800; color: #A10E26"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 32L236 216H20ZM128 100v52M128 184h.01"></path></svg>Elige un destino distinto al punto de partida.</span>
+</div>
+</section>
+<section aria-labelledby="s-avisos" style="display: flex; flex-direction: column; gap: 24px">
+<h2 id="s-avisos" style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1.15; letter-spacing: -0.015em">Aviso de barrera</h2>
+<div role="alert" style="border-radius: 20px; background-color: #FFC72C; background-image: none; background-size: 18px 18px; color: #000000; border: 2px solid #000000; padding: 20px 22px; display: flex; gap: 14px; align-items: flex-start">
+<span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 999px; background: #000000; color: #FFC72C; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="26" height="26" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 32L236 216H20ZM128 100v52M128 184h.01"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.25">Ascensor A fuera de servicio</p>
+<p style="margin: 0">Recalculamos tu ruta por la rampa del edificio B: 40 m y 1 min más.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; align-items: center">
+<button type="button" style="height: 48px; padding: 0 18px; box-sizing: border-box; border: 0; border-bottom: 4px solid #000000; border-radius: 12px; background: #000000; color: #FFC72C; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Ver nueva ruta</button>
+<a href="#s-avisos" style="height: 48px; display: flex; align-items: center; color: #000000; font-weight: 800; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px">Detalles</a>
+</div>
+</div>
+</div>
+<div role="alert" style="display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: #A10E26; color: #FFFFFF; border: 2px solid #000000">
+<span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 999px; background: #FFFFFF; color: #A10E26; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="26" height="26" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M60 60l136 136"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.25">No hay ruta sin escalones hacia Sala A-201</p>
+<p style="margin: 0">El Ascensor A está fuera de servicio desde las 11:05.</p>
+<div style="margin-top: 10px"><button type="button" style="height: 48px; padding: 0 18px; box-sizing: border-box; border: 2px solid #FFFFFF; border-bottom-width: 4px; border-radius: 12px; background: transparent; color: #FFFFFF; font: 800 18px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; cursor: pointer">Ver alternativas</button></div>
+</div>
+</div>
+<div role="status" style="border-radius: 999px; background-color: #FFC72C; background-image: none; background-size: 18px 18px; color: #000000; border: 2px solid #000000; padding: 4px 8px 4px 16px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center">
+<svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M128 32L236 216H20ZM128 100v52M128 184h.01"></path></svg>
+<span style="font-size: 16px; line-height: 24px"><strong>2 barreras activas.</strong> Tu ruta ya las evita.</span>
+<a href="#s-avisos" style="color: #000000; font-size: 16px; font-weight: 800; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; min-height: 48px; padding: 0 8px; display: flex; align-items: center">Ver barreras</a>
+</div>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">El amarillo lleva la textura de domos de la baldosa podotáctil en toda su superficie, igual que en el piso real. Solo existe en barreras y en el recálculo. El rojo bloquea y lleva Prohibit.</p>
+</section>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 64px; align-items: start">
+<section aria-labelledby="s-paso" style="display: flex; flex-direction: column; gap: 24px">
+<h2 id="s-paso" style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1.15; letter-spacing: -0.015em">Pasos de la ruta</h2>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+
+<li style="position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr) 44px; gap: 18px; align-items: start; padding: 0 0 28px">
+<span aria-hidden="true" style="position: absolute; left: 21px; top: 20px; bottom: 0px; width: 6px; background: #1A2FA0"></span>
+<span style="position: relative; width: 40px; height: 40px; margin: 0 4px; box-sizing: border-box; border-radius: 999px; background: #1A2FA0; color: #FFFFFF; border: 3px solid #FFFFFF; outline: 2px solid #1A2FA0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums"><span aria-hidden="true">1</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Paso 1 de 4</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; padding-top: 6px"><span style="font-weight: 800; font-size: 20px; line-height: 1.35">Avanza 40 m por la rampa hasta el Patio central.</span><span style="font-size: 16px; line-height: 24px; color: #000000">Piso liso, al aire libre</span></span>
+<span role="img" aria-label="Rampa" style="width: 44px; height: 44px; margin-top: 2px; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="30" height="30" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 200h208M24 200L232 96"></path></svg></span>
+</li>
+
+<li style="position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr) 44px; gap: 18px; align-items: start; padding: 0 0 28px">
+<span aria-hidden="true" style="position: absolute; left: 21px; top: 0px; bottom: 0px; width: 6px; background: #1A2FA0"></span>
+<span style="position: relative; width: 40px; height: 40px; margin: 0 4px; box-sizing: border-box; border-radius: 999px; background: #1A2FA0; color: #FFFFFF; border: 3px solid #FFFFFF; outline: 2px solid #1A2FA0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums"><span aria-hidden="true">2</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Paso 2 de 4</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; padding-top: 6px"><span style="font-weight: 800; font-size: 20px; line-height: 1.35">Cruza el patio techado 25 m hasta el Ascensor A.</span><span style="font-size: 16px; line-height: 24px; color: #000000">Adoquín parejo, techado</span></span>
+<span role="img" aria-label="Tramo techado" style="width: 44px; height: 44px; margin-top: 2px; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="30" height="30" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 128a104 104 0 0 1 208 0ZM128 128v68a24 24 0 0 1-48 0"></path></svg></span>
+</li>
+
+<li style="position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr) 44px; gap: 18px; align-items: start; padding: 0 0 28px">
+<span aria-hidden="true" style="position: absolute; left: 21px; top: 0px; bottom: 0px; width: 6px; background: #1A2FA0"></span>
+<span style="position: relative; width: 40px; height: 40px; margin: 0 4px; box-sizing: border-box; border-radius: 999px; background: #1A2FA0; color: #FFFFFF; border: 3px solid #FFFFFF; outline: 2px solid #1A2FA0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums"><span aria-hidden="true">3</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Paso 3 de 4</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; padding-top: 6px"><span style="font-weight: 800; font-size: 20px; line-height: 1.35">Sube al piso 2.</span><span style="font-size: 16px; line-height: 24px; color: #000000">Ascensor A, puerta de 90 cm</span></span>
+<span role="img" aria-label="Ascensor" style="width: 44px; height: 44px; margin-top: 2px; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="30" height="30" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 32h160v192H48ZM128 32v192M76 112l20-20 20 20M140 144l20 20 20-20"></path></svg></span>
+</li>
+
+<li style="position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr) 44px; gap: 18px; align-items: start; padding: 0 0 28px">
+<span aria-hidden="true" style="position: absolute; left: 21px; top: 0px; bottom: calc(100% - 20px); width: 6px; background: #1A2FA0"></span>
+<span style="position: relative; width: 40px; height: 40px; margin: 0 4px; box-sizing: border-box; border-radius: 999px; background: #1A2FA0; color: #FFFFFF; border: 3px solid #FFFFFF; outline: 2px solid #1A2FA0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums"><span aria-hidden="true">4</span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Paso 4 de 4</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; padding-top: 6px"><span style="font-weight: 800; font-size: 20px; line-height: 1.35">La Sala A-201 está a 10 m a tu izquierda.</span><span style="font-size: 16px; line-height: 24px; color: #000000">Pasillo techado</span></span>
+<span role="img" aria-label="Sala" style="width: 44px; height: 44px; margin-top: 2px; color: #000000; display: flex; align-items: center; justify-content: center"><svg viewbox="0 0 256 256" width="30" height="30" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 224h192M64 224V40h128v184M156 132h.01"></path></svg></span>
+</li>
+
+</ol>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">Los pasos se dibujan como una línea de metro: la misma línea Cobalto de 6 px que en el mapa. Ruta de ejemplo para silla de ruedas.</p>
+</section>
+<section aria-labelledby="s-metricas" style="display: flex; flex-direction: column; gap: 24px">
+<h2 id="s-metricas" style="margin: 0; font-weight: 800; font-size: 32px; line-height: 1.15; letter-spacing: -0.015em">Métricas de ruta</h2>
+<dl style="margin: 0; display: flex; align-items: flex-end">
+<div style="flex: 1; display: flex; flex-direction: column-reverse; padding-right: 20px"><dt style="font-size: 16px; line-height: 24px; color: #000000">metros</dt><dd style="margin: 0; font-weight: 800; font-size: 64px; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">75</dd></div>
+<div style="flex: 1; display: flex; flex-direction: column-reverse; padding: 0 20px; border-left: 2px solid #000000"><dt style="font-size: 16px; line-height: 24px; color: #000000">minutos</dt><dd style="margin: 0; font-weight: 800; font-size: 64px; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">2,3</dd></div>
+<div style="flex: 1; display: flex; flex-direction: column-reverse; padding-left: 20px; border-left: 2px solid #000000"><dt style="font-size: 16px; line-height: 24px; color: #000000">escalones</dt><dd style="margin: 0; font-weight: 800; font-size: 64px; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #00593F">0</dd></div>
+</dl>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">Cifras de 64 px para que el jurado las lea a 5 m. Cero escalones va en Paso porque es la buena noticia. En la hoja de ruta bajan a 40 px.</p>
+<h3 style="margin: 16px 0 0; font-weight: 800; font-size: 24px; line-height: 1.3">Perfil del recorrido</h3>
+<svg viewbox="0 0 520 230" width="100%" role="img" aria-label="Perfil del recorrido: rampa de 40 metros que sube suave, patio plano de 25 metros, Ascensor A al piso 2 y 10 metros planos hasta la Sala A-201" style="display: block">
+<polygon points="20,190 260,166 410,166 410,76 500,76 500,206 20,206" fill="#FFFFFF" stroke="#000000" stroke-width="2"></polygon>
+<polyline points="20,190 260,166 410,166" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></polyline>
+<polyline points="20,190 260,166 410,166" fill="none" stroke="#1A2FA0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+<line x1="410" y1="166" x2="410" y2="76" stroke="#1A2FA0" stroke-width="6" stroke-linecap="round" stroke-dasharray="0.1 12"></line>
+<polyline points="410,76 500,76" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"></polyline>
+<polyline points="410,76 500,76" fill="none" stroke="#1A2FA0" stroke-width="6" stroke-linecap="round"></polyline>
+<circle cx="20" cy="190" r="8" fill="#FFFFFF" stroke="#1A2FA0" stroke-width="4"></circle>
+<circle cx="500" cy="76" r="10" fill="#1A2FA0" stroke="#FFFFFF" stroke-width="3"></circle>
+<text x="22" y="160" fill="#000000" font-size="15" font-family="inherit">Rampa 40 m, 4 %</text>
+<text x="272" y="150" fill="#000000" font-size="15" font-family="inherit">Patio 25 m</text>
+<text x="422" y="126" fill="#000000" font-size="15" font-family="inherit">Ascensor A</text>
+<text x="500" y="54" fill="#000000" font-size="15" font-weight="800" font-family="inherit" text-anchor="end">Sala A-201</text>
+<text x="20" y="226" fill="#000000" font-size="14" font-family="inherit">0 m</text>
+<text x="500" y="226" fill="#000000" font-size="14" font-family="inherit" text-anchor="end">75 m</text>
+</svg>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">Dónde sube y dónde baja el camino. El ascensor va punteado porque no se camina. Para silla de ruedas o muletas dice más que el mapa.</p>
+</section>
+</div>
+<section aria-labelledby="s-shell" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+<h2 id="s-shell" style="margin: 0; font-weight: 800; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em">Shell</h2>
+<p style="margin: 0; max-width: 52ch; color: #000000">Escritorio: cabecera de 72 px con navegación y barra de accesibilidad siempre visibles.</p>
+</div>
+<div style="border-radius: 20px; border: 2px solid #000000; overflow: hidden; background: #FFFFFF">
+<div style="height: 72px; box-sizing: border-box; padding: 0 24px; background: #FFFFFF; border-bottom: 2px solid #000000; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+<a href="#s-shell" aria-label="Parejo, inicio" style="display: flex; align-items: center; gap: 10px; color: #000000; text-decoration: none">
+<svg viewbox="0 0 64 64" width="40" height="40" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#000000"></rect><path d="M4 58L60 22" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path><path d="M19 9H45V28.7L19 45.4Z" fill="#FFFFFF"></path><rect x="23" y="13" width="8" height="8" rx="1.5" fill="#000000"></rect><rect x="33" y="13" width="8" height="8" rx="1.5" fill="#000000"></rect><path d="M19 27H45" stroke="#000000" stroke-width="3"></path></svg>
+<span style="font-weight: 800; font-size: 30px; line-height: 1; letter-spacing: -0.04em">parejo</span>
+</a>
+<nav aria-label="Principal" style="display: flex; gap: 4px; align-items: center">
+<a href="#s-shell" aria-current="page" style="height: 44px; box-sizing: border-box; padding: 0 18px; border-radius: 999px; display: flex; align-items: center; background: #000000; color: #FFFFFF; font-weight: 800; text-decoration: none">Ruta</a>
+<a href="#s-shell" style="height: 44px; box-sizing: border-box; padding: 0 18px; border-radius: 999px; display: flex; align-items: center; color: #000000; text-decoration: none">Comparar</a>
+<a href="#s-shell" style="height: 44px; box-sizing: border-box; padding: 0 18px; border-radius: 999px; display: flex; align-items: center; color: #000000; text-decoration: none">Reportar</a>
+<a href="#s-shell" style="height: 44px; box-sizing: border-box; padding: 0 18px; border-radius: 999px; display: flex; align-items: center; color: #000000; text-decoration: none">Acerca</a>
+</nav>
+<div role="group" aria-label="Accesibilidad" style="display: flex; align-items: center; gap: 8px">
+<div role="group" aria-label="Tamaño del texto" style="display: flex; border-radius: 999px; border: 2px solid #000000; overflow: hidden">
+<button type="button" aria-pressed="true" style="width: 48px; height: 44px; border: 0; background: #000000; color: #FFFFFF; font: 800 16px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif">A</button>
+<button type="button" aria-pressed="false" style="width: 48px; height: 44px; border: 0; background: #FFFFFF; color: #000000; font: 800 19px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif">A+</button>
+<button type="button" aria-pressed="false" style="width: 56px; height: 44px; border: 0; background: #FFFFFF; color: #000000; font: 800 22px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif">A++</button>
+</div>
+<button type="button" aria-pressed="true" style="height: 48px; box-sizing: border-box; padding: 0 16px; border-radius: 999px; border: 2px solid #000000; background: #000000; color: #FFFFFF; font: 800 16px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; gap: 8px"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M128 32v192M128 64h64M128 96h86M128 128h96M128 160h86M128 192h64"></path></svg>Alto contraste</button>
+<button type="button" aria-pressed="false" style="height: 48px; box-sizing: border-box; padding: 0 16px; border-radius: 999px; border: 2px solid #000000; background: #FFFFFF; color: #000000; font: 800 16px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; gap: 8px"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 168H32V88h48l72-56v192ZM192 100a40 40 0 0 1 0 56M216 76a72 72 0 0 1 0 104"></path></svg>Voz</button>
+</div>
+</div>
+<div style="padding: 20px 24px; display: flex; align-items: center; gap: 24px">
+<a href="#s-shell" style="height: 48px; box-sizing: border-box; padding: 0 18px; border-radius: 12px; background: #FFFFFF; color: #1A2FA0; font-weight: 800; display: flex; align-items: center; text-decoration: underline; text-underline-offset: 5px; box-shadow: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C">Saltar al contenido</a>
+<span style="font-size: 16px; line-height: 24px; color: #000000">Primer elemento de cada página. Oculto hasta recibir foco con Tab; entonces aparece arriba a la izquierda, sobre la cabecera.</span>
+</div>
+</div>
+<div style="display: flex; gap: 56px; align-items: flex-start">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">Móvil, 390 px</p>
+<div style="width: 390px; height: 620px; box-sizing: border-box; border-radius: 20px; border: 2px solid #000000; overflow: hidden; background: #FFFFFF; display: flex; flex-direction: column">
+<div style="height: 64px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px 0 16px; background: #FFFFFF; border-bottom: 2px solid #000000; display: flex; align-items: center; justify-content: space-between">
+<span style="display: flex; align-items: center; gap: 8px"><svg viewbox="0 0 64 64" width="32" height="32" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#000000"></rect><path d="M4 58L60 22" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"></path><path d="M19 9H45V28.7L19 45.4Z" fill="#FFFFFF"></path><path d="M19 27H45" stroke="#000000" stroke-width="4"></path></svg><span style="font-weight: 800; font-size: 26px; letter-spacing: -0.04em; line-height: 1">parejo</span></span>
+<button type="button" aria-expanded="false" style="height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 2px solid #000000; background: #FFFFFF; color: #000000; font: 800 16px/1 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif; display: flex; align-items: center; gap: 6px"><svg viewbox="0 0 256 256" width="22" height="22" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M108 44a20 20 0 1 0 40 0a20 20 0 1 0-40 0M44 92l84 16 84-16M128 108v52l-32 64M128 160l32 64"></path></svg>Accesibilidad</button>
+</div>
+<div style="flex: 1; padding: 28px 16px; display: flex; flex-direction: column; gap: 12px">
+<div role="status" style="align-self: flex-start; height: 36px; box-sizing: border-box; padding: 0 12px; border-radius: 999px; background: #FFFFFF; border: 2px solid #000000; display: flex; align-items: center; gap: 8px; font-size: 16px; color: #000000"><svg viewbox="0 0 256 256" width="18" height="18" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: #00593F"><path d="M104 128a24 24 0 1 0 48 0a24 24 0 1 0-48 0M84 84a62 62 0 0 0 0 88M172 84a62 62 0 0 1 0 88M56 56a102 102 0 0 0 0 144M200 56a102 102 0 0 1 0 144"></path></svg><span><strong style="color: #000000">En vivo.</strong> Hace 3 s</span></div>
+<p style="margin: 0; font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -0.03em">¿A dónde vas hoy?</p>
+<p style="margin: 0">Te mostramos el camino que sí puedes recorrer en Casa Central.</p>
+</div>
+<p style="margin: 0; padding: 8px 16px; font-size: 14px; line-height: 20px; color: #000000">Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>
+<nav aria-label="Principal" style="height: 76px; flex-shrink: 0; background: #FFFFFF; border-top: 2px solid #000000; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; box-sizing: border-box; gap: 4px">
+
+<a href="#s-shell" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 14px; text-decoration: none; background: #000000; color: #FFFFFF; font-size: 15px; line-height: 20px; font-weight: 800"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M96 184l-64 32V56l64-32 64 32 64-32v160l-64 32ZM96 24v160M160 56v160"></path></svg>Ruta</a>
+
+<a href="#s-shell" aria-current="false" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 14px; text-decoration: none; background: transparent; color: #000000; font-size: 15px; line-height: 20px; font-weight: 400"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M176 40l40 40-40 40M216 80H40M80 136l-40 40 40 40M40 176h176"></path></svg>Comparar</a>
+
+<a href="#s-shell" aria-current="false" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 14px; text-decoration: none; background: transparent; color: #000000; font-size: 15px; line-height: 20px; font-weight: 400"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 224V40M48 168c64-48 96 48 160 0V40c-64 48-96-48-160 0"></path></svg>Reportar</a>
+
+<a href="#s-shell" aria-current="false" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 14px; text-decoration: none; background: transparent; color: #000000; font-size: 15px; line-height: 20px; font-weight: 400"><svg viewbox="0 0 256 256" width="24" height="24" fill="none" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 128a96 96 0 1 0 192 0a96 96 0 1 0-192 0M128 120v56M128 84h.01"></path></svg>Acerca</a>
+
+</nav>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 380px; padding-top: 36px">
+<p style="margin: 0; font-weight: 800; font-size: 20px">En móvil</p>
+<p style="margin: 0; font-size: 16px; line-height: 24px">La navegación baja a una barra inferior de 4 ítems con ícono y texto. El activo se invierte en Pacífico, igual que en escritorio: se reconoce por forma, no por color.</p>
+<p style="margin: 0; font-size: 16px; line-height: 24px">La barra de accesibilidad se vuelve el botón Accesibilidad, que abre un panel inferior. Está en la mesa Shell móvil.</p>
+<p style="margin: 0; font-size: 16px; line-height: 24px">Pie en todas las vistas: Prototipo estudiantil. No es un servicio oficial de la USM. Datos de ejemplo.</p>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #000000">Los íconos son referencia dibujada a mano. En código se usa @phosphor-icons/react en peso bold: MapTrifold, ArrowsLeftRight, Flag, Info, PersonArmsSpread, Broadcast.</p>
+</div>
+</div>
+</section>
+<section aria-labelledby="s-contraste" style="display: flex; flex-direction: column; gap: 24px">
+<h2 id="s-contraste" style="margin: 0; font-weight: 800; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em">Contraste validado</h2>
+<table style="width: 100%; border-collapse: collapse; font-size: 16px; line-height: 24px">
+<caption style="text-align: left; padding-bottom: 12px; color: #000000">Relación según WCAG 2.2 en alto contraste. AA pide 4,5:1 en texto normal y 3:1 en íconos y bordes de controles.</caption>
+<thead>
+<tr>
+<th scope="col" style="text-align: left; padding: 10px 12px 10px 0; border-bottom: 2px solid #000000">Combinación</th>
+<th scope="col" style="text-align: left; padding: 10px 12px; border-bottom: 2px solid #000000">Muestra</th>
+<th scope="col" style="text-align: right; padding: 10px 12px; border-bottom: 2px solid #000000">Relación</th>
+<th scope="col" style="text-align: left; padding: 10px 0 10px 12px; border-bottom: 2px solid #000000">Resultado</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Negro sobre blanco</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #FFFFFF; color: #000000; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">21,00</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Blanco sobre Cobalto profundo (botón)</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #1A2FA0; color: #FFFFFF; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">10,72</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Cobalto profundo sobre blanco (enlaces)</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #FFFFFF; color: #1A2FA0; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">10,72</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Negro sobre Cobalto tinte (elegido)</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #E3E8FB; color: #000000; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">17,20</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Negro sobre Podotáctil</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #FFC72C; color: #000000; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">13,46</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Blanco sobre Alto profundo (bloqueado)</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #A10E26; color: #FFFFFF; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">8,06</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Alto profundo sobre blanco (errores)</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #FFFFFF; color: #A10E26; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">8,06</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+<tr>
+<th scope="row" style="text-align: left; font-weight: 400; padding: 10px 12px 10px 0; border-bottom: 1px solid #000000">Paso profundo sobre blanco</th>
+<td style="padding: 6px 12px; border-bottom: 1px solid #000000"><span style="display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid #000000; background: #FFFFFF; color: #00593F; font-weight: 800">Ascensor A</span></td>
+<td style="text-align: right; padding: 10px 12px; border-bottom: 1px solid #000000; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums">8,40</td>
+<td style="padding: 10px 0 10px 12px; border-bottom: 1px solid #000000">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #00593F"><svg viewbox="0 0 256 256" width="20" height="20" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M48 136l48 48 112-112"></path></svg>AAA</span>
+</td>
+</tr>
+
+</tbody>
+</table>
+</section>
+<footer style="font-size: 16px; line-height: 24px; color: #000000">Prototipo estudiantil para la Hackathon USM 2026. No es un servicio oficial de la USM. Datos de ejemplo.</footer>
+</main>
+
+</div>
+</body></html>

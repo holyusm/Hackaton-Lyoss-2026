@@ -1,0 +1,312 @@
+/*
+  Parejo · tokens de diseño
+  Importar una sola vez, antes que cualquier otro CSS (por ejemplo en web/src/main.jsx).
+
+  Temas:
+    - Claro por defecto.
+    - Oscuro automático con prefers-color-scheme, salvo que el usuario haya elegido un tema.
+    - Forzar tema: <html data-tema="claro|oscuro|contraste">
+  Tamaño de texto (A / A+ / A++):
+    - <html data-texto="normal|grande|muy-grande">
+    - Todo el texto se define en rem; la raíz mide 18 px × escala.
+*/
+
+/* ---------- Tema claro (por defecto) ---------- */
+:root {
+  color-scheme: light;
+
+  /* Marca: no cambian con el tema */
+  --marca-cobalto: #2443D0;
+  --marca-calamina: #F4B6C2;
+  --marca-pacifico: #0D2B3E;
+
+  /* Superficies y texto */
+  --fondo: #EFF2F1;            /* Niebla */
+  --superficie: #FCFDFD;
+  --tinta: #0D2B3E;            /* Pacífico: todo el texto */
+  --tinta-2: #3E5566;          /* Texto secundario (7,64:1 sobre superficie) */
+  --linea: #C9D3D6;            /* Solo separadores, nunca texto ni borde de control */
+  --borde-control: #3E5566;    /* Bordes de inputs, chips y botones secundarios (≥3:1) */
+  --ancho-linea: 1px;
+
+  /* Acción: el único acento de interfaz */
+  --cobalto: #2443D0;
+  --cobalto-hondo: #182F9E;    /* Escalón inferior de los botones */
+  --cobalto-hover: #182F9E;
+  --sobre-cobalto: #FFFFFF;    /* 7,53:1 */
+  --cobalto-tinte: #E3E8FB;    /* Fondo de opción elegida en listas */
+  --sobre-tinte: #182F9E;      /* 8,87:1 */
+  --enlace: #2443D0;           /* 6,68:1 sobre Niebla */
+
+  /* Estado activo invertido (chip de perfil, navegación, frecuentes) */
+  --activo-fondo: #0D2B3E;
+  --activo-texto: #EFF2F1;
+  --activo-texto-2: #C9D6DD;   /* 9,88:1 sobre Pacífico */
+
+  /* Estados: nunca decorativos, siempre con ícono y texto */
+  --podotactil: #FFC72C;       /* Barreras y recálculo */
+  --podotactil-domo: #EDB415;
+  --sobre-podotactil: #0D2B3E; /* 9,40:1 (7,78:1 sobre los domos) */
+  --alto: #C4122F;             /* Bloqueado, fuera de servicio, sin ruta */
+  --alto-hondo: #8A0C21;
+  --alto-texto: #C4122F;       /* 5,36:1 sobre Niebla */
+  --sobre-alto: #FFFFFF;       /* 6,04:1 */
+  --paso: #0E7A57;             /* Accesible, disponible, resuelto */
+  --paso-texto: #0E7A57;       /* 4,73:1 sobre Niebla, 5,23:1 sobre superficie */
+
+  /* Deshabilitado (siempre acompañado del motivo en texto) */
+  --deshabilitado-fondo: #E1E6E8;
+  --deshabilitado-texto: #55606A;
+  --deshabilitado-borde: transparent;
+
+  /* Mapa */
+  --mapa-fondo: #E2E8E7;
+  --mapa-edificio: #D0D8DA;
+  --mapa-edificio-borde: #B7C3C6;
+  --mapa-patio: #EEF2F1;
+  --mapa-patio-borde: #9FB0B5;
+  --mapa-camino: #F5F7F6;
+  --terreno: #DCE3E5;          /* Relleno del perfil del recorrido */
+  --ruta-ancho: 6px;
+  --ruta-borde: 12px;          /* Trazo blanco bajo la línea de ruta */
+
+  /* Textura podotáctil: va en TODA la superficie del aviso amarillo */
+  --textura-domos: radial-gradient(circle, var(--podotactil-domo) 4px, transparent 4.6px);
+  --textura-domos-tam: 18px 18px;
+
+  /* Sombras: solo en paneles flotantes y hojas */
+  --sombra-panel: 0 1px 0 rgba(13, 43, 62, 0.06), 0 12px 32px rgba(13, 43, 62, 0.12);
+  --sombra-hoja: 0 -8px 32px rgba(13, 43, 62, 0.18);
+  --velo: rgba(13, 43, 62, 0.6);
+
+  /* Foco: anillo doble que se ve sobre cualquier fondo */
+  --foco: 0 0 0 3px #0D2B3E, 0 0 0 6px #FFC72C;
+
+  /* Tipografía: una sola familia */
+  --fuente: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --escala: 1;
+  --t-cifra: 3.556rem;     /* 64 px, 800, tabular, -3 % */
+  --t-display: 3.111rem;   /* 56 px, 800, -2,5 % */
+  --t-hero-movil: 2.444rem;/* 44 px, 800, -3 %, interlineado 1 */
+  --t-seccion: 2.222rem;   /* 40 px, 800, -2 % */
+  --t-titulo: 1.778rem;    /* 32 px, 700, -1 % */
+  --t-subtitulo: 1.333rem; /* 24 px, 700 */
+  --t-etiqueta: 1.111rem;  /* 20 px, 800: etiquetas de campos */
+  --t-cuerpo: 1rem;        /* 18 px, 400 / 700, interlineado 1.5 */
+  --t-detalle: 0.889rem;   /* 16 px, 400 */
+  --t-mini: 0.778rem;      /* 14 px: solo pie legal y atribución del mapa */
+  --peso-normal: 400;
+  --peso-fuerte: 700;
+  --peso-negro: 800;
+  --tracking-display: -0.03em;
+  --tracking-titulo: -0.01em;
+  --tracking-wordmark: -0.04em;
+
+  /* Forma */
+  --r-control: 12px;       /* Botones, inputs */
+  --r-panel: 20px;         /* Tarjetas de perfil, avisos, listas, paneles */
+  --r-hoja: 28px;          /* Hojas inferiores (solo esquinas superiores) */
+  --r-pill: 999px;         /* Chips, navegación, banda En vivo */
+  --escalon: 4px;          /* Borde inferior de los botones */
+
+  /* Tamaños táctiles */
+  --toque-min: 48px;
+  --alto-boton: 60px;      /* Primario de pantalla */
+  --alto-boton-sec: 48px;  /* Acciones dentro de avisos */
+  --alto-input: 60px;
+  --alto-cabecera-movil: 64px;
+  --alto-cabecera-escritorio: 72px;
+  --alto-nav-movil: 76px;
+
+  /* Espacio (rejilla de 4 px) */
+  --e-1: 4px;
+  --e-2: 8px;
+  --e-3: 12px;
+  --e-4: 16px;
+  --e-5: 20px;
+  --e-6: 24px;
+  --e-7: 32px;
+  --e-8: 48px;
+  --e-9: 64px;
+  --margen-movil: 16px;
+  --contenedor: 1200px;
+  --medida: 65ch;
+
+  /* Movimiento: solo para comunicar un cambio de estado */
+  --t-rapida: 150ms;
+  --t-media: 200ms;
+}
+
+/* ---------- Tema oscuro ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema]) {
+    color-scheme: dark;
+    --fondo: #0A1C29;
+    --superficie: #11293A;
+    --tinta: #E8EFF1;
+    --tinta-2: #A9BBC5;
+    --linea: #24404F;
+    --borde-control: #A9BBC5;
+    --cobalto: #8FA5FF;
+    --cobalto-hondo: #4F67D9;
+    --cobalto-hover: #B1C0FF;
+    --sobre-cobalto: #0A1C29;
+    --cobalto-tinte: #1E3366;
+    --sobre-tinte: #E8EFF1;
+    --enlace: #8FA5FF;
+    --activo-fondo: #E8EFF1;
+    --activo-texto: #0A1C29;
+    --activo-texto-2: #3E5566;
+    --sobre-podotactil: #0A1C29;
+    --alto-texto: #FF97A6;
+    --paso: #4FD1A1;
+    --paso-texto: #4FD1A1;
+    --deshabilitado-fondo: #1A3446;
+    --deshabilitado-texto: #8A9DA8;
+    --mapa-fondo: #0F2433;
+    --mapa-edificio: #1A3446;
+    --mapa-edificio-borde: #2A4A5E;
+    --mapa-patio: #132D3F;
+    --mapa-patio-borde: #3A5A6E;
+    --mapa-camino: #163042;
+    --terreno: #17344A;
+    --sombra-panel: 0 12px 32px rgba(0, 0, 0, 0.45);
+    --sombra-hoja: 0 -8px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+  --fondo: #0A1C29;
+  --superficie: #11293A;
+  --tinta: #E8EFF1;
+  --tinta-2: #A9BBC5;
+  --linea: #24404F;
+  --borde-control: #A9BBC5;
+  --cobalto: #8FA5FF;
+  --cobalto-hondo: #4F67D9;
+  --cobalto-hover: #B1C0FF;
+  --sobre-cobalto: #0A1C29;
+  --cobalto-tinte: #1E3366;
+  --sobre-tinte: #E8EFF1;
+  --enlace: #8FA5FF;
+  --activo-fondo: #E8EFF1;
+  --activo-texto: #0A1C29;
+  --activo-texto-2: #3E5566;
+  --sobre-podotactil: #0A1C29;
+  --alto-texto: #FF97A6;
+  --paso: #4FD1A1;
+  --paso-texto: #4FD1A1;
+  --deshabilitado-fondo: #1A3446;
+  --deshabilitado-texto: #8A9DA8;
+  --mapa-fondo: #0F2433;
+  --mapa-edificio: #1A3446;
+  --mapa-edificio-borde: #2A4A5E;
+  --mapa-patio: #132D3F;
+  --mapa-patio-borde: #3A5A6E;
+  --mapa-camino: #163042;
+  --terreno: #17344A;
+  --sombra-panel: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --sombra-hoja: 0 -8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Alto contraste (toggle propio de la app) ---------- */
+:root[data-tema="contraste"] {
+  color-scheme: light;
+  --fondo: #FFFFFF;
+  --superficie: #FFFFFF;
+  --tinta: #000000;
+  --tinta-2: #000000;
+  --linea: #000000;
+  --borde-control: #000000;
+  --ancho-linea: 2px;
+  --cobalto: #1A2FA0;          /* 10,72:1 con blanco */
+  --cobalto-hondo: #000000;
+  --cobalto-hover: #0F1F70;
+  --sobre-cobalto: #FFFFFF;
+  --cobalto-tinte: #E3E8FB;
+  --sobre-tinte: #000000;
+  --enlace: #1A2FA0;
+  --activo-fondo: #000000;
+  --activo-texto: #FFFFFF;
+  --activo-texto-2: #FFFFFF;
+  --sobre-podotactil: #000000;
+  --alto: #A10E26;             /* 8,06:1 con blanco */
+  --alto-hondo: #000000;
+  --alto-texto: #A10E26;
+  --paso: #00593F;
+  --paso-texto: #00593F;
+  --deshabilitado-fondo: #FFFFFF;
+  --deshabilitado-texto: #000000;
+  --deshabilitado-borde: #000000;
+  --mapa-fondo: #FFFFFF;
+  --mapa-edificio: #FFFFFF;
+  --mapa-edificio-borde: #000000;
+  --mapa-patio: #FFFFFF;
+  --mapa-patio-borde: #000000;
+  --mapa-camino: #FFFFFF;
+  --terreno: #FFFFFF;
+  --textura-domos: none;       /* Sin texturas */
+  --sombra-panel: none;        /* Sin sombras */
+  --sombra-hoja: none;
+  --marca-cobalto: #000000;    /* El símbolo pasa a blanco y negro */
+  --marca-calamina: #FFFFFF;
+  --marca-pacifico: #000000;
+}
+
+/* ---------- Tamaño de texto ---------- */
+:root[data-texto="grande"] { --escala: 1.25; }
+:root[data-texto="muy-grande"] { --escala: 1.5; }
+
+/* ---------- Base ---------- */
+html {
+  font-size: calc(18px * var(--escala));
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--fuente);
+  font-size: var(--t-cuerpo);
+  line-height: 1.5;
+  font-weight: var(--peso-normal);
+}
+h1, h2, h3, p { margin: 0; }
+p { max-width: var(--medida); text-wrap: pretty; }
+a { color: var(--enlace); text-underline-offset: 5px; text-decoration-thickness: 2px; }
+a:hover { text-decoration-thickness: 4px; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.cifras { font-variant-numeric: tabular-nums; }
+
+/* Foco visible propio en todo */
+:focus { outline: none; }
+:focus-visible { box-shadow: var(--foco); border-radius: var(--r-control); }
+
+/* Solo para lectores de pantalla */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* Enlace "Saltar al contenido" */
+.saltar {
+  position: absolute; left: var(--e-4); top: -100px; z-index: 100;
+  min-height: var(--toque-min); padding: 0 var(--e-5);
+  display: inline-flex; align-items: center;
+  background: var(--superficie); color: var(--enlace);
+  font-weight: var(--peso-negro); border-radius: var(--r-control);
+}
+.saltar:focus-visible { top: var(--e-2); }
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

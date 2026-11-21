@@ -1,0 +1,33 @@
+{
+  "$descripcion": "Datos de ejemplo de la vista Inicio (/). Son simulados: la UI debe mostrar 'Datos de ejemplo' en el pie. 'esquema' son posiciones en % dentro del mapa esquemático de referencia; para Leaflet hay que reemplazarlas por lat/lng reales del levantamiento del equipo o de los planos de infraestructura.usm.cl.",
+  "mapa": {
+    "centroAproximado": { "lat": -33.0349, "lng": -71.5966, "nota": "Casa Central, Av. España 1680, Valparaíso. Verificar antes de usar." },
+    "zoomInicial": 18,
+    "teselas": "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    "atribucion": "© OpenStreetMap, © CARTO"
+  },
+  "origenPorDefecto": "entrada-principal",
+  "perfiles": [
+    { "id": "estandar", "nombre": "Estándar", "descripcionCorta": "El camino más corto", "descripcionLarga": "Camino más corto, sin restricciones", "icono": "Person", "textoBoton": "" },
+    { "id": "silla", "nombre": "Silla de ruedas", "descripcionCorta": "Sin escalones ni adoquín", "descripcionLarga": "Sin escalones ni pendientes altas; evita adoquín", "icono": "Wheelchair", "textoBoton": "en silla de ruedas" },
+    { "id": "movilidad", "nombre": "Movilidad reducida", "descripcionCorta": "Lesión o bastón: pocos escalones", "descripcionLarga": "Lesión temporal o bastón: escalones posibles pero muy costosos", "icono": "PersonSimpleWalk", "textoBoton": "con pocos escalones" },
+    { "id": "vision", "nombre": "Baja visión", "descripcionCorta": "Guía podotáctil y piso liso", "descripcionLarga": "Prefiere guía podotáctil y piso liso", "icono": "Eye", "textoBoton": "para baja visión" }
+  ],
+  "lugares": [
+    { "id": "entrada-principal", "nombre": "Entrada principal", "tipo": "acceso", "grupo": "Edificios", "meta": "Portón de Av. España", "icono": "MapPin", "esquema": { "x": 50, "y": 92 } },
+    { "id": "patio-central", "nombre": "Patio central", "tipo": "espacio", "grupo": "Edificios", "meta": "Techado en parte", "icono": "Buildings", "esquema": { "x": 50, "y": 41 } },
+    { "id": "ascensor-a", "nombre": "Ascensor A", "tipo": "ascensor", "grupo": "Servicios", "meta": "Edificio A, pisos 1 y 2", "icono": "Elevator", "esquema": { "x": 34, "y": 38 } },
+    { "id": "edificio-a-piso-2", "nombre": "Edificio A piso 2", "tipo": "edificio", "grupo": "Edificios", "meta": "Se llega por el Ascensor A", "icono": "Buildings", "esquema": { "x": 20, "y": 26 } },
+    { "id": "sala-a-201", "nombre": "Sala A-201", "tipo": "sala", "grupo": "Salas", "meta": "Edificio A, piso 2", "icono": "Door", "esquema": { "x": 20, "y": 30 }, "etiquetaMapa": "Sala A-201, piso 2" },
+    { "id": "sala-a-104", "nombre": "Sala A-104", "tipo": "sala", "grupo": "Salas", "meta": "Edificio A, piso 1", "icono": "Door", "esquema": { "x": 14, "y": 40 } },
+    { "id": "biblioteca", "nombre": "Biblioteca", "tipo": "servicio", "grupo": "Servicios", "meta": "Junto al Patio central", "icono": "Books", "esquema": { "x": 22, "y": 66 } },
+    { "id": "bano-accesible-b", "nombre": "Baño accesible B", "tipo": "bano", "grupo": "Servicios", "meta": "Edificio B, piso 1", "icono": "Toilet", "esquema": { "x": 66, "y": 40 } },
+    { "id": "casino", "nombre": "Casino", "tipo": "servicio", "grupo": "Servicios", "meta": "Frente al Edificio B", "icono": "ForkKnife", "esquema": { "x": 84, "y": 68 } },
+    { "id": "escalera-patio", "nombre": "Escalera, 12 escalones", "tipo": "escalera", "grupo": null, "meta": "Entre la entrada y el patio", "icono": "Stairs", "esquema": { "x": 50, "y": 68 }, "soloMapa": true }
+  ],
+  "frecuentes": ["sala-a-201", "biblioteca", "bano-accesible-b", "casino"],
+  "barrerasActivas": [
+    { "id": "r-001", "tipo": "piso-mojado", "titulo": "Piso mojado", "lugar": "Frente al Casino", "nivel": "alerta", "icono": "Warning", "aria": "Barrera activa: piso mojado frente al Casino", "reportadoHace": "12 min", "vence": "13:05", "esquema": { "x": 64, "y": 52 } },
+    { "id": "r-002", "tipo": "rampa-bloqueada", "titulo": "Rampa lateral bloqueada", "lugar": "Rampa lateral de la Biblioteca", "nivel": "bloqueo", "icono": "Prohibit", "aria": "Bloqueado: rampa lateral de la Biblioteca", "reportadoHace": "25 min", "vence": "13:30", "esquema": { "x": 36, "y": 72 } }
+  ]
+}
