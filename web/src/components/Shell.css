@@ -140,3 +140,14 @@ html[data-presentacion] .cabecera .wordmark span { font-size: 36px; }
 }
 .presentacion__salir:hover { background: var(--cobalto-tinte); color: var(--sobre-tinte); }
 @media (max-width: 899px) { .presentacion__etiqueta { display: none; } }
+
+/* /plano (Lote 10): el salto a la lista solo en escritorio y el de la búsqueda solo en móvil.
+   display: none también los saca del orden de Tab. */
+.saltar.saltar--escritorio { display: none; }
+@media (min-width: 900px) {
+  .saltar.saltar--escritorio { display: inline-flex; }
+  .saltar.saltar--movil { display: none; }
+}
+
+/* Hoja Más: el destino actual dice "Estás aquí" (Lote 8). */
+.panel-mas__aqui { margin-left: auto; font-weight: var(--peso-negro); }
