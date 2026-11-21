@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ListBullets, MapTrifold } from '@phosphor-icons/react';
+import LimiteError from '../../components/LimiteError.jsx';
 import MapaZonas, { LeyendaZonas } from './MapaZonas.jsx';
 import TablaZonas from './TablaZonas.jsx';
 
@@ -18,10 +19,12 @@ export default function SeccionZonas({ zonas, obras, activas, perfil, nuevos, re
         <TablaZonas zonas={zonas} perfil={perfil} nuevos={nuevos} />
       ) : (
         <div className="campus__plano-caja">
-          <MapaZonas
-            zonas={zonas} obras={obras} activas={activas} perfil={perfil} recientes={recientes}
-            seleccionada={seleccionada} onElegirObra={onElegirObra} compacto={compacto}
-          />
+          <LimiteError>
+            <MapaZonas
+              zonas={zonas} obras={obras} activas={activas} perfil={perfil} recientes={recientes}
+              seleccionada={seleccionada} onElegirObra={onElegirObra} compacto={compacto}
+            />
+          </LimiteError>
           {!sinLeyenda && <LeyendaZonas compacto={compacto} />}
         </div>
       )}

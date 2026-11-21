@@ -64,7 +64,10 @@ function Encuadre({ puntos, compacto }) {
   const clave = puntos.map((p) => p.join(',')).join(';');
   useEffect(() => {
     if (puntos.length) {
-      mapa.fitBounds(L.latLngBounds(puntos), { paddingTopLeft: compacto ? [86, 40] : [64, 56], paddingBottomRight: compacto ? [108, 40] : [170, 56], maxZoom: ZOOM.max, animate: false });
+      // Si el contenedor aún mide 0 o es más chico que el padding, Leaflet puede lanzar; se deja el encuadre anterior.
+      try {
+        mapa.fitBounds(L.latLngBounds(puntos), { paddingTopLeft: compacto ? [86, 40] : [64, 56], paddingBottomRight: compacto ? [108, 40] : [170, 56], maxZoom: ZOOM.max, animate: false });
+      } catch { /* sin encuadre: el plano sigue visible con la vista por defecto */ }
     }
   }, [mapa, clave, compacto]); // eslint-disable-line react-hooks/exhaustive-deps
   return null;
