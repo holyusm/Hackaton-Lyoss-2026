@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { simular } from './simulador.js';
+import { aplicarObras, simular } from './simulador.js';
+import { calcularRuta } from './ruta.js';
 
 const leer = (f) => JSON.parse(readFileSync(new URL(`../data/${f}`, import.meta.url), 'utf8'));
 const grafo = leer('campus.json');
@@ -63,4 +64,15 @@ test('cada obra, salvo techado, quita la barrera de al menos un trayecto para al
     const quitadas = evaluados.map((perfil) => simular(grafo, perfiles, [o], { perfil }).obras[0].trayectos_sin_barrera);
     assert.ok(quitadas.some((n) => n > 0), `${o.id} no quita ninguna barrera (${quitadas.join(', ')})`);
   }
+});
+
+test('hoy la Biblioteca no tiene ruta en silla de ruedas y la rampa del patio la arregla', () => {
+  assert.equal(grafo.simulado, true, 'el grafo simulado debe seguir marcado como simulado');
+  const consulta = { desde: 'entrada-principal', hasta: 'biblioteca', perfil: 'silla_ruedas' };
+  assert.equal(calcularRuta(grafo, perfiles, consulta).ok, false);
+  const rampa = obras.find((o) => o.id === 'rampa-patio-biblioteca');
+  assert.equal(calcularRuta(aplicarObras(grafo, [rampa]), perfiles, consulta).ok, true);
+  const hoy = simular(grafo, perfiles, obras, { perfil: 'silla_ruedas' });
+  assert.ok(hoy.hoy.trayectos_con_barrera > 0, 'en silla de ruedas debe haber trayectos con barrera hoy');
+  assert.equal(hoy.obras[0].id, 'rampa-patio-biblioteca', 'la rampa del patio queda primera en el ranking');
 });
