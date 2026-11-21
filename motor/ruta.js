@@ -23,19 +23,30 @@ function costoTramo(tramo, perfil) {
   return tramo.metros * multPend * multSup * multGuia + tramo.escalones * (c.escalon ?? 0);
 }
 
+const ARTICULO = { edificio: 'el', ascensor: 'el', bano: 'el', sala: 'la', entrada: 'la' };
+const conArticulo = (nodo) => (ARTICULO[nodo.tipo] ? `${ARTICULO[nodo.tipo]} ${nodo.nombre}` : nodo.nombre);
+
 // `de` y `a` son los nodos en el orden en que se recorre el tramo (no el orden desde/hasta del dato).
-function advertenciasDe(tramo, de, a, nombres) {
+// Sin flechas ni signos: el texto se lee tal cual en pantalla y en voz alta.
+function advertenciasDe(tramo, de, a, nodos) {
   const w = [];
-  const via = `${nombres.get(de)} → ${nombres.get(a)}`;
-  if (tramo.escalones > 0) w.push(`${tramo.escalones} escalones (${via})`);
-  if (tramo.pendiente === 'alta') w.push(`Pendiente alta (${via})`);
-  if (tramo.superficie === 'irregular') w.push(`Superficie irregular (${via})`);
-  if (tramo.superficie === 'adoquin') w.push(`Adoquín (${via})`);
-  if (tramo.ascensor_id) w.push(`Usa ascensor (${via})`);
+  const entre = `entre ${nodos.get(de).nombre} y ${nodos.get(a).nombre}`;
+  if (tramo.escalones > 0) {
+    w.push(`${tramo.escalones === 1 ? 'Hay 1 escalón' : `Hay ${tramo.escalones} escalones`} ${entre}`);
+  }
+  if (tramo.pendiente === 'alta') w.push(`Pendiente alta ${entre}`);
+  if (tramo.superficie === 'irregular') w.push(`Piso irregular ${entre}`);
+  if (tramo.superficie === 'adoquin') w.push(`Tramo de adoquín ${entre}`);
+  if (tramo.ascensor_id) {
+    const ascensor = conArticulo(nodos.get(tramo.ascensor_id));
+    // Si el tramo termina en el propio ascensor, "hasta" repetiría su nombre: se dice desde dónde se toma.
+    w.push(a === tramo.ascensor_id ? `Usa ${ascensor} desde ${conArticulo(nodos.get(de))}` : `Usa ${ascensor} hasta ${conArticulo(nodos.get(a))}`);
+  }
   return w;
 }
 
 export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos = [] }) {
+  const nodosPorId = new Map(grafo.nodos.map((n) => [n.id, n]));
   const nombres = new Map(grafo.nodos.map((n) => [n.id, n.nombre]));
   if (!nombres.has(desde)) return { ok: false, motivo: `origen desconocido: ${desde}` };
   if (!nombres.has(hasta)) return { ok: false, motivo: `destino desconocido: ${hasta}` };
@@ -95,7 +106,7 @@ export function calcularRuta(grafo, perfiles, { desde, hasta, perfil, bloqueos =
     metros: tramos.reduce((s, t) => s + t.metros, 0),
     minutos: Math.round(tramos.reduce((s, t) => s + t.minutos_medidos, 0) * 10) / 10,
     escalones: tramos.reduce((s, t) => s + t.escalones, 0),
-    advertencias: tramos.flatMap((t, i) => advertenciasDe(t, nodos[i], nodos[i + 1], nombres)),
+    advertencias: tramos.flatMap((t, i) => advertenciasDe(t, nodos[i], nodos[i + 1], nodosPorId)),
   };
 }
 

@@ -65,14 +65,23 @@ test('origen igual a destino: ruta vacía', () => {
 
 test('advertencias siguen el sentido real del recorrido (ida y vuelta)', () => {
   const ida = calcularRuta(grafo, perfiles, { ...base, perfil: 'silla_ruedas' });
-  assert.ok(ida.advertencias.includes('Usa ascensor (Ascensor A → Edificio A, piso 2)'));
+  assert.ok(ida.advertencias.includes('Usa el Ascensor A hasta el Edificio A, piso 2'));
   const vuelta = calcularRuta(grafo, perfiles, { desde: 'sala-a201', hasta: 'entrada-principal', perfil: 'silla_ruedas' });
   assert.equal(vuelta.ok, true);
-  assert.ok(vuelta.advertencias.includes('Usa ascensor (Edificio A, piso 2 → Ascensor A)'));
-  assert.equal(vuelta.advertencias.some((a) => a.includes('Ascensor A → Edificio A, piso 2')), false);
+  assert.ok(vuelta.advertencias.includes('Usa el Ascensor A desde el Edificio A, piso 2'));
+  assert.equal(vuelta.advertencias.some((a) => a.includes('hasta el Edificio A, piso 2')), false);
 });
 
 test('escalera de bajada: la advertencia nombra origen y destino en orden real', () => {
   const r = calcularRuta(grafo, perfiles, { desde: 'sala-a201', hasta: 'entrada-principal', perfil: 'estandar' });
-  assert.ok(r.advertencias.includes('42 escalones (Edificio A, piso 2 → Patio central)'));
+  assert.ok(r.advertencias.includes('Hay 42 escalones entre Edificio A, piso 2 y Patio central'));
+});
+
+test('las advertencias no llevan flechas ni puntos medios', () => {
+  for (const perfil of ['estandar', 'silla_ruedas']) {
+    for (const [desde, hasta] of [[base.desde, base.hasta], [base.hasta, base.desde]]) {
+      const r = calcularRuta(grafo, perfiles, { desde, hasta, perfil });
+      for (const a of r.advertencias) assert.doesNotMatch(a, /[→·]|--|—/, a);
+    }
+  }
 });
