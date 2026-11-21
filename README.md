@@ -1,6 +1,6 @@
 <!--
   BORRADOR (12:20). Revisar a las 15:45, después del [CONGELAR]:
-  - Funcionalidades: dejar solo lo que funciona en la URL pública. Las marcadas con (pendiente) se borran o se confirman.
+  - Funcionalidades: confirmar en la URL pública que las cinco funcionan (/, /mapa, /reportar, /comparar, /punto/:id, /campus).
   - Impacto: completar con las cifras de #14 (salen del grafo con los metros recalculados en #118).
   - Equipo: nombres de @Gxppe y @juaquo15.
   - Instalación y Ejecución: las prueba @Gxppe en limpio (#10).
@@ -31,10 +31,10 @@ Los estudiantes que más lo sufren son los que usan silla de ruedas, los que tie
 parejo modela el campus como un grafo de lugares y tramos, con lo que importa para moverse: escalones, pendiente, superficie, techo, guía podotáctil y ascensores. Un motor de rutas calcula el mejor camino para cada perfil con costos y prohibiciones propias, en vez de buscar el camino más corto para todos.
 
 - **Ruta por perfil** (`/` y `/mapa`): eliges desde dónde, hacia dónde y cómo te mueves. parejo dibuja la ruta en el plano real del campus (OpenStreetMap) y la cuenta paso a paso, con advertencias como "escalones" o "piso irregular". *ODS 10 y 4.a: el estudiante llega solo, sin depender de que alguien le muestre el camino.*
-- **Barreras en vivo que recalculan la ruta:** cualquier estudiante reporta un ascensor detenido, un obstáculo o una rampa bloqueada. El reporte vence solo, y mientras está activo, las rutas lo evitan. Si ya no hay camino posible, parejo lo dice en vez de mandar al estudiante a una escalera. *ODS 11.7: información de accesibilidad actualizada por la comunidad.*
+- **Barreras en vivo que recalculan la ruta** (`/reportar`): cualquier estudiante reporta un ascensor detenido, un obstáculo o una rampa bloqueada. El reporte vence solo, y mientras está activo, las rutas lo evitan. Si ya no hay camino posible, parejo lo dice en vez de mandar al estudiante a una escalera. *ODS 11.7: información de accesibilidad actualizada por la comunidad.*
 - **Comparar perfiles** (`/comparar`): el mismo trayecto para los cuatro perfiles, lado a lado, con metros, minutos y escalones. Muestra en cinco segundos que el campus no es igual para todos.
-- **Puntos QR con voz** (`/punto/:id`) (pendiente: confirmar la vista): carteles QR en puntos clave que, al escanearlos, leen en voz alta dónde estás y cómo seguir. Pensados para estudiantes con baja visión. Los QR para imprimir están en [`docs/qr/`](docs/qr/).
-- **¿Qué arreglar primero?** (`/campus`) (pendiente: Lote 8): para la universidad. Cuenta cuántos trayectos tienen barrera para cada perfil, ordena obras posibles (rampas, ascensores, piso liso, guía podotáctil) según cuántas barreras quitan, y simula el campus con las obras elegidas.
+- **Puntos QR con voz** (`/punto/:id`): carteles QR en puntos clave que, al escanearlos, leen en voz alta dónde estás y cómo seguir. Pensados para estudiantes con baja visión. Los QR para imprimir están en [`docs/qr/`](docs/qr/).
+- **¿Qué arreglar primero?** (`/campus`): para la universidad. Cuenta cuántos trayectos tienen barrera para cada perfil, ordena obras posibles (rampas, ascensores, piso liso, guía podotáctil) según cuántas barreras quitan, y simula el campus con las obras elegidas.
 
 **La app misma es accesible:** tipografía Atkinson Hyperlegible Next, contraste AA o mejor, tema oscuro y de alto contraste, tres tamaños de texto, manejo completo con teclado, foco visible, etiquetas para lector de pantalla y anuncios en vivo cuando cambia la ruta. El estado nunca se indica solo con color.
 
@@ -111,7 +111,7 @@ Contrato completo en [`docs/contratos.md`](docs/contratos.md).
 | Backend | Express; reportes persistidos en un archivo JSON |
 | Otras dependencias | `qrcode` (generar los QR), `concurrently` (desarrollo) |
 | Pruebas | `node:test` (incluido en Node) |
-| Deploy | Render (plan gratuito), desplegado desde `main` |
+| Deploy | Render (plan gratuito). Cada push a `main` corre pruebas y build en GitHub Actions y, si pasan, despliega |
 
 ## Equipo
 
