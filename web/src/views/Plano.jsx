@@ -225,8 +225,9 @@ function Etiquetas({ edificio, piso, calles, datos, onSala }) {
   );
 }
 
-const notaDe = (piso, hayInterior, hayPisos) => {
+const notaDe = (e, piso, hayInterior, hayPisos) => {
   if (!hayPisos) return 'Número de pisos y plano interior por confirmar en terreno.';
+  if (hayInterior && e.letra !== 'C') return `Plano interior del piso ${textoPiso(piso)} dibujado por el equipo a partir de un boceto en terreno: la escala es aproximada. Las salas marcadas con el ícono de baño son baños.`;
   if (hayInterior && piso === -1) return 'Plano interior del piso −1 según OpenStreetMap: sus 3 pasillos.';
   if (hayInterior) return `Plano interior del piso ${textoPiso(piso)} según OpenStreetMap. Las salas marcadas con el ícono de baño son baños.`;
   return 'Plano interior pendiente: se agrega con el levantamiento en terreno.';
@@ -243,7 +244,7 @@ function Ficha({ edificio, piso, onPiso, onCerrar, onOtro, grafo, movil, sala, s
   const hayInterior = piso != null && interior(edificio.letra, piso).length > 0;
   const destino = nodoDestino(grafo, edificio.letra);
   const enlace = destino ? `/?hasta=${encodeURIComponent(destino)}` : '/';
-  const nota = notaDe(piso, hayInterior, hayPisos);
+  const nota = notaDe(edificio, piso, hayInterior, hayPisos);
   return (
     <section className={`plano-ficha${movil ? ' plano-ficha--movil' : ''}`} aria-labelledby="plano-ficha-titulo">
       <div className="plano-ficha__cabeza">

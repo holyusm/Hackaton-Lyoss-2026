@@ -24,9 +24,11 @@ test('títulos, subtítulos, pisos y servicios coinciden con datos-ejemplo', () 
     const e = por(ej.clave);
     assert.equal(e.titulo, ej.titulo, `${ej.clave}: título`);
     assert.equal(e.sub, ej.subtitulo ?? '', `${ej.clave}: subtítulo`);
-    assert.equal(textoPisos(e), ej.pisosTexto, `${ej.clave}: texto de pisos`);
-    assert.equal(pisoInicial(e), ej.pisoInicial, `${ej.clave}: piso inicial`);
-    assert.deepEqual(pisosDe(e), ej.pisos ?? [], `${ej.clave}: pisos`);
+    if (ej.clave !== 'P') { // el P tiene pisos 0 a 3 del levantamiento (más que datos-ejemplo)
+      assert.equal(textoPisos(e), ej.pisosTexto, `${ej.clave}: texto de pisos`);
+      assert.equal(pisoInicial(e), ej.pisoInicial, `${ej.clave}: piso inicial`);
+      assert.deepEqual(pisosDe(e), ej.pisos ?? [], `${ej.clave}: pisos`);
+    }
     assert.deepEqual(e.servicios, ej.servicios, `${ej.clave}: servicios`);
   }
 });
@@ -85,6 +87,8 @@ test('pisosDe: el C da -1, 1 y 2; con pisos conocidos 1..n (máximo 8); si no, n
   assert.deepEqual(pisosDe(por('T')), [1, 2, 3, 4]);
   assert.deepEqual(pisosDe({ letra: null, pisos: 20 }), [1, 2, 3, 4, 5, 6, 7, 8]);
   assert.deepEqual(pisosDe(por('A')), []);
+  assert.deepEqual(pisosDe(por('P')), [0, 1, 2, 3]);
+  assert.equal(textoPisos(por('P')), 'Pisos 0 a 3');
   assert.equal(pisoInicial(por('C')), 2);
   assert.equal(pisoInicial(por('T')), 1);
   assert.equal(pisoInicial(por('A')), null);
@@ -99,6 +103,18 @@ test('interior: el C tiene salas en el piso 2 (con baños) y pasillos en el -1; 
   assert.ok(menos1.every((f) => f.properties.tipo === 'pasillo'));
   assert.deepEqual(interior(geo, 'C', 1), []);
   assert.deepEqual(interior(geo, 'A', 2), []);
+});
+
+test('interior: el P trae pisos 0 y 1 dibujados por el equipo, sin mezclarse con el C', () => {
+  const dibujado = leer('../plano/interiores/edificio-p.geo.json');
+  const todo = { features: [...geo.features, ...dibujado.features] };
+  const p1 = interior(todo, 'P', 1), p0 = interior(todo, 'P', 0);
+  assert.ok(p1.some((f) => f.properties.ref === 'P101'));
+  assert.ok(p0.some((f) => f.properties.ref === 'PC01'));
+  assert.ok(p1.every((f) => f.properties.edificio === 'P' && f.geometry.type === 'Polygon'));
+  assert.equal(new Set(dibujado.features.map((f) => f.properties.osm)).size, dibujado.features.length);
+  assert.deepEqual(interior(todo, 'P', 2), []);
+  assert.equal(interior(todo, 'C', 2).length, interior(geo, 'C', 2).length);
 });
 
 test('nodoDestino devuelve el nodo edificio de campus.json o null', () => {
