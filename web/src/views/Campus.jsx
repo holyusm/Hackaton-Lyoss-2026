@@ -9,6 +9,7 @@ import {
 import FilaObra from './campus/FilaObra.jsx';
 import FranjaComparativa from './campus/FranjaComparativa.jsx';
 import GrupoRadio from './campus/GrupoRadio.jsx';
+import PestanasMovil from './campus/PestanasMovil.jsx';
 import SeccionZonas from './campus/SeccionZonas.jsx';
 import './Campus.css';
 
@@ -31,6 +32,21 @@ function useEnLinea() {
     return () => { window.removeEventListener('online', alCambiar); window.removeEventListener('offline', alCambiar); };
   }, []);
   return enLinea;
+}
+
+// Móvil (< 720 px): pestañas Obras / Mapa, franja compacta fija y plano en modo compacto. En escritorio todo va en una página.
+function useMovil() {
+  const consulta = '(max-width: 719px)';
+  const [movil, setMovil] = useState(() => typeof window !== 'undefined' && window.matchMedia?.(consulta).matches === true);
+  useEffect(() => {
+    const m = window.matchMedia?.(consulta);
+    if (!m) return undefined;
+    const alCambiar = () => setMovil(m.matches);
+    alCambiar();
+    m.addEventListener('change', alCambiar);
+    return () => m.removeEventListener('change', alCambiar);
+  }, []);
+  return movil;
 }
 
 // Lugares que mejoraron con las obras simuladas, respecto de la respuesta anterior DEL MISMO perfil. `nuevos` dura hasta el próximo
@@ -62,6 +78,8 @@ export default function Campus() {
   const [orden, setOrden] = useState('trayectos');
   const [intento, setIntento] = useState(0);
   const [seleccionada, setSeleccionada] = useState(null);
+  const [pestana, setPestana] = useState('obras');
+  const movil = useMovil();
   const enLinea = useEnLinea();
   const { estado, datos: ultimos } = useSimulador(perfil, activas, intento);
   // Si la consulta nueva falla, no se muestran los datos anteriores como si fueran de esta elección (#137).
@@ -87,6 +105,44 @@ export default function Campus() {
       seleccionada={seleccionada === o.id} onElegir={setSeleccionada}
     />
   );
+
+  const franja = hoy && con && !estandar ? (
+    <FranjaComparativa
+      hoy={hoy} con={con} cantidad={activas.length} quedan={quedan} ocupada={ocupada}
+      onQuitar={() => setActivas([])}
+    />
+  ) : null;
+  const zonasSec = hoy && datos.zonas?.length > 0 ? (
+    <SeccionZonas
+      zonas={datos.zonas} obras={obras} activas={activas} perfil={perfil} nuevos={nuevos} recientes={recientes}
+      seleccionada={seleccionada} onElegirObra={setSeleccionada} ocupada={ocupada} compacto={movil}
+    />
+  ) : null;
+  const obrasSec = obras.length > 0 ? (
+    <section className="campus__obras-bloque" aria-labelledby="campus-obras" aria-busy={ocupada || undefined}>
+      <h2 id="campus-obras">Obras que más ayudan</h2>
+      <p className="campus__bajada">{BAJADA_ORDEN[orden]}</p>
+      <div className="campus__ordenar">
+        <p id="campus-ordenar-por" className="campus__etiqueta campus__etiqueta--chica">Ordenar por</p>
+        <GrupoRadio
+          opciones={ORDENES} valor={orden} onCambiar={setOrden} etiquetaId="campus-ordenar-por"
+          clase="campus__segmentado" claseOpcion="campus__segmento" hijoDe={(o) => o.nombre}
+        />
+      </div>
+      {motivo && <p id="campus-sin-conexion" className="campus__motivo">{motivo}</p>}
+      {ayudan.length === 0 && <p id="campus-ninguna" className="campus__aviso">Ninguna de las obras de la lista quita barreras para este perfil.</p>}
+      {ayudan.length > 0 && <ol className="campus__obras">{ayudan.map((o, i) => fila(o, i + 1))}</ol>}
+      {noAyudan.length > 0 && (
+        <>
+          {ayudan.length > 0 && <p id="campus-no-ayudan" className="campus__separador">No quitan barreras para {NOMBRE_PERFIL[perfil]}</p>}
+          <ol className="campus__obras" start={ayudan.length + 1} aria-labelledby={ayudan.length > 0 ? 'campus-no-ayudan' : 'campus-ninguna'}>
+            {noAyudan.map((o, i) => fila(o, ayudan.length + i + 1))}
+          </ol>
+        </>
+      )}
+    </section>
+  ) : null;
+
 
   return (
     <div className="campus">
@@ -157,44 +213,28 @@ export default function Campus() {
         </section>
       )}
 
-      {hoy && con && !estandar && (
-        <FranjaComparativa
-          hoy={hoy} con={con} cantidad={activas.length} quedan={quedan} ocupada={ocupada}
-          onQuitar={() => setActivas([])}
-        />
+      {movil && con && hoy && !estandar && (
+        <div className="campus__fija">
+          <p aria-hidden="true">
+            <strong>Con {activas.length === 1 ? '1 obra' : `${activas.length} obras`}: {con.trayectos_con_barrera} con barrera</strong> (hoy {hoy.trayectos_con_barrera})
+          </p>
+        </div>
       )}
+      {!movil && franja}
 
       {hoy && !estandar && (
         <div className="campus__cuerpo">
-          {datos.zonas?.length > 0 && (
-            <SeccionZonas
-              zonas={datos.zonas} obras={obras} activas={activas} perfil={perfil} nuevos={nuevos} recientes={recientes}
-              seleccionada={seleccionada} onElegirObra={setSeleccionada} ocupada={ocupada}
-            />
-          )}
-          {obras.length > 0 && (
-            <section className="campus__obras-bloque" aria-labelledby="campus-obras" aria-busy={ocupada || undefined}>
-              <h2 id="campus-obras">Obras que más ayudan</h2>
-              <p className="campus__bajada">{BAJADA_ORDEN[orden]}</p>
-              <div className="campus__ordenar">
-                <p id="campus-ordenar-por" className="campus__etiqueta campus__etiqueta--chica">Ordenar por</p>
-                <GrupoRadio
-                  opciones={ORDENES} valor={orden} onCambiar={setOrden} etiquetaId="campus-ordenar-por"
-                  clase="campus__segmentado" claseOpcion="campus__segmento" hijoDe={(o) => o.nombre}
-                />
-              </div>
-              {motivo && <p id="campus-sin-conexion" className="campus__motivo">{motivo}</p>}
-              {ayudan.length === 0 && <p id="campus-ninguna" className="campus__aviso">Ninguna de las obras de la lista quita barreras para este perfil.</p>}
-              {ayudan.length > 0 && <ol className="campus__obras">{ayudan.map((o, i) => fila(o, i + 1))}</ol>}
-              {noAyudan.length > 0 && (
-                <>
-                  {ayudan.length > 0 && <p id="campus-no-ayudan" className="campus__separador">No quitan barreras para {NOMBRE_PERFIL[perfil]}</p>}
-                  <ol className="campus__obras" start={ayudan.length + 1} aria-labelledby={ayudan.length > 0 ? 'campus-no-ayudan' : 'campus-ninguna'}>
-                    {noAyudan.map((o, i) => fila(o, ayudan.length + i + 1))}
-                  </ol>
-                </>
+          {movil ? (
+            <>
+              <PestanasMovil valor={pestana} onCambiar={setPestana} />
+              {pestana === 'mapa' ? (
+                <div role="tabpanel" id="campus-panel-mapa" aria-labelledby="campus-tab-mapa" className="campus__panel">{zonasSec}</div>
+              ) : (
+                <div role="tabpanel" id="campus-panel-obras" aria-labelledby="campus-tab-obras" className="campus__panel">{franja}{obrasSec}</div>
               )}
-            </section>
+            </>
+          ) : (
+            <>{zonasSec}{obrasSec}</>
           )}
 
           <section className="campus__supuestos" aria-labelledby="campus-supuestos">

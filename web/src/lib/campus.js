@@ -180,3 +180,15 @@ export function resumenPlano(zonas, perfil) {
   if (acc) partes.push(`${acc} ${acc === 1 ? 'accesible' : 'accesibles'}`);
   return `Plano de Casa Central con ${zonas.length} lugares para ${NOMBRE_PERFIL[perfil] ?? perfil}: ${partes.join(', ')}. Todo lo del plano está también en la lista de lugares.`;
 }
+
+// Nombre corto de cada lugar para el plano compacto del móvil (la etiqueta cabe en una línea).
+const NOMBRE_CORTO = {
+  'entrada-principal': 'Entrada',
+  'edificio-a-p2': 'Edificio A',
+  'sala-a201': 'Sala A-201',
+  biblioteca: 'Biblioteca',
+  'bano-b': 'Baño B',
+  casino: 'Casino',
+  'edificio-b': 'Edificio B',
+};
+export const nombreCorto = (zona) => NOMBRE_CORTO[zona.nodo_id] ?? zona.nombre;

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  anuncioSimulacion, estadosNuevos, estadoZona, etiquetaZona, frasePitch, ordenarObras, resumenPlano, ubicacionObra, zonasMejoradas,
+  anuncioSimulacion, estadosNuevos, estadoZona, etiquetaZona, frasePitch, nombreCorto, ordenarObras, resumenPlano, ubicacionObra, zonasMejoradas,
 } from './campus.js';
 import { simular } from '../../../motor/simulador.js';
 
@@ -104,4 +104,10 @@ test('ubicacionObra y resumenPlano', () => {
   assert.equal(ubicacionObra({ id: 'rampa-patio-biblioteca' }).length, 2);
   const zonas = [{ nodo_id: 'a', estado: 'con_barrera' }, { nodo_id: 'b', estado: 'accesible' }, { nodo_id: 'c', estado: 'accesible' }];
   assert.match(resumenPlano(zonas, 'silla_ruedas'), /3 lugares.*1 con barrera, 2 accesibles/);
+});
+
+test('nombreCorto: usa el nombre corto conocido o el nombre completo', () => {
+  assert.equal(nombreCorto({ nodo_id: 'entrada-principal', nombre: 'Entrada principal' }), 'Entrada');
+  assert.equal(nombreCorto({ nodo_id: 'bano-b', nombre: 'Baño accesible B' }), 'Baño B');
+  assert.equal(nombreCorto({ nodo_id: 'otro', nombre: 'Lugar nuevo' }), 'Lugar nuevo');
 });
