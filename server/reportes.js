@@ -10,7 +10,7 @@ const MAX_DURACION = 240;
 // En el evento todos comparten la IP del Wi-Fi, por eso 10 y no menos.
 const MAX_POR_IP = 10;
 const VENTANA_IP_MS = 10 * 60_000;
-// ponytail: mapa en memoria sin limpieza; con tráfico real usar un rate limiter con expiración.
+// ponytail: mapa en memoria que se purga en cada envío; con tráfico real, un rate limiter compartido.
 const enviosPorIp = new Map();
 // ponytail: archivo en el tmp del SO; en Render se pierde al redeployar y se vuelven a cargar los ejemplos.
 const archivo = process.env.REPORTES_PATH || join(tmpdir(), 'campus-sin-barreras-reportes.json');
@@ -76,6 +76,7 @@ async function validar(b) {
 // Comprueba y consume un envío por conexión en el mismo paso síncrono (sin await intermedio).
 function consumirCupoIp(ip) {
   const ahora = Date.now();
+  for (const [k, ts] of enviosPorIp) if (ahora - ts.at(-1) >= VENTANA_IP_MS) enviosPorIp.delete(k);
   const envios = (enviosPorIp.get(ip) || []).filter((t) => ahora - t < VENTANA_IP_MS);
   if (envios.length >= MAX_POR_IP) return false;
   enviosPorIp.set(ip, [...envios, ahora]);

@@ -8,7 +8,9 @@ import { simular, GrafoInvalido } from '../motor/simulador.js';
 
 const dist = raiz + 'web/dist';
 const app = express();
-app.set('trust proxy', 1); // Render pone un proxy delante: req.ip = IP real del cliente
+// Render pone un proxy delante: con 1 salto, req.ip = IP real del cliente. TRUST_PROXY ajusta los saltos
+// (o una lista como 'loopback') si cambia la infraestructura; 0 en local evita que X-Forwarded-For burle el cupo.
+app.set('trust proxy', process.env.TRUST_PROXY ? (/^\d+$/.test(process.env.TRUST_PROXY) ? Number(process.env.TRUST_PROXY) : process.env.TRUST_PROXY) : 1);
 app.use(express.json());
 
 const servirDatos = (archivo) => async (req, res) => {
