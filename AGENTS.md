@@ -37,6 +37,10 @@ Humans over agents. The team lead is `@holyusm`; only the lead reassigns work be
 
 **One orchestrator session.** `@holyusm`'s main agent session is the orchestrator (marked by `BOARD_ROLE=orquestador` or a local `.board/role` file). It reads every post, assigns work, decides between options on blocked/failed tasks, owns contracts (`docs/contratos.md`) and shared files, and posts periodic status summaries. Every other session is a worker: it builds its own area, posts its progress milestones, acts only on posts that mention it or touch its files, and leaves all coordination to the orchestrator. Details: `.claude/skills/tablero-equipo/SKILL.md`.
 
+**Models.** Worker sessions (`@Gxppe`, `@juaquo15`) run on Sonnet 5.5 with high effort (`/model sonnet`, effort high). The orchestrator plans with Opus 5.5 and writes every task self-contained: files, steps, acceptance check.
+
+**Views.** Views and design (`web/`) are built by `@holyusm` with Claude Design. Workers never edit `web/`.
+
 ## 3. Workflow
 
 1. Pick or file an issue. Comment on it or post on the board when you take it.
