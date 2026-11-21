@@ -79,3 +79,5 @@
 [data-texto="grande"] .hoja-ruta .metrica, [data-texto="muy-grande"] .hoja-ruta .metrica { padding: 0 var(--e-2); }
 [data-texto="grande"] .hoja-ruta .metrica dd, [data-texto="muy-grande"] .hoja-ruta .metrica dd { font-size: min(var(--t-cifra), 12vw); }
 [data-texto="grande"] .hoja-ruta .metrica:first-child, [data-texto="muy-grande"] .hoja-ruta .metrica:first-child { padding-left: 0; }
+/* Con la fuente Atkinson real "escalones" a 24 px no cabe en un tercio de 390 px: la etiqueta baja con el ancho. */
+[data-texto="grande"] .hoja-ruta .metrica dt, [data-texto="muy-grande"] .hoja-ruta .metrica dt { font-size: min(1em, 5vw); }
