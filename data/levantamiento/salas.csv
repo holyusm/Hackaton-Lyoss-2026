@@ -1,0 +1,31 @@
+id,nombre,tipo,edificio,piso,departamento,lat,lng,notas
+bano-c2-1,Baño del piso 2 del Edificio C (1),bano,C,2,,-33.036068,-71.594343,OSM
+bano-c2-2,Baño del piso 2 del Edificio C (2),bano,C,2,,-33.036109,-71.594456,OSM
+sala-c201,Sala C201,sala,C,2,,-33.035601,-71.594010,OSM
+sala-c202,Sala C202,sala,C,2,,-33.035614,-71.594113,OSM
+sala-c203,Sala C203,sala,C,2,,-33.035644,-71.594195,OSM
+sala-c204,Sala C204,sala,C,2,,-33.035687,-71.594314,OSM
+sala-c206,Sala C206,sala,C,2,,-33.035725,-71.594420,OSM
+sala-c207,Sala C207,sala,C,2,,-33.035760,-71.594516,OSM
+sala-c208,Sala C208,sala,C,2,,-33.035797,-71.594621,OSM
+sala-c219,Sala C219,sala,C,2,,-33.035810,-71.594274,OSM
+sala-c221,Sala C221,sala,C,2,,-33.036055,-71.594455,OSM
+sala-c222,Sala C222,sala,C,2,,-33.035989,-71.594532,OSM
+sala-c223,Sala C223,sala,C,2,,-33.036013,-71.594339,OSM
+sala-c225,Sala C225,sala,C,2,,-33.035961,-71.594257,OSM
+sala-c226,Sala C226,sala,C,2,,-33.035927,-71.594162,OSM
+sala-c227s,Sala C227S,sala,C,2,,-33.035892,-71.594065,OSM
+sala-c228,Sala C228,sala,C,2,,-33.035857,-71.593969,OSM
+sala-c229,Sala C229,sala,C,2,,-33.035804,-71.593886,OSM
+sala-c230,Sala de estudio C230,sala,C,2,,-33.036167,-71.594366,OSM
+sala-c231,Sala C231,sala,C,2,,-33.036108,-71.594201,OSM
+sala-c233,Sala C233,sala,C,2,,-33.036069,-71.594107,OSM
+sala-c235,Sala C235,sala,C,2,,-33.036046,-71.594045,OSM
+sala-c237,Sala C237,sala,C,2,,-33.036023,-71.593980,OSM
+sala-c239,Sala C239,sala,C,2,,-33.036000,-71.593915,OSM
+sala-c240,Sala C240,sala,C,2,,-33.035930,-71.593840,OSM
+sala-c242,Sala C242,sala,C,2,,-33.035882,-71.594853,OSM
+sala-c244,Sala C244,sala,C,2,,-33.035904,-71.594915,OSM
+sala-c245,Sala C245,sala,C,2,,-33.035999,-71.595178,OSM
+sala-c246,Sala C246,sala,C,2,,-33.036021,-71.595240,OSM
+sala-c247,Sala C247,sala,C,2,,-33.036063,-71.595355,OSM

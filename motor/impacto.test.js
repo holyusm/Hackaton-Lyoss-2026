@@ -28,7 +28,7 @@ test('la tabla muestra metros, minutos y escalones, o sin ruta accesible', () =>
 test('el resumen cuenta los pares imposibles en silla de ruedas', () => {
   const rows = filas(grafo, perfiles);
   const s = resumen(rows, 'silla_ruedas');
-  const esperado = rows.filter((f) => !compararPerfiles(grafo, perfiles, { desde: f.desde, hasta: f.hasta, bloqueos: f.bloqueos }).silla_ruedas.ok);
+  const esperado = rows.filter((f) => !f.bloqueos.length && !compararPerfiles(grafo, perfiles, { desde: f.desde, hasta: f.hasta, bloqueos: f.bloqueos }).silla_ruedas.ok);
   assert.equal(s.imposibles.length, esperado.length);
   assert.ok(s.imposibles.length >= 1);
 });

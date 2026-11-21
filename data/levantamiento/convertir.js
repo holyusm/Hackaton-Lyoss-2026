@@ -16,7 +16,7 @@ const COLUMNAS_TRAMOS = [
   'notas', 'foto', 'sentido_unico',
 ];
 
-function csv(texto = '', archivo, err) {
+export function csv(texto = '', archivo, err) {
   const filas = [];
   let fila = [], campo = '', q = false;
   for (let i = 0; i < texto.length; i++) {
