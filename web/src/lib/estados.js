@@ -7,7 +7,7 @@ export function estadoForzado(search = globalThis.location?.search ?? '') {
   return VALIDOS.includes(e) ? e : null;
 }
 
-export const horaCorta = (d) => (d ? new Date(d).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }) : '');
+export const horaCorta = (d) => (d ? new Date(d).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'America/Santiago' }) : '');
 // "Ruta de las {hora}." con la hora de los datos. Sin hora, se quita la referencia.
 export const conHora = (texto, d) => (d ? texto.replace('{hora}', horaCorta(d)) : texto.replace(/,? de las \{hora\}|,? a las \{hora\}| de las \{hora\}/g, ''));
 

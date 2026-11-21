@@ -11,7 +11,7 @@ test('?estado= solo acepta los tres estados', () => {
 });
 
 test('conHora pone la hora o quita la referencia si no hay', () => {
-  const d = new Date(2026, 10, 21, 11, 42);
+  const d = new Date('2026-11-21T14:42:00Z'); // 11:42 en Santiago (UTC-3 en verano)
   assert.match(conHora('Ruta de las {hora}.', d), /^Ruta de las 11:42\.$/);
   assert.equal(conHora('Ruta de las {hora}.', null), 'Ruta.');
   assert.equal(conHora('Es la última ruta conocida, de las {hora}. Puede haber barreras nuevas.', null), 'Es la última ruta conocida. Puede haber barreras nuevas.');
