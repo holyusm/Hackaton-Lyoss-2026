@@ -28,7 +28,7 @@ export function useRuta() {
   const origen = grafo?.nodos.find((n) => n.id === desde) ?? null;
   const destino = grafo?.nodos.find((n) => n.id === hasta) ?? null;
   const perfilValido = perfilesRespaldo.some((p) => p.id === perfil);
-  const valida = Boolean(origen && destino && perfilValido);
+  const valida = Boolean(origen && destino && desde !== hasta && perfilValido);
 
   useEffect(() => {
     if (grafo && !valida) navigate('/', { replace: true });
