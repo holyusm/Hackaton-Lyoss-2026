@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { leerDatos } from './datos.js';
+import { leerDatos, asincrono } from './datos.js';
 
 const TIPOS = ['ascensor_fuera_servicio', 'obstaculo', 'rampa_bloqueada', 'piso_mojado', 'otro'];
 const MAX_ACTIVOS = 200;
@@ -15,12 +15,13 @@ const enviosPorIp = new Map();
 // ponytail: archivo en el tmp del SO; en Render se pierde al redeployar y se vuelven a cargar los ejemplos.
 const archivo = process.env.REPORTES_PATH || join(tmpdir(), 'campus-sin-barreras-reportes.json');
 
-// Ejemplos que se ven en el mapa sin cortar la ruta principal de la demo (el ascensor se reporta en vivo).
-// ponytail: ids del grafo falso; revisar cuando llegue el levantamiento real.
+// Ejemplo precargado SOLO con el grafo simulado (campus.json con "simulado": true): con el grafo real,
+// un id inventado bloquearía un tramo que no tiene barrera (#43). Va en t10, que no corta la ruta
+// de la demo ni contradice ninguna indicación de los puntos QR (#41). El ascensor se reporta en vivo.
 const EJEMPLOS = [
-  { tipo: 'obstaculo', tramo_id: 't6', descripcion: 'Andamio sobre los escalones del atajo a la biblioteca', duracion_min: 240 },
-  { tipo: 'piso_mojado', tramo_id: 't9', descripcion: 'Piso mojado en la rampa hacia el casino', duracion_min: 120 },
+  { tipo: 'obstaculo', tramo_id: 't10', descripcion: 'Camión de reparto en la calle de servicio', duracion_min: 240 },
 ];
+const grafoSimulado = (await leerDatos('campus.json').catch(() => null))?.simulado === true;
 
 const minutosDesdeAhora = (min) => new Date(Date.now() + min * 60_000).toISOString();
 const nuevoReporte = (id, { tipo, tramo_id = null, nodo_id = null, descripcion, duracion_min = 120 }) => ({
@@ -32,7 +33,7 @@ let reportes;
 try {
   reportes = JSON.parse(readFileSync(archivo, 'utf8'));
 } catch {
-  reportes = EJEMPLOS.map((r, i) => nuevoReporte(`r${i + 1}`, r));
+  reportes = grafoSimulado ? EJEMPLOS.map((r, i) => nuevoReporte(`r${i + 1}`, r)) : [];
 }
 let siguiente = Math.max(0, ...reportes.map((r) => Number(r.id.slice(1)) || 0)) + 1;
 // Si falla el disco seguimos en memoria: mejor perder persistencia que tumbar la demo.
@@ -57,7 +58,7 @@ async function validar(b) {
   // Si el grafo aún no existe no se puede verificar el id; se acepta.
   const grafo = await leerDatos('campus.json').catch(() => null);
   if (grafo) {
-    const lista = b.tramo_id ? grafo.tramos : grafo.nodos;
+    const lista = (b.tramo_id ? grafo.tramos : grafo.nodos) || [];
     if (!lista.some((x) => x.id === id)) return `${b.tramo_id ? 'tramo' : 'nodo'} "${id}" no existe en el grafo`;
   }
   return null;
@@ -76,7 +77,7 @@ export const rutasReportes = Router();
 
 rutasReportes.get('/', (req, res) => res.json(reportesActivos()));
 
-rutasReportes.post('/', async (req, res) => {
+rutasReportes.post('/', asincrono(async (req, res) => {
   const error = await validar(req.body);
   if (error) return res.status(400).json({ error });
   reportes = reportesActivos(); // descarta vencidos y resueltos
@@ -87,7 +88,7 @@ rutasReportes.post('/', async (req, res) => {
   reportes.push(reporte);
   guardar();
   res.status(201).json(reporte);
-});
+}));
 
 rutasReportes.post('/:id/resolver', (req, res) => {
   const reporte = reportes.find((r) => r.id === req.params.id);

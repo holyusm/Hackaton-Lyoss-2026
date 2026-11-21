@@ -1,6 +1,6 @@
 import express from 'express';
 import { existsSync } from 'node:fs';
-import { raiz, leerDatos } from './datos.js';
+import { raiz, leerDatos, asincrono } from './datos.js';
 import { rutasReportes, reportesActivos } from './reportes.js';
 import { calcularRuta, compararPerfiles } from '../motor/ruta.js';
 
@@ -37,12 +37,13 @@ app.get('/api/ruta', conMotor(['desde', 'hasta', 'perfil'], calcularRuta));
 app.get('/api/comparar', conMotor(['desde', 'hasta'], compararPerfiles));
 
 // Punto QR: data/puntos.json es una lista de Punto (contrato §4).
-app.get('/api/puntos/:id', async (req, res) => {
-  const puntos = await leerDatos('puntos.json').catch(() => []);
-  const punto = puntos.find((p) => p.id === req.params.id);
+app.get('/api/puntos/:id', asincrono(async (req, res) => {
+  const puntos = await leerDatos('puntos.json').catch((e) => (e.code === 'ENOENT' ? [] : Promise.reject(e)));
+  if (!Array.isArray(puntos)) throw new Error('data/puntos.json debe ser una lista');
+  const punto = puntos.find((p) => p?.id === req.params.id);
   if (punto) res.json(punto);
   else res.status(404).json({ error: `punto "${req.params.id}" no encontrado` });
-});
+}));
 app.use('/api', (req, res) => res.status(404).json({ error: 'ruta no encontrada' }));
 
 // Frontend: archivos de web/dist y, para rutas del SPA (/mapa, /punto/:id...), index.html.
@@ -53,7 +54,10 @@ app.use((req, res) => {
 });
 
 // JSON mal formado u otro error: siempre { error } en vez de HTML.
-app.use((err, req, res, next) => res.status(err.status || 500).json({ error: err.status ? err.message : 'error interno' }));
+app.use((err, req, res, next) => {
+  if (!err.status) console.error(err);
+  res.status(err.status || 500).json({ error: err.status ? err.message : 'error interno' });
+});
 
 const puerto = process.env.PORT || 3000;
 app.listen(puerto, () => console.log(`Servidor en http://localhost:${puerto}`));
