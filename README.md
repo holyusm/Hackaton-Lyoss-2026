@@ -1,6 +1,6 @@
 <!--
   BORRADOR (12:20). Revisar a las 15:45, después del [CONGELAR]:
-  - Funcionalidades: confirmar en la URL pública que todas funcionan (/, /mapa, /plano, /reportar, /comparar, /punto/:id, /campus, /acerca).
+  - Funcionalidades: confirmar en la URL pública que todas funcionan (/, /mapa, /plano, /reportar, /comparar, /punto/:id, /campus, /campus/informe, /acerca).
   - Impacto: cifras de PR #195; confirmar con main cuando se mergee.
   - Equipo: nombres de @Gxppe y @juaquo15.
 -->
@@ -35,7 +35,7 @@ parejo modela el campus como un grafo de lugares y tramos, con lo que importa pa
 - **Plano interactivo** (`/plano`): el plano de Casa Central con sus edificios, que se recorre con el dedo, el mouse o el teclado. Al elegir un edificio o una sala se ve su ficha, y la sala se puede usar como inicio o llegada: la ruta del perfil se dibuja sobre el plano.
 - **Comparar perfiles** (`/comparar`): el mismo trayecto para los cuatro perfiles, lado a lado, con metros, minutos y escalones. Muestra en cinco segundos que el campus no es igual para todos.
 - **Puntos QR con voz** (`/punto/:id`): carteles QR en puntos clave que, al escanearlos, leen en voz alta dónde estás y cómo seguir. Pensados para estudiantes con baja visión. Los QR para imprimir están en [`docs/qr/`](docs/qr/).
-- **¿Qué arreglar primero?** (`/campus`): para la universidad. Cuenta cuántos trayectos tienen barrera para cada perfil, ordena obras posibles (rampas, ascensores, piso liso, guía podotáctil) según cuántas barreras quitan, y simula el campus con las obras elegidas.
+- **¿Qué arreglar primero?** (`/campus`): para la universidad. Cuenta cuántos trayectos tienen barrera para cada perfil, ordena obras posibles (rampas, ascensores, piso liso, guía podotáctil) según cuántas barreras quitan, y simula el campus con las obras elegidas. Tiene un modo para proyectar en una reunión (`?presentacion=1`) y arma un informe de una hoja A4 para imprimir o guardar como PDF (`/campus/informe`).
 
 **La app misma es accesible:** tipografía Atkinson Hyperlegible Next, contraste AA o mejor, tema oscuro y de alto contraste, tres tamaños de texto, manejo completo con teclado, foco visible, etiquetas para lector de pantalla y anuncios en vivo cuando cambia la ruta. El estado nunca se indica solo con color.
 
