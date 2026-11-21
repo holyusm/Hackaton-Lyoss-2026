@@ -109,3 +109,21 @@ test('sin trayectos comparables los promedios son null, no 0 (#133)', () => {
   assert.equal(r.obras[0].minutos_ahorrados_prom, null);
   assert.ok(r.zonas.every((z) => z.minutos_extra === null && z.estado === 'con_barrera'));
 });
+
+test('el desvío nunca es negativo, aunque otra ruta tarde menos que la de Estándar (#141)', () => {
+  // Estándar va por la escalera corta (menos metros, más minutos); silla da la vuelta y tarda menos.
+  const g = { nodos: [
+    { id: 'a', nombre: 'A', tipo: 'entrada', lat: 0, lng: 0 },
+    { id: 'b', nombre: 'B', tipo: 'sala', lat: 0, lng: 1 },
+    { id: 'm', nombre: 'M', tipo: 'punto', lat: 1, lng: 0 },
+  ], tramos: [
+    tramo('esc', 'a', 'b', { metros: 10, escalones: 30, minutos_medidos: 3 }),
+    tramo('r1', 'a', 'm', { metros: 30, minutos_medidos: 0.5 }),
+    tramo('r2', 'm', 'b', { metros: 30, minutos_medidos: 0.5 }),
+  ] };
+  for (const perfil of ['silla_ruedas', 'movilidad_reducida', 'baja_vision']) {
+    const r = simular(g, PERFILES, [], { perfil });
+    assert.ok(r.hoy.minutos_extra_prom === null || r.hoy.minutos_extra_prom >= 0, `${perfil}: ${r.hoy.minutos_extra_prom}`);
+    assert.ok(r.zonas.every((z) => z.minutos_extra === null || z.minutos_extra >= 0));
+  }
+});
