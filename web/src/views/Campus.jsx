@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Prohibit, UsersThree } from '@phosphor-icons/react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Printer, Prohibit, UsersThree } from '@phosphor-icons/react';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
+import { usePreferencias } from '../hooks/usePreferencias.js';
 import { useSimulador } from '../hooks/useSimulador.js';
 import {
   anuncioSimulacion, BAJADA_ORDEN, DEFINICION_BARRERA, frasePitch, minutos, NOMBRE_PERFIL, ordenarObras, SUPUESTOS, zonasMejoradas,
@@ -10,6 +11,7 @@ import FilaObra from './campus/FilaObra.jsx';
 import FranjaComparativa from './campus/FranjaComparativa.jsx';
 import GrupoRadio from './campus/GrupoRadio.jsx';
 import PestanasMovil from './campus/PestanasMovil.jsx';
+import { LeyendaZonas } from './campus/MapaZonas.jsx';
 import SeccionZonas from './campus/SeccionZonas.jsx';
 import './Campus.css';
 
@@ -80,6 +82,7 @@ export default function Campus() {
   const [seleccionada, setSeleccionada] = useState(null);
   const [pestana, setPestana] = useState('obras');
   const movil = useMovil();
+  const { presentacion } = usePreferencias(); // modo proyector (?presentacion=1, Lote 7): sin textos largos y con el plano más grande
   const enLinea = useEnLinea();
   const { estado, datos: ultimos } = useSimulador(perfil, activas, intento);
   // Si la consulta nueva falla, no se muestran los datos anteriores como si fueran de esta elección (#137).
@@ -106,16 +109,17 @@ export default function Campus() {
     />
   );
 
+  const informeHref = `/campus/informe?perfil=${perfil}&obras=${activas.join(',')}`;
   const franja = hoy && con && !estandar ? (
     <FranjaComparativa
       hoy={hoy} con={con} cantidad={activas.length} quedan={quedan} ocupada={ocupada}
-      onQuitar={() => setActivas([])}
+      onQuitar={() => setActivas([])} informeHref={informeHref}
     />
   ) : null;
   const zonasSec = hoy && datos.zonas?.length > 0 ? (
     <SeccionZonas
       zonas={datos.zonas} obras={obras} activas={activas} perfil={perfil} nuevos={nuevos} recientes={recientes}
-      seleccionada={seleccionada} onElegirObra={setSeleccionada} ocupada={ocupada} compacto={movil}
+      seleccionada={seleccionada} onElegirObra={setSeleccionada} ocupada={ocupada} compacto={movil} sinLeyenda={presentacion}
     />
   ) : null;
   const obrasSec = obras.length > 0 ? (
@@ -131,8 +135,8 @@ export default function Campus() {
       </div>
       {motivo && <p id="campus-sin-conexion" className="campus__motivo">{motivo}</p>}
       {ayudan.length === 0 && <p id="campus-ninguna" className="campus__aviso">Ninguna de las obras de la lista quita barreras para este perfil.</p>}
-      {ayudan.length > 0 && <ol className="campus__obras">{ayudan.map((o, i) => fila(o, i + 1))}</ol>}
-      {noAyudan.length > 0 && (
+      {ayudan.length > 0 && <ol className="campus__obras">{(presentacion ? ayudan.slice(0, 3) : ayudan).map((o, i) => fila(o, i + 1))}</ol>}
+      {noAyudan.length > 0 && !presentacion && (
         <>
           {ayudan.length > 0 && <p id="campus-no-ayudan" className="campus__separador">No quitan barreras para {NOMBRE_PERFIL[perfil]}</p>}
           <ol className="campus__obras" start={ayudan.length + 1} aria-labelledby={ayudan.length > 0 ? 'campus-no-ayudan' : 'campus-ninguna'}>
@@ -140,12 +144,13 @@ export default function Campus() {
           </ol>
         </>
       )}
+      {presentacion && datos.zonas?.length > 0 && <LeyendaZonas />}
     </section>
   ) : null;
 
 
   return (
-    <div className="campus">
+    <div className={`campus${presentacion ? ' campus--presentacion' : ''}${con ? ' campus--con-obras' : ''}`}>
       <header className="campus__encabezado">
         <div className="campus__titulo">
           <h1>¿Qué arreglar primero?</h1>
@@ -218,6 +223,7 @@ export default function Campus() {
           <p aria-hidden="true">
             <strong>Con {activas.length === 1 ? '1 obra' : `${activas.length} obras`}: {con.trayectos_con_barrera} con barrera</strong> (hoy {hoy.trayectos_con_barrera})
           </p>
+          <Link to={informeHref} className="campus__fija-informe"><Printer weight="bold" aria-hidden="true" /> Armar informe</Link>
         </div>
       )}
       {!movil && franja}
