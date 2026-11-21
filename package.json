@@ -10,7 +10,7 @@
     "dev": "concurrently -n api,web \"node --watch server/index.js\" \"vite\"",
     "build": "vite build",
     "start": "node server/index.js",
-    "test": "node --test \"motor/*.test.js\"",
+    "test": "node --test \"motor/*.test.js\" \"server/*.test.js\"",
     "qr": "node scripts/generar-qr.js"
   },
   "dependencies": {
