@@ -1,61 +1,68 @@
-import { useRef, useState } from 'react';
-import { Coins, Elevator, Footprints, Path, Prohibit, TrendUp, Umbrella, UsersThree, Warning } from '@phosphor-icons/react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Prohibit, UsersThree } from '@phosphor-icons/react';
 import { PERFILES } from '../components/GrupoPerfiles.jsx';
 import { useSimulador } from '../hooks/useSimulador.js';
+import {
+  anuncioSimulacion, BAJADA_ORDEN, DEFINICION_BARRERA, frasePitch, minutos, NOMBRE_PERFIL, ordenarObras, SUPUESTOS,
+} from '../lib/campus.js';
+import FilaObra from './campus/FilaObra.jsx';
+import FranjaComparativa from './campus/FranjaComparativa.jsx';
+import GrupoRadio from './campus/GrupoRadio.jsx';
 import './Campus.css';
 
-// /campus (Lote 8): "¿Qué arreglar primero?". Spec: docs/diseno/prompts/prompts-lotes-8-9.md (alcance esencial del 21-11).
+// /campus (Lote 8): "¿Qué arreglar primero?" (nav: "Mejorar el campus"). Diseño: docs/diseno/vistas/lote-8-campus/README.md.
 // Datos: GET /api/simulador (contrato §7). Palabras: GLOSSARY.md.
-const OPCIONES = [...PERFILES, { id: 'todos', nombre: 'Todos los perfiles', Icono: UsersThree }];
-const QUE_ES_BARRERA = {
-  silla_ruedas: 'En silla de ruedas, un trayecto tiene barrera cuando no hay ruta sin escalones.',
-  movilidad_reducida: 'Con movilidad reducida, un trayecto tiene barrera cuando su ruta obliga a subir escalones.',
-  baja_vision: 'Con baja visión, un trayecto tiene barrera cuando su ruta pasa por adoquín o piso irregular, o sin guía podotáctil.',
-  todos: 'Con todos los perfiles, cuenta cada trayecto que tiene barrera para al menos uno.',
-  estandar: '',
-};
-// "N trayectos más …" por perfil en la franja Con obras.
-const GANANCIA = {
-  silla_ruedas: ['Silla de ruedas', 'con ruta'],
-  movilidad_reducida: ['Movilidad reducida', 'sin escalones'],
-  baja_vision: ['Baja visión', 'con piso parejo y guía'],
-};
-const PARA = { silla_ruedas: 'en silla de ruedas', movilidad_reducida: 'con movilidad reducida', baja_vision: 'con baja visión', todos: 'para al menos un perfil' };
-const TIPO = { rampa: TrendUp, ascensor: Elevator, superficie: Path, guia_tactil: Footprints, techado: Umbrella };
-const minutos = (n) => n.toLocaleString('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-const trayectos = (n) => `${n} ${n === 1 ? 'trayecto' : 'trayectos'}`;
+const OPCIONES = [...PERFILES.filter((p) => p.id !== 'estandar'), { id: 'todos', nombre: 'Todos los perfiles', Icono: UsersThree }];
+const VALIDOS = [...OPCIONES.map((o) => o.id), 'estandar']; // Estándar solo llega por la URL
+const ORDENES = [
+  { id: 'trayectos', nombre: 'Trayectos sin barrera' },
+  { id: 'minutos', nombre: 'Minutos ahorrados' },
+  { id: 'costo', nombre: 'Costo' },
+];
+
+function useEnLinea() {
+  const [enLinea, setEnLinea] = useState(() => navigator.onLine !== false);
+  useEffect(() => {
+    const alCambiar = () => setEnLinea(navigator.onLine !== false);
+    window.addEventListener('online', alCambiar);
+    window.addEventListener('offline', alCambiar);
+    return () => { window.removeEventListener('online', alCambiar); window.removeEventListener('offline', alCambiar); };
+  }, []);
+  return enLinea;
+}
 
 export default function Campus() {
-  const [perfil, setPerfil] = useState('silla_ruedas');
+  const [params, setParams] = useSearchParams();
+  const perfil = VALIDOS.includes(params.get('perfil')) ? params.get('perfil') : 'silla_ruedas';
+  const elegirPerfil = (id) => setParams((p) => { const n = new URLSearchParams(p); n.set('perfil', id); return n; }, { replace: true });
+
   const [activas, setActivas] = useState([]);
+  const [orden, setOrden] = useState('trayectos');
   const [intento, setIntento] = useState(0);
+  const enLinea = useEnLinea();
   const { estado, datos: ultimos } = useSimulador(perfil, activas, intento);
   // Si la consulta nueva falla, no se muestran los datos anteriores como si fueran de esta elección (#137).
   const datos = estado === 'error' ? null : ultimos;
-  const chips = useRef([]);
+  const ocupada = estado === 'cargando';
 
   const alternar = (id) => setActivas((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]));
-  const indice = OPCIONES.findIndex((o) => o.id === perfil);
-  const alTeclear = (e, i) => {
-    const n = OPCIONES.length;
-    const a = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: n - 1 }[e.key];
-    if (a === undefined) return;
-    e.preventDefault();
-    const j = ((a % n) + n) % n;
-    setPerfil(OPCIONES[j].id);
-    chips.current[j]?.focus();
-  };
 
   const hoy = datos?.hoy;
-  const con = datos?.con_obras;
+  const con = activas.length > 0 ? datos?.con_obras : null;
   const obras = datos?.obras ?? [];
   const estandar = perfil === 'estandar';
-  const nombrePerfil = OPCIONES.find((o) => o.id === perfil)?.nombre;
-  const menos = hoy && con ? hoy.trayectos_con_barrera - con.trayectos_con_barrera : 0;
-  // Anuncio corto para el lector: la franja completa es demasiado larga para leerla en cada cambio.
-  const anuncio = con
-    ? `Con ${activas.length === 1 ? 'la obra simulada' : `${activas.length} obras simuladas`}, ${trayectos(menos)} menos tienen barrera ${PARA[perfil] ?? ''}.`
-    : '';
+  const { ayudan, noAyudan } = ordenarObras(obras, orden);
+  const quedan = Boolean(con) && con.trayectos_con_barrera > 0 && ayudan.every((o) => activas.includes(o.id));
+  // El anuncio solo sale con la respuesta ya llegada: durante la carga los datos son los de la elección anterior.
+  const anuncio = estado === 'ok' && con ? anuncioSimulacion(obras.filter((o) => activas.includes(o.id)), hoy, con, perfil) : '';
+  const motivo = enLinea ? undefined : 'Sin conexión: la simulación necesita al servidor.';
+  const fila = (o, posicion) => (
+    <FilaObra
+      key={o.id} obra={o} posicion={posicion} perfil={perfil} activa={activas.includes(o.id)}
+      onAlternar={alternar} motivo={motivo} motivoId="campus-sin-conexion"
+    />
+  );
 
   return (
     <div className="campus">
@@ -64,138 +71,108 @@ export default function Campus() {
           <h1>¿Qué arreglar primero?</h1>
           <span className="campus__ejemplo">Datos de ejemplo</span>
         </div>
-        <p>Simulamos obras sobre el mapa accesible de Casa Central y medimos cuántos trayectos dejan de tener barrera para cada perfil.</p>
-
-        <div className="campus__perfiles" role="radiogroup" aria-label="Perfil">
-          {OPCIONES.map((o, i) => (
-            <button
-              key={o.id} ref={(el) => { chips.current[i] = el; }} type="button" role="radio"
-              className="chip-perfil" aria-checked={perfil === o.id} tabIndex={i === indice ? 0 : -1}
-              onClick={() => setPerfil(o.id)} onKeyDown={(e) => alTeclear(e, i)}
-            >
-              <span className="perfil__icono"><o.Icono weight="bold" aria-hidden="true" /></span>
-              {o.nombre}
-            </button>
-          ))}
+        <p className="campus__bajada-vista">Simulamos obras sobre el mapa accesible de Casa Central y medimos cuántos trayectos dejan de tener barrera para cada perfil.</p>
+        <div className="campus__selector">
+          <p id="campus-medir-para" className="campus__etiqueta">Medir para</p>
+          <GrupoRadio
+            opciones={OPCIONES} valor={perfil} onCambiar={elegirPerfil} etiquetaId="campus-medir-para"
+            clase="campus__perfiles" claseOpcion="chip-perfil"
+            hijoDe={(o) => <><span className="perfil__icono"><o.Icono weight="bold" aria-hidden="true" /></span>{o.nombre}</>}
+          />
         </div>
-        {QUE_ES_BARRERA[perfil] && <p className="campus__explica">{QUE_ES_BARRERA[perfil]}</p>}
+        {DEFINICION_BARRERA[perfil] && <p className="campus__explica">{DEFINICION_BARRERA[perfil]}</p>}
       </header>
 
-      <p className="sr-only" aria-live="polite">{anuncio}</p>
+      <p className="sr-only" role="status" aria-live="polite">{anuncio}</p>
 
       {estado === 'error' && (
         <div className="campus__error" role="alert">
-          <p>No pudimos calcular el campus para esta elección.</p>
+          <div>
+            <p className="campus__error-titulo">No pudimos medir el campus.</p>
+            <p>El servidor no respondió. El perfil que elegiste se mantiene.</p>
+          </div>
           <button type="button" className="boton boton--secundario boton--chico" onClick={() => setIntento((n) => n + 1)}>Reintentar</button>
         </div>
       )}
-      {!datos && estado === 'cargando' && <p className="campus__cargando">Calculando los trayectos del campus…</p>}
+
+      {!datos && ocupada && (
+        <div className="campus__esqueleto" role="status" aria-busy="true">
+          <span className="sr-only">Midiendo los trayectos del campus.</span>
+          <span className="campus__bloque-esqueleto campus__bloque-esqueleto--cifras" aria-hidden="true" />
+          <span className="campus__bloque-esqueleto campus__bloque-esqueleto--frase" aria-hidden="true" />
+          <span className="campus__bloque-esqueleto campus__bloque-esqueleto--lista" aria-hidden="true" />
+        </div>
+      )}
 
       {estandar && datos && (
-        <p className="campus__aviso">Para el perfil Estándar ningún trayecto tiene barrera. Elige otro perfil para ver dónde está.</p>
+        <p className="campus__aviso campus__aviso--estandar">Para el perfil Estándar ningún trayecto tiene barrera. Elige otro perfil para ver dónde está.</p>
       )}
 
       {hoy && !estandar && (
-        <section aria-labelledby="campus-hoy" aria-busy={estado === 'cargando'}>
+        <section className="campus__hoy" aria-labelledby="campus-hoy" aria-busy={ocupada || undefined}>
           <h2 id="campus-hoy" className="sr-only">Hoy</h2>
           <dl className="metricas campus__cifras">
             <div className="metrica campus__cifra--barrera">
-              <dt>de {hoy.trayectos_evaluados} trayectos con barrera</dt>
-              <dd className="cifras"><Prohibit weight="bold" aria-hidden="true" />{hoy.trayectos_con_barrera}</dd>
+              <dt>trayectos con barrera</dt>
+              <dd className="cifras">
+                <Prohibit weight="bold" aria-hidden="true" />
+                {hoy.trayectos_con_barrera}
+                <span className="campus__de"> de {hoy.trayectos_evaluados}</span>
+              </dd>
             </div>
             {perfil !== 'todos' && (
               <div className="metrica">
-                <dt>{hoy.minutos_extra_prom === null ? 'desvío promedio' : 'min de desvío promedio'}</dt>
+                <dt>{hoy.minutos_extra_prom === null ? 'desvío promedio' : 'de desvío promedio en los trayectos con ruta'}</dt>
                 {hoy.minutos_extra_prom === null
                   ? <dd className="campus__sin-datos">Sin trayectos comparables</dd>
-                  : <dd className="cifras">+{minutos(hoy.minutos_extra_prom)}</dd>}
+                  : <dd className="cifras">{minutos(hoy.minutos_extra_prom)} <span className="campus__de">min</span></dd>}
               </div>
             )}
           </dl>
+          <p className="campus__frase">{frasePitch(perfil, hoy)}</p>
         </section>
       )}
 
-      {con && hoy && (
-        <section className="campus__franja" aria-labelledby="campus-con-obras">
-          <h2 id="campus-con-obras">Con las obras simuladas</h2>
-          <div className="campus__franja-columnas">
-            <div>
-              <p className="campus__franja-encabezado">Hoy</p>
-              <p className="campus__franja-cifra"><span className="cifras">{hoy.trayectos_con_barrera}</span> con barrera</p>
-            </div>
-            <div>
-              <p className="campus__franja-encabezado">Con {activas.length === 1 ? '1 obra' : `${activas.length} obras`}</p>
-              <p className="campus__franja-cifra"><span className="cifras">{con.trayectos_con_barrera}</span> con barrera</p>
-            </div>
-          </div>
-          <ul className="campus__por-perfil">
-            {Object.entries(con.trayectos_sin_barrera_por_perfil).filter(([, n]) => n > 0).map(([id, n]) => (
-              <li key={id}><strong>{GANANCIA[id][0]}:</strong> {trayectos(n)} más {GANANCIA[id][1]}.</li>
-            ))}
-          </ul>
-          {activas.length === obras.length && con.trayectos_con_barrera > 0 && (
-            <p className="campus__quedan">
-              <Warning weight="bold" aria-hidden="true" />
-              Aún quedan {trayectos(con.trayectos_con_barrera)} con barrera: necesitan obras que no están en la lista.
-            </p>
+      {hoy && con && !estandar && (
+        <FranjaComparativa
+          hoy={hoy} con={con} cantidad={activas.length} quedan={quedan} ocupada={ocupada}
+          onQuitar={() => setActivas([])}
+        />
+      )}
+
+      {hoy && !estandar && (
+        <div className="campus__cuerpo">
+          {obras.length > 0 && (
+            <section className="campus__obras-bloque" aria-labelledby="campus-obras" aria-busy={ocupada || undefined}>
+              <h2 id="campus-obras">Obras que más ayudan</h2>
+              <p className="campus__bajada">{BAJADA_ORDEN[orden]}</p>
+              <div className="campus__ordenar">
+                <p id="campus-ordenar-por" className="campus__etiqueta campus__etiqueta--chica">Ordenar por</p>
+                <GrupoRadio
+                  opciones={ORDENES} valor={orden} onCambiar={setOrden} etiquetaId="campus-ordenar-por"
+                  clase="campus__segmentado" claseOpcion="campus__segmento" hijoDe={(o) => o.nombre}
+                />
+              </div>
+              {motivo && <p id="campus-sin-conexion" className="campus__motivo">{motivo}</p>}
+              {ayudan.length === 0 && <p id="campus-ninguna" className="campus__aviso">Ninguna de las obras de la lista quita barreras para este perfil.</p>}
+              {ayudan.length > 0 && <ol className="campus__obras">{ayudan.map((o, i) => fila(o, i + 1))}</ol>}
+              {noAyudan.length > 0 && (
+                <>
+                  {ayudan.length > 0 && <p id="campus-no-ayudan" className="campus__separador">No quitan barreras para {NOMBRE_PERFIL[perfil]}</p>}
+                  <ol className="campus__obras" start={ayudan.length + 1} aria-labelledby={ayudan.length > 0 ? 'campus-no-ayudan' : 'campus-ninguna'}>
+                    {noAyudan.map((o, i) => fila(o, ayudan.length + i + 1))}
+                  </ol>
+                </>
+              )}
+            </section>
           )}
-          <button type="button" className="boton boton--enlace" onClick={() => setActivas([])}>Quitar todas</button>
-        </section>
-      )}
 
-      {obras.length > 0 && !estandar && (
-        <section className="campus__obras-bloque" aria-labelledby="campus-obras">
-          <h2 id="campus-obras">Obras que más ayudan</h2>
-          <p className="campus__bajada">Ordenadas por trayectos que dejan de tener barrera.</p>
-          {obras.every((o) => o.trayectos_sin_barrera === 0) && (
-            <p className="campus__aviso">Ninguna de las obras de la lista quita barreras para {nombrePerfil}.</p>
-          )}
-          <ol className="campus__obras">
-            {obras.map((o, i) => {
-              const on = activas.includes(o.id);
-              const IconoTipo = TIPO[o.tipo] ?? Path;
-              const beneficiados = PERFILES.filter((p) => o.perfiles_beneficiados?.includes(p.id));
-              return (
-                <li key={o.id} className="campus__obra">
-                  <span className="campus__posicion cifras" aria-hidden="true">{i + 1}</span>
-                  <div className="campus__obra-texto">
-                    <h3>{o.titulo}</h3>
-                    <p className="campus__obra-meta"><IconoTipo weight="bold" aria-hidden="true" /> {o.lugar}</p>
-                    <p>
-                      {o.trayectos_sin_barrera > 0 ? <strong>{trayectos(o.trayectos_sin_barrera)} sin barrera</strong> : 'No quita barreras para este perfil'}
-                      {o.minutos_ahorrados_prom > 0 && <>, {minutos(o.minutos_ahorrados_prom)} min menos en promedio</>}.
-                    </p>
-                    {beneficiados.length > 0 && (
-                      <ul className="campus__beneficiados" aria-label="Perfiles beneficiados">
-                        {beneficiados.map((p) => <li key={p.id}><p.Icono weight="bold" aria-hidden="true" /> {p.nombre}</li>)}
-                      </ul>
-                    )}
-                    <p className="campus__obra-meta"><Coins weight="bold" aria-hidden="true" /> Costo {o.costo_relativo}</p>
-                  </div>
-                  <button type="button" role="switch" aria-checked={on} aria-label={`Simular ${o.titulo.charAt(0).toLowerCase()}${o.titulo.slice(1)}`}
-                    className="interruptor campus__simular" onClick={() => alternar(o.id)}>
-                    <span className="interruptor__texto" aria-hidden="true">
-                      <strong>Simular</strong>
-                      <span className="interruptor__estado">{on ? 'Activada' : 'Desactivada'}</span>
-                    </span>
-                    <span className="interruptor__riel" aria-hidden="true"><span className="interruptor__perilla" /></span>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        </section>
+          <section className="campus__supuestos" aria-labelledby="campus-supuestos">
+            <h2 id="campus-supuestos">Supuestos</h2>
+            <ul>{SUPUESTOS.map((s) => <li key={s}>{s}</li>)}</ul>
+          </section>
+        </div>
       )}
-
-      <section className="campus__supuestos" aria-labelledby="campus-supuestos">
-        <h2 id="campus-supuestos">Supuestos</h2>
-        <ul>
-          <li>Trayecto: ir de una entrada, edificio, sala o baño a otro. La ida y la vuelta cuentan aparte.</li>
-          <li>Medimos el campus tal como está construido. Los reportes del momento (un ascensor detenido) no cuentan aquí: se ven en Reportar.</li>
-          <li>El costo de cada obra es una estimación relativa del equipo, no un presupuesto.</li>
-          <li>Datos del levantamiento del equipo del 21-11-2026 y datos de ejemplo donde faltó medir.</li>
-        </ul>
-      </section>
     </div>
   );
 }
