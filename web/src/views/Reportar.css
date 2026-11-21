@@ -113,7 +113,7 @@
   .reporte-form__accion .boton { width: auto; }
   .reporte-form__nota { display: block; margin: 0; }
   .reporte-limite { flex-basis: 100%; }
-  .reporte-lista { margin: 0; position: sticky; top: var(--e-6); }
+  .reporte-lista { margin: 0; position: sticky; top: var(--e-6); max-height: calc(100vh - var(--e-8) - var(--alto-cabecera-escritorio)); overflow-y: auto; }
   .reporte-lista__vivo { display: block; }
   .dialogo-resolver__acciones { flex-direction: row; }
 }

@@ -12,13 +12,9 @@ export default function DialogoResolver({ barrera, titulo, lugar, enviando, erro
     return () => { if (d?.open) d.close(); };
   }, []);
 
-  const cerrar = () => {
-    onCerrar();
-    queueMicrotask(() => {
-      const destino = devolverFoco?.isConnected ? devolverFoco : respaldoFoco?.();
-      destino?.focus();
-    });
-  };
+  // El foco se devuelve después de que React quite el diálogo y, si resolvió, la fila: antes el botón aún existe.
+  const devolver = () => setTimeout(() => (devolverFoco?.isConnected ? devolverFoco : respaldoFoco?.())?.focus(), 0);
+  const cerrar = () => { onCerrar(); devolver(); };
 
   return (
     <dialog
@@ -33,7 +29,7 @@ export default function DialogoResolver({ barrera, titulo, lugar, enviando, erro
       <div className="dialogo-resolver__acciones">
         <button
           type="button" className="boton boton--peligro" aria-disabled={enviando}
-          onClick={async () => { if (enviando) return; const ok = await onConfirmar(barrera); if (ok) { onCerrar(); queueMicrotask(() => (devolverFoco?.isConnected ? devolverFoco : respaldoFoco?.())?.focus()); } }}
+          onClick={async () => { if (enviando) return; const ok = await onConfirmar(barrera); if (ok) cerrar(); }}
         >
           Marcar como resuelto
         </button>
